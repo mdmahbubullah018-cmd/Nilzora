@@ -1,0 +1,149 @@
+packages:
+  - apps/*
+  - packages/*
+
+# React Native's Android C++ builds cannot use pnpm's isolated layout on Windows.
+# Each native module compiles inside its own package directory, and CMake/ninja
+# mirror that absolute source path into every object path - twice. With the
+# isolated layout the directory is `.pnpm/<pkg>@<version>_<peer-hash>/node_modules/
+# <pkg>`, which pushes object paths past the Windows 260-character MAX_PATH limit
+# (react-native-screens and react-native-worklets exceeded it by ~84 characters and
+# failed with "ninja: error: mkdir(...): No such file or directory"). The SDK's
+# CMake 3.22.1 and ninja 1.10.2 are not long-path aware, so raising the OS limit
+# does not help; a hoisted layout shortens those paths by ~160 characters.
+nodeLinker: hoisted
+
+# Supply-chain protection. These match the pnpm 11 defaults and are stated
+# explicitly so they survive a change of package manager version.
+minimumReleaseAge: 1440
+blockExoticSubdeps: true
+strictDepBuilds: true
+
+# Dependencies reviewed for install scripts: true = allowed to run, false = blocked.
+allowBuilds:
+  esbuild: true # installs and verifies its platform binary (used by tsx)
+  sharp: false # ships prebuilt binaries; the script only builds from source
+  unrs-resolver: false # ships prebuilt binaries (eslint import resolver)
+  '@parcel/watcher': false # prebuilt @parcel/watcher-win32-x64 is used; the script only builds from source
+  # CLIP image embeddings run locally (image search); this script fetches the platform binary.
+  onnxruntime-node: true
+  protobufjs: false # prints a funding message only
+
+# Security floors for transitive dependencies (within the ranges their parents declare).
+# body-parser < 2.4.0 has a high-severity denial of service via trailing bytes
+# (GHSA advisory); express 5.3.0 depends on body-parser ^2.3.0, so 2.4.x is compatible.
+overrides:
+  body-parser: ^2.4.0
+
+catalog:
+  '@aws-sdk/client-s3': 3.1156.0
+  '@fontsource/noto-sans-bengali': 5.3.0
+  '@eslint/js': 9.39.5
+  '@supabase/supabase-js': 2.118.0
+  '@tailwindcss/postcss': 4.3.3
+  '@testing-library/dom': 10.4.2
+  '@testing-library/react': 16.3.3
+  '@types/express': 5.0.6
+  '@types/fontkit': 2.0.9
+  '@node-rs/argon2': 2.2.2
+  '@types/node': 22.20.5
+  '@types/nodemailer': 7.0.4
+  '@types/pg': 8.23.1
+  '@types/react': 19.3.0
+  '@types/react-dom': 19.3.0
+  '@types/supertest': 7.2.1
+  eslint: 9.39.5
+  eslint-config-next: 16.4.2
+  clsx: 2.1.1
+  eslint-config-prettier: 10.1.8
+  eslint-plugin-jsx-a11y: 6.10.2
+  eslint-plugin-react-hooks: 7.1.1
+  express: 5.3.0
+  express-rate-limit: 8.7.1
+  fontkit: 2.0.4
+  globals: 17.13.0
+  helmet: 8.3.0
+  jsdom: 29.1.1
+  lucide-react: 1.61.0
+  # Renders the super_admin 2FA enrollment QR code server-side (admin only).
+  qrcode: 1.5.4
+  '@types/qrcode': 1.5.6
+  next: 16.4.5
+  nodemailer: 10.2.1
+  openid-client: 6.8.8
+  pg: 8.23.1
+  pino: 10.4.0
+  pino-http: 11.0.0
+  pino-pretty: 13.2.0
+  prettier: 3.9.10
+  # One React across the whole workspace. Expo SDK 58 pins 19.3.0 (see
+  # node_modules/expo/bundledNativeModules.json) and @types/react is 19.3.0, so the web
+  # apps use it too. Two versions under the hoisted layout produced two physical React
+  # copies and every admin component test failed with "Invalid hook call".
+  react: 19.3.0
+  react-dom: 19.3.0
+  server-only: 0.0.1
+  sharp: 0.35.5
+  socket.io: 4.8.4
+  socket.io-client: 4.8.4
+  supabase: 2.121.0
+  supertest: 7.3.1
+  tailwind-merge: 3.7.0
+  tailwindcss: 4.3.3
+  tsdown: 0.23.1
+  tsx: 4.23.15
+  typescript: 6.0.3
+  typescript-eslint: 8.72.0
+  vitest: 5.0.5
+  zod: 4.6.7
+
+# Expo SDK 58 pins its own React and React Native versions (apps/mobile only).
+catalogs:
+  mobile:
+    '@expo/log-box': ^58.0.13
+    '@expo/metro-runtime': ~58.0.15
+    '@react-native-async-storage/async-storage': 2.2.0
+    '@react-native/jest-preset': 0.88.0
+    '@react-native-google-signin/google-signin': 16.1.5
+    '@tanstack/react-query': 5.104.5
+    '@testing-library/react-native': 14.1.0
+    '@types/jest': 30.0.0
+    eslint-config-expo: ~58.0.4
+    expo: ~58.0.17
+    expo-camera: ~58.0.12
+    expo-clipboard: ~58.0.4
+    expo-constants: ~58.0.13
+    expo-audio: ~58.0.11
+    expo-crypto: ~58.0.7
+    expo-dev-client: ~58.0.14
+    expo-document-picker: ~58.0.4
+    expo-file-system: ~58.0.10
+    expo-image-manipulator: ~58.0.15
+    expo-image-picker: ~58.0.10
+    expo-linking: ~58.0.14
+    expo-media-library: ~58.0.11
+    expo-notifications: ~58.1.6
+    expo-router: ~58.0.25
+    expo-secure-store: ~58.0.2
+    expo-splash-screen: ~58.0.11
+    expo-status-bar: ~58.0.4
+    expo-system-ui: ~58.0.6
+    expo-video: ~58.0.12
+    jest: 30.5.2
+    jest-expo: ~58.0.12
+    lucide-react-native: 1.61.0
+    react: 19.3.0
+    react-dom: 19.3.0
+    react-native: 0.88.0
+    # Already compiled into the Android build through expo-router; pinned to those exact
+    # versions so the mobile app can import them directly (pull-to-refresh gesture).
+    react-native-gesture-handler: ~3.3.0
+    react-native-reanimated: 4.7.1
+    react-native-safe-area-context: ~5.10.1
+    react-native-screens: ~4.30.0
+    react-native-svg: 15.16.0
+    # Plays the supplied transparent splash WebM: the Android platform decoder drops VP9 alpha,
+    # while the System WebView composites it correctly.
+    react-native-webview: 14.0.1
+    react-native-worklets: 0.13.0
+    test-renderer: 1.3.0

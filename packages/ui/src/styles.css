@@ -1,0 +1,305 @@
+/*
+ * Nilzora web theme. Import once from each Next.js app after `@import 'tailwindcss';`.
+ * Source values live in @nilzora/design-tokens; this file only maps them into
+ * Tailwind CSS v4 theme variables.
+ */
+@import '@nilzora/design-tokens/tokens.css';
+
+/* Scan this package's components for class names. */
+@source './';
+
+/*
+ * `dark:` utilities follow an explicit [data-theme='dark'] attribute (the dark theme in
+ * @nilzora/design-tokens) rather than the OS setting. An app opts in by setting it on
+ * <html>: the admin does so from the visitor's theme preference; the storefront never
+ * sets it and stays light.
+ */
+@custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
+
+/*
+ * next/font exposes --font-inter, --font-poppins and --font-bengali on <html>.
+ * Latin glyphs come from Inter/Poppins; Bengali glyphs, which neither covers, fall
+ * through to Noto Sans Bengali. Each var() has a fallback so a missing variable can
+ * never invalidate the whole font stack.
+ */
+@theme {
+  --font-sans:
+    var(--font-inter, ui-sans-serif), var(--font-bengali, ui-sans-serif), ui-sans-serif, system-ui,
+    sans-serif;
+  --font-display:
+    var(--font-poppins, ui-sans-serif), var(--font-bengali, ui-sans-serif),
+    var(--font-inter, ui-sans-serif), ui-sans-serif, system-ui, sans-serif;
+}
+
+@theme inline {
+  --color-brand-navy: var(--nz-color-navy);
+  --color-brand-slate: var(--nz-color-slate);
+  --color-brand-muted-slate: var(--nz-color-muted-slate);
+  --color-brand-soft: var(--nz-color-soft-background);
+  --color-brand-sky: var(--nz-color-sky);
+  --color-brand-violet: var(--nz-color-violet);
+
+  --color-background: var(--nz-background);
+  --color-surface: var(--nz-surface);
+  --color-surface-muted: var(--nz-surface-muted);
+  --color-foreground: var(--nz-foreground);
+  --color-body: var(--nz-body);
+  --color-muted-foreground: var(--nz-muted-foreground);
+  --color-border: var(--nz-border);
+  --color-border-strong: var(--nz-border-strong);
+  --color-input-border: var(--nz-input-border);
+  --color-ring: var(--nz-ring);
+  --color-ring-on-dark: var(--nz-ring-on-dark);
+  --color-primary: var(--nz-primary);
+  --color-primary-action: var(--nz-primary-action);
+  --color-primary-action-hover: var(--nz-primary-action-hover);
+  --color-primary-action-foreground: var(--nz-primary-action-foreground);
+  --color-link: var(--nz-link);
+  --color-danger-action: var(--nz-danger-action);
+  --color-danger-action-hover: var(--nz-danger-action-hover);
+  --color-danger-action-foreground: var(--nz-danger-action-foreground);
+  --color-offer-badge: var(--nz-offer-badge);
+  --color-offer-badge-foreground: var(--nz-offer-badge-foreground);
+  --color-success: var(--nz-color-success);
+  --color-warning: var(--nz-color-warning);
+  --color-danger: var(--nz-color-error);
+  --color-offer: var(--nz-color-offer);
+  --color-moderator: var(--nz-color-moderator);
+
+  --color-sidebar: var(--nz-sidebar);
+  --color-sidebar-foreground: var(--nz-sidebar-foreground);
+  --color-sidebar-muted: var(--nz-sidebar-muted);
+  --color-sidebar-border: var(--nz-sidebar-border);
+  --color-workspace-accent: var(--nz-workspace-accent);
+  --color-workspace-accent-text: var(--nz-workspace-accent-text);
+
+  --radius-sm: var(--nz-radius-sm);
+  --radius-md: var(--nz-radius-md);
+  --radius-lg: var(--nz-radius-lg);
+  --radius-xl: var(--nz-radius-xl);
+}
+
+@layer base {
+  html {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    background-color: var(--nz-background);
+    color: var(--nz-body);
+    font-family: var(--font-sans);
+    text-rendering: optimizeLegibility;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--nz-ring);
+    outline-offset: 2px;
+  }
+
+  ::selection {
+    background-color: rgb(56 189 248 / 0.3);
+  }
+
+  /* Lock page scroll while a modal dialog is open. */
+  html:has(dialog[open]:modal) {
+    overflow: hidden;
+  }
+}
+@layer components {
+  /*
+   * Official brand artwork.
+   * ----------------------
+   * The logo is a background image rather than an <img> so that exactly one of the two tones
+   * is ever requested: the browser fetches the declaration that wins, so a light page never
+   * downloads the dark artwork (and the reverse), there is no flash of the wrong logo while a
+   * theme is read, and the server-rendered markup never disagrees with the client.
+   *
+   * `data-tone` pins a tone: "dark" for a surface that stays navy in both themes (the admin
+   * rail, an auth panel, the storefront header over its hero), "light" for one that stays
+   * light. Without it the artwork follows [data-theme], so an app that supports dark mode
+   * switches automatically and instantly.
+   *
+   * The files are byte-identical copies of assets/brand in each app's public/brand; only the
+   * empty transparent margin is trimmed, so the aspect ratios below match the artwork.
+   */
+  :root {
+    --nz-brand-logo-light: url('/brand/nilzora-logo-on-light.png');
+    --nz-brand-logo-dark: url('/brand/nilzora-logo-on-dark.png');
+    --nz-brand-mark-light: url('/brand/nilzora-mark-navy.png');
+    --nz-brand-mark-dark: url('/brand/nilzora-mark-sky.png');
+    --nz-brand-logo-ratio: 1023 / 243;
+    --nz-brand-mark-ratio: 725 / 724;
+  }
+
+  .nz-brand-logo,
+  .nz-brand-mark {
+    display: inline-block;
+    flex: none;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+  }
+
+  .nz-brand-logo {
+    aspect-ratio: var(--nz-brand-logo-ratio);
+    background-image: var(--nz-brand-logo-light);
+  }
+
+  .nz-brand-mark {
+    aspect-ratio: var(--nz-brand-mark-ratio);
+    background-image: var(--nz-brand-mark-light);
+  }
+
+  .nz-brand-logo[data-tone='light'] {
+    background-image: var(--nz-brand-logo-light);
+  }
+
+  .nz-brand-logo[data-tone='dark'] {
+    background-image: var(--nz-brand-logo-dark);
+  }
+
+  .nz-brand-mark[data-tone='light'] {
+    background-image: var(--nz-brand-mark-light);
+  }
+
+  .nz-brand-mark[data-tone='dark'] {
+    background-image: var(--nz-brand-mark-dark);
+  }
+
+  [data-theme='dark'] .nz-brand-logo:not([data-tone]) {
+    background-image: var(--nz-brand-logo-dark);
+  }
+
+  [data-theme='dark'] .nz-brand-mark:not([data-tone]) {
+    background-image: var(--nz-brand-mark-dark);
+  }
+}
+
+/* ------------------------------------------------------------------ Glass & loading */
+
+/*
+ * Loading placeholders. The cards are white and the page well is a pale blue in both apps, so a
+ * placeholder at #E2E8F0 disappeared into both. This is one step deeper (slate 200 with a touch
+ * more blue), and a slow sheen crosses it, which reads as "loading" rather than as a disabled
+ * control. With reduced motion the sheen is absent; the block stays visible.
+ */
+.nz-skeleton {
+  position: relative;
+  overflow: hidden;
+  background-color: #d7e0ec;
+  background-image: linear-gradient(
+    100deg,
+    transparent 32%,
+    rgb(255 255 255 / 62%) 50%,
+    transparent 68%
+  );
+  background-size: 220% 100%;
+  background-repeat: no-repeat;
+  animation: nz-sheen 1.6s ease-in-out infinite;
+}
+
+@keyframes nz-sheen {
+  from {
+    background-position: 140% 0;
+  }
+  to {
+    background-position: -40% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nz-skeleton {
+    animation: none;
+    background-image: none;
+  }
+}
+
+/*
+ * Glass surfaces for the shopping controls: the filter panel, the sort menu and the small
+ * popovers. The fill is white at 78-92% rather than fully opaque, so the page still reads
+ * behind it, while the text keeps the contrast it has on a solid card. The blur softens
+ * photographs and is never so strong that the words behind bleed into the text.
+ */
+.nz-glass-panel {
+  background-color: color-mix(in oklab, white 86%, transparent);
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
+  backdrop-filter: blur(20px) saturate(140%);
+  box-shadow:
+    inset 0 0 0 1px color-mix(in oklab, white 62%, transparent),
+    0 18px 40px -18px rgb(15 23 42 / 28%);
+}
+
+.nz-glass-menu {
+  background-color: color-mix(in oklab, white 92%, transparent);
+  -webkit-backdrop-filter: blur(16px) saturate(130%);
+  backdrop-filter: blur(16px) saturate(130%);
+  box-shadow:
+    inset 0 0 0 1px color-mix(in oklab, #0f172a 8%, transparent),
+    0 10px 26px -12px rgb(15 23 42 / 26%);
+}
+
+/*
+ * The sort control: the same glass, one step quieter than the panel, with a sky ring on hover
+ * and focus. Hover and focus lift the ring, never the size, so a row of controls cannot shift
+ * when one is used.
+ */
+.nz-glass-select {
+  background-color: color-mix(in oklab, white 78%, transparent);
+  /* The shared control's own border is replaced by the inset ring below, so the pill has one
+     edge rather than two. Set here, not in the utility list, so hover and focus cannot bring
+     the border back. */
+  border-color: transparent;
+  -webkit-backdrop-filter: blur(14px) saturate(130%);
+  backdrop-filter: blur(14px) saturate(130%);
+  box-shadow:
+    inset 0 0 0 1px color-mix(in oklab, #0f172a 9%, transparent),
+    0 2px 10px -4px rgb(15 23 42 / 16%);
+  transition:
+    background-color 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.nz-glass-select:hover {
+  background-color: color-mix(in oklab, white 90%, transparent);
+  border-color: transparent;
+  box-shadow:
+    inset 0 0 0 1px color-mix(in oklab, var(--nz-color-primary) 38%, transparent),
+    0 4px 14px -6px rgb(15 23 42 / 20%);
+}
+
+.nz-glass-select:focus-visible {
+  background-color: color-mix(in oklab, white 94%, transparent);
+  border-color: transparent;
+  outline: 2px solid var(--nz-color-primary);
+  outline-offset: 2px;
+}
+
+/*
+ * The control that floats over a banner: the arrows, the share button on a banner, and the pill
+ * holding the dots and play/pause. A navy wash at 12% (88% transparent) with a blur keeps the
+ * artwork visible, a hairline of light draws the edge, and a soft shadow under the glyph carries
+ * the contrast — so a white icon stays readable on a pale banner as well as a dark one without
+ * filling the control in. Hover and press only deepen the wash; the size never changes, so the
+ * dots cannot jump.
+ */
+.nz-glass-control {
+  background-color: color-mix(in oklab, #0f172a 12%, transparent);
+  -webkit-backdrop-filter: blur(12px) saturate(130%);
+  backdrop-filter: blur(12px) saturate(130%);
+  box-shadow:
+    inset 0 0 0 1px color-mix(in oklab, white 30%, transparent),
+    0 2px 8px rgb(15 23 42 / 20%);
+}
+
+/* The glyph, not the disc, is what has to read: a dark halo survives a white photograph. */
+.nz-glass-control svg {
+  filter: drop-shadow(0 1px 2px rgb(15 23 42 / 70%)) drop-shadow(0 0 5px rgb(15 23 42 / 38%));
+}
+
+.nz-glass-control:hover {
+  background-color: color-mix(in oklab, #0f172a 22%, transparent);
+}
+
+.nz-glass-control:active {
+  background-color: color-mix(in oklab, #0f172a 32%, transparent);
+}

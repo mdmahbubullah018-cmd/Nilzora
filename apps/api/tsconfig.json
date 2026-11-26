@@ -1,0 +1,10 @@
+{
+  "extends": "@nilzora/typescript-config/node.json",
+  "include": [
+    "src",
+    "scripts",
+    "tsdown.config.ts",
+    "vitest.config.ts",
+    "vitest.integration.config.ts"
+  ]
+}

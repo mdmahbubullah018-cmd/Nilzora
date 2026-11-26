@@ -1,0 +1,85 @@
+{
+  "expo": {
+    "name": "Nilzora",
+    "slug": "nilzora",
+    "version": "0.1.0",
+    "scheme": "nilzora",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "backgroundColor": "#F1F5F9",
+    "icon": "./assets/app/icon.png",
+    "android": {
+      "package": "com.nilzora.app",
+      "versionCode": 1,
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/app/adaptive-icon-foreground.png",
+        "backgroundColor": "#38BDF8",
+        "monochromeImage": "./assets/app/adaptive-icon-monochrome.png"
+      }
+    },
+    "ios": {
+      "bundleIdentifier": "com.nilzora.app",
+      "buildNumber": "1",
+      "icon": {
+        "light": "./assets/app/icon.png",
+        "tinted": "./assets/app/ios-icon-tinted.png"
+      }
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-splash-screen",
+        {
+          "backgroundColor": "#F1F5FB"
+        }
+      ],
+      [
+        "expo-secure-store",
+        {
+          "configureAndroidBackup": true,
+          "faceIDPermission": false
+        }
+      ],
+      [
+        "expo-notifications",
+        {
+          "color": "#0284C7",
+          "icon": "./assets/app/notification-icon.png"
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Nilzora uses the photos you choose for your profile picture, your product reviews and your support messages.",
+          "cameraPermission": "Nilzora uses the camera only when you take a photo to send to Nilzora support.",
+          "microphonePermission": "Nilzora uses the microphone only while you record a voice message to your support conversation."
+        }
+      ],
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Nilzora uses the camera to search for a product from a photo, and to read a product's QR code or barcode.",
+          "microphonePermission": false,
+          "recordAudioAndroid": false
+        }
+      ],
+      [
+        "expo-media-library",
+        {
+          "photosPermission": "Nilzora shows your recent photos in the camera so you can search with one of them.",
+          "savePhotosPermission": false,
+          "granularPermissions": ["photo"]
+        }
+      ],
+      [
+        "expo-audio",
+        {
+          "microphonePermission": "Nilzora uses the microphone only while you record a voice message to your support conversation."
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": true
+    }
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "extends": "@nilzora/typescript-config/node.json",
+  "compilerOptions": {
+    "lib": ["es2023", "dom"]
+  },
+  "include": ["src", "vitest.config.ts"]
+}

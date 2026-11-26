@@ -1,0 +1,111 @@
+/*
+ * Nilzora design tokens: source CSS variables.
+ *
+ * Brand values match src/colors.ts and semantic roles match src/themes.ts; both are
+ * enforced by tests. Tailwind theme variables are mapped from these in
+ * @nilzora/ui/styles.css. The --nz-* namespace never references the Tailwind
+ * --color-* namespace, and the tests reject any variable reference cycle.
+ */
+:root {
+  /* Brand palette (canonical, never theme-dependent) */
+  --nz-color-navy: #0f172a;
+  --nz-color-slate: #334155;
+  --nz-color-muted-slate: #cbd5e1;
+  --nz-color-soft-background: #f1f5f9;
+  --nz-color-sky: #38bdf8;
+  --nz-color-primary: #0284c7;
+  --nz-color-primary-hover: #0369a1;
+  --nz-color-violet: #8b5cf6;
+  --nz-color-success: #22c55e;
+  --nz-color-warning: #f59e0b;
+  --nz-color-error: #ef4444;
+  --nz-color-offer: #f43f5e;
+  --nz-color-moderator: #14b8a6;
+
+  /* Radii (match src/scale.ts) */
+  --nz-radius-sm: 6px;
+  --nz-radius-md: 10px;
+  --nz-radius-lg: 14px;
+  --nz-radius-xl: 20px;
+}
+
+/*
+ * Light theme semantic roles (match lightTheme in src/themes.ts). The dark theme below
+ * defines the same roles from brand values.
+ */
+:root,
+[data-theme='light'] {
+  color-scheme: light;
+
+  --nz-background: #ffffff;
+  --nz-surface: #ffffff;
+  --nz-surface-muted: var(--nz-color-soft-background);
+  --nz-foreground: var(--nz-color-navy);
+  --nz-body: var(--nz-color-slate);
+  --nz-muted-foreground: #475569;
+  --nz-border: #e2e8f0;
+  --nz-border-strong: var(--nz-color-muted-slate);
+  --nz-input-border: #64748b;
+  --nz-ring: var(--nz-color-primary);
+  --nz-ring-on-dark: var(--nz-color-sky);
+  --nz-primary: var(--nz-color-primary);
+  --nz-primary-action: var(--nz-color-primary-hover);
+  --nz-primary-action-hover: #075985;
+  --nz-primary-action-foreground: #ffffff;
+  --nz-link: var(--nz-color-primary-hover);
+  --nz-danger-action: #dc2626;
+  --nz-danger-action-hover: #b91c1c;
+  --nz-danger-action-foreground: #ffffff;
+  --nz-offer-badge: #e11d48;
+  --nz-offer-badge-foreground: #ffffff;
+
+  /* Workspace chrome; overridden per workspace below. */
+  --nz-sidebar: var(--nz-color-navy);
+  --nz-sidebar-foreground: #ffffff;
+  --nz-sidebar-muted: var(--nz-color-muted-slate);
+  --nz-sidebar-border: rgb(255 255 255 / 0.08);
+  --nz-workspace-accent: var(--nz-color-sky);
+  --nz-workspace-accent-text: var(--nz-color-sky);
+}
+
+/* Dark theme semantic roles (match darkTheme in src/themes.ts). Opt in with data-theme. */
+[data-theme='dark'] {
+  color-scheme: dark;
+
+  --nz-background: var(--nz-color-navy);
+  --nz-surface: #1e293b;
+  --nz-surface-muted: #0b1222;
+  --nz-foreground: var(--nz-color-soft-background);
+  --nz-body: var(--nz-color-muted-slate);
+  --nz-muted-foreground: #94a3b8;
+  --nz-border: var(--nz-color-slate);
+  --nz-border-strong: #475569;
+  --nz-input-border: #7c8ba1;
+  --nz-ring: var(--nz-color-sky);
+  --nz-ring-on-dark: var(--nz-color-sky);
+  --nz-primary: var(--nz-color-sky);
+  --nz-primary-action: var(--nz-color-primary-hover);
+  --nz-primary-action-hover: #075985;
+  --nz-primary-action-foreground: #ffffff;
+  --nz-link: var(--nz-color-sky);
+  --nz-danger-action: #dc2626;
+  --nz-danger-action-hover: #b91c1c;
+  --nz-danger-action-foreground: #ffffff;
+  --nz-offer-badge: #e11d48;
+  --nz-offer-badge-foreground: #ffffff;
+
+  --nz-sidebar: #0b1222;
+  --nz-sidebar-foreground: #ffffff;
+  --nz-sidebar-muted: var(--nz-color-muted-slate);
+  --nz-sidebar-border: rgb(255 255 255 / 0.08);
+  --nz-workspace-accent: var(--nz-color-sky);
+  --nz-workspace-accent-text: var(--nz-color-sky);
+}
+
+/* Moderator workspace (match moderatorWorkspace in src/themes.ts). */
+[data-workspace='moderator'] {
+  --nz-sidebar: var(--nz-color-slate);
+  --nz-sidebar-border: rgb(255 255 255 / 0.1);
+  --nz-workspace-accent: var(--nz-color-moderator);
+  --nz-workspace-accent-text: #5eead4;
+}

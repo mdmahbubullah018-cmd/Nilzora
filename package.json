@@ -1,0 +1,37 @@
+{
+  "name": "nilzora",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@11.28.6",
+  "engines": {
+    "node": "^22.18.0 || ^24.11.0"
+  },
+  "scripts": {
+    "dev": "pnpm --parallel --filter @nilzora/api --filter @nilzora/storefront --filter @nilzora/admin run dev",
+    "dev:api": "pnpm --filter @nilzora/api run dev",
+    "dev:storefront": "pnpm --filter @nilzora/storefront run dev",
+    "dev:admin": "pnpm --filter @nilzora/admin run dev",
+    "dev:mobile": "pnpm --filter @nilzora/mobile run start",
+    "build": "pnpm -r run build",
+    "lint": "pnpm -r run lint",
+    "typecheck": "pnpm -r run typecheck",
+    "test": "pnpm -r run test",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "check": "pnpm run format:check && pnpm run lint && pnpm run typecheck && pnpm run test",
+    "test:integration": "pnpm --filter @nilzora/api run test:integration",
+    "test:e2e": "pnpm --filter @nilzora/e2e run test:e2e",
+    "db:start": "supabase start",
+    "db:stop": "supabase stop",
+    "db:status": "supabase status",
+    "db:migrate": "supabase migration up --local",
+    "db:test": "supabase test db",
+    "db:types": "supabase gen types typescript --local --schema public > apps/api/src/supabase/database.types.ts && prettier --write apps/api/src/supabase/database.types.ts"
+  },
+  "devDependencies": {
+    "prettier": "catalog:",
+    "supabase": "catalog:",
+    "typescript": "catalog:"
+  }
+}

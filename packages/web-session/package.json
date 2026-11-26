@@ -1,0 +1,39 @@
+{
+  "name": "@nilzora/web-session",
+  "version": "0.0.0",
+  "private": true,
+  "license": "UNLICENSED",
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": "./src/index.ts",
+    "./proxy": "./src/proxy-entry.ts"
+  },
+  "scripts": {
+    "lint": "eslint . --max-warnings=0",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@nilzora/api-client": "workspace:*",
+    "@nilzora/contracts": "workspace:*",
+    "server-only": "catalog:",
+    "zod": "catalog:"
+  },
+  "peerDependencies": {
+    "next": "^16.4.2",
+    "react": "^19.3.0"
+  },
+  "devDependencies": {
+    "@nilzora/eslint-config": "workspace:*",
+    "@nilzora/typescript-config": "workspace:*",
+    "@types/node": "catalog:",
+    "@types/react": "catalog:",
+    "eslint": "catalog:",
+    "next": "catalog:",
+    "react": "catalog:",
+    "react-dom": "catalog:",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
+  }
+}

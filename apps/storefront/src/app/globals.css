@@ -1,0 +1,200 @@
+@import 'tailwindcss';
+@import '@nilzora/ui/styles.css';
+
+/*
+ * Storefront layout and motion tokens.
+ *
+ * Brand colours are not redefined here: every brand colour is already a Tailwind v4 theme
+ * token (bg-brand-navy, text-primary, bg-offer, ...) mapped from @nilzora/design-tokens in
+ * @nilzora/ui/styles.css, so components never hard-code a hex value.
+ *
+ * What this file does set is the *surface* the shop is drawn on. The shared light theme
+ * paints pages pure white, which reads cold on a phone held for a while and leaves white
+ * cards with nothing to sit against. The shop therefore keeps the same brand palette but
+ * swaps the three surface roles for a soft blue-grey wash with white cards on top:
+ *
+ *   page      the wash behind everything
+ *   surface   white content cards, the header, inputs
+ *   muted     nested wells, hovers and chips that must read as "inside" a card
+ *
+ * These overrides are declared on the storefront's own root, so the admin and moderator
+ * workspaces keep the shared theme untouched.
+ */
+:root {
+  color-scheme: light;
+
+  /* Soft canvas: a light blue-grey page with white cards above it. */
+  --nz-background: #eef4fb;
+  --nz-surface: #ffffff;
+  --nz-surface-muted: #e8f1fa;
+  --nz-border: #d9e5f2;
+  --nz-border-strong: #bfd3e6;
+
+  /*
+   * One icon colour per surface, so a glyph is never guessed at: brand blue on white,
+   * a deeper blue on the tinted canvas, white on navy or on a filled primary control.
+   */
+  --nz-icon-on-surface: var(--nz-color-primary-hover);
+  --nz-icon-on-canvas: var(--nz-color-primary);
+  --nz-icon-on-dark: #ffffff;
+
+  /*
+   * Height of the sticky site header. The home hero is pulled up underneath the header by
+   * exactly this much, so the header can sit transparently on top of the banner.
+   */
+  --nz-header-h: 4rem;
+
+  /*
+   * Height of the mobile tab bar, without the device's bottom safe-area inset. Page endings
+   * reserve this much space, and floating controls sit above it with the same token.
+   */
+  --nz-tabbar-h: 3.75rem;
+
+  /*
+   * The home "stage": the full-bleed row holding the hero and the app panel. The header uses
+   * the same geometry, so its right-hand controls always sit above the app panel's column and
+   * never across the gap between the two tiles.
+   */
+  --nz-stage-max: 120rem;
+  --nz-stage-pad: 0.75rem;
+  --nz-stage-gap: 0.75rem;
+  --nz-stage-width: min(100vw, var(--nz-stage-max));
+  /* One quarter of the stage: the app panel's width when it is shown. */
+  --nz-stage-col: calc(
+    (var(--nz-stage-width) - 2 * var(--nz-stage-pad) - 3 * var(--nz-stage-gap)) / 4
+  );
+  /*
+   * Desktop hero height: the hero spans three stage columns (the fourth is the app panel), and
+   * 0.4167 is 1/2.4, so the tile is 12:5 — the shape the hero artwork is made in. A shorter
+   * tile would cut the top and bottom off the picture; a taller one would leave a band of empty
+   * space behind it. The benefits panel below still overlaps the bottom edge by a few pixels.
+   */
+  --nz-hero-h: calc((3 * var(--nz-stage-col) + 2 * var(--nz-stage-gap)) * 0.4167);
+}
+
+@media (width >= 64rem) {
+  :root {
+    --nz-header-h: 4.75rem;
+  }
+}
+
+/* ------------------------------------------------------------------ Surface utilities */
+
+/*
+ * The page scrollbar, in Nilzora blue-grey: noticeably thinner than the browser default,
+ * still wide enough to grab, with a quiet track and a darker thumb under the pointer.
+ * Firefox reads the standard properties; Chromium and Safari read the pseudo-elements.
+ * Both are declared because either may be ignored, and neither hides the scrollbar.
+ */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: #a9c2da transparent;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 9999px;
+  border: 3px solid transparent;
+  background-clip: content-box;
+  background-color: #a9c2da;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #7ea6c9;
+}
+
+/*
+ * A rail of cards that slides sideways on a phone, inside its own box: the page never
+ * scrolls horizontally because of it. The scrollbar is hidden on touch-sized rails (the
+ * peeking next card is the affordance), and the fade on the trailing edge says the row
+ * continues.
+ */
+.nz-rail {
+  scrollbar-width: none;
+  overscroll-behavior-x: contain;
+}
+
+.nz-rail::-webkit-scrollbar {
+  display: none;
+}
+
+/* Existing call sites spell the same intent `scrollbar-none`. */
+.scrollbar-none {
+  scrollbar-width: none;
+}
+
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+
+/*
+ * A row of tabs that scrolls sideways instead of pushing the page wider. The mask fades the
+ * trailing edge so an off-screen tab is visibly there, and the row keeps its own scrollport,
+ * so the page around it never gains a horizontal scrollbar.
+ */
+.nz-tab-rail {
+  scrollbar-width: none;
+  overscroll-behavior-x: contain;
+  scroll-padding-inline: 1rem;
+  -webkit-mask-image: linear-gradient(to right, #000 0, #000 calc(100% - 1.5rem), transparent 100%);
+  mask-image: linear-gradient(to right, #000 0, #000 calc(100% - 1.5rem), transparent 100%);
+}
+
+.nz-tab-rail::-webkit-scrollbar {
+  display: none;
+}
+
+@media (width >= 40rem) {
+  .nz-tab-rail {
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+}
+
+/* ------------------------------------------------------------------- Icon tones */
+
+/*
+ * The two-colour icon treatment. Every glyph is drawn with `currentColor`, so a surface
+ * states which of the two brand tones it wants rather than each icon deciding:
+ *   nz-ic-surface  on white cards and inputs — the deeper brand blue
+ *   nz-ic-canvas   on the tinted page — the canonical primary
+ *   nz-ic-dark     on navy, primary fills and photographs — white
+ * Anything without a tone simply inherits its text colour, which is what a button needs.
+ */
+.nz-ic-surface {
+  color: var(--nz-icon-on-surface);
+}
+
+.nz-ic-canvas {
+  color: var(--nz-icon-on-canvas);
+}
+
+.nz-ic-dark {
+  color: var(--nz-icon-on-dark);
+}
+
+/*
+ * The soft tinted well an icon sits in on a white card: a light-blue disc that keeps the
+ * icon and its label reading as one unit without a second border.
+ */
+.nz-ic-well {
+  display: grid;
+  place-items: center;
+  color: var(--nz-icon-on-surface);
+  background-color: color-mix(in oklab, var(--nz-color-primary) 9%, white);
+  box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--nz-color-primary) 14%, transparent);
+}
+
+.nz-ic-well-dark {
+  color: var(--nz-icon-on-dark);
+  background-color: color-mix(in oklab, white 14%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in oklab, white 22%, transparent);
+}

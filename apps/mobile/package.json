@@ -1,0 +1,80 @@
+{
+  "name": "@nilzora/mobile",
+  "version": "0.0.0",
+  "private": true,
+  "license": "UNLICENSED",
+  "main": "expo-router/entry",
+  "scripts": {
+    "start": "expo start",
+    "android": "expo run:android",
+    "android:apk": "expo export:embed --platform android --dev true --bundle-output android/app/src/debug/assets/index.android.bundle --assets-dest android/app/src/debug/res && cd android && gradlew.bat :app:assembleDebug",
+    "build": "expo export --platform android --output-dir dist",
+    "lint": "eslint . --max-warnings=0",
+    "typecheck": "tsc --noEmit",
+    "test": "jest"
+  },
+  "dependencies": {
+    "@expo/log-box": "catalog:mobile",
+    "@expo/metro-runtime": "catalog:mobile",
+    "@nilzora/api-client": "workspace:*",
+    "@nilzora/contracts": "workspace:*",
+    "@nilzora/design-tokens": "workspace:*",
+    "@react-native-async-storage/async-storage": "catalog:mobile",
+    "@react-native-google-signin/google-signin": "catalog:mobile",
+    "@tanstack/react-query": "catalog:mobile",
+    "expo": "catalog:mobile",
+    "expo-audio": "catalog:mobile",
+    "expo-camera": "catalog:mobile",
+    "expo-clipboard": "catalog:mobile",
+    "expo-constants": "catalog:mobile",
+    "expo-crypto": "catalog:mobile",
+    "expo-document-picker": "catalog:mobile",
+    "expo-file-system": "catalog:mobile",
+    "expo-image-manipulator": "catalog:mobile",
+    "expo-image-picker": "catalog:mobile",
+    "expo-linking": "catalog:mobile",
+    "expo-media-library": "catalog:mobile",
+    "expo-notifications": "catalog:mobile",
+    "expo-router": "catalog:mobile",
+    "expo-secure-store": "catalog:mobile",
+    "expo-splash-screen": "catalog:mobile",
+    "expo-status-bar": "catalog:mobile",
+    "expo-system-ui": "catalog:mobile",
+    "expo-video": "catalog:mobile",
+    "lucide-react-native": "catalog:mobile",
+    "react": "catalog:mobile",
+    "react-dom": "catalog:mobile",
+    "react-native": "catalog:mobile",
+    "react-native-gesture-handler": "catalog:mobile",
+    "react-native-reanimated": "catalog:mobile",
+    "react-native-safe-area-context": "catalog:mobile",
+    "react-native-screens": "catalog:mobile",
+    "react-native-svg": "catalog:mobile",
+    "react-native-webview": "catalog:mobile",
+    "react-native-worklets": "catalog:mobile",
+    "socket.io-client": "catalog:"
+  },
+  "devDependencies": {
+    "@nilzora/eslint-config": "workspace:*",
+    "@nilzora/typescript-config": "workspace:*",
+    "@react-native/jest-preset": "catalog:mobile",
+    "@testing-library/react-native": "catalog:mobile",
+    "@types/jest": "catalog:mobile",
+    "@types/react": "catalog:",
+    "eslint": "catalog:",
+    "jest": "catalog:mobile",
+    "jest-expo": "catalog:mobile",
+    "test-renderer": "catalog:mobile",
+    "typescript": "catalog:"
+  },
+  "jest": {
+    "preset": "jest-expo",
+    "setupFiles": [
+      "<rootDir>/src/test-utils/jest-setup.ts"
+    ],
+    "moduleNameMapper": {
+      "^@/(.*)$": "<rootDir>/src/$1",
+      "^lucide-react-native$": "<rootDir>/../../node_modules/lucide-react-native/dist/cjs/lucide-react-native.js"
+    }
+  }
+}

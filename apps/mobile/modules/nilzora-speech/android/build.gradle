@@ -1,0 +1,35 @@
+/*
+ * A subproject of apps/mobile/android, pulled in by Expo autolinking
+ * (settings.gradle -> expoAutolinking.useExpoModules()). This folder has no settings.gradle, so
+ * it is not a build of its own: the plugins below are requested without a version and resolve
+ * from the parent build. Evaluating this file with this folder as the project directory therefore
+ * fails at the plugin block with "Plugin [id: 'com.android.library'] was not found" — the same as
+ * any module under node_modules. Build it through the app:
+ *   cd apps/mobile/android && ./gradlew :nilzora-speech:assembleDebug
+ */
+plugins {
+  id 'com.android.library'
+  id 'expo-module-gradle-plugin'
+}
+
+group = 'com.nilzora.speech'
+version = '1.0.0'
+
+android {
+  namespace "expo.modules.nilzoraspeech"
+  defaultConfig {
+    versionCode 1
+    versionName "1.0.0"
+  }
+}
+
+/*
+ * This module calls ContextCompat.checkSelfPermission, but nothing here declared androidx.core:
+ * it compiled only because expo-modules-core exposes androidx.core:core-ktx through `api` and the
+ * Expo Gradle plugin adds expo-modules-core as compileOnly. A dependency the code imports
+ * directly belongs in the module's own configuration. 1.17.0 is the version expo-modules-core
+ * pins and the app already resolves core-ktx to 1.18.0, so nothing in the runtime graph moves.
+ */
+dependencies {
+  implementation "androidx.core:core-ktx:1.17.0"
+}

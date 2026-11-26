@@ -1,0 +1,5 @@
+# Prettier also skips everything listed in .gitignore.
+pnpm-lock.yaml
+
+# Project instructions maintained by hand.
+CLAUDE.md

@@ -1,0 +1,1233 @@
+@import 'tailwindcss';
+@import '@nilzora/ui/styles.css';
+
+/*
+ * Nilzora admin design layer
+ * --------------------------
+ * Additions on top of @nilzora/ui for the admin and moderator workspaces only, so the
+ * storefront's look is untouched (this stylesheet ships with the admin app alone).
+ *
+ * Everything below is a semantic token defined once per theme, then mapped into
+ * Tailwind (see the @theme block) so components use names such as `bg-success-soft`,
+ * `text-chart-2` or `shadow-glass`, never a hex value. Brand values still come from
+ * @nilzora/design-tokens.
+ *
+ * Glass, as used here: a semi-transparent surface, a backdrop blur, a 1px light border
+ * and a faint inner highlight along the top. Chrome (sidebar, top bar, menus, dialogs)
+ * and cards are glass; tables and forms sit on the stronger, near-opaque surface so text
+ * contrast never depends on what is behind. Every glass surface has a solid fallback
+ * where backdrop filters are unsupported or reduced transparency is requested.
+ */
+
+/* ------------------------------------------------------------------ Light ("blue glossy") */
+:root {
+  /* Canvas: a very light blue-white with a slow mesh of sky, primary and violet. */
+  --nz-admin-canvas: #f3f7fc;
+  --nz-admin-mesh-a: rgb(56 189 248 / 0.2);
+  --nz-admin-mesh-b: rgb(2 132 199 / 0.1);
+  --nz-admin-mesh-c: rgb(139 92 246 / 0.1);
+
+  /* Surfaces. `panel` is the card glass; `strong` is for tables and forms; `chrome` for
+     the top bar, menus and dialogs; `solid` is the fallback behind all of them. */
+  --nz-admin-panel: rgb(255 255 255 / 0.76);
+  --nz-admin-panel-strong: rgb(255 255 255 / 0.92);
+  --nz-admin-chrome: rgb(255 255 255 / 0.8);
+  --nz-admin-chrome-scrolled: rgb(255 255 255 / 0.92);
+  --nz-admin-panel-solid: #ffffff;
+  --nz-admin-glass-border: rgb(255 255 255 / 0.92);
+  --nz-admin-hairline: rgb(15 23 42 / 0.07);
+  --nz-admin-highlight: rgb(255 255 255 / 0.95);
+  --nz-admin-overlay: rgb(15 23 42 / 0.38);
+
+  /* Elevation: a hairline ring plus a tiny blue-tinted shadow, clearly felt on hover. */
+  --nz-admin-shadow-xs: 0 0 0 1px var(--nz-admin-hairline), 0 1px 2px rgb(2 132 199 / 0.04);
+  --nz-admin-shadow-sm:
+    0 0 0 1px var(--nz-admin-hairline), 0 1px 2px rgb(2 132 199 / 0.05),
+    0 6px 18px -10px rgb(2 132 199 / 0.18);
+  --nz-admin-shadow-md:
+    0 0 0 1px var(--nz-admin-hairline), 0 2px 4px rgb(2 132 199 / 0.05),
+    0 18px 36px -18px rgb(2 132 199 / 0.3);
+  --nz-admin-shadow-lg:
+    0 0 0 1px var(--nz-admin-hairline), 0 30px 60px -30px rgb(15 23 42 / 0.35),
+    0 2px 8px rgb(2 132 199 / 0.06);
+  --nz-admin-glow: 0 0 0 transparent;
+
+  /* Primary call to action. The brief's #0284C7 → #38BDF8 would put white text on sky
+     (2.1:1), so the gradient runs through the two shades that keep it readable and the
+     sky only appears in the hover shine. */
+  --nz-admin-cta-from: #0369a1;
+  --nz-admin-cta-to: #0284c7;
+  --nz-admin-cta-shine: rgb(125 211 252 / 0.55);
+  --nz-admin-cta-shadow: 0 1px 2px rgb(3 105 161 / 0.3), 0 8px 18px -10px rgb(2 132 199 / 0.7);
+
+  /* Sidebar: navy glass in both themes (CLAUDE.md: navy navigation). */
+  --nz-admin-rail: rgb(11 19 38 / 0.93);
+  --nz-admin-rail-border: rgb(255 255 255 / 0.07);
+  --nz-admin-rail-glow: rgb(56 189 248 / 0.2);
+
+  /* Tooltips (collapsed rail, chart hovers). */
+  --nz-admin-tooltip: #0f172a;
+  --nz-admin-tooltip-foreground: #f8fafc;
+
+  /*
+   * Status tones: a translucent tint (`soft`), readable text on it (`ink`, at least 4.5:1)
+   * and a hairline (`line`). Used by chips, badges, alerts and icon wells.
+   */
+  --nz-tone-info-soft: rgb(2 132 199 / 0.1);
+  --nz-tone-info-ink: #075985;
+  --nz-tone-info-line: rgb(2 132 199 / 0.22);
+  --nz-tone-success-soft: rgb(34 197 94 / 0.12);
+  --nz-tone-success-ink: #166534;
+  --nz-tone-success-line: rgb(34 197 94 / 0.3);
+  --nz-tone-warning-soft: rgb(245 158 11 / 0.14);
+  --nz-tone-warning-ink: #92400e;
+  --nz-tone-warning-line: rgb(245 158 11 / 0.34);
+  --nz-tone-danger-soft: rgb(239 68 68 / 0.1);
+  --nz-tone-danger-ink: #b91c1c;
+  --nz-tone-danger-line: rgb(239 68 68 / 0.28);
+  --nz-tone-violet-soft: rgb(139 92 246 / 0.1);
+  --nz-tone-violet-ink: #6d28d9;
+  --nz-tone-violet-line: rgb(139 92 246 / 0.26);
+  --nz-tone-teal-soft: rgb(20 184 166 / 0.12);
+  --nz-tone-teal-ink: #115e59;
+  --nz-tone-teal-line: rgb(20 184 166 / 0.3);
+  --nz-tone-offer-soft: rgb(244 63 94 / 0.1);
+  --nz-tone-offer-ink: #be123c;
+  --nz-tone-offer-line: rgb(244 63 94 / 0.28);
+  --nz-tone-neutral-soft: rgb(100 116 139 / 0.1);
+  --nz-tone-neutral-ink: #334155;
+  --nz-tone-neutral-line: rgb(100 116 139 / 0.24);
+
+  /*
+   * Chart palette, in the same order everywhere. The hues follow the brief
+   * (#0284C7, #8B5CF6, #22C55E, #F59E0B, #F43F5E, #14B8A6, #6366F1, #38BDF8); on light
+   * cards each uses the nearest shade that keeps 3:1 against white (WCAG non-text
+   * contrast), so green, amber, teal and sky are one step deeper here than in dark.
+   */
+  --nz-chart-1: #0284c7;
+  --nz-chart-2: #7c3aed;
+  --nz-chart-3: #16a34a;
+  --nz-chart-4: #d97706;
+  --nz-chart-5: #e11d48;
+  --nz-chart-6: #0d9488;
+  --nz-chart-7: #4f46e5;
+  --nz-chart-8: #0891b2;
+  --nz-chart-grid: rgb(15 23 42 / 0.07);
+  --nz-chart-axis: #64748b;
+  --nz-chart-track: rgb(15 23 42 / 0.06);
+
+  /* Radii: cards 16px, chrome 20px (the brief's 14-20px range). */
+  --nz-radius-lg: 16px;
+  --nz-radius-xl: 20px;
+
+  /* Rail widths; <html data-sidebar-effective> switches between them. */
+  --nz-sidebar-w: 16.25rem;
+}
+
+/* --------------------------------------------------------------- Dark ("deep navy glass") */
+[data-theme='dark'] {
+  --nz-admin-canvas: #0b1120;
+  --nz-admin-mesh-a: rgb(56 189 248 / 0.16);
+  --nz-admin-mesh-b: rgb(2 132 199 / 0.1);
+  --nz-admin-mesh-c: rgb(139 92 246 / 0.14);
+
+  /* The workspace's own semantic roles, deepened from slate to navy for the glass look.
+     Every text pairing stays above 4.5:1 (body on surface ≈ 11:1, muted ≈ 6.6:1). */
+  --nz-background: #0b1120;
+  --nz-surface: #111a2e;
+  --nz-surface-muted: #0e1628;
+  --nz-border: rgb(148 163 184 / 0.16);
+  --nz-border-strong: rgb(148 163 184 / 0.3);
+
+  --nz-admin-panel: rgb(255 255 255 / 0.045);
+  --nz-admin-panel-strong: rgb(15 23 42 / 0.82);
+  --nz-admin-chrome: rgb(11 17 32 / 0.72);
+  --nz-admin-chrome-scrolled: rgb(11 17 32 / 0.9);
+  --nz-admin-panel-solid: #111a2e;
+  --nz-admin-glass-border: rgb(255 255 255 / 0.1);
+  --nz-admin-hairline: rgb(255 255 255 / 0.06);
+  --nz-admin-highlight: rgb(255 255 255 / 0.07);
+  --nz-admin-overlay: rgb(2 6 16 / 0.62);
+
+  --nz-admin-shadow-xs: 0 1px 2px rgb(2 6 16 / 0.5);
+  --nz-admin-shadow-sm: 0 1px 2px rgb(2 6 16 / 0.55), 0 8px 22px -14px rgb(2 6 16 / 0.9);
+  --nz-admin-shadow-md: 0 2px 4px rgb(2 6 16 / 0.55), 0 20px 40px -20px rgb(2 6 16 / 0.95);
+  --nz-admin-shadow-lg: 0 32px 64px -28px rgb(2 6 16 / 0.95), 0 2px 8px rgb(2 6 16 / 0.6);
+  --nz-admin-glow: 0 0 0 1px rgb(56 189 248 / 0.16), 0 10px 32px -14px rgb(56 189 248 / 0.32);
+
+  --nz-admin-cta-shadow: 0 1px 2px rgb(2 6 16 / 0.6), 0 8px 22px -10px rgb(2 132 199 / 0.65);
+
+  --nz-admin-rail: rgb(13 21 40 / 0.62);
+  --nz-admin-rail-border: rgb(255 255 255 / 0.07);
+  --nz-admin-rail-glow: rgb(56 189 248 / 0.16);
+
+  --nz-admin-tooltip: #e2e8f0;
+  --nz-admin-tooltip-foreground: #0f172a;
+
+  --nz-tone-info-soft: rgb(56 189 248 / 0.14);
+  --nz-tone-info-ink: #7dd3fc;
+  --nz-tone-info-line: rgb(56 189 248 / 0.3);
+  --nz-tone-success-soft: rgb(74 222 128 / 0.13);
+  --nz-tone-success-ink: #86efac;
+  --nz-tone-success-line: rgb(74 222 128 / 0.28);
+  --nz-tone-warning-soft: rgb(251 191 36 / 0.13);
+  --nz-tone-warning-ink: #fcd34d;
+  --nz-tone-warning-line: rgb(251 191 36 / 0.3);
+  --nz-tone-danger-soft: rgb(248 113 113 / 0.14);
+  --nz-tone-danger-ink: #fca5a5;
+  --nz-tone-danger-line: rgb(248 113 113 / 0.3);
+  --nz-tone-violet-soft: rgb(167 139 250 / 0.15);
+  --nz-tone-violet-ink: #c4b5fd;
+  --nz-tone-violet-line: rgb(167 139 250 / 0.3);
+  --nz-tone-teal-soft: rgb(45 212 191 / 0.13);
+  --nz-tone-teal-ink: #5eead4;
+  --nz-tone-teal-line: rgb(45 212 191 / 0.28);
+  --nz-tone-offer-soft: rgb(251 113 133 / 0.14);
+  --nz-tone-offer-ink: #fda4af;
+  --nz-tone-offer-line: rgb(251 113 133 / 0.3);
+  --nz-tone-neutral-soft: rgb(148 163 184 / 0.13);
+  --nz-tone-neutral-ink: #cbd5e1;
+  --nz-tone-neutral-line: rgb(148 163 184 / 0.26);
+
+  /* The brief's palette as given: every hue clears 3:1 on the navy surfaces. */
+  --nz-chart-1: #0ea5e9;
+  --nz-chart-2: #8b5cf6;
+  --nz-chart-3: #22c55e;
+  --nz-chart-4: #f59e0b;
+  --nz-chart-5: #f43f5e;
+  --nz-chart-6: #14b8a6;
+  --nz-chart-7: #6366f1;
+  --nz-chart-8: #38bdf8;
+  --nz-chart-grid: rgb(255 255 255 / 0.07);
+  --nz-chart-axis: #94a3b8;
+  --nz-chart-track: rgb(255 255 255 / 0.08);
+}
+
+/* Moderator workspace: the same glass with slate chrome and the teal accent. */
+[data-workspace='moderator'] {
+  --nz-admin-rail: rgb(30 41 59 / 0.94);
+  --nz-admin-rail-glow: rgb(20 184 166 / 0.2);
+}
+[data-theme='dark'] [data-workspace='moderator'] {
+  --nz-admin-rail: rgb(30 41 59 / 0.55);
+  --nz-admin-rail-glow: rgb(45 212 191 / 0.14);
+}
+
+[data-sidebar-effective='collapsed'] {
+  --nz-sidebar-w: 4.5rem;
+}
+
+/* --------------------------------------------------------------- Tailwind mapping */
+@theme inline {
+  --color-canvas: var(--nz-admin-canvas);
+  --color-panel: var(--nz-admin-panel);
+  --color-panel-strong: var(--nz-admin-panel-strong);
+  --color-glass-border: var(--nz-admin-glass-border);
+  --color-hairline: var(--nz-admin-hairline);
+  --color-overlay: var(--nz-admin-overlay);
+  --color-tooltip: var(--nz-admin-tooltip);
+  --color-tooltip-foreground: var(--nz-admin-tooltip-foreground);
+
+  --color-info-soft: var(--nz-tone-info-soft);
+  --color-info-ink: var(--nz-tone-info-ink);
+  --color-info-line: var(--nz-tone-info-line);
+  --color-success-soft: var(--nz-tone-success-soft);
+  --color-success-ink: var(--nz-tone-success-ink);
+  --color-success-line: var(--nz-tone-success-line);
+  --color-warning-soft: var(--nz-tone-warning-soft);
+  --color-warning-ink: var(--nz-tone-warning-ink);
+  --color-warning-line: var(--nz-tone-warning-line);
+  --color-danger-soft: var(--nz-tone-danger-soft);
+  --color-danger-ink: var(--nz-tone-danger-ink);
+  --color-danger-line: var(--nz-tone-danger-line);
+  --color-violet-soft: var(--nz-tone-violet-soft);
+  --color-violet-ink: var(--nz-tone-violet-ink);
+  --color-violet-line: var(--nz-tone-violet-line);
+  --color-teal-soft: var(--nz-tone-teal-soft);
+  --color-teal-ink: var(--nz-tone-teal-ink);
+  --color-teal-line: var(--nz-tone-teal-line);
+  --color-offer-soft: var(--nz-tone-offer-soft);
+  --color-offer-ink: var(--nz-tone-offer-ink);
+  --color-offer-line: var(--nz-tone-offer-line);
+  --color-neutral-soft: var(--nz-tone-neutral-soft);
+  --color-neutral-ink: var(--nz-tone-neutral-ink);
+  --color-neutral-line: var(--nz-tone-neutral-line);
+
+  --color-chart-1: var(--nz-chart-1);
+  --color-chart-2: var(--nz-chart-2);
+  --color-chart-3: var(--nz-chart-3);
+  --color-chart-4: var(--nz-chart-4);
+  --color-chart-5: var(--nz-chart-5);
+  --color-chart-6: var(--nz-chart-6);
+  --color-chart-7: var(--nz-chart-7);
+  --color-chart-8: var(--nz-chart-8);
+  --color-chart-grid: var(--nz-chart-grid);
+  --color-chart-axis: var(--nz-chart-axis);
+  --color-chart-track: var(--nz-chart-track);
+
+  --shadow-glass-xs: var(--nz-admin-shadow-xs);
+  --shadow-glass: var(--nz-admin-shadow-sm);
+  --shadow-glass-md: var(--nz-admin-shadow-md);
+  --shadow-glass-lg: var(--nz-admin-shadow-lg);
+}
+
+/* --------------------------------------------------------------- Canvas */
+/*
+ * The workspace canvas. The mesh is one fixed layer under everything, drifting slowly
+ * on transform only (GPU-composited, no repaints); it holds still under reduced motion.
+ */
+.nz-app-canvas {
+  position: relative;
+  isolation: isolate;
+  background-color: var(--nz-admin-canvas);
+}
+.nz-app-canvas::before {
+  content: '';
+  position: fixed;
+  inset: -18vmax;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(38vmax 28vmax at 14% 12%, var(--nz-admin-mesh-a), transparent 62%),
+    radial-gradient(34vmax 26vmax at 88% 6%, var(--nz-admin-mesh-c), transparent 60%),
+    radial-gradient(44vmax 32vmax at 66% 92%, var(--nz-admin-mesh-b), transparent 64%);
+  animation: nz-mesh-drift 46s ease-in-out infinite alternate;
+  will-change: transform;
+}
+@keyframes nz-mesh-drift {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(3vmax, -2vmax, 0) scale(1.06);
+  }
+  100% {
+    transform: translate3d(-2vmax, 2.5vmax, 0) scale(1.02);
+  }
+}
+
+/* --------------------------------------------------------------- Glass surfaces */
+/* Chrome glass: the top bar, menus, popovers and the command palette. */
+.nz-glass {
+  background-color: var(--nz-admin-chrome);
+  border-color: var(--nz-admin-glass-border);
+  box-shadow:
+    var(--nz-admin-shadow-sm),
+    inset 0 1px 0 var(--nz-admin-highlight);
+  -webkit-backdrop-filter: blur(20px) saturate(165%);
+  backdrop-filter: blur(20px) saturate(165%);
+}
+
+/* Card glass: the panels workspace pages are made of. */
+.nz-panel {
+  background-color: var(--nz-admin-panel);
+  border-color: var(--nz-admin-glass-border);
+  box-shadow:
+    var(--nz-admin-shadow-sm),
+    inset 0 1px 0 var(--nz-admin-highlight);
+  -webkit-backdrop-filter: blur(16px) saturate(150%);
+  backdrop-filter: blur(16px) saturate(150%);
+}
+
+/*
+ * The shared Card, as glass. Many pages use Card directly; this skins them all at once.
+ * Zero specificity (:where), so the kit's own surface classes (.nz-panel, .nz-panel-strong)
+ * still win on the cards that set them; cards marked shadow-none (flat empty states) keep
+ * their flat look. The radius stays Card's own (rounded-lg is 16px in the admin).
+ */
+:where(.nz-card:not(.shadow-none)) {
+  background-color: var(--nz-admin-panel-strong);
+  border-color: var(--nz-admin-glass-border);
+  box-shadow:
+    var(--nz-admin-shadow-sm),
+    inset 0 1px 0 var(--nz-admin-highlight);
+  -webkit-backdrop-filter: blur(12px) saturate(140%);
+  backdrop-filter: blur(12px) saturate(140%);
+}
+@media (prefers-reduced-transparency: reduce) {
+  :where(.nz-card:not(.shadow-none)) {
+    background-color: var(--nz-admin-panel-solid);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+}
+@media print {
+  :where(.nz-card:not(.shadow-none)) {
+    background: #fff !important;
+    box-shadow: none !important;
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+  }
+}
+
+/* The near-opaque surface for tables, forms and long text. */
+.nz-panel-strong {
+  background-color: var(--nz-admin-panel-strong);
+  border-color: var(--nz-admin-glass-border);
+  box-shadow:
+    var(--nz-admin-shadow-sm),
+    inset 0 1px 0 var(--nz-admin-highlight);
+  -webkit-backdrop-filter: blur(12px) saturate(140%);
+  backdrop-filter: blur(12px) saturate(140%);
+}
+
+/* Solid wherever the blur is unavailable or less transparency is asked for. */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .nz-glass,
+  .nz-panel,
+  .nz-panel-strong {
+    background-color: var(--nz-admin-panel-solid);
+  }
+}
+@media (prefers-reduced-transparency: reduce) {
+  .nz-glass,
+  .nz-panel,
+  .nz-panel-strong,
+  .nz-dialog-panel {
+    background-color: var(--nz-admin-panel-solid);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+}
+
+/* A hairline highlight along a panel's top edge, which reads as light from above. */
+.nz-panel-sheen {
+  position: relative;
+}
+.nz-panel-sheen::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 1px;
+  border-radius: inherit;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--nz-admin-highlight) 22%,
+    var(--nz-admin-highlight) 78%,
+    transparent
+  );
+  pointer-events: none;
+}
+
+/* Panels that link somewhere lift slightly on hover (and glow faintly in dark). */
+.nz-hover-lift {
+  transition:
+    transform 200ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    box-shadow 200ms ease;
+}
+.nz-hover-lift:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    var(--nz-admin-shadow-md),
+    var(--nz-admin-glow),
+    inset 0 1px 0 var(--nz-admin-highlight);
+}
+
+/* --------------------------------------------------------------- Shared component skins */
+/* Every button gives a small press response. */
+.nz-btn {
+  transition-property: color, background-color, border-color, box-shadow, transform, opacity;
+}
+.nz-btn:active:not(:disabled) {
+  transform: scale(0.97);
+}
+
+/* The primary call to action: a blue gradient with a soft shine on hover. */
+.nz-btn-primary {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background-image: linear-gradient(135deg, var(--nz-admin-cta-from), var(--nz-admin-cta-to));
+  box-shadow:
+    var(--nz-admin-cta-shadow),
+    inset 0 1px 0 rgb(255 255 255 / 0.22);
+}
+.nz-btn-primary::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(
+    110deg,
+    transparent 30%,
+    var(--nz-admin-cta-shine) 50%,
+    transparent 70%
+  );
+  opacity: 0;
+  transform: translateX(-110%);
+  transition:
+    transform 650ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    opacity 200ms ease;
+  pointer-events: none;
+}
+.nz-btn-primary:hover::after {
+  opacity: 0.55;
+  transform: translateX(110%);
+}
+
+.nz-btn-danger {
+  box-shadow:
+    0 1px 2px rgb(185 28 28 / 0.3),
+    inset 0 1px 0 rgb(255 255 255 / 0.18);
+}
+
+/* Dialogs and side sheets: glass over a dimmed, blurred page. */
+.nz-dialog::backdrop {
+  background-color: var(--nz-admin-overlay);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+}
+.nz-dialog-panel {
+  background-color: var(--nz-admin-panel-strong);
+  border: 1px solid var(--nz-admin-glass-border);
+  box-shadow:
+    var(--nz-admin-shadow-lg),
+    inset 0 1px 0 var(--nz-admin-highlight);
+  -webkit-backdrop-filter: blur(24px) saturate(160%);
+  backdrop-filter: blur(24px) saturate(160%);
+}
+/* A modal springs in; side sheets slide (the dialog already fades). */
+.nz-dialog[open] .nz-dialog-panel {
+  animation: nz-pop-in 220ms cubic-bezier(0.2, 0.9, 0.25, 1.15);
+}
+
+/* --------------------------------------------------------------- Sidebar */
+/* Navy glass, in both themes, with a soft accent glow at the top. */
+.nz-rail {
+  background-color: var(--nz-admin-rail);
+  background-image:
+    radial-gradient(22rem 14rem at 40% -8%, var(--nz-admin-rail-glow), transparent 72%),
+    linear-gradient(180deg, rgb(255 255 255 / 0.035), transparent 38%);
+  border-right: 1px solid var(--nz-admin-rail-border);
+  -webkit-backdrop-filter: blur(24px) saturate(160%);
+  backdrop-filter: blur(24px) saturate(160%);
+}
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .nz-rail {
+    background-color: var(--nz-sidebar);
+  }
+}
+
+/* The active destination: an accent glass pill with an indicator on its left edge. */
+.nz-rail-active {
+  background-image: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--nz-workspace-accent) 24%, transparent),
+    color-mix(in srgb, var(--nz-workspace-accent) 7%, transparent)
+  );
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--nz-workspace-accent) 26%, transparent),
+    inset 0 1px 0 rgb(255 255 255 / 0.08);
+}
+
+/* The lockup when expanded, the mark alone when collapsed: both from the official artwork. */
+.nz-rail-logo-mark {
+  display: none;
+}
+.nz-rail-logo {
+  display: inline-flex;
+  align-items: center;
+}
+
+/* The rail's width follows <html data-sidebar-effective>; it eases between modes.
+   The easing is deliberately long enough to read as one movement, and the children that
+   change with it (labels, paddings, the wordmark) share the same curve so nothing
+   arrives late. Reduced motion turns the whole thing into an instant switch. */
+.nz-rail-frame {
+  transition: grid-template-columns 260ms cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+.nz-rail-head,
+.nz-rail-foot,
+.nz-rail-item,
+.nz-rail-scroll {
+  transition:
+    padding 260ms cubic-bezier(0.22, 0.61, 0.36, 1),
+    gap 260ms cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+.nz-rail-logo {
+  transition: opacity 200ms ease;
+}
+/* The wordmark fades as the rail narrows rather than disappearing in one frame. */
+.nz-rail-logo > span:nth-child(2),
+.nz-rail-wide {
+  transition:
+    opacity 180ms ease,
+    max-width 260ms cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+/* The scroll area is the only part that grows: min-height:0 lets it shrink so the
+   account row and workspace switch always stay in view, however long the menu is. */
+.nz-rail-scroll {
+  min-height: 0;
+}
+
+/*
+ * Collapsed rail (desktop only). Labels stay in the DOM as the accessible name of every
+ * link; the visible tooltip is drawn by the fixed layer in sidebar-nav (a scroll container
+ * would clip an absolutely positioned one).
+ */
+@media (min-width: 64rem) {
+  [data-sidebar-effective='collapsed'] .nz-rail-label {
+    position: absolute;
+    left: calc(100% + 0.7rem);
+    top: 50%;
+    z-index: 50;
+    translate: 0 -50%;
+    pointer-events: none;
+    white-space: nowrap;
+    border-radius: var(--nz-radius-sm);
+    padding: 0.3rem 0.6rem;
+    background-color: var(--nz-admin-tooltip);
+    color: var(--nz-admin-tooltip-foreground);
+    font-size: 0.75rem;
+    font-weight: 600;
+    box-shadow: var(--nz-admin-shadow-md);
+    opacity: 0;
+    transition:
+      opacity 120ms ease,
+      translate 120ms ease;
+  }
+
+  [data-sidebar-effective='collapsed'] .nz-rail-item:hover .nz-rail-label,
+  [data-sidebar-effective='collapsed'] .nz-rail-item:focus-visible .nz-rail-label {
+    opacity: 1;
+  }
+
+  [data-sidebar-effective='collapsed'] .nz-rail-item {
+    justify-content: center;
+    padding-inline: 0;
+  }
+
+  [data-sidebar-effective='collapsed'] .nz-rail-badge {
+    position: absolute;
+    top: 0.2rem;
+    right: 0.35rem;
+    min-width: 1rem;
+    height: 1rem;
+    padding-inline: 0.2rem;
+    font-size: 0.625rem;
+  }
+
+  [data-sidebar-effective='collapsed'] .nz-rail-group,
+  [data-sidebar-effective='collapsed'] .nz-rail-hint,
+  [data-sidebar-effective='collapsed'] .nz-rail-wide {
+    display: none;
+  }
+
+  [data-sidebar-effective='collapsed'] .nz-rail-divider {
+    display: block;
+  }
+
+  [data-sidebar-effective='collapsed'] .nz-rail-only {
+    display: flex;
+  }
+
+  /* Keep the mark, drop the wordmark: the rail shows the official mark on its own. */
+  [data-sidebar-effective='collapsed'] .nz-rail-logo-wide {
+    display: none;
+  }
+  [data-sidebar-effective='collapsed'] .nz-rail-logo-mark {
+    display: inline-flex;
+  }
+
+  /* The nav scrolls in the icon rail too: the tooltip is a fixed layer, so the rail
+     never needs to let its content escape (which used to push the account row off-screen). */
+  [data-sidebar-effective='collapsed'] .nz-rail-scroll {
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  [data-sidebar-effective='collapsed'] .nz-rail-head,
+  [data-sidebar-effective='collapsed'] .nz-rail-foot {
+    justify-content: center;
+    padding-inline: 0.5rem;
+  }
+}
+
+/*
+ * "Expand on hover": the grid column keeps the icon width, so nothing on the page moves;
+ * the rail itself widens over the content while the pointer or the focus is inside it,
+ * then eases back. Labels, groups and the wordmark follow the same data-sidebar-effective
+ * attribute every other mode uses, so no rule is written twice.
+ */
+@media (min-width: 64rem) {
+  [data-sidebar='hover'] .nz-rail-frame {
+    grid-template-columns: 4.5rem minmax(0, 1fr);
+  }
+
+  [data-sidebar='hover'] .nz-rail {
+    position: relative;
+    z-index: 40;
+    width: var(--nz-sidebar-w);
+    transition:
+      width 260ms cubic-bezier(0.22, 0.61, 0.36, 1),
+      box-shadow 200ms ease;
+  }
+
+  [data-sidebar='hover'][data-sidebar-effective='expanded'] .nz-rail {
+    box-shadow: 18px 0 48px -28px rgb(2 6 23 / 0.55);
+  }
+}
+
+/* The fixed tooltip for the icon rail: outside every scroll container, so it cannot be
+   clipped and cannot move the layout. Its left edge tracks the rail's width. */
+.nz-rail-tooltip {
+  position: fixed;
+  left: calc(var(--nz-sidebar-w) + 0.55rem);
+  z-index: 60;
+  translate: 0 -50%;
+  pointer-events: none;
+  white-space: nowrap;
+  border-radius: var(--nz-radius-sm);
+  padding: 0.3rem 0.6rem;
+  background-color: var(--nz-admin-tooltip);
+  color: var(--nz-admin-tooltip-foreground);
+  font-size: 0.75rem;
+  font-weight: 600;
+  box-shadow: var(--nz-admin-shadow-md);
+  animation: nz-fade 120ms ease both;
+}
+@media (max-width: 63.99rem) {
+  .nz-rail-tooltip {
+    display: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .nz-rail-tooltip {
+    animation: none;
+  }
+}
+
+.nz-rail-divider,
+.nz-rail-only {
+  display: none;
+}
+
+/* The toggle's icon follows the rail width, before hydration as well. */
+/* (The width control draws its own mode icon; these hooks stay for custom skins.) */
+
+/* --------------------------------------------------------------- Top bar */
+/* Glass that firms up once the page scrolls beneath it (data-scrolled set by script). */
+.nz-topbar {
+  transition:
+    background-color 200ms ease,
+    box-shadow 200ms ease;
+}
+.nz-topbar[data-scrolled] {
+  background-color: var(--nz-admin-chrome-scrolled);
+  box-shadow:
+    var(--nz-admin-shadow-md),
+    inset 0 1px 0 var(--nz-admin-highlight);
+}
+
+/* --------------------------------------------------------------- Motion */
+@keyframes nz-pop-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes nz-rise {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes nz-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes nz-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+@keyframes nz-draw {
+  from {
+    stroke-dashoffset: var(--nz-draw-length, 1);
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes nz-grow-y {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+@keyframes nz-grow-x {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+@keyframes nz-shimmer {
+  from {
+    background-position: -200% 0;
+  }
+  to {
+    background-position: 200% 0;
+  }
+}
+
+/* A page's content fades and rises in on every navigation. */
+.nz-page-enter {
+  animation: nz-rise 260ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+/* Children of a stagger group enter one after another (up to twelve). */
+.nz-stagger > * {
+  animation: nz-rise 300ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+.nz-stagger > :nth-child(2) {
+  animation-delay: 40ms;
+}
+.nz-stagger > :nth-child(3) {
+  animation-delay: 80ms;
+}
+.nz-stagger > :nth-child(4) {
+  animation-delay: 120ms;
+}
+.nz-stagger > :nth-child(5) {
+  animation-delay: 160ms;
+}
+.nz-stagger > :nth-child(6) {
+  animation-delay: 200ms;
+}
+.nz-stagger > :nth-child(n + 7) {
+  animation-delay: 240ms;
+}
+
+/* The soft float of an empty state's icon. */
+.nz-float {
+  animation: nz-float 4.5s ease-in-out infinite;
+}
+
+/* Chart marks draw themselves in once (lines by stroke, bars by growing from the axis). */
+.nz-draw {
+  stroke-dasharray: var(--nz-draw-length, 1);
+  animation: nz-draw 900ms cubic-bezier(0.3, 0.7, 0.2, 1) both;
+}
+.nz-grow-y {
+  transform-box: fill-box;
+  transform-origin: bottom;
+  animation: nz-grow-y 520ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+.nz-grow-x {
+  transform-box: fill-box;
+  transform-origin: left;
+  animation: nz-grow-x 520ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+.nz-fade-in {
+  animation: nz-fade 400ms ease both;
+}
+
+/* --------------------------------------------------------------- Loading placeholders */
+/*
+ * The admin's skeleton tone, deliberately not the shop's. Admin cards are white or near-white
+ * in light mode and #111a2e in dark, so one shared colour cannot read on both: these rules
+ * key on the resolved theme and keep the block one clear step away from its surface, with a
+ * hairline that keeps small shapes (3px text bars) from dissolving.
+ */
+.nz-app-canvas .nz-skeleton {
+  background-color: #d5dfed;
+  background-image: linear-gradient(
+    100deg,
+    transparent 37%,
+    rgb(255 255 255 / 58%) 50%,
+    transparent 63%
+  );
+  background-size: 240% 100%;
+  box-shadow: inset 0 0 0 1px rgb(100 116 139 / 0.14);
+}
+[data-theme='dark'] .nz-app-canvas .nz-skeleton {
+  background-color: rgb(148 163 184 / 0.17);
+  background-image: linear-gradient(
+    100deg,
+    transparent 37%,
+    rgb(226 232 240 / 0.1) 50%,
+    transparent 63%
+  );
+  background-size: 240% 100%;
+  box-shadow: inset 0 0 0 1px rgb(148 163 184 / 0.13);
+}
+@media (prefers-reduced-motion: reduce) {
+  .nz-app-canvas .nz-skeleton {
+    background-image: none;
+  }
+}
+
+/* --------------------------------------------------------------- Control language */
+/*
+ * One shape for the controls staff use all day: inputs, selects and textareas take the
+ * admin's medium radius and a hairline, so a filter row, a form and a chat composer read as
+ * the same family. Checkboxes, radios and file inputs keep their native shape.
+ */
+.nz-app-canvas
+  :where(
+    input:not([type='checkbox']):not([type='radio']):not([type='range']):not([type='color']):not(
+        [type='file']
+      ),
+    select,
+    textarea
+  ) {
+  border-radius: 0.8rem;
+}
+.nz-app-canvas .nz-btn {
+  border-radius: 0.8rem;
+}
+.nz-app-canvas .nz-btn[class*='size-'] {
+  border-radius: 0.8rem;
+}
+
+/* --------------------------------------------------------------- Inbox-style strips */
+/*
+ * The navigation language the Communication workspace uses, reused by Tabs, SegmentedNav
+ * and the shell: a rounded, outlined strip of options where the active one is a raised
+ * surface with a tinted icon chip. Both themes read from the same tokens.
+ */
+.nz-strip {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  max-width: 100%;
+  overflow-x: auto;
+  border: 1px solid var(--nz-border);
+  border-radius: var(--nz-radius-lg);
+  background-color: color-mix(in srgb, var(--nz-surface) 62%, transparent);
+  padding: 0.3rem;
+  box-shadow: var(--nz-admin-shadow-xs);
+  scrollbar-width: none;
+}
+.nz-strip::-webkit-scrollbar {
+  display: none;
+}
+.nz-strip-item {
+  position: relative;
+  display: inline-flex;
+  height: 2.25rem;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: calc(var(--nz-radius-lg) - 0.35rem);
+  padding-inline: 0.7rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--nz-muted-foreground);
+  white-space: nowrap;
+  transition:
+    background-color 160ms ease,
+    color 160ms ease,
+    box-shadow 160ms ease;
+}
+.nz-strip-item:hover {
+  background-color: color-mix(in srgb, var(--nz-surface-muted) 75%, transparent);
+  color: var(--nz-foreground);
+}
+.nz-strip-item[aria-current='page'],
+.nz-strip-item[aria-current='true'] {
+  background-color: var(--nz-surface);
+  color: var(--nz-foreground);
+  box-shadow:
+    0 1px 2px rgb(15 23 42 / 0.08),
+    inset 0 0 0 1px var(--nz-border);
+}
+[data-theme='dark'] .nz-strip-item[aria-current='page'],
+[data-theme='dark'] .nz-strip-item[aria-current='true'] {
+  box-shadow:
+    0 1px 2px rgb(2 6 16 / 0.5),
+    inset 0 0 0 1px rgb(148 163 184 / 0.22);
+}
+.nz-strip-chip {
+  display: grid;
+  width: 1.5rem;
+  height: 1.5rem;
+  flex-shrink: 0;
+  place-items: center;
+  border-radius: 0.5rem;
+  background-color: color-mix(in srgb, var(--nz-surface-muted) 85%, transparent);
+  color: var(--nz-muted-foreground);
+}
+.nz-strip-item[aria-current='page'] .nz-strip-chip,
+.nz-strip-item[aria-current='true'] .nz-strip-chip {
+  background-color: var(--nz-tone-info-soft);
+  color: var(--nz-tone-info-ink);
+}
+@media (prefers-reduced-motion: reduce) {
+  .nz-strip-item {
+    transition: none;
+  }
+}
+
+/* Skeleton shimmer on top of the shared Skeleton's pulse. */
+.nz-shimmer {
+  background-image: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--nz-admin-highlight) 50%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: nz-shimmer 1.6s linear infinite;
+}
+
+/* Everything above holds still for anyone who asks for less motion. */
+@media (prefers-reduced-motion: reduce) {
+  .nz-app-canvas::before,
+  .nz-page-enter,
+  .nz-stagger > *,
+  .nz-float,
+  .nz-draw,
+  .nz-grow-y,
+  .nz-grow-x,
+  .nz-fade-in,
+  .nz-shimmer,
+  .nz-dialog[open] .nz-dialog-panel {
+    animation: none;
+  }
+  .nz-draw {
+    stroke-dasharray: none;
+  }
+  .nz-hover-lift,
+  .nz-hover-lift:hover,
+  .nz-btn:active:not(:disabled),
+  .nz-rail,
+  .nz-rail-frame,
+  .nz-topbar,
+  [data-sidebar-effective='collapsed'] .nz-rail-label {
+    transition: none;
+    transform: none;
+  }
+  .nz-btn-primary::after {
+    display: none;
+  }
+}
+
+/* --------------------------------------------------------------- Sign-in brand panel */
+/* Navy glass in both themes (it is a brand surface), with a slow aurora behind it. */
+.nz-auth-brand {
+  isolation: isolate;
+  background-color: var(--nz-color-navy);
+  background-image: linear-gradient(
+    160deg,
+    rgb(15 23 42) 0%,
+    rgb(11 19 38) 55%,
+    rgb(12 26 56) 100%
+  );
+  box-shadow:
+    var(--nz-admin-shadow-lg),
+    inset 0 1px 0 rgb(255 255 255 / 0.08);
+}
+.nz-auth-aurora {
+  position: absolute;
+  inset: -30%;
+  z-index: -1;
+  background:
+    radial-gradient(30% 30% at 25% 30%, rgb(56 189 248 / 0.42), transparent 70%),
+    radial-gradient(28% 28% at 76% 24%, rgb(139 92 246 / 0.34), transparent 70%),
+    radial-gradient(34% 34% at 60% 82%, rgb(2 132 199 / 0.4), transparent 70%);
+  filter: blur(40px);
+  animation: nz-aurora 26s ease-in-out infinite alternate;
+  will-change: transform;
+}
+@keyframes nz-aurora {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
+  }
+  50% {
+    transform: translate3d(4%, -3%, 0) rotate(8deg) scale(1.08);
+  }
+  100% {
+    transform: translate3d(-3%, 4%, 0) rotate(-6deg) scale(1.02);
+  }
+}
+.nz-auth-shape {
+  position: absolute;
+  z-index: -1;
+  border: 1px solid rgb(255 255 255 / 0.14);
+  background: linear-gradient(135deg, rgb(255 255 255 / 0.13), rgb(255 255 255 / 0.02));
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.18),
+    0 24px 48px -24px rgb(2 6 16 / 0.7);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  animation: nz-float 9s ease-in-out infinite;
+}
+.nz-auth-shape-a {
+  top: 13%;
+  right: 9%;
+  width: 9rem;
+  height: 9rem;
+  border-radius: 2rem;
+  rotate: 12deg;
+}
+.nz-auth-shape-b {
+  right: 27%;
+  bottom: 24%;
+  width: 5rem;
+  height: 5rem;
+  border-radius: 9999px;
+  animation-duration: 11s;
+  animation-delay: -3s;
+}
+.nz-auth-shape-c {
+  bottom: 7%;
+  left: -2.5rem;
+  width: 13rem;
+  height: 6rem;
+  border-radius: 1.5rem;
+  rotate: -8deg;
+  animation-duration: 13s;
+  animation-delay: -6s;
+}
+@media (prefers-reduced-motion: reduce) {
+  .nz-auth-aurora,
+  .nz-auth-shape {
+    animation: none;
+  }
+}
+
+/* --------------------------------------------------------------- Utilities */
+/* Soft, unobtrusive scrollbars inside the rail and long panels. */
+.nz-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: rgb(148 163 184 / 0.45) transparent;
+}
+
+/* Typography for figures: tabular digits line up across cards and tables. */
+.nz-figure {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum' 1;
+  letter-spacing: -0.01em;
+}
+
+/* Sticky table headers inside a scrolling table container. */
+.nz-sticky-head thead th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background-color: var(--nz-admin-panel-solid);
+}
+
+/* Shown on paper only (e.g. the invoice heading above an order). */
+.nz-print-only {
+  display: none;
+}
+
+/*
+ * Printing an order prints the invoice, not the workspace: the rail, top bar,
+ * navigation and action controls drop away, panels flatten onto white, and links stop
+ * printing their URLs. Everything removed here stays on screen.
+ */
+@media print {
+  .nz-print-only {
+    display: block;
+  }
+
+  .nz-rail,
+  .nz-topbar,
+  .nz-print-hide,
+  [role='navigation'] {
+    display: none !important;
+  }
+
+  .nz-app-canvas {
+    background: #fff !important;
+  }
+  .nz-app-canvas::before {
+    display: none !important;
+  }
+
+  main {
+    padding: 0 !important;
+  }
+
+  .nz-panel,
+  .nz-panel-strong,
+  .nz-glass {
+    background: #fff !important;
+    border-color: #cbd5e1 !important;
+    box-shadow: none !important;
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+  }
+
+  .nz-panel-sheen::before {
+    display: none;
+  }
+
+  a[href]::after {
+    content: none !important;
+  }
+
+  @page {
+    margin: 12mm;
+  }
+}
+
+/*
+ * Touch targets on phones
+ * -----------------------
+ * Plain text links in tables, sort headings, breadcrumbs, "Show the figures" disclosures and
+ * the few stand-alone text links (opt in with `.nz-tap`) are 14-24px tall by design on a desktop.
+ * On a phone or any coarse pointer their tappable box grows to roughly 44px using padding
+ * that is cancelled by an equal negative margin, so nothing in the layout moves. Anything
+ * styled as a button (a background or a border) already has its own size and is left alone.
+ */
+@media (max-width: 40rem), (pointer: coarse) {
+  :where(td, th) > a[href]:not([class*='bg-']):not([class*='border']),
+  nav[aria-label='Breadcrumb'] a[href],
+  details > summary,
+  .nz-tap {
+    padding-block: 0.875rem;
+    margin-block: -0.875rem;
+  }
+
+  /*
+   * Inline links inside banners and notices ("Courier settings" in the courier mode banner):
+   * they sit in running text, so only their hit area grows (vertical padding on an inline
+   * box is painted and tappable but never moves the lines around it).
+   */
+  :where([role='status'], [role='alert']) a[href]:not([class*='bg-']):not([class*='border']) {
+    /* 14px each side on a ~17px line is 45px: the browser check measured 43px at 13px. */
+    padding-block: 0.875rem;
+  }
+}
+
+/*
+ * The sticky bulk-actions bar (and the selected-orders tray inside it) floats over table
+ * rows. On a phone the 20px blur is not enough to keep row text from showing through, so
+ * below the sm breakpoint it is the solid panel colour with a clear top edge and shadow;
+ * from sm up it keeps the glass look.
+ */
+@media (max-width: 39.999rem) {
+  .nz-bulk-bar {
+    background-color: var(--nz-admin-panel-solid);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    border-top: 2px solid var(--color-border);
+    box-shadow: 0 -8px 24px -8px rgb(15 23 42 / 0.28);
+  }
+}

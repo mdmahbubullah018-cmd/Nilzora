@@ -1,0 +1,10 @@
+{
+  "extends": ["expo/tsconfig.base", "@nilzora/typescript-config/react-native.json"],
+  "compilerOptions": {
+    "types": ["jest", "node", "expo/types"],
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  },
+  "include": ["**/*.ts", "**/*.tsx", ".expo/types/**/*.ts", "expo-env.d.ts"]
+}
