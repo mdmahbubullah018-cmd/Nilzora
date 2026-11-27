@@ -1,4 +1,9 @@
-import type { CartItem, OrderListQuery, ProductFacetsQuery, ProductListQuery } from '@nilzora/contracts';
+import type {
+  CartItem,
+  OrderListQuery,
+  ProductFacetsQuery,
+  ProductListQuery,
+} from '@nilzora/contracts';
 
 /*
  * Query keys

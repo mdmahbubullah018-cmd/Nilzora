@@ -1,8 +1,4 @@
-import {
-  ImageEmbeddingError,
-  normaliseVector,
-  type ImageEmbeddingProvider,
-} from './provider';
+import { ImageEmbeddingError, normaliseVector, type ImageEmbeddingProvider } from './provider';
 
 /*
  * A hosted embedding provider
@@ -32,7 +28,9 @@ interface EmbeddingBody {
 
 function readEmbedding(body: EmbeddingBody): number[] | null {
   if (Array.isArray(body.embedding)) return body.embedding.map(Number);
-  const first = Array.isArray(body.data) ? (body.data[0] as { embedding?: unknown } | undefined) : undefined;
+  const first = Array.isArray(body.data)
+    ? (body.data[0] as { embedding?: unknown } | undefined)
+    : undefined;
   if (first !== undefined && Array.isArray(first.embedding)) return first.embedding.map(Number);
   return null;
 }
@@ -55,9 +53,7 @@ export function createHttpEmbeddingProvider(options: HttpEmbeddingOptions): Imag
           headers: {
             'content-type': 'application/json',
             accept: 'application/json',
-            ...(options.apiKey === undefined
-              ? {}
-              : { authorization: `Bearer ${options.apiKey}` }),
+            ...(options.apiKey === undefined ? {} : { authorization: `Bearer ${options.apiKey}` }),
           },
           body: JSON.stringify({ model: options.model, image: image.toString('base64') }),
           signal: controller.signal,

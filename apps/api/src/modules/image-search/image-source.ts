@@ -56,7 +56,9 @@ export function createImageSourceReader(options: {
     if (parsed.protocol !== 'https:' && parsed.protocol !== 'http:') return false;
     if (parsed.origin !== base.origin) return false;
     const basePath = base.pathname.replace(/\/+$/, '');
-    return basePath === '' || parsed.pathname === basePath || parsed.pathname.startsWith(`${basePath}/`);
+    return (
+      basePath === '' || parsed.pathname === basePath || parsed.pathname.startsWith(`${basePath}/`)
+    );
   }
 
   return {

@@ -71,14 +71,12 @@ function fakeClients(
       rpc: (name: string) => {
         started.push(`rpc:${name}`);
         const handler = rpcs[name];
-        const answer = () =>
-          handler ? handler() : Promise.resolve({ data: [], error: null });
+        const answer = () => (handler ? handler() : Promise.resolve({ data: [], error: null }));
         // PostgREST's rpc builder is a promise that also offers .maybeSingle().
         return {
           then: (resolve: (value: unknown) => void, reject: (error: unknown) => void) =>
             answer().then(resolve, reject),
-          maybeSingle: () =>
-            answer().then((row) => ({ data: row.data ?? null, error: row.error })),
+          maybeSingle: () => answer().then((row) => ({ data: row.data ?? null, error: row.error })),
         };
       },
     }),

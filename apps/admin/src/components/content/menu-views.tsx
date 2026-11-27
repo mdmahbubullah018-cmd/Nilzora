@@ -75,7 +75,13 @@ export function MenuItemForm({
       <input type="hidden" name="menu" value={menu} />
       {item ? <input type="hidden" name="itemId" value={item.id} /> : null}
       <div className="grid items-start gap-4 sm:grid-cols-2">
-        <Field id={`label-${id}`} label={tx("Label")} required error={error('label')} hint={tx("Up to 40 characters.")}>
+        <Field
+          id={`label-${id}`}
+          label={tx('Label')}
+          required
+          error={error('label')}
+          hint={tx('Up to 40 characters.')}
+        >
           {(control) => (
             <Input
               {...control}
@@ -88,10 +94,10 @@ export function MenuItemForm({
         </Field>
         <Field
           id={`href-${id}`}
-          label={tx("Link")}
+          label={tx('Link')}
           required
           error={error('href')}
-          hint={tx("A store path such as /products, or an https address.")}
+          hint={tx('A store path such as /products, or an https address.')}
         >
           {(control) => (
             <Input
@@ -112,7 +118,9 @@ export function MenuItemForm({
           name="isActive"
           defaultChecked={item?.isActive ?? true}
           className="size-5 accent-primary-action"
-        /><AutoText>Show this link on the storefront</AutoText></label>
+        />
+        <AutoText>Show this link on the storefront</AutoText>
+      </label>
       <ActionFeedback state={state} />
       <div className="flex flex-wrap items-center gap-2">
         <SubmitButton pendingLabel="Saving…" className="max-sm:min-h-11">
@@ -124,7 +132,9 @@ export function MenuItemForm({
           {item ? 'Save link' : 'Add link'}
         </SubmitButton>
         {onDone ? (
-          <Button type="button" variant="ghost" onClick={onDone} className="max-sm:min-h-11"><AutoText>Close</AutoText></Button>
+          <Button type="button" variant="ghost" onClick={onDone} className="max-sm:min-h-11">
+            <AutoText>Close</AutoText>
+          </Button>
         ) : null}
       </div>
     </form>
@@ -187,9 +197,15 @@ function MenuRow({
         <div className="grid min-w-0 flex-1 gap-0.5">
           <p className="flex flex-wrap items-center gap-2 font-medium text-foreground">
             {item.label}
-            {item.isActive ? null : <Chip tone="neutral"><AutoText>Hidden</AutoText></Chip>}
+            {item.isActive ? null : (
+              <Chip tone="neutral">
+                <AutoText>Hidden</AutoText>
+              </Chip>
+            )}
           </p>
-          <p className="truncate font-mono text-xs text-muted-foreground"><AutoText value={item.href} /></p>
+          <p className="truncate font-mono text-xs text-muted-foreground">
+            <AutoText value={item.href} />
+          </p>
         </div>
         <div className="flex items-center gap-1.5">
           <Button
@@ -201,7 +217,10 @@ function MenuRow({
             className="rounded-xl max-sm:min-h-11"
           >
             <Pencil aria-hidden="true" strokeWidth={1.75} />
-            Edit{' '}<span className="sr-only"><AutoText value={item.label} /></span>
+            Edit{' '}
+            <span className="sr-only">
+              <AutoText value={item.label} />
+            </span>
           </Button>
           <ConfirmForm
             action={remove}
@@ -211,12 +230,17 @@ function MenuRow({
             trigger={
               <>
                 <Trash2 aria-hidden="true" strokeWidth={1.75} />
-                Remove{' '}<span className="sr-only"><AutoText value={item.label} /></span>
+                Remove{' '}
+                <span className="sr-only">
+                  <AutoText value={item.label} />
+                </span>
               </>
             }
             title={`Remove “${item.label}” from the menu?`}
-            description={tx("The link disappears from the storefront. The page it pointed to is not deleted.")}
-            confirmLabel={tx("Remove link")}
+            description={tx(
+              'The link disappears from the storefront. The page it pointed to is not deleted.',
+            )}
+            confirmLabel={tx('Remove link')}
             hiddenFields={{ itemId: item.id }}
             error={deleteState.status === 'error' ? deleteState.message : undefined}
           />
@@ -238,7 +262,9 @@ export function MenusView({ items, csrf }: { items: readonly MenuItem[]; csrf: C
   return (
     <div className="grid gap-6">
       {MENU_NAMES.map((menu) => {
-        const links = items.filter((item) => item.menu === menu).sort((a, b) => a.sortOrder - b.sortOrder);
+        const links = items
+          .filter((item) => item.menu === menu)
+          .sort((a, b) => a.sortOrder - b.sortOrder);
         const order = links.map((link) => link.id).join(',');
         const full = links.length >= MENU_MAX_ITEMS;
         return (
@@ -253,8 +279,8 @@ export function MenusView({ items, csrf }: { items: readonly MenuItem[]; csrf: C
             {links.length === 0 ? (
               <EmptyPanel
                 icon={Link2}
-                title={tx("No links yet")}
-                description={tx("Without links, the storefront keeps its built-in menu.")}
+                title={tx('No links yet')}
+                description={tx('Without links, the storefront keeps its built-in menu.')}
                 className="py-8"
               />
             ) : (
@@ -278,13 +304,14 @@ export function MenusView({ items, csrf }: { items: readonly MenuItem[]; csrf: C
             <div className="border-t border-hairline px-5 py-4 sm:px-6">
               {full ? (
                 <p className="text-sm text-muted-foreground">
-                  This menu holds {MENU_MAX_ITEMS} links, the most it can. Remove one to add another.
+                  This menu holds {MENU_MAX_ITEMS} links, the most it can. Remove one to add
+                  another.
                 </p>
               ) : (
                 <details className="group">
                   <summary className="inline-flex min-h-9 cursor-pointer list-none items-center gap-1.5 rounded-xl px-3 text-sm font-medium text-link ring-1 ring-hairline hover:bg-info-soft/50 max-sm:min-h-11 [&::-webkit-details-marker]:hidden">
                     <Plus aria-hidden="true" className="size-4" strokeWidth={1.75} />
-                    Add a link{' '}<span className="sr-only">to the {MENU_LABELS[menu].title}</span>
+                    Add a link <span className="sr-only">to the {MENU_LABELS[menu].title}</span>
                   </summary>
                   <div className="mt-4">
                     <MenuItemForm menu={menu} csrf={csrf} />

@@ -117,7 +117,9 @@ export function splitRuns(
   const chars = [...text.normalize('NFC')];
   const covered = chars.map((char) => {
     const code = char.codePointAt(0) ?? 0;
-    return !inWinAnsi(code) && !ZERO_WIDTH_JOINERS.has(code) && face.font.hasGlyphForCodePoint(code);
+    return (
+      !inWinAnsi(code) && !ZERO_WIDTH_JOINERS.has(code) && face.font.hasGlyphForCodePoint(code)
+    );
   });
   if (!covered.some(Boolean)) return null;
 
@@ -149,7 +151,9 @@ export function splitRuns(
 function isGap(char: string | undefined): boolean {
   if (char === undefined) return false;
   const code = char.codePointAt(0) ?? 0;
-  return code === 0x20 || code === 0x09 || code === 0x0a || code === 0x0d || ZERO_WIDTH_JOINERS.has(code);
+  return (
+    code === 0x20 || code === 0x09 || code === 0x0a || code === 0x0d || ZERO_WIDTH_JOINERS.has(code)
+  );
 }
 
 // ---------------------------------------------------------------------------

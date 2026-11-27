@@ -1,10 +1,6 @@
 'use client';
 
-import type {
-  AdminAttribute,
-  AdminProductDetail,
-  AdminVariant,
-} from '@nilzora/contracts';
+import type { AdminAttribute, AdminProductDetail, AdminVariant } from '@nilzora/contracts';
 import { cn, Field, Input } from '@nilzora/ui';
 import { ImagePlus, Layers, Palette, Plus } from 'lucide-react';
 import Link from 'next/link';
@@ -182,7 +178,11 @@ function ColourCard({
                 </>
               ) : null}
               {hidden > 0 ? <Chip tone="neutral">{formatCount(hidden)} hidden</Chip> : null}
-              {picture === null ? <Chip tone="warning"><AutoText>No picture</AutoText></Chip> : null}
+              {picture === null ? (
+                <Chip tone="warning">
+                  <AutoText>No picture</AutoText>
+                </Chip>
+              ) : null}
             </p>
           </div>
         </div>
@@ -203,8 +203,12 @@ function ColourCard({
               )}
             >
               <span className="flex min-w-0 items-center gap-2">
-                <span className="font-medium text-foreground">{size === '' ? 'One size' : size}</span>
-                <span className="font-mono text-xs text-muted-foreground"><AutoText value={variant.sku} /></span>
+                <span className="font-medium text-foreground">
+                  {size === '' ? 'One size' : size}
+                </span>
+                <span className="font-mono text-xs text-muted-foreground">
+                  <AutoText value={variant.sku} />
+                </span>
               </span>
               <span className="flex flex-wrap items-center gap-2 tabular-nums">
                 <span className="text-muted-foreground">
@@ -214,7 +218,11 @@ function ColourCard({
                   {formatCount(variant.stockQuantity)} in stock
                 </span>
                 <StockBadge quantity={variant.stockQuantity} />
-                {variant.isActive ? null : <Chip tone="neutral"><AutoText>Hidden</AutoText></Chip>}
+                {variant.isActive ? null : (
+                  <Chip tone="neutral">
+                    <AutoText>Hidden</AutoText>
+                  </Chip>
+                )}
               </span>
             </li>
           );
@@ -231,7 +239,9 @@ function ColourCard({
               valueKind="url"
               name="imageUrl"
               label={`Picture for ${name}`}
-              hint={tx("Shown on every size of this colour, and on the product page when a shopper picks it.")}
+              hint={tx(
+                'Shown on every size of this colour, and on the product page when a shopper picks it.',
+              )}
               defaultValue={picture}
               previewUrl={picture}
               csrf={csrf}
@@ -239,7 +249,7 @@ function ColourCard({
             />
             <ActionFeedback state={pictureState} inline />
             <div>
-              <SubmitButton label={tx("Use on every size")} icon={ImagePlus} variant="outline" />
+              <SubmitButton label={tx('Use on every size')} icon={ImagePlus} variant="outline" />
             </div>
           </form>
 
@@ -281,7 +291,7 @@ function ColourCard({
               </fieldset>
               <ActionFeedback state={addState} inline />
               <div>
-                <SubmitButton label={tx("Add these sizes")} icon={Plus} variant="secondary" />
+                <SubmitButton label={tx('Add these sizes')} icon={Plus} variant="secondary" />
               </div>
             </form>
           )}
@@ -309,16 +319,20 @@ function AddColourForm({
 
   return (
     <SectionCard
-      title={tx("Add a colour")}
+      title={tx('Add a colour')}
       icon={Palette}
-      description={tx("Pick a colour and tick the sizes it is sold in. Each combination becomes a variant with the product price and no stock; set the price, stock and picture from the colour's card below.")}
+      description={tx(
+        "Pick a colour and tick the sizes it is sold in. Each combination becomes a variant with the product price and no stock; set the price, stock and picture from the colour's card below.",
+      )}
       className="nz-panel-strong"
     >
       <form action={action} className="grid gap-4">
         <CsrfField csrf={csrf} />
         <input type="hidden" name="productId" value={product.id} />
         <fieldset className="grid gap-2">
-          <legend className="text-sm font-medium text-foreground"><AutoText>Colour</AutoText></legend>
+          <legend className="text-sm font-medium text-foreground">
+            <AutoText>Colour</AutoText>
+          </legend>
           <div className="flex flex-wrap gap-2">
             {colour.values.map((value) => (
               <label
@@ -341,7 +355,11 @@ function AddColourForm({
             <Link
               href="/admin/attributes"
               className="rounded-sm font-semibold text-link underline-offset-4 hover:underline"
-            ><AutoText>Attributes &amp; variants</AutoText></Link><AutoText>, together with its swatch.</AutoText></p>
+            >
+              <AutoText>Attributes &amp; variants</AutoText>
+            </Link>
+            <AutoText>, together with its swatch.</AutoText>
+          </p>
         </fieldset>
 
         {attributes.map((attribute) => (
@@ -370,7 +388,7 @@ function AddColourForm({
 
         <Field
           id="colour-sku"
-          label={tx("SKU start")}
+          label={tx('SKU start')}
           hint={tx("Each variant's SKU is this plus its colour and size, e.g. TSHIRT-NAVY-M.")}
         >
           {(control) => (
@@ -384,7 +402,7 @@ function AddColourForm({
         </Field>
         <ActionFeedback state={state} />
         <div>
-          <SubmitButton label={tx("Add the colour")} icon={Plus} />
+          <SubmitButton label={tx('Add the colour')} icon={Plus} />
         </div>
       </form>
     </SectionCard>
@@ -419,11 +437,11 @@ export function ColourVariants({
   return (
     <div className="grid gap-6">
       <SectionCard
-        title={tx("Colours")}
+        title={tx('Colours')}
         icon={Palette}
         description={`Each card is one ${colour.name.toLowerCase()}: its picture, its sizes and its stock. The detailed list further down edits one size at a time.`}
       >
-        <ul aria-label={tx("Colours")} className="grid gap-4">
+        <ul aria-label={tx('Colours')} className="grid gap-4">
           {groups.map((group) => (
             <ColourCard
               key={group.value.id}

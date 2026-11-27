@@ -49,7 +49,9 @@ export async function NotificationNavBadge() {
   if (badge === null) return null;
   return (
     <>
-      <span aria-hidden="true"><AutoText value={badge} /></span>
+      <span aria-hidden="true">
+        <AutoText value={badge} />
+      </span>
       <span className="sr-only">{`, ${badge} unread`}</span>
     </>
   );

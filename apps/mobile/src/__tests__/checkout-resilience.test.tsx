@@ -739,7 +739,9 @@ describe('the store switches cash on delivery off while the customer is checking
     const { user, cartStore } = await openCheckout(api);
     // The switch is flipped on the server after the page was loaded: the next answer from the
     // public profile reports it off, which is what the refusal below is caused by.
-    api.publicStoreProfile.mockResolvedValue({ profile: fakeStoreProfile({ codAvailable: false }) });
+    api.publicStoreProfile.mockResolvedValue({
+      profile: fakeStoreProfile({ codAvailable: false }),
+    });
     api.placeOrder.mockRejectedValue(
       new ApiError(409, 'payment_unavailable', 'cash on delivery is switched off'),
     );

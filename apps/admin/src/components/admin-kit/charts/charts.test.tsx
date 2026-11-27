@@ -25,8 +25,22 @@ function rowsOf(name: string): string[] {
 
 describe('ComboChart', () => {
   const data = [
-    { label: '24 Oct', detail: 'Sat, 24 Oct 2026', area: 50_000, line: 2, previousArea: 20_000, previousLine: 1 },
-    { label: '25 Oct', detail: 'Sun, 25 Oct 2026', area: 125_000, line: 5, previousArea: null, previousLine: 3 },
+    {
+      label: '24 Oct',
+      detail: 'Sat, 24 Oct 2026',
+      area: 50_000,
+      line: 2,
+      previousArea: 20_000,
+      previousLine: 1,
+    },
+    {
+      label: '25 Oct',
+      detail: 'Sun, 25 Oct 2026',
+      area: 125_000,
+      line: 5,
+      previousArea: null,
+      previousLine: 3,
+    },
   ];
 
   it('names both series and their axes, and tables both values per day', () => {
@@ -54,7 +68,9 @@ describe('ComboChart', () => {
       'Sun, 25 Oct 2026৳12505 orders—3 orders',
     ]);
     // The drawing (and its tooltips) stay out of the accessibility tree.
-    const drawing = container.querySelector('[class*="group/plot"]')?.closest('[aria-hidden="true"]');
+    const drawing = container
+      .querySelector('[class*="group/plot"]')
+      ?.closest('[aria-hidden="true"]');
     expect(drawing).not.toBeNull();
     expect(drawing?.textContent).toContain('Sun, 25 Oct 2026৳1250Revenue5 ordersOrders');
   });
@@ -114,14 +130,18 @@ describe('StackedBarChart', () => {
       'Sun, 25 Oct 2026044',
     ]);
     // The first day's tooltip lists the stack top-down, then the total.
-    const tooltip = screen.getAllByText('24 Oct').find((node) => node.closest('[aria-hidden="true"]'));
+    const tooltip = screen
+      .getAllByText('24 Oct')
+      .find((node) => node.closest('[aria-hidden="true"]'));
     expect(tooltip?.parentElement?.textContent).toBe('24 Oct1Delivered2Pending3Total');
     // Two segments on the first day, one on the second.
     expect(container.querySelectorAll('.nz-grow-y > span')).toHaveLength(3);
   });
 
   it('renders an empty period without bars', () => {
-    const { container } = render(<StackedBarChart title="Orders by status" series={series} data={[]} />);
+    const { container } = render(
+      <StackedBarChart title="Orders by status" series={series} data={[]} />,
+    );
     expect(rowsOf('Orders by status')).toEqual(['DayPendingDeliveredTotal']);
     expect(container.querySelector('.nz-grow-y')).toBeNull();
   });
@@ -143,9 +163,7 @@ describe('Heatmap', () => {
     );
     expect(container.querySelectorAll('rect')).toHaveLength(7 * 24);
     expect(container.querySelector('rect title')?.textContent).toBe('Mon 00:00–01:00: 0 orders');
-    expect(screen.getByText(/^Busiest:/).textContent).toBe(
-      'Busiest: Fri 20:00–21:00 (12 orders)',
-    );
+    expect(screen.getByText(/^Busiest:/).textContent).toBe('Busiest: Fri 20:00–21:00 (12 orders)');
     expect(rowsOf('Orders by weekday and hour (slots with no value are left out)')).toEqual([
       'DayHourOrders',
       'Mon09:00–10:003 orders',
@@ -184,7 +202,9 @@ describe('Funnel', () => {
     expect(screen.getByText(/overall, from carts to orders/).textContent).toBe(
       '20% overall, from carts to orders',
     );
-    expect(screen.getByRole('figure').querySelector('figcaption')?.textContent).toBe('Shopping journey');
+    expect(screen.getByRole('figure').querySelector('figcaption')?.textContent).toBe(
+      'Shopping journey',
+    );
   });
 
   it('shows no conversion after an empty stage, and an empty journey honestly', () => {
@@ -250,7 +270,10 @@ describe('DonutChart', () => {
     expect(host.querySelectorAll('li')).toHaveLength(2);
     // The segments leave a gap between them and start where the previous one ends.
     const arcs = [...host.querySelectorAll('g circle')];
-    expect(arcs.map((arc) => arc.getAttribute('stroke-dasharray'))).toEqual(['74.20 25.80', '24.20 75.80']);
+    expect(arcs.map((arc) => arc.getAttribute('stroke-dasharray'))).toEqual([
+      '74.20 25.80',
+      '24.20 75.80',
+    ]);
     expect(arcs.map((arc) => arc.getAttribute('stroke-dashoffset'))).toEqual(['0', '-75']);
   });
 
@@ -286,10 +309,11 @@ describe('BarList and Sparkline', () => {
       />,
     );
     const list = screen.getByRole('list', { name: 'Top products' });
-    expect(within(list).getAllByRole('listitem').map((item) => item.textContent)).toEqual([
-      '1Kurta12 units',
-      '2Saree6 units',
-    ]);
+    expect(
+      within(list)
+        .getAllByRole('listitem')
+        .map((item) => item.textContent),
+    ).toEqual(['1Kurta12 units', '2Saree6 units']);
   });
 
   it('draws the area under a sparkline only when asked', () => {

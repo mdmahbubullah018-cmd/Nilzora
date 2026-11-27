@@ -19,7 +19,13 @@ function setup(response: () => Response) {
     const [url, init] = fetchMock.mock.calls[0] ?? [];
     const request = url instanceof Request ? url : undefined;
     return {
-      url: request ? request.url : url instanceof URL ? url.href : typeof url === 'string' ? url : '',
+      url: request
+        ? request.url
+        : url instanceof URL
+          ? url.href
+          : typeof url === 'string'
+            ? url
+            : '',
       method: init?.method ?? request?.method ?? 'GET',
       headers: new Headers(init?.headers ?? request?.headers),
       body: typeof init?.body === 'string' ? (JSON.parse(init.body) as unknown) : undefined,
@@ -56,7 +62,10 @@ describe('wishlist', () => {
     const result = await client.myWishlist(TOKEN);
 
     expect(result.items).toEqual(wishlist.items);
-    expect(sent()).toMatchObject({ url: 'http://localhost:4000/api/v1/me/wishlist', method: 'GET' });
+    expect(sent()).toMatchObject({
+      url: 'http://localhost:4000/api/v1/me/wishlist',
+      method: 'GET',
+    });
     expect(sent().headers.get('Authorization')).toBe(['Bearer', TOKEN].join(' '));
   });
 

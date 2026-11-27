@@ -24,7 +24,10 @@ function contrast(a: string, b: string): number {
  * one `[data-theme='dark']`. Reading the stylesheet keeps the recorded hex values (and
  * so the contrast checks below) honest when a token changes.
  */
-const css = readFileSync(fileURLToPath(new URL('../../../app/globals.css', import.meta.url)), 'utf8');
+const css = readFileSync(
+  fileURLToPath(new URL('../../../app/globals.css', import.meta.url)),
+  'utf8',
+);
 
 function block(selector: string): string {
   const start = css.indexOf(`${selector} {`);
@@ -34,7 +37,9 @@ function block(selector: string): string {
 
 function tokens(selector: string): Map<string, string> {
   const found = new Map<string, string>();
-  for (const [, name = '', value = ''] of block(selector).matchAll(/(--nz-chart-[\w-]+):\s*([^;]+);/g)) {
+  for (const [, name = '', value = ''] of block(selector).matchAll(
+    /(--nz-chart-[\w-]+):\s*([^;]+);/g,
+  )) {
     found.set(name, value.trim().toUpperCase());
   }
   return found;

@@ -68,15 +68,11 @@ vi.mock('@/lib/actions', () => ({ signInAction: vi.fn(), signOutAction: vi.fn() 
 // The pages read their results in async Server Components inside Suspense; those are
 // covered directly in orders.test.tsx and customers.test.tsx.
 vi.mock('@/components/orders/orders-results', async () => ({
-  ...(await vi.importActual<typeof OrdersResultsModule>(
-    '@/components/orders/orders-results',
-  )),
+  ...(await vi.importActual<typeof OrdersResultsModule>('@/components/orders/orders-results')),
   OrdersResults: () => <p>Order results</p>,
 }));
 vi.mock('@/components/customers/customer-views', async () => ({
-  ...(await vi.importActual<typeof CustomerViewsModule>(
-    '@/components/customers/customer-views',
-  )),
+  ...(await vi.importActual<typeof CustomerViewsModule>('@/components/customers/customer-views')),
   CustomersResults: () => <p>Customer results</p>,
 }));
 vi.mock('@/components/shell/workspace-shell', () => ({
@@ -141,8 +137,14 @@ describe('exportRange', () => {
       from: '2026-10-01',
       to: '2026-10-31',
     });
-    expect(exportRange({ from: '2026-10-01' }, now)).toEqual({ from: '2026-10-01', to: '2026-11-05' });
-    expect(exportRange({ to: '2026-03-31' }, now)).toEqual({ from: '2025-04-01', to: '2026-03-31' });
+    expect(exportRange({ from: '2026-10-01' }, now)).toEqual({
+      from: '2026-10-01',
+      to: '2026-11-05',
+    });
+    expect(exportRange({ to: '2026-03-31' }, now)).toEqual({
+      from: '2025-04-01',
+      to: '2026-03-31',
+    });
   });
 
   it('cuts a range longer than a report allows to its latest days, never inverts one', () => {
@@ -150,7 +152,10 @@ describe('exportRange', () => {
       from: '2025-11-05',
       to: '2026-11-05',
     });
-    expect(exportRange({ from: '2027-01-01' }, now)).toEqual({ from: '2026-11-05', to: '2026-11-05' });
+    expect(exportRange({ from: '2027-01-01' }, now)).toEqual({
+      from: '2026-11-05',
+      to: '2026-11-05',
+    });
   });
 });
 
@@ -223,7 +228,9 @@ describe('COD collections page', () => {
     api.adminListOrders.mockImplementation(
       (_token: string, query: { pageSize: number; paymentStatus?: string; page: number }) => {
         if (query.pageSize === 1) {
-          return Promise.resolve(listOf('orders', [], query.paymentStatus === 'collected' ? 3 : 60));
+          return Promise.resolve(
+            listOf('orders', [], query.paymentStatus === 'collected' ? 3 : 60),
+          );
         }
         // The API lists newest first: the last page holds the oldest orders.
         return Promise.resolve(listOf('orders', [NEWER, OLDER], 60, query.page));
@@ -409,23 +416,20 @@ describe('customers pages', () => {
   it('draws the customers with their search and status filters in the table panel', () => {
     render(
       <CustomersTable
-        data={listOf(
-          'customers',
-          [
-            {
-              id: customer.id,
-              email: 'rahima@example.test',
-              fullName: 'Rahima Khatun',
-              phone: null,
-              status: 'active' as const,
-              orderCount: 3,
-              lastOrderAt: null,
-        avatar: null,
-        googleAvatar: null,
-              createdAt: '2026-09-01T00:00:00.000Z',
-            },
-          ],
-        )}
+        data={listOf('customers', [
+          {
+            id: customer.id,
+            email: 'rahima@example.test',
+            fullName: 'Rahima Khatun',
+            phone: null,
+            status: 'active' as const,
+            orderCount: 3,
+            lastOrderAt: null,
+            avatar: null,
+            googleAvatar: null,
+            createdAt: '2026-09-01T00:00:00.000Z',
+          },
+        ])}
         filters={{ q: 'rahima' }}
         now={new Date('2026-11-05T00:00:00.000Z')}
       />,
@@ -433,7 +437,9 @@ describe('customers pages', () => {
     const panel = screen.getByRole('region', { name: 'Customers' });
     expect(within(panel).getByRole('search', { name: 'Customer filters' })).toBeTruthy();
     expect(within(panel).getByRole('link', { name: 'Rahima Khatun' })).toBeTruthy();
-    expect(within(panel).getByRole('link', { name: 'Search: “rahima”, remove filter' })).toBeTruthy();
+    expect(
+      within(panel).getByRole('link', { name: 'Search: “rahima”, remove filter' }),
+    ).toBeTruthy();
     expect(within(panel).getByText('Showing 1–1 of 1 customers')).toBeTruthy();
   });
 
@@ -480,7 +486,9 @@ describe('customers pages', () => {
     expect(within(table).getByText('Has ordered again')).toBeTruthy();
     expect(within(table).getByText('Spending above the store threshold')).toBeTruthy();
     const tabs = screen.getByRole('navigation', { name: 'Customer segment' });
-    expect(within(tabs).getByRole('link', { name: 'Repeat' }).getAttribute('aria-current')).toBe('page');
+    expect(within(tabs).getByRole('link', { name: 'Repeat' }).getAttribute('aria-current')).toBe(
+      'page',
+    );
     expect(within(tabs).getByRole('link', { name: 'High spender' }).getAttribute('href')).toBe(
       '/admin/customers/insights?segment=high_spender',
     );

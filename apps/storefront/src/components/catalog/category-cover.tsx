@@ -52,7 +52,10 @@ export function CategoryCover({
       <ProductVisual
         categorySlug={categorySlug}
         size="md"
-        className={cn(fill ? 'size-full rounded-none' : 'aspect-square w-full rounded-lg', className)}
+        className={cn(
+          fill ? 'size-full rounded-none' : 'aspect-square w-full rounded-lg',
+          className,
+        )}
       />
     );
   }

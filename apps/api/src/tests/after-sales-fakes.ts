@@ -101,7 +101,8 @@ export class FakeAfterSales implements AfterSalesStore {
 
   private own(returnId: string, userId: string): FakeReturn {
     const request = this.returns.get(returnId);
-    if (!request || request.userId !== userId) throw new CommerceRefusalError('return_not_eligible');
+    if (!request || request.userId !== userId)
+      throw new CommerceRefusalError('return_not_eligible');
     return request;
   }
 
@@ -225,7 +226,10 @@ export class FakeAfterSales implements AfterSalesStore {
     if (order.status !== 'delivered') throw new CommerceRefusalError('return_not_eligible');
 
     const active = [...this.returns.values()].filter(
-      (request) => request.orderNumber === input.orderNumber && request.status !== 'rejected' && request.status !== 'cancelled',
+      (request) =>
+        request.orderNumber === input.orderNumber &&
+        request.status !== 'rejected' &&
+        request.status !== 'cancelled',
     );
     for (const item of input.items) {
       const line = order.items.find((candidate) => candidate.orderItemId === item.orderItemId);
@@ -237,7 +241,11 @@ export class FakeAfterSales implements AfterSalesStore {
       if (item.quantity + already > line.quantity) {
         throw new CommerceRefusalError('return_quantity_exceeded');
       }
-      if (active.some((request) => request.items.some((existing) => existing.orderItemId === item.orderItemId))) {
+      if (
+        active.some((request) =>
+          request.items.some((existing) => existing.orderItemId === item.orderItemId),
+        )
+      ) {
         throw new CommerceRefusalError('return_not_eligible');
       }
     }
@@ -282,7 +290,9 @@ export class FakeAfterSales implements AfterSalesStore {
   myReturns(_accessToken: string, userId: string): Promise<ReturnSummary[]> {
     this.record('myReturns');
     return Promise.resolve(
-      [...this.returns.values()].filter((request) => request.userId === userId).map((request) => this.summary(request)),
+      [...this.returns.values()]
+        .filter((request) => request.userId === userId)
+        .map((request) => this.summary(request)),
     );
   }
 
@@ -335,7 +345,9 @@ export class FakeAfterSales implements AfterSalesStore {
         );
       });
     return Promise.resolve({
-      returns: all.slice(page.offset, page.offset + page.limit).map((request) => this.summary(request)),
+      returns: all
+        .slice(page.offset, page.offset + page.limit)
+        .map((request) => this.summary(request)),
       total: all.length,
     });
   }
@@ -370,11 +382,22 @@ export class FakeAfterSales implements AfterSalesStore {
     request.decidedAt = NOW;
     if (note !== undefined) request.decisionNote = note;
     if (status === 'received') request.receivedAt = NOW;
-    request.history.push({ fromStatus: from, toStatus: status, actorKind: 'staff', note: note ?? null, at: NOW });
+    request.history.push({
+      fromStatus: from,
+      toStatus: status,
+      actorKind: 'staff',
+      note: note ?? null,
+      at: NOW,
+    });
     return Promise.resolve();
   }
 
-  restockReturn(_accessToken: string, _userId: string, returnId: string, note?: string): Promise<number> {
+  restockReturn(
+    _accessToken: string,
+    _userId: string,
+    returnId: string,
+    note?: string,
+  ): Promise<number> {
     this.record('restockReturn');
     const request = this.returns.get(returnId);
     if (!request) this.refuse('not_found');
@@ -414,7 +437,9 @@ export class FakeAfterSales implements AfterSalesStore {
         );
       });
     return Promise.resolve({
-      refunds: all.slice(page.offset, page.offset + page.limit).map((refund) => this.refundSummary(refund)),
+      refunds: all
+        .slice(page.offset, page.offset + page.limit)
+        .map((refund) => this.refundSummary(refund)),
       total: all.length,
     });
   }
@@ -452,7 +477,13 @@ export class FakeAfterSales implements AfterSalesStore {
     return Promise.resolve(id);
   }
 
-  decideRefund(_accessToken: string, _userId: string, refundId: string, approve: boolean, note?: string): Promise<void> {
+  decideRefund(
+    _accessToken: string,
+    _userId: string,
+    refundId: string,
+    approve: boolean,
+    note?: string,
+  ): Promise<void> {
     this.record('decideRefund');
     const refund = this.refunds.get(refundId);
     if (!refund) this.refuse('not_found');
@@ -461,7 +492,12 @@ export class FakeAfterSales implements AfterSalesStore {
     refund.status = approve ? 'approved' : 'rejected';
     refund.decidedAt = NOW;
     if (note !== undefined) refund.note = note;
-    refund.history.push({ fromStatus: from, toStatus: refund.status as RefundDetail['status'], note: note ?? null, at: NOW });
+    refund.history.push({
+      fromStatus: from,
+      toStatus: refund.status as RefundDetail['status'],
+      note: note ?? null,
+      at: NOW,
+    });
     return Promise.resolve();
   }
 
@@ -489,7 +525,12 @@ export class FakeAfterSales implements AfterSalesStore {
     return Promise.resolve();
   }
 
-  cancelRefund(_accessToken: string, _userId: string, refundId: string, note: string): Promise<void> {
+  cancelRefund(
+    _accessToken: string,
+    _userId: string,
+    refundId: string,
+    note: string,
+  ): Promise<void> {
     this.record('cancelRefund');
     const refund = this.refunds.get(refundId);
     if (!refund) this.refuse('not_found');
@@ -523,7 +564,9 @@ export class FakeAfterSales implements AfterSalesStore {
       reason: 'Arrived damaged',
       description: null,
       items,
-      history: [{ fromStatus: null, toStatus: 'requested', actorKind: 'customer', note: null, at: NOW }],
+      history: [
+        { fromStatus: null, toStatus: 'requested', actorKind: 'customer', note: null, at: NOW },
+      ],
       requestedAt: NOW,
       decidedAt: status === 'requested' ? null : NOW,
       decisionNote: null,

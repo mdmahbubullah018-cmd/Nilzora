@@ -42,9 +42,7 @@ export const GEOGRAPHY_PRESETS: readonly { preset: GeographyPreset; label: strin
 
 /** `focus` is either a district or a division; the prefix keeps the two unambiguous. */
 export type MapFocus =
-  | { kind: 'district'; name: string }
-  | { kind: 'division'; name: string }
-  | null;
+  { kind: 'district'; name: string } | { kind: 'division'; name: string } | null;
 
 export interface GeographySelection {
   range: ReportRange;
@@ -125,7 +123,10 @@ function finish(
 }
 
 /** The whole page state, as the URL describes it. */
-export function parseGeographySelection(params: SearchParams, now: Date = new Date()): GeographySelection {
+export function parseGeographySelection(
+  params: SearchParams,
+  now: Date = new Date(),
+): GeographySelection {
   const focusRaw = single(params.focus);
   const focus: MapFocus =
     focusRaw === undefined
@@ -199,7 +200,13 @@ export function presetHref(
   }
   const range =
     preset === 'yesterday'
-      ? finish('custom', shiftDay(today, -1), shiftDay(today, -1), 'Yesterday', selection.range.compare)
+      ? finish(
+          'custom',
+          shiftDay(today, -1),
+          shiftDay(today, -1),
+          'Yesterday',
+          selection.range.compare,
+        )
       : preset === '90d'
         ? finish('custom', shiftDay(today, -89), today, 'Last 90 days', selection.range.compare)
         : preset === 'today'

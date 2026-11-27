@@ -151,7 +151,11 @@ export function FilterSheet({
             Category
           </Text>
           {categoriesLoading ? (
-            <View accessible accessibilityRole="progressbar" accessibilityLabel="Loading categories">
+            <View
+              accessible
+              accessibilityRole="progressbar"
+              accessibilityLabel="Loading categories"
+            >
               <Skeleton width="70%" height={20} />
               <Skeleton width="55%" height={20} />
             </View>
@@ -328,12 +332,8 @@ function ValueRow({
       android_ripple={{ color: theme.colors.surfaceMuted }}
       style={({ pressed }) => [styles.valueRow, pressed ? styles.rowPressed : null]}
     >
-      {swatchHex === null ? null : (
-        <View style={[styles.swatch, { backgroundColor: swatchHex }]} />
-      )}
-      <Text style={[styles.rowLabel, checked ? styles.rowLabelChecked : null]}>
-        {option.value}
-      </Text>
+      {swatchHex === null ? null : <View style={[styles.swatch, { backgroundColor: swatchHex }]} />}
+      <Text style={[styles.rowLabel, checked ? styles.rowLabelChecked : null]}>{option.value}</Text>
       <Text style={styles.valueCount}>{option.productCount}</Text>
       {checked ? (
         <AppIcon name="check" size="md" color={theme.colors.primaryAction} />

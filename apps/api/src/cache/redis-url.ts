@@ -14,15 +14,10 @@ export interface RedisConnection {
 }
 
 export type RedisUrlProblem =
-  | 'unparseable'
-  | 'wrong_scheme'
-  | 'missing_host'
-  | 'credentials_in_query'
-  | 'bad_database';
+  'unparseable' | 'wrong_scheme' | 'missing_host' | 'credentials_in_query' | 'bad_database';
 
 export type RedisUrlResult =
-  | { ok: true; connection: RedisConnection }
-  | { ok: false; problem: RedisUrlProblem };
+  { ok: true; connection: RedisConnection } | { ok: false; problem: RedisUrlProblem };
 
 const DEFAULT_PORT = 6379;
 const MAX_DATABASE = 15;

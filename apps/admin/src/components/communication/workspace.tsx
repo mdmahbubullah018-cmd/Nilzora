@@ -2,15 +2,7 @@
 
 import type { ChatConversationListResponse, Permission } from '@nilzora/contracts';
 import { cn } from '@nilzora/ui';
-import {
-  BarChart3,
-  Bot,
-  Flag,
-  Inbox,
-  LibraryBig,
-  UsersRound,
-  type LucideIcon,
-} from 'lucide-react';
+import { BarChart3, Bot, Flag, Inbox, LibraryBig, UsersRound, type LucideIcon } from 'lucide-react';
 import { useState } from 'react';
 import { AnalyticsPanel } from './analytics-panel';
 import { AutomationPanel } from './automation-panel';
@@ -33,7 +25,8 @@ import { useTx } from '@/lib/i18n/provider';
  * queue survive a look at the analytics.
  */
 
-export type CommunicationTab = 'inbox' | 'overview' | 'templates' | 'automation' | 'reports' | 'team';
+export type CommunicationTab =
+  'inbox' | 'overview' | 'templates' | 'automation' | 'reports' | 'team';
 
 interface TabDefinition {
   key: CommunicationTab;
@@ -44,9 +37,19 @@ interface TabDefinition {
 }
 
 const TABS: readonly TabDefinition[] = [
-  { key: 'inbox', label: 'Inbox', icon: Inbox, anyOf: ['admin_workspace.access', 'moderator_workspace.access'] },
+  {
+    key: 'inbox',
+    label: 'Inbox',
+    icon: Inbox,
+    anyOf: ['admin_workspace.access', 'moderator_workspace.access'],
+  },
   { key: 'overview', label: 'Overview', icon: BarChart3, anyOf: ['chat.analytics.read'] },
-  { key: 'templates', label: 'Messages', icon: LibraryBig, anyOf: ['admin_workspace.access', 'moderator_workspace.access'] },
+  {
+    key: 'templates',
+    label: 'Messages',
+    icon: LibraryBig,
+    anyOf: ['admin_workspace.access', 'moderator_workspace.access'],
+  },
   { key: 'automation', label: 'Automation', icon: Bot, anyOf: ['chat.automation.manage'] },
   { key: 'reports', label: 'Reports', icon: Flag, anyOf: ['chat.reports.review'] },
   { key: 'team', label: 'Team', icon: UsersRound, anyOf: ['chat.internal.use'] },
@@ -61,7 +64,10 @@ export function availableTabs(
   const order = only ?? TABS.map((tab) => tab.key);
   return order.filter((key) => {
     const tab = TABS.find((entry) => entry.key === key);
-    return tab !== undefined && (tab.anyOf.length === 0 || tab.anyOf.some((permission) => held.has(permission)));
+    return (
+      tab !== undefined &&
+      (tab.anyOf.length === 0 || tab.anyOf.some((permission) => held.has(permission)))
+    );
   });
 }
 
@@ -110,14 +116,18 @@ export function CommunicationWorkspace({
 
   if (available.length === 0) {
     return (
-      <p className="nz-panel rounded-2xl border p-6 text-sm text-muted-foreground"><AutoText>This account has no communication sections. Ask an administrator for access.</AutoText></p>
+      <p className="nz-panel rounded-2xl border p-6 text-sm text-muted-foreground">
+        <AutoText>
+          This account has no communication sections. Ask an administrator for access.
+        </AutoText>
+      </p>
     );
   }
 
   return (
     <div className="grid grid-cols-[minmax(0,1fr)] gap-4">
       <nav
-        aria-label={tx("Communication sections")}
+        aria-label={tx('Communication sections')}
         className="-mx-1 overflow-x-auto pb-0.5 [-ms-overflow-style:none] scrollbar-none [&::-webkit-scrollbar]:hidden"
       >
         <ul className="flex min-w-max items-center gap-1.5 rounded-2xl border border-border/70 bg-surface/60 p-1.5 shadow-[0_1px_2px_rgb(15_23_42/0.04)] backdrop-blur-[2px]">

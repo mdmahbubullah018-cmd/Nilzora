@@ -61,7 +61,11 @@ describe('GET /api/v1/admin/analytics/orders/geography', () => {
     expect(response.headers['cache-control']).toBe('no-store');
     const { geography } = orderGeographyResponseSchema.parse(response.body);
     expect(geography.timezone).toBe('Asia/Dhaka');
-    expect(geography.filters).toMatchObject({ from: '2026-10-19', to: '2026-10-25', metric: 'orders' });
+    expect(geography.filters).toMatchObject({
+      from: '2026-10-19',
+      to: '2026-10-25',
+      metric: 'orders',
+    });
     // The setup's three orders were all placed by the customer, in Dhaka, and none cancelled.
     expect(geography.summary).toMatchObject({
       totalOrders: 3,
@@ -311,14 +315,7 @@ describe('the geography read through the database pool', () => {
     });
 
     expect(pool.call()?.sql).toContain('public.admin_order_geography($1::date, $2::date');
-    expect(pool.call()?.values).toEqual([
-      '2026-10-19',
-      '2026-10-25',
-      null,
-      null,
-      null,
-      'orders',
-    ]);
+    expect(pool.call()?.values).toEqual(['2026-10-19', '2026-10-25', null, null, null, 'orders']);
     expect(result.generatedAt).toBe('2026-11-11T09:00:00.123Z');
     expect(result.summary.mappedOrders).toBe(3);
   });
@@ -392,7 +389,12 @@ describe('the geography read through Supabase', () => {
     expect(recorded.calls[0]).toMatchObject({
       name: 'admin_order_geography',
       token: 'the-token',
-      args: { p_from: '2026-10-19', p_to: '2026-10-25', p_division: 'Dhaka', p_metric: 'delivered' },
+      args: {
+        p_from: '2026-10-19',
+        p_to: '2026-10-25',
+        p_division: 'Dhaka',
+        p_metric: 'delivered',
+      },
     });
     expect(result.filters.metric).toBe('delivered');
   });

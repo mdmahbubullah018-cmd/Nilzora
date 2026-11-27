@@ -343,12 +343,7 @@ export function ReceiptScreen({ orderNumber }: ReceiptScreenProps) {
   }
 
   return (
-    <Screen
-      title="Receipt"
-      edges={STACK_EDGES}
-      onRefresh={onRefresh}
-      testID="receipt-scroll"
-    >
+    <Screen title="Receipt" edges={STACK_EDGES} onRefresh={onRefresh} testID="receipt-scroll">
       <QueryState query={query} skeleton={<ReceiptSkeleton />}>
         {(data) => renderReceipt(data.order)}
       </QueryState>

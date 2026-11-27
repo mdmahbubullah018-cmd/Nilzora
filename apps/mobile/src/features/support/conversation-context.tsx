@@ -71,11 +71,7 @@ export function ConversationContext({ detail }: ConversationContextProps) {
         </View>
       </View>
       {secondLine?.image ? (
-        <ProductVisual
-          size="tile"
-          imageUri={secondLine.image.thumbUrl}
-          style={styles.extraThumb}
-        />
+        <ProductVisual size="tile" imageUri={secondLine.image.thumbUrl} style={styles.extraThumb} />
       ) : null}
       {canOpen ? (
         <ChevronRight size={16} color={theme.colors.mutedForeground} accessible={false} />

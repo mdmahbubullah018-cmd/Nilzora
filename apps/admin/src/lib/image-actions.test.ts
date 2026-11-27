@@ -464,7 +464,10 @@ describe('setting the cover and dragging into a new order', () => {
 
   it.each([
     ['a missing image', `${IMAGE_A},${IMAGE_B}`],
-    ['an image that was not rendered', `${IMAGE_A},${IMAGE_B},1a000000-0000-4000-8000-0000000000ff`],
+    [
+      'an image that was not rendered',
+      `${IMAGE_A},${IMAGE_B},1a000000-0000-4000-8000-0000000000ff`,
+    ],
     ['a repeated image', `${IMAGE_A},${IMAGE_A},${IMAGE_B}`],
     ['a bad id', `${IMAGE_A},${IMAGE_B},nope`],
   ])('refuses an order with %s without calling the API', async (_name, next) => {

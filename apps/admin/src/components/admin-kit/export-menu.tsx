@@ -42,7 +42,9 @@ export function ExportMenu({ kind, filters, className }: ExportMenuProps) {
           'h-9 cursor-pointer list-none rounded-xl [&::-webkit-details-marker]:hidden',
         )}
       >
-        <Download aria-hidden="true" /><AutoText>Export</AutoText></summary>
+        <Download aria-hidden="true" />
+        <AutoText>Export</AutoText>
+      </summary>
       <div className="nz-glass absolute top-full right-0 z-30 mt-2 grid w-64 gap-0.5 rounded-xl border p-1.5">
         {FORMATS.map(({ format, label, hint, icon: Icon }) => (
           <a
@@ -59,8 +61,12 @@ export function ExportMenu({ kind, filters, className }: ExportMenuProps) {
               <Icon className="size-4" strokeWidth={1.75} />
             </span>
             <span className="grid leading-tight">
-              <span className="text-sm font-semibold text-foreground"><AutoText value={label} /></span>
-              <span className="text-xs text-muted-foreground"><AutoText value={hint} /></span>
+              <span className="text-sm font-semibold text-foreground">
+                <AutoText value={label} />
+              </span>
+              <span className="text-xs text-muted-foreground">
+                <AutoText value={hint} />
+              </span>
             </span>
           </a>
         ))}

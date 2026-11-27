@@ -660,7 +660,8 @@ export interface ApiClientOptions {
 export type ImageUpload = Blob | { uri: string; name: string; type: string };
 
 /** A downloaded file (an export or an order document). */
-export interface DownloadedFile {  bytes: Uint8Array;
+export interface DownloadedFile {
+  bytes: Uint8Array;
   /** From Content-Disposition; a fallback name when the server gave none. */
   fileName: string;
   contentType: string;
@@ -791,10 +792,7 @@ export interface ApiClient {
    * The sizes and colours the listing context is actually sold in (GET /catalog/product-facets).
    * Empty lists mean there is nothing to offer, never an error.
    */
-  productFacets(
-    query?: ProductFacetsQuery,
-    options?: CallOptions,
-  ): Promise<ProductFacetsResponse>;
+  productFacets(query?: ProductFacetsQuery, options?: CallOptions): Promise<ProductFacetsResponse>;
   /** The active shopping zones, in display order, banner already resolved (GET /catalog/shopping-zones). */
   shoppingZones(options?: CallOptions): Promise<ShoppingZonesResponse>;
   getProduct(slug: string, options?: CallOptions): Promise<ProductResponse>;
@@ -2776,7 +2774,8 @@ export interface ApiClient {
   adminSlugAvailability(
     accessToken: string,
     query: SlugAvailabilityQuery,
-    options?: CallOptions,  ): Promise<SlugAvailabilityResponse>;
+    options?: CallOptions,
+  ): Promise<SlugAvailabilityResponse>;
   /** Library pictures, newest first (settings.manage or products.update). */
   adminListMedia(
     accessToken: string,
@@ -5412,11 +5411,10 @@ export function createApiClient(options: ApiClientOptions): ApiClient {
         IMAGE_SEARCH_TIMEOUT_MS,
       ),
     recordImageSearchClick: (body, options) =>
-      request(
-        '/search/image/click',
-        z.object({ recorded: z.boolean() }),
-        { ...options, ...sendJson('POST', body) },
-      ),
+      request('/search/image/click', z.object({ recorded: z.boolean() }), {
+        ...options,
+        ...sendJson('POST', body),
+      }),
     resolveScan: (body, options) =>
       request('/scan/resolve', scanResolveResponseSchema, {
         ...options,

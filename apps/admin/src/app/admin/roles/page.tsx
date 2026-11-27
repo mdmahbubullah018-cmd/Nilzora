@@ -44,7 +44,9 @@ export default async function RolesPage() {
           href={STAFF_PATH}
           className="inline-flex h-9 items-center gap-2 rounded-xl border border-border-strong bg-surface px-3 text-sm font-semibold text-foreground hover:bg-surface-muted"
         >
-          <Users aria-hidden="true" className="size-4" /><AutoText>Team members</AutoText></Link>
+          <Users aria-hidden="true" className="size-4" />
+          <AutoText>Team members</AutoText>
+        </Link>
       }
     />
   );
@@ -71,7 +73,11 @@ export default async function RolesPage() {
           <RolesMatrix roles={result.value.roles} />
         ) : (
           <Card className="nz-panel rounded-2xl">
-            <ReadState failure={result.kind} retryHref={ROLES_PATH} permission="staff.permissions.manage" />
+            <ReadState
+              failure={result.kind}
+              retryHref={ROLES_PATH}
+              permission="staff.permissions.manage"
+            />
           </Card>
         )}
       </div>

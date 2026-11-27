@@ -57,8 +57,12 @@ function Toggle({
         className="mt-0.5 size-5 accent-primary-action"
       />
       <span className="grid gap-0.5">
-        <span className="font-semibold text-foreground"><AutoText value={label} /></span>
-        <span className="text-xs text-muted-foreground"><AutoText value={description} /></span>
+        <span className="font-semibold text-foreground">
+          <AutoText value={label} />
+        </span>
+        <span className="text-xs text-muted-foreground">
+          <AutoText value={description} />
+        </span>
       </span>
     </label>
   );
@@ -97,10 +101,12 @@ export function OperationsForm({ config, csrf }: OperationsFormProps) {
   const confirmNeeded = needsLiveConfirmation(saved, { mode, bookingEnabled });
 
   return (
-    <form action={action} className="grid gap-5" aria-label={tx("Courier operations")}>
+    <form action={action} className="grid gap-5" aria-label={tx('Courier operations')}>
       <CsrfField csrf={csrf} />
       <fieldset className="grid gap-2">
-        <legend className="mb-1 text-sm font-semibold text-foreground"><AutoText>Operating mode</AutoText></legend>
+        <legend className="mb-1 text-sm font-semibold text-foreground">
+          <AutoText>Operating mode</AutoText>
+        </legend>
         <div className="grid gap-2 md:grid-cols-3">
           {MODE_CHOICES.map((choice) => {
             const refused = choice.value === 'mock' && !config.mockAllowed;
@@ -127,7 +133,9 @@ export function OperationsForm({ config, csrf }: OperationsFormProps) {
                   className="mt-0.5 size-4 accent-primary-action"
                 />
                 <span className="grid gap-1">
-                  <span className="font-semibold text-foreground"><AutoText value={choice.label} /></span>
+                  <span className="font-semibold text-foreground">
+                    <AutoText value={choice.label} />
+                  </span>
                   <span id={descriptionId} className="text-xs text-muted-foreground">
                     {refused ? MOCK_REFUSED_REASON : choice.description}
                   </span>
@@ -148,7 +156,7 @@ export function OperationsForm({ config, csrf }: OperationsFormProps) {
           name="bookingEnabled"
           checked={bookingEnabled}
           onChange={setBookingEnabled}
-          label={tx("Real bookings")}
+          label={tx('Real bookings')}
           description={
             mode === 'live'
               ? 'Lets staff book real parcels through verified courier APIs. Off: compare only, and record portal bookings by hand.'
@@ -159,16 +167,18 @@ export function OperationsForm({ config, csrf }: OperationsFormProps) {
           name="trackingSyncEnabled"
           checked={trackingSync}
           onChange={setTrackingSync}
-          label={tx("Automatic tracking sync")}
-          description={tx("Asks the couriers for status updates on open shipments at the interval below.")}
+          label={tx('Automatic tracking sync')}
+          description={tx(
+            'Asks the couriers for status updates on open shipments at the interval below.',
+          )}
         />
       </div>
 
       <div className="grid gap-3 sm:grid-cols-2">
         <Field
           id="tracking-interval"
-          label={tx("Tracking sync interval (minutes)")}
-          hint={tx("1 to 1,440 minutes.")}
+          label={tx('Tracking sync interval (minutes)')}
+          hint={tx('1 to 1,440 minutes.')}
           error={state.fieldErrors?.trackingSyncMinutes}
           required
         >
@@ -188,8 +198,10 @@ export function OperationsForm({ config, csrf }: OperationsFormProps) {
         </Field>
         <Field
           id="request-timeout"
-          label={tx("Courier request timeout (seconds)")}
-          hint={tx("1 to 60 seconds. A booking without an answer in time is marked uncertain, never retried.")}
+          label={tx('Courier request timeout (seconds)')}
+          hint={tx(
+            '1 to 60 seconds. A booking without an answer in time is marked uncertain, never retried.',
+          )}
           error={state.fieldErrors?.timeoutSeconds}
           required
         >
@@ -211,11 +223,13 @@ export function OperationsForm({ config, csrf }: OperationsFormProps) {
       {confirmNeeded ? (
         <>
           <Button type="button" className="w-fit" onClick={() => setOpen(true)}>
-            <ShieldAlert aria-hidden="true" /><AutoText>Save and turn on live couriers…</AutoText></Button>
+            <ShieldAlert aria-hidden="true" />
+            <AutoText>Save and turn on live couriers…</AutoText>
+          </Button>
           <Dialog
             open={open}
             onOpenChange={setOpen}
-            title={tx("Turn on live couriers?")}
+            title={tx('Turn on live couriers?')}
             description={
               mode === 'live' && saved.mode !== 'live'
                 ? 'Nilzora will call the real courier APIs for every verified, enabled courier.'
@@ -230,8 +244,10 @@ export function OperationsForm({ config, csrf }: OperationsFormProps) {
                 label={
                   <>
                     Type{' '}
-                    <span className="font-mono font-semibold"><AutoText value={COURIER_LIVE_CONFIRMATION} /></span> to
-                    confirm
+                    <span className="font-mono font-semibold">
+                      <AutoText value={COURIER_LIVE_CONFIRMATION} />
+                    </span>{' '}
+                    to confirm
                   </>
                 }
                 error={state.fieldErrors?.confirmation}
@@ -253,20 +269,26 @@ export function OperationsForm({ config, csrf }: OperationsFormProps) {
                 <ActionFeedback state={state} inline />
               ) : null}
               <div className="flex flex-wrap justify-end gap-2">
-                <Button type="button" variant="ghost" size="sm" onClick={() => setOpen(false)}><AutoText>Keep it off</AutoText></Button>
+                <Button type="button" variant="ghost" size="sm" onClick={() => setOpen(false)}>
+                  <AutoText>Keep it off</AutoText>
+                </Button>
                 <SubmitButton
                   size="sm"
                   variant="danger"
                   disabled={typed.trim() !== COURIER_LIVE_CONFIRMATION}
                   pendingLabel="Saving…"
-                ><AutoText>Turn on live couriers</AutoText></SubmitButton>
+                >
+                  <AutoText>Turn on live couriers</AutoText>
+                </SubmitButton>
               </div>
             </div>
           </Dialog>
         </>
       ) : (
         <SubmitButton className="w-fit" pendingLabel="Saving…">
-          <Save aria-hidden="true" /><AutoText>Save operations</AutoText></SubmitButton>
+          <Save aria-hidden="true" />
+          <AutoText>Save operations</AutoText>
+        </SubmitButton>
       )}
       <ActionFeedback state={state} />
     </form>

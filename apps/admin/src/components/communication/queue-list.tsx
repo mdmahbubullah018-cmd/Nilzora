@@ -25,7 +25,14 @@ import {
 import { useEffect, useState } from 'react';
 import { Chip } from '@/components/admin-kit/chip';
 import { apiGet } from './client';
-import { chatAvatar, chatColumn, chatField, chatSegment, chatSegmented, chatSelect } from './chat-style';
+import {
+  chatAvatar,
+  chatColumn,
+  chatField,
+  chatSegment,
+  chatSegmented,
+  chatSelect,
+} from './chat-style';
 import {
   awaitingReply,
   customerLabel,
@@ -135,13 +142,13 @@ export function QueueList({
   }, [mode, text]);
 
   const filtered =
-    filters.status !== '' || filters.priority !== '' || filters.search !== '' || filters.scope !== 'all';
+    filters.status !== '' ||
+    filters.priority !== '' ||
+    filters.search !== '' ||
+    filters.scope !== 'all';
 
   return (
-    <section
-      aria-label={tx("Conversations")}
-      className={cn(chatColumn, className)}
-    >
+    <section aria-label={tx('Conversations')} className={cn(chatColumn, className)}>
       <div className="grid gap-3 border-b border-border/70 bg-surface/55 p-3 backdrop-blur-[2px]">
         <div className="flex items-center gap-2">
           <label className="relative min-w-0 flex-1">
@@ -164,7 +171,7 @@ export function QueueList({
             {text === '' ? null : (
               <button
                 type="button"
-                aria-label={tx("Clear the search")}
+                aria-label={tx('Clear the search')}
                 onClick={() => setText('')}
                 className="absolute top-1/2 right-1.5 grid size-6 -translate-y-1/2 place-items-center rounded-md text-muted-foreground transition-colors hover:bg-surface-muted hover:text-foreground"
               >
@@ -179,7 +186,7 @@ export function QueueList({
               setMode((value) => (value === 'threads' ? 'messages' : 'threads'));
               setHits(null);
             }}
-            title={tx("Search inside what was said")}
+            title={tx('Search inside what was said')}
             className={cn(
               'inline-flex h-9 shrink-0 items-center gap-1.5 rounded-lg border px-2.5 text-xs font-medium transition',
               mode === 'messages'
@@ -188,7 +195,9 @@ export function QueueList({
             )}
           >
             <MessageSquareText aria-hidden className="size-3.5" />
-            <span className="hidden sm:inline"><AutoText>Messages</AutoText></span>
+            <span className="hidden sm:inline">
+              <AutoText>Messages</AutoText>
+            </span>
           </button>
         </div>
 
@@ -196,7 +205,7 @@ export function QueueList({
           <>
             <div
               role="group"
-              aria-label={tx("Which conversations")}
+              aria-label={tx('Which conversations')}
               className={cn(chatSegmented, 'grid grid-cols-3')}
             >
               {SCOPES.map((option) => (
@@ -213,14 +222,16 @@ export function QueueList({
             </div>
             <div className="grid grid-cols-2 gap-1.5">
               <select
-                aria-label={tx("Status")}
+                aria-label={tx('Status')}
                 value={filters.status}
                 onChange={(event) =>
                   onFilters({ status: event.target.value as ChatConversationStatus | '' })
                 }
                 className={selectClass}
               >
-                <option value=""><AutoText>Any status</AutoText></option>
+                <option value="">
+                  <AutoText>Any status</AutoText>
+                </option>
                 {CHAT_CONVERSATION_STATUSES.map((value) => (
                   <option key={value} value={value}>
                     {STATUS_LABEL[value]}
@@ -228,14 +239,16 @@ export function QueueList({
                 ))}
               </select>
               <select
-                aria-label={tx("Priority")}
+                aria-label={tx('Priority')}
                 value={filters.priority}
                 onChange={(event) =>
                   onFilters({ priority: event.target.value as ChatPriority | '' })
                 }
                 className={selectClass}
               >
-                <option value=""><AutoText>Any priority</AutoText></option>
+                <option value="">
+                  <AutoText>Any priority</AutoText>
+                </option>
                 {[...CHAT_PRIORITIES].reverse().map((value) => (
                   <option key={value} value={value}>
                     {PRIORITY_LABEL[value]}
@@ -243,7 +256,7 @@ export function QueueList({
                 ))}
               </select>
               <select
-                aria-label={tx("Sort")}
+                aria-label={tx('Sort')}
                 value={filters.sort}
                 onChange={(event) => onFilters({ sort: event.target.value as ChatQueueSort })}
                 className={cn(selectClass, 'col-span-2')}
@@ -281,10 +294,15 @@ export function QueueList({
               onClick={onRetry}
               className="inline-flex h-8 items-center gap-1.5 rounded-lg border border-border px-3 text-xs font-medium text-foreground hover:bg-surface-muted"
             >
-              <RefreshCw aria-hidden className="size-3.5" /><AutoText>Try again</AutoText></button>
+              <RefreshCw aria-hidden className="size-3.5" />
+              <AutoText>Try again</AutoText>
+            </button>
           </div>
         ) : state === 'loading' && conversations.length === 0 ? (
-          <ul aria-label={tx("Loading conversations")} className="grid grid-cols-[minmax(0,1fr)] gap-0">
+          <ul
+            aria-label={tx('Loading conversations')}
+            className="grid grid-cols-[minmax(0,1fr)] gap-0"
+          >
             {[0, 1, 2, 3, 4].map((row) => (
               <li key={row} className="flex gap-3 border-b border-border/60 px-3 py-3.5">
                 <span className="nz-shimmer size-9 shrink-0 rounded-full bg-surface-muted ring-1 ring-border/40" />
@@ -316,7 +334,9 @@ export function QueueList({
                   onFilters({ scope: 'all', status: '', priority: '', search: '' });
                 }}
                 className="mt-1 inline-flex h-8 items-center rounded-lg border border-border px-3 text-xs font-semibold text-foreground transition-colors hover:bg-surface-muted"
-              ><AutoText>Clear filters</AutoText></button>
+              >
+                <AutoText>Clear filters</AutoText>
+              </button>
             ) : null}
           </div>
         ) : (
@@ -324,7 +344,10 @@ export function QueueList({
             <p className="flex items-center gap-2 border-b border-border/60 px-3 py-2 text-[11px] font-semibold tracking-wide text-muted-foreground uppercase">
               {total} conversation{total === 1 ? '' : 's'}
               {state === 'loading' ? (
-                <LoaderCircle aria-label={tx("Refreshing")} className="size-3 motion-safe:animate-spin" />
+                <LoaderCircle
+                  aria-label={tx('Refreshing')}
+                  className="size-3 motion-safe:animate-spin"
+                />
               ) : null}
             </p>
             <ul className="grid grid-cols-[minmax(0,1fr)]">
@@ -347,7 +370,9 @@ export function QueueList({
                   onClick={onLoadMore}
                   className="inline-flex h-9 w-full items-center justify-center gap-2 rounded-lg border border-border text-xs font-medium text-foreground hover:bg-surface-muted disabled:opacity-60"
                 >
-                  {loadingMore ? <LoaderCircle aria-hidden className="size-3.5 motion-safe:animate-spin" /> : null}
+                  {loadingMore ? (
+                    <LoaderCircle aria-hidden className="size-3.5 motion-safe:animate-spin" />
+                  ) : null}
                   {loadingMore ? 'Loading…' : 'Load more conversations'}
                 </button>
               </div>
@@ -392,7 +417,13 @@ function QueueRow({
           active ? 'opacity-100' : 'opacity-0 group-hover/row:opacity-30',
         )}
       />
-      <span aria-hidden className={cn(chatAvatar(item.kind === 'moderation'), 'shadow-[inset_0_1px_0_rgb(255_255_255/0.6)]')}>
+      <span
+        aria-hidden
+        className={cn(
+          chatAvatar(item.kind === 'moderation'),
+          'shadow-[inset_0_1px_0_rgb(255_255_255/0.6)]',
+        )}
+      >
         {initialsOf(name)}
       </span>
       <span className="grid min-w-0 flex-1 grid-cols-[minmax(0,1fr)] gap-0.5">
@@ -404,7 +435,10 @@ function QueueRow({
             )}
           >
             {unread ? (
-              <span aria-hidden className="mr-1.5 inline-block size-1.5 -translate-y-px rounded-full bg-info-ink align-middle" />
+              <span
+                aria-hidden
+                className="mr-1.5 inline-block size-1.5 -translate-y-px rounded-full bg-info-ink align-middle"
+              />
             ) : null}
             {name}
           </span>
@@ -423,7 +457,9 @@ function QueueRow({
           {KindIcon === null ? null : (
             <KindIcon aria-hidden className="size-3 shrink-0 text-muted-foreground" />
           )}
-          <span className="min-w-0 truncate"><AutoText value={item.subject} /></span>
+          <span className="min-w-0 truncate">
+            <AutoText value={item.subject} />
+          </span>
         </span>
         <span className="flex min-w-0 items-center gap-2">
           <span className="min-w-0 flex-1 truncate text-xs text-muted-foreground">
@@ -447,10 +483,16 @@ function QueueRow({
           ) : null}
           {waiting ? (
             <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-warning-ink">
-              <span aria-hidden className="size-1.5 rounded-full bg-warning" /><AutoText>Awaiting reply</AutoText></span>
+              <span aria-hidden className="size-1.5 rounded-full bg-warning" />
+              <AutoText>Awaiting reply</AutoText>
+            </span>
           ) : null}
           <span className="ml-auto truncate text-[10px] text-muted-foreground">
-            {item.assigneeId === null ? 'Unassigned' : mine ? 'You' : (item.assigneeName ?? 'Teammate')}
+            {item.assigneeId === null
+              ? 'Unassigned'
+              : mine
+                ? 'You'
+                : (item.assigneeName ?? 'Teammate')}
           </span>
         </span>
       </span>
@@ -471,18 +513,24 @@ function MessageHits({
 }) {
   if (query.length < 2) {
     return (
-      <p className="px-4 py-8 text-center text-xs text-muted-foreground"><AutoText>Type at least two letters to search what customers and the team wrote.</AutoText></p>
+      <p className="px-4 py-8 text-center text-xs text-muted-foreground">
+        <AutoText>Type at least two letters to search what customers and the team wrote.</AutoText>
+      </p>
     );
   }
   if (state === 'loading' && hits === null) {
     return (
       <p className="flex items-center justify-center gap-2 px-4 py-8 text-xs text-muted-foreground">
-        <LoaderCircle aria-hidden className="size-3.5 motion-safe:animate-spin" /><AutoText>Searching…</AutoText></p>
+        <LoaderCircle aria-hidden className="size-3.5 motion-safe:animate-spin" />
+        <AutoText>Searching…</AutoText>
+      </p>
     );
   }
   if (state === 'error') {
     return (
-      <p className="px-4 py-8 text-center text-xs text-danger-ink"><AutoText>The search could not be completed. Try again in a moment.</AutoText></p>
+      <p className="px-4 py-8 text-center text-xs text-danger-ink">
+        <AutoText>The search could not be completed. Try again in a moment.</AutoText>
+      </p>
     );
   }
   if (hits === null || hits.length === 0) {

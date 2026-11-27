@@ -64,11 +64,7 @@ const REFUSALS: Record<CommerceRefusal, [number, ApiErrorCode, string]> = {
   ],
   coupon_invalid: [400, 'coupon_invalid', 'This coupon code is not valid'],
   coupon_unavailable: [409, 'coupon_unavailable', 'This coupon cannot be used right now'],
-  coupon_min_order: [
-    409,
-    'coupon_min_order',
-    'Your cart is below the minimum this coupon needs',
-  ],
+  coupon_min_order: [409, 'coupon_min_order', 'Your cart is below the minimum this coupon needs'],
   coupon_exhausted: [409, 'coupon_exhausted', 'This coupon has no uses left'],
   voucher_unavailable: [
     409,
@@ -94,7 +90,11 @@ const REFUSALS: Record<CommerceRefusal, [number, ApiErrorCode, string]> = {
     'refund_exceeds_balance',
     'The amount is more than this order can still refund',
   ],
-  refund_not_decidable: [409, 'refund_not_decidable', 'This refund is no longer waiting for a decision'],
+  refund_not_decidable: [
+    409,
+    'refund_not_decidable',
+    'This refund is no longer waiting for a decision',
+  ],
   refund_not_completable: [
     409,
     'refund_not_completable',

@@ -34,9 +34,7 @@ export async function loadCampaignTargets(): Promise<AdminRead<CampaignTargets>>
       const response = await api.adminListCategories(token);
       return response.categories;
     }),
-    adminRead((api, token) =>
-      api.adminListBrands(token).then((response) => response.brands),
-    ),
+    adminRead((api, token) => api.adminListBrands(token).then((response) => response.brands)),
     adminRead((api, token) =>
       api.adminListProducts(token, { page: 1, pageSize: PICKER_PRODUCT_LIMIT }),
     ),

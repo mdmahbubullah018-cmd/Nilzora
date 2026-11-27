@@ -236,8 +236,7 @@ export function useShopFilters(): ShopFilterControls {
         min: next.minTaka === undefined ? undefined : String(next.minTaka),
         max: next.maxTaka === undefined ? undefined : String(next.maxTaka),
         stock: next.inStock === true ? 'in' : undefined,
-        size:
-          next.sizes !== undefined && next.sizes.length > 0 ? next.sizes.join(',') : undefined,
+        size: next.sizes !== undefined && next.sizes.length > 0 ? next.sizes.join(',') : undefined,
         color:
           next.colors !== undefined && next.colors.length > 0 ? next.colors.join(',') : undefined,
       });

@@ -84,7 +84,7 @@ export function PortalBookingForm({
       {mine ? <BookingOutcomeNotice state={state} canOpenShipment={canOpenShipment} /> : null}
 
       <div className="grid gap-3 sm:grid-cols-2">
-        <Field id={id('provider')} label={tx("Courier")} error={errors?.provider} required>
+        <Field id={id('provider')} label={tx('Courier')} error={errors?.provider} required>
           {(control) => (
             <NativeSelect
               {...control}
@@ -101,7 +101,7 @@ export function PortalBookingForm({
             </NativeSelect>
           )}
         </Field>
-        <Field id={id('weight')} label={tx("Parcel weight (kg)")} error={errors?.weight} required>
+        <Field id={id('weight')} label={tx('Parcel weight (kg)')} error={errors?.weight} required>
           {(control) => (
             <Input
               {...control}
@@ -116,8 +116,8 @@ export function PortalBookingForm({
         </Field>
         <Field
           id={id('consignment')}
-          label={tx("Consignment id")}
-          hint={tx("Exactly as the courier portal shows it.")}
+          label={tx('Consignment id')}
+          hint={tx('Exactly as the courier portal shows it.')}
           error={errors?.consignmentId}
           required
         >
@@ -133,8 +133,8 @@ export function PortalBookingForm({
         </Field>
         <Field
           id={id('tracking')}
-          label={tx("Tracking code")}
-          hint={tx("Optional")}
+          label={tx('Tracking code')}
+          hint={tx('Optional')}
           error={errors?.trackingCode}
         >
           {(control) => (
@@ -149,8 +149,10 @@ export function PortalBookingForm({
         </Field>
         <Field
           id={id('charge')}
-          label={tx("Courier charge (৳)")}
-          hint={tx("What the portal quoted Nilzora. Optional; the customer’s shipping charge is unchanged.")}
+          label={tx('Courier charge (৳)')}
+          hint={tx(
+            'What the portal quoted Nilzora. Optional; the customer’s shipping charge is unchanged.',
+          )}
           error={errors?.charge}
         >
           {(control) => (
@@ -170,7 +172,7 @@ export function PortalBookingForm({
         <Field
           id={id('reason')}
           label={`Why ${providerName(provider)} instead of ${providerName(recommendedProvider)}?`}
-          hint={tx("Required when you do not take the recommendation.")}
+          hint={tx('Required when you do not take the recommendation.')}
           error={errors?.selectionReason}
           required
         >
@@ -189,8 +191,10 @@ export function PortalBookingForm({
       ) : null}
       <Field
         id={id('note')}
-        label={tx("Where and how it was booked")}
-        hint={tx("5 to 300 characters, e.g. “Booked in the Pathao merchant portal by Rafi at 3 pm”.")}
+        label={tx('Where and how it was booked')}
+        hint={tx(
+          '5 to 300 characters, e.g. “Booked in the Pathao merchant portal by Rafi at 3 pm”.',
+        )}
         error={errors?.note}
         required
       >
@@ -208,7 +212,9 @@ export function PortalBookingForm({
       {mine && state.status === 'error' ? <ActionFeedback state={state} inline /> : null}
       {recorded ? null : (
         <SubmitButton className="w-fit" pendingLabel="Recording…">
-          <ClipboardCheck aria-hidden="true" /><AutoText>Record portal booking</AutoText></SubmitButton>
+          <ClipboardCheck aria-hidden="true" />
+          <AutoText>Record portal booking</AutoText>
+        </SubmitButton>
       )}
     </form>
   );

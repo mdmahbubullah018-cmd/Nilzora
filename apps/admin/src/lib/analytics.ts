@@ -87,7 +87,11 @@ export function bucketOverview(
       return day ? [day] : [];
     });
     const label =
-      size === 'day' ? formatDay(first) : size === 'week' ? formatDay(first) : monthShort.format(monthOf(first));
+      size === 'day'
+        ? formatDay(first)
+        : size === 'week'
+          ? formatDay(first)
+          : monthShort.format(monthOf(first));
     const detail =
       size === 'day'
         ? formatDayLong(first)

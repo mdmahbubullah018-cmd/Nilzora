@@ -3,7 +3,12 @@ import { Button, cn, NativeSelect } from '@nilzora/ui';
 import type { Route } from 'next';
 import Link from 'next/link';
 import { CleanGetForm } from './clean-get-form';
-import { categoryHref, hasActiveFilters, listingHref, type ListingFilters } from '@/lib/catalog-query';
+import {
+  categoryHref,
+  hasActiveFilters,
+  listingHref,
+  type ListingFilters,
+} from '@/lib/catalog-query';
 
 const counts = new Intl.NumberFormat('en-IN');
 

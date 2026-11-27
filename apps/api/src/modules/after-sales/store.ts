@@ -268,7 +268,9 @@ function afterSalesOver(rawRpcFor: (accessToken: string, userId: string) => Rpc)
       if (data === null) return null;
       // The admin answer names the order inside `order`; the summary fields want it on top.
       const detail = data as { order?: { number?: unknown } };
-      return returnDetailSchema.parse(withItemCount({ orderNumber: detail.order?.number, ...detail }));
+      return returnDetailSchema.parse(
+        withItemCount({ orderNumber: detail.order?.number, ...detail }),
+      );
     },
 
     async decideReturn(accessToken, userId, returnId, status, note) {

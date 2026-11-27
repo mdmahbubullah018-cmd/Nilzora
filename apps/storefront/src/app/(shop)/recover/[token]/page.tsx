@@ -11,7 +11,10 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
-const tokenSchema = z.string().trim().regex(/^[0-9a-f]{64}$/i);
+const tokenSchema = z
+  .string()
+  .trim()
+  .regex(/^[0-9a-f]{64}$/i);
 
 const REASONS: Record<string, string> = {
   not_found: 'This link is not one Nilzora issued.',
@@ -28,11 +31,7 @@ const REASONS: Record<string, string> = {
  * visitor who is not signed in signs in first. What the link reveals is a count and a value —
  * never a name, a phone number or a product list.
  */
-export default async function RecoverCartPage({
-  params,
-}: {
-  params: Promise<{ token: string }>;
-}) {
+export default async function RecoverCartPage({ params }: { params: Promise<{ token: string }> }) {
   const { token } = await params;
   if (!tokenSchema.safeParse(token).success) {
     return (

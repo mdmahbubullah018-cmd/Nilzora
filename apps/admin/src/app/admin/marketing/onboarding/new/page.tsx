@@ -51,7 +51,9 @@ export default async function NewOnboardingCampaignPage() {
             <Link
               href="/admin/marketing/onboarding"
               className={buttonClasses({ variant: 'ghost', size: 'sm' })}
-            ><AutoText>Back to onboarding</AutoText></Link>
+            >
+              <AutoText>Back to onboarding</AutoText>
+            </Link>
           }
         />
         <CampaignForm csrf={csrf} />
@@ -60,8 +62,8 @@ export default async function NewOnboardingCampaignPage() {
           description="Add slides after saving: they belong to a campaign, so the campaign must exist first."
         >
           <p className="text-sm text-muted-foreground">
-            A campaign with no enabled slide cannot be activated, and nothing is shown to a
-            customer until it is active.
+            A campaign with no enabled slide cannot be activated, and nothing is shown to a customer
+            until it is active.
           </p>
         </SectionCard>
       </div>

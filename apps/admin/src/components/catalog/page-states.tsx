@@ -68,5 +68,9 @@ export function PageForbidden({
 /** The confirmation after a change (from the `?notice=` the action redirected with). */
 export function SuccessNotice({ children }: { children: ReactNode }) {
   if (!children) return null;
-  return <Alert tone="success"><AutoText value={children} /></Alert>;
+  return (
+    <Alert tone="success">
+      <AutoText value={children} />
+    </Alert>
+  );
 }

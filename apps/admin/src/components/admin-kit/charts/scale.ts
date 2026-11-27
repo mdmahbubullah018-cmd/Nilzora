@@ -24,7 +24,9 @@ function niceStep(rough: number, integer: boolean): number {
   const candidates = STEP_FACTORS.map((factor) => Number((factor * power).toPrecision(12))).filter(
     (step) => !integer || (Number.isInteger(step) && step >= 1),
   );
-  return candidates.find((candidate) => candidate >= rough) ?? Math.max(integer ? 1 : 0, 10 * power);
+  return (
+    candidates.find((candidate) => candidate >= rough) ?? Math.max(integer ? 1 : 0, 10 * power)
+  );
 }
 
 function ticksOf(step: number, steps: number): number[] {
@@ -35,7 +37,11 @@ function ticksOf(step: number, steps: number): number[] {
  * A 0-based axis with about `tickCount` intervals at round steps (1, 2, 2.5 or 5 times
  * a power of ten). An all-zero series still gets a visible axis (0 to 1).
  */
-export function niceScale(maxValue: number, tickCount = 4, options: ScaleOptions = {}): LinearScale {
+export function niceScale(
+  maxValue: number,
+  tickCount = 4,
+  options: ScaleOptions = {},
+): LinearScale {
   const intervals = Math.max(1, Math.round(tickCount));
   if (!Number.isFinite(maxValue) || maxValue <= 0) {
     if (options.integer) return { max: 1, ticks: [0, 1] };
@@ -50,7 +56,11 @@ export function niceScale(maxValue: number, tickCount = 4, options: ScaleOptions
  * An axis with exactly `intervals` round steps, for a second axis whose ticks must sit
  * on the first axis's gridlines (so a dual-axis chart draws one set of gridlines).
  */
-export function alignedScale(maxValue: number, intervals: number, options: ScaleOptions = {}): LinearScale {
+export function alignedScale(
+  maxValue: number,
+  intervals: number,
+  options: ScaleOptions = {},
+): LinearScale {
   const count = Math.max(1, Math.round(intervals));
   const integer = options.integer ?? false;
   if (!Number.isFinite(maxValue) || maxValue <= 0) {
@@ -123,11 +133,13 @@ function monotoneTangents(points: readonly Point[]): number[] {
     const h0 = (points[i]?.[0] ?? 0) - (points[i - 1]?.[0] ?? 0);
     const h1 = (points[i + 1]?.[0] ?? 0) - (points[i]?.[0] ?? 0);
     const p = h0 + h1 === 0 ? 0 : (s0 * h1 + s1 * h0) / (h0 + h1);
-    return (Math.sign(s0) + Math.sign(s1)) * Math.min(Math.abs(s0), Math.abs(s1), 0.5 * Math.abs(p)) || 0;
+    return (
+      (Math.sign(s0) + Math.sign(s1)) * Math.min(Math.abs(s0), Math.abs(s1), 0.5 * Math.abs(p)) || 0
+    );
   });
   const last = points.length - 1;
-  inner[0] = ((3 * (secants[0] ?? 0) - (inner[1] ?? 0)) / 2) || 0;
-  inner[last] = ((3 * (secants[last - 1] ?? 0) - (inner[last - 1] ?? 0)) / 2) || 0;
+  inner[0] = (3 * (secants[0] ?? 0) - (inner[1] ?? 0)) / 2 || 0;
+  inner[last] = (3 * (secants[last - 1] ?? 0) - (inner[last - 1] ?? 0)) / 2 || 0;
   return inner;
 }
 

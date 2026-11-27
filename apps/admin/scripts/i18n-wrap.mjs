@@ -151,7 +151,11 @@ for (const file of walk(src)) {
   const original = readFileSync(file, 'utf8');
   if (only !== undefined && !file.includes(only)) continue;
   // The translator itself must never be rewritten to call itself.
-  if (file.includes(`${join('src', 'lib', 'i18n')}`) || file.includes(`${join('src', 'components', 'i18n')}`)) continue;
+  if (
+    file.includes(`${join('src', 'lib', 'i18n')}`) ||
+    file.includes(`${join('src', 'components', 'i18n')}`)
+  )
+    continue;
   let code = original;
   let wrapped = 0;
 
@@ -182,7 +186,6 @@ for (const file of walk(src)) {
     }
     continue;
   }
-
 
   const matches = [...code.matchAll(/>([^<>{}]+)</g)].reverse();
   const opaque = opaqueMask(code);

@@ -21,9 +21,12 @@ describe('HomeHeader', () => {
   });
 
   it('puts the cart in the header, with the units it holds, and opens the cart', async () => {
-    const { user } = await renderWithProviders(<HomeHeader onSearch={jest.fn()} onPhotoSearch={jest.fn()} />, {
-      cart: [{ productId: PRODUCT_A, quantity: 2 }],
-    });
+    const { user } = await renderWithProviders(
+      <HomeHeader onSearch={jest.fn()} onPhotoSearch={jest.fn()} />,
+      {
+        cart: [{ productId: PRODUCT_A, quantity: 2 }],
+      },
+    );
 
     await user.press(screen.getByRole('button', { name: 'Cart, 2 items' }));
 

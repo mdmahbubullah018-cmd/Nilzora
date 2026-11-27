@@ -99,7 +99,9 @@ export function ComboChart({
   const lineTone = lineSeries.tone ?? 'violet';
   const count = data.length;
 
-  const hasPrevious = data.some((point) => finite(point.previousArea) || finite(point.previousLine));
+  const hasPrevious = data.some(
+    (point) => finite(point.previousArea) || finite(point.previousLine),
+  );
   const left = niceScale(
     Math.max(0, ...data.flatMap((point) => [point.area, point.previousArea ?? 0])),
   );
@@ -110,13 +112,21 @@ export function ComboChart({
   );
 
   const x = (index: number) => bandCenter(index, count);
-  const areaPoints = data.map((point, index) => [x(index), 100 - heightPercent(point.area, left.max)] as const);
-  const linePoints = data.map((point, index) => [x(index), 100 - heightPercent(point.line, right.max)] as const);
+  const areaPoints = data.map(
+    (point, index) => [x(index), 100 - heightPercent(point.area, left.max)] as const,
+  );
+  const linePoints = data.map(
+    (point, index) => [x(index), 100 - heightPercent(point.line, right.max)] as const,
+  );
   const previousArea = data.flatMap((point, index) =>
-    finite(point.previousArea) ? [[x(index), 100 - heightPercent(point.previousArea, left.max)] as const] : [],
+    finite(point.previousArea)
+      ? [[x(index), 100 - heightPercent(point.previousArea, left.max)] as const]
+      : [],
   );
   const previousLine = data.flatMap((point, index) =>
-    finite(point.previousLine) ? [[x(index), 100 - heightPercent(point.previousLine, right.max)] as const] : [],
+    finite(point.previousLine)
+      ? [[x(index), 100 - heightPercent(point.previousLine, right.max)] as const]
+      : [],
   );
 
   const stroke = {
@@ -131,7 +141,15 @@ export function ComboChart({
     { key: 'area', label: areaSeries.label, tone: areaTone, mark: 'square', note: 'left axis' },
     { key: 'line', label: lineSeries.label, tone: lineTone, mark: 'point', note: 'right axis' },
     ...(hasPrevious
-      ? [{ key: 'previous', label: previousLabel, tone: 'neutral' as const, mark: 'dashed' as const, note: 'dashed' }]
+      ? [
+          {
+            key: 'previous',
+            label: previousLabel,
+            tone: 'neutral' as const,
+            mark: 'dashed' as const,
+            note: 'dashed',
+          },
+        ]
       : []),
   ];
 
@@ -139,7 +157,9 @@ export function ComboChart({
     bandLabel,
     areaSeries.label,
     lineSeries.label,
-    ...(hasPrevious ? [`${areaSeries.label}, ${previousLabel}`, `${lineSeries.label}, ${previousLabel}`] : []),
+    ...(hasPrevious
+      ? [`${areaSeries.label}, ${previousLabel}`, `${lineSeries.label}, ${previousLabel}`]
+      : []),
   ];
 
   return (
@@ -167,12 +187,24 @@ export function ComboChart({
                   <path d={smoothAreaPath(areaPoints)} fill={`url(#${gradientId})`} />
                   <path d={smoothLinePath(areaPoints)} {...stroke} strokeWidth={2} />
                   {previousArea.length > 1 ? (
-                    <path d={smoothLinePath(previousArea)} {...stroke} strokeWidth={1.5} strokeDasharray="4 4" opacity={0.55} />
+                    <path
+                      d={smoothLinePath(previousArea)}
+                      {...stroke}
+                      strokeWidth={1.5}
+                      strokeDasharray="4 4"
+                      opacity={0.55}
+                    />
                   ) : null}
                 </g>
                 <g className={CHART_TONES[lineTone].text}>
                   {previousLine.length > 1 ? (
-                    <path d={smoothLinePath(previousLine)} {...stroke} strokeWidth={1.5} strokeDasharray="4 4" opacity={0.55} />
+                    <path
+                      d={smoothLinePath(previousLine)}
+                      {...stroke}
+                      strokeWidth={1.5}
+                      strokeDasharray="4 4"
+                      opacity={0.55}
+                    />
                   ) : null}
                   <path d={smoothLinePath(linePoints)} {...stroke} strokeWidth={2} />
                 </g>
@@ -214,8 +246,18 @@ export function ComboChart({
           return (
             <>
               <span className="text-muted-foreground">{point.detail ?? point.label}</span>
-              <TooltipRow tone={areaTone} mark="square" label={areaSeries.label} value={formatArea(point.area)} />
-              <TooltipRow tone={lineTone} mark="point" label={lineSeries.label} value={formatLine(point.line)} />
+              <TooltipRow
+                tone={areaTone}
+                mark="square"
+                label={areaSeries.label}
+                value={formatArea(point.area)}
+              />
+              <TooltipRow
+                tone={lineTone}
+                mark="point"
+                label={lineSeries.label}
+                value={formatLine(point.line)}
+              />
               {finite(point.previousArea) || finite(point.previousLine) ? (
                 <span className="border-t border-hairline pt-1 text-muted-foreground">
                   {previousLabel}:{' '}

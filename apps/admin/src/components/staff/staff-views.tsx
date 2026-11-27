@@ -4,14 +4,7 @@ import type {
   StaffListResponse,
   StaffMember,
 } from '@nilzora/contracts';
-import {
-  cn,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@nilzora/ui';
+import { cn, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@nilzora/ui';
 import { KeyRound, Lock, ShieldCheck, UserCog, UserPlus, Users } from 'lucide-react';
 import type { Route } from 'next';
 import Link from 'next/link';
@@ -60,12 +53,18 @@ export function memberHref(userId: string): Route {
 
 function PendingBadge() {
   return (
-    <Chip tone="warning" dot><AutoText>Invitation pending</AutoText></Chip>
+    <Chip tone="warning" dot>
+      <AutoText>Invitation pending</AutoText>
+    </Chip>
   );
 }
 
 function YouBadge() {
-  return <Chip tone="primary"><AutoText>You</AutoText></Chip>;
+  return (
+    <Chip tone="primary">
+      <AutoText>You</AutoText>
+    </Chip>
+  );
 }
 
 export function TeamTable({ staff, actor }: { staff: readonly StaffMember[]; actor: Actor }) {
@@ -74,12 +73,24 @@ export function TeamTable({ staff, actor }: { staff: readonly StaffMember[]; act
       <DataTable caption="Team members" dense>
         <TableHeader>
           <TableRow className="hover:bg-transparent">
-            <TableHead><AutoText>Member</AutoText></TableHead>
-            <TableHead><AutoText>Role</AutoText></TableHead>
-            <TableHead><AutoText>Status</AutoText></TableHead>
-            <TableHead className="text-right"><AutoText>Permissions</AutoText></TableHead>
-            <TableHead><AutoText>Overrides</AutoText></TableHead>
-            <TableHead><AutoText>Role since</AutoText></TableHead>
+            <TableHead>
+              <AutoText>Member</AutoText>
+            </TableHead>
+            <TableHead>
+              <AutoText>Role</AutoText>
+            </TableHead>
+            <TableHead>
+              <AutoText>Status</AutoText>
+            </TableHead>
+            <TableHead className="text-right">
+              <AutoText>Permissions</AutoText>
+            </TableHead>
+            <TableHead>
+              <AutoText>Overrides</AutoText>
+            </TableHead>
+            <TableHead>
+              <AutoText>Role since</AutoText>
+            </TableHead>
           </TableRow>
         </TableHeader>
         {staff.length > 0 ? (
@@ -120,7 +131,9 @@ export function TeamTable({ staff, actor }: { staff: readonly StaffMember[]; act
                   </TableCell>
                   <TableCell>
                     {grants + denials === 0 ? (
-                      <span className="text-muted-foreground"><AutoText>Role defaults</AutoText></span>
+                      <span className="text-muted-foreground">
+                        <AutoText>Role defaults</AutoText>
+                      </span>
                     ) : (
                       <span className="flex gap-1.5">
                         {grants > 0 ? <Chip tone="success">{grants} granted</Chip> : null}
@@ -350,7 +363,13 @@ export function MemberView({
           </>
         }
         title={name}
-        meta={member.fullName ? <span><AutoText value={member.email} /></span> : undefined}
+        meta={
+          member.fullName ? (
+            <span>
+              <AutoText value={member.email} />
+            </span>
+          ) : undefined
+        }
       />
 
       {notice ? <ActionFeedback state={{ status: 'success', message: notice }} /> : null}

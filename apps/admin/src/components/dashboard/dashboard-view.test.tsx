@@ -54,9 +54,7 @@ function ownerData(overrides: Partial<DashboardData> = {}): DashboardData {
 }
 
 function renderView(data: DashboardData, permissions: readonly Permission[]) {
-  return render(
-    <DashboardView data={data} permissions={permissions} viewerName="Ayesha Rahman" />,
-  );
+  return render(<DashboardView data={data} permissions={permissions} viewerName="Ayesha Rahman" />);
 }
 
 /** The titles of the panels (regions labelled by a heading), in page order. */
@@ -181,9 +179,9 @@ describe('DashboardView', () => {
         .getAllByRole('link')
         .map((link) => link.getAttribute('href')),
     ).toEqual(['/admin?range=today', '/admin?range=7d', '/admin?range=30d', '/admin?range=month']);
-    expect(within(periods).getByRole('link', { name: '30 days' }).getAttribute('aria-current')).toBe(
-      'true',
-    );
+    expect(
+      within(periods).getByRole('link', { name: '30 days' }).getAttribute('aria-current'),
+    ).toBe('true');
   });
 
   it('keeps the range popover above the cards below it', () => {
@@ -221,7 +219,9 @@ describe('DashboardView', () => {
 
   it('shows honest empty states for a period without orders', () => {
     renderView(
-      ownerData({ analytics: { kind: 'ok', value: analyticsOverview(7, { dailyRevenue: Array(7).fill(0) }) } }),
+      ownerData({
+        analytics: { kind: 'ok', value: analyticsOverview(7, { dailyRevenue: Array(7).fill(0) }) },
+      }),
       ROLE_PERMISSIONS.super_admin,
     );
     expect(screen.getAllByText('No orders were placed in this period.').length).toBeGreaterThan(0);

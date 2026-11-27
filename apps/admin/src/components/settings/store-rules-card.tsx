@@ -36,7 +36,8 @@ export async function StoreRulesCard({ csrf }: { csrf: CsrfInput }) {
       description="How long customers have to return an item, when an unfinished cart stops counting as a checkout, and the thresholds behind the customer segments."
       footer={
         <p className="text-xs text-muted-foreground">
-          Last updated <DateTimeText value={settings.updatedAt} style="datetime" />. Every change is recorded in the audit log.
+          Last updated <DateTimeText value={settings.updatedAt} style="datetime" />. Every change is
+          recorded in the audit log.
         </p>
       }
     >

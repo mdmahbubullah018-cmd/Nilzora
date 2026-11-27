@@ -144,9 +144,7 @@ describe('variant pricing through the public quote route', () => {
     const unknown = await setup.call('post', '/cart/quote', {
       items: [{ productId: setup.shirt.id, variantId: randomUUID(), quantity: 1 }],
     });
-    expect(cartQuoteResponseSchema.parse(unknown.body).quote.lines[0]?.problem).toBe(
-      'unavailable',
-    );
+    expect(cartQuoteResponseSchema.parse(unknown.body).quote.lines[0]?.problem).toBe('unavailable');
   });
 
   it('flags a line that names no variant for a product that has them', async () => {

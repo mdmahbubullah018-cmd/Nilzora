@@ -51,9 +51,7 @@ export default async function OnboardingPreviewPage({ params }: PageParams) {
     );
   }
 
-  const result = await adminRead((api, token) =>
-    api.previewOnboardingCampaign(token, campaignId),
-  );
+  const result = await adminRead((api, token) => api.previewOnboardingCampaign(token, campaignId));
   if (result.kind === 'signed_out') redirect(signInPath(path));
   if (result.kind === 'not_found') notFound();
 
@@ -68,7 +66,9 @@ export default async function OnboardingPreviewPage({ params }: PageParams) {
             <Link
               href={`/admin/marketing/onboarding/${campaignId}` as Route}
               className={buttonClasses({ variant: 'ghost', size: 'sm' })}
-            ><AutoText>Back to the campaign</AutoText></Link>
+            >
+              <AutoText>Back to the campaign</AutoText>
+            </Link>
           }
         />
         {result.kind === 'ok' ? (

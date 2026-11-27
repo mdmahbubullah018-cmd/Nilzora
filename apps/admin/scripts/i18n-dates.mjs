@@ -21,10 +21,26 @@ const write = process.argv.includes('--write');
 
 const REPLACEMENTS = [
   { fn: 'formatFullDate', make: (arg) => `<FullDateText at={${arg}} />`, needs: ['FullDateText'] },
-  { fn: 'formatDateTime', make: (arg) => `<DateTimeText value={${arg}} style="datetime" />`, needs: ['DateTimeText'] },
-  { fn: 'formatTime', make: (arg) => `<DateTimeText value={${arg}} style="time" />`, needs: ['DateTimeText'] },
-  { fn: 'formatDayLong', make: (arg) => `<CalendarDayText day={${arg}} long />`, needs: ['CalendarDayText'] },
-  { fn: 'formatDay', make: (arg) => `<CalendarDayText day={${arg}} />`, needs: ['CalendarDayText'] },
+  {
+    fn: 'formatDateTime',
+    make: (arg) => `<DateTimeText value={${arg}} style="datetime" />`,
+    needs: ['DateTimeText'],
+  },
+  {
+    fn: 'formatTime',
+    make: (arg) => `<DateTimeText value={${arg}} style="time" />`,
+    needs: ['DateTimeText'],
+  },
+  {
+    fn: 'formatDayLong',
+    make: (arg) => `<CalendarDayText day={${arg}} long />`,
+    needs: ['CalendarDayText'],
+  },
+  {
+    fn: 'formatDay',
+    make: (arg) => `<CalendarDayText day={${arg}} />`,
+    needs: ['CalendarDayText'],
+  },
   { fn: 'formatDate', make: (arg) => `<DateTimeText value={${arg}} />`, needs: ['DateTimeText'] },
   {
     fn: 'formatRelativeTime',

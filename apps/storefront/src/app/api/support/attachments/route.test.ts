@@ -82,7 +82,9 @@ describe('POST /api/support/attachments', () => {
   });
 
   it('refuses a picture above the chat-attachment limit before forwarding it', async () => {
-    const response = await POST(request(picture(CHAT_ATTACHMENT_MAX_BYTES + 1), CHAT_ATTACHMENT_MAX_BYTES + 1));
+    const response = await POST(
+      request(picture(CHAT_ATTACHMENT_MAX_BYTES + 1), CHAT_ATTACHMENT_MAX_BYTES + 1),
+    );
 
     expect(response.status).toBe(400);
     await expect(response.json()).resolves.toMatchObject({

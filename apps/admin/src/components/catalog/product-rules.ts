@@ -49,8 +49,7 @@ export function canPublish(
   abilities: Pick<ProductAbilities, 'owner'> = { owner: false },
 ): boolean {
   return (
-    product.status !== 'active' &&
-    (product.moderationStatus === 'approved' || abilities.owner)
+    product.status !== 'active' && (product.moderationStatus === 'approved' || abilities.owner)
   );
 }
 

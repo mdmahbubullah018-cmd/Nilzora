@@ -105,7 +105,10 @@ describe('parseReportRange', () => {
 
 describe('rangeParams', () => {
   it('round-trips a range through the address', () => {
-    const custom = parseReportRange({ range: 'custom', from: '2026-10-01', to: '2026-10-31', compare: '0' }, NOON);
+    const custom = parseReportRange(
+      { range: 'custom', from: '2026-10-01', to: '2026-10-31', compare: '0' },
+      NOON,
+    );
     expect(rangeParams(custom)).toEqual({
       range: 'custom',
       from: '2026-10-01',

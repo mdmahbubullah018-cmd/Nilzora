@@ -148,7 +148,7 @@ export function SettlementForm({ csrf, candidates, allowTest, today }: Settlemen
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
         <Field
           id="settlement-provider"
-          label={tx("Courier")}
+          label={tx('Courier')}
           error={state.fieldErrors?.provider}
           required
         >
@@ -172,8 +172,8 @@ export function SettlementForm({ csrf, candidates, allowTest, today }: Settlemen
         </Field>
         <Field
           id="settlement-reference"
-          label={tx("Payout reference")}
-          hint={tx("The courier’s payout id or invoice number")}
+          label={tx('Payout reference')}
+          hint={tx('The courier’s payout id or invoice number')}
           error={state.fieldErrors?.reference}
           required
         >
@@ -190,7 +190,7 @@ export function SettlementForm({ csrf, candidates, allowTest, today }: Settlemen
         </Field>
         <Field
           id="settlement-date"
-          label={tx("Received on")}
+          label={tx('Received on')}
           error={state.fieldErrors?.receivedOn}
           required
         >
@@ -206,7 +206,7 @@ export function SettlementForm({ csrf, candidates, allowTest, today }: Settlemen
         </Field>
         <Field
           id="settlement-amount"
-          label={tx("Amount received (৳)")}
+          label={tx('Amount received (৳)')}
           error={state.fieldErrors?.amount}
           required
         >
@@ -241,7 +241,9 @@ export function SettlementForm({ csrf, candidates, allowTest, today }: Settlemen
       ) : null}
 
       <fieldset className="grid gap-2">
-        <legend className="mb-1 text-sm font-medium text-foreground"><AutoText>Shipments in this payout</AutoText></legend>
+        <legend className="mb-1 text-sm font-medium text-foreground">
+          <AutoText>Shipments in this payout</AutoText>
+        </legend>
         {available.length === 0 ? (
           <p className="text-sm text-muted-foreground">
             No {providerName(provider)} shipments are waiting for a settlement.
@@ -333,12 +335,14 @@ export function SettlementForm({ csrf, candidates, allowTest, today }: Settlemen
           {state.fieldErrors.lines}
         </p>
       ) : null}
-      <Field id="settlement-note" label={tx("Note")} hint={tx("Optional")}>
+      <Field id="settlement-note" label={tx('Note')} hint={tx('Optional')}>
         {(control) => (
           <Input {...control} name="note" maxLength={300} defaultValue={state.values?.note} />
         )}
       </Field>
-      <SubmitButton className="w-fit" disabled={!check.ok} pendingLabel="Recording…"><AutoText>Record settlement</AutoText></SubmitButton>
+      <SubmitButton className="w-fit" disabled={!check.ok} pendingLabel="Recording…">
+        <AutoText>Record settlement</AutoText>
+      </SubmitButton>
       <ActionFeedback state={state} />
     </form>
   );

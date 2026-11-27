@@ -65,8 +65,11 @@ export function AccessGate(props: AccessGateProps) {
       : 'This account does not have access to the Nilzora workspaces. Sign out and sign in with a staff or moderator account.';
     identity = (
       <p className="text-xs text-muted-foreground">
-        Signed in as <span className="font-medium text-foreground"><AutoText value={displayName(user)} /></span> (
-        {roleLabel(user.role)})
+        Signed in as{' '}
+        <span className="font-medium text-foreground">
+          <AutoText value={displayName(user)} />
+        </span>{' '}
+        ({roleLabel(user.role)})
       </p>
     );
     if (alternative) {
@@ -86,7 +89,9 @@ export function AccessGate(props: AccessGateProps) {
       'Nilzora could not be reached, so this page is not shown. Check your connection and try again in a moment.';
     // A full reload re-runs every check from scratch.
     primary = (
-      <a href={retryHref} className={buttonClasses()}><AutoText>Try again</AutoText></a>
+      <a href={retryHref} className={buttonClasses()}>
+        <AutoText>Try again</AutoText>
+      </a>
     );
   }
 
@@ -101,7 +106,9 @@ export function AccessGate(props: AccessGateProps) {
             <h1 className="font-display text-xl font-semibold tracking-tight text-foreground">
               {title}
             </h1>
-            <p className="text-sm leading-relaxed text-muted-foreground"><AutoText value={description} /></p>
+            <p className="text-sm leading-relaxed text-muted-foreground">
+              <AutoText value={description} />
+            </p>
           </div>
           {identity}
           <div className="flex flex-wrap items-start justify-center gap-2">

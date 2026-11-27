@@ -203,4 +203,3 @@ export async function sendBodyWithProgress(options: SendBodyOptions): Promise<Bo
   }
   return { kind: 'answered', status: outcome.status, body };
 }
-

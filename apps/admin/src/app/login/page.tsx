@@ -40,16 +40,30 @@ export default async function LoginPage({ searchParams }: PageProps<'/login'>) {
   return (
     <AuthFrame>
       <div className="grid gap-1.5 text-center lg:text-left">
-        <h1 className="font-display text-[1.75rem] leading-tight font-semibold tracking-tight text-foreground"><AutoText>Welcome back</AutoText></h1>
-        <p className="text-sm text-muted-foreground"><AutoText>Sign in to the Nilzora workspaces with the account the store owner set up for you.</AutoText></p>
+        <h1 className="font-display text-[1.75rem] leading-tight font-semibold tracking-tight text-foreground">
+          <AutoText>Welcome back</AutoText>
+        </h1>
+        <p className="text-sm text-muted-foreground">
+          <AutoText>
+            Sign in to the Nilzora workspaces with the account the store owner set up for you.
+          </AutoText>
+        </p>
       </div>
 
-      {signedOut ? <Alert tone="success"><AutoText>You have been signed out.</AutoText></Alert> : null}
+      {signedOut ? (
+        <Alert tone="success">
+          <AutoText>You have been signed out.</AutoText>
+        </Alert>
+      ) : null}
       {expired ? (
-        <Alert tone="warning"><AutoText>Your session has ended. Sign in again to continue.</AutoText></Alert>
+        <Alert tone="warning">
+          <AutoText>Your session has ended. Sign in again to continue.</AutoText>
+        </Alert>
       ) : null}
       {reset ? (
-        <Alert tone="success"><AutoText>Your password has been changed. Sign in with the new one.</AutoText></Alert>
+        <Alert tone="success">
+          <AutoText>Your password has been changed. Sign in with the new one.</AutoText>
+        </Alert>
       ) : null}
 
       <div className="nz-panel-strong nz-panel-sheen rounded-2xl border p-6 sm:p-8">

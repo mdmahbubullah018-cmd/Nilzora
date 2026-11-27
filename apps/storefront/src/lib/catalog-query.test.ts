@@ -150,9 +150,9 @@ describe('hrefs', () => {
     expect(listingHref('/products', { zone: 'mens', sort: 'featured' }, 'featured')).toBe(
       '/products?zone=mens',
     );
-    expect(
-      listingHref('/products', { zone: 'mens', sort: 'newest', page: 2 }, 'featured'),
-    ).toBe('/products?zone=mens&sort=newest&page=2');
+    expect(listingHref('/products', { zone: 'mens', sort: 'newest', page: 2 }, 'featured')).toBe(
+      '/products?zone=mens&sort=newest&page=2',
+    );
   });
 
   it('builds a collection link that encodes the slug', () => {
@@ -188,9 +188,9 @@ describe('listing filters', () => {
       sizes: ['m', 'l'],
       colors: ['black'],
     });
-    expect(parseListingFilters({ size: ['m', 'l', 'm'], color: ['navy', 'bad value'] })).toMatchObject(
-      { sizes: ['m', 'l'], colors: ['navy'] },
-    );
+    expect(
+      parseListingFilters({ size: ['m', 'l', 'm'], color: ['navy', 'bad value'] }),
+    ).toMatchObject({ sizes: ['m', 'l'], colors: ['navy'] });
     // A facet narrows the listing just as a price does.
     expect(hasActiveFilters({ inStock: false, sizes: ['m'] })).toBe(true);
     expect(hasActiveFilters({ inStock: false, colors: ['black'] })).toBe(true);

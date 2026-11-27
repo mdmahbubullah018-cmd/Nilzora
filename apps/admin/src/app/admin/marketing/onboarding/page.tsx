@@ -13,7 +13,10 @@ import { ForbiddenState, ReadState } from '@/components/admin-kit/states';
 import { WorkspaceShell } from '@/components/shell/workspace-shell';
 import { workspaceGate } from '@/lib/access';
 import { formatDateTime } from '@/lib/format';
-import { deleteOnboardingCampaignAction, setOnboardingActiveAction } from '@/lib/onboarding-actions';
+import {
+  deleteOnboardingCampaignAction,
+  setOnboardingActiveAction,
+} from '@/lib/onboarding-actions';
 import { signInPath } from '@/lib/workspace-access';
 import { AutoText } from '@/components/i18n/translate';
 
@@ -85,10 +88,9 @@ export default async function OnboardingListPage() {
           title="Onboarding"
           description="The slides a customer sees when the app opens. A promotion always wins over the welcome sequence."
           actions={
-            <Link
-              href="/admin/marketing/onboarding/new"
-              className={buttonClasses({ size: 'sm' })}
-            ><AutoText>New campaign</AutoText></Link>
+            <Link href="/admin/marketing/onboarding/new" className={buttonClasses({ size: 'sm' })}>
+              <AutoText>New campaign</AutoText>
+            </Link>
           }
         />
 
@@ -99,7 +101,9 @@ export default async function OnboardingListPage() {
         ) : result.value.campaigns.length === 0 ? (
           <Card>
             <div className="grid gap-3 p-6">
-              <h2 className="text-sm font-semibold text-foreground"><AutoText>No campaigns yet</AutoText></h2>
+              <h2 className="text-sm font-semibold text-foreground">
+                <AutoText>No campaigns yet</AutoText>
+              </h2>
               <p className="text-sm text-muted-foreground">
                 Create the welcome sequence customers see the first time they open the app, or a
                 timed promotion for a campaign you are running now.
@@ -107,7 +111,9 @@ export default async function OnboardingListPage() {
               <Link
                 href="/admin/marketing/onboarding/new"
                 className={buttonClasses({ variant: 'outline', size: 'sm', className: 'w-fit' })}
-              ><AutoText>Create the first campaign</AutoText></Link>
+              >
+                <AutoText>Create the first campaign</AutoText>
+              </Link>
             </div>
           </Card>
         ) : (
@@ -117,16 +123,32 @@ export default async function OnboardingListPage() {
           >
             <div className="overflow-x-auto">
               <table className="w-full text-left text-sm">
-                <caption className="sr-only"><AutoText>Onboarding campaigns</AutoText></caption>
+                <caption className="sr-only">
+                  <AutoText>Onboarding campaigns</AutoText>
+                </caption>
                 <thead className="text-xs tracking-wide text-muted-foreground uppercase">
                   <tr>
-                    <th scope="col" className="py-2 pr-4"><AutoText>Campaign</AutoText></th>
-                    <th scope="col" className="py-2 pr-4"><AutoText>Audience</AutoText></th>
-                    <th scope="col" className="py-2 pr-4"><AutoText>Frequency</AutoText></th>
-                    <th scope="col" className="py-2 pr-4"><AutoText>Window</AutoText></th>
-                    <th scope="col" className="py-2 pr-4"><AutoText>Slides</AutoText></th>
-                    <th scope="col" className="py-2 pr-4"><AutoText>Status</AutoText></th>
-                    <th scope="col" className="py-2"><AutoText>Actions</AutoText></th>
+                    <th scope="col" className="py-2 pr-4">
+                      <AutoText>Campaign</AutoText>
+                    </th>
+                    <th scope="col" className="py-2 pr-4">
+                      <AutoText>Audience</AutoText>
+                    </th>
+                    <th scope="col" className="py-2 pr-4">
+                      <AutoText>Frequency</AutoText>
+                    </th>
+                    <th scope="col" className="py-2 pr-4">
+                      <AutoText>Window</AutoText>
+                    </th>
+                    <th scope="col" className="py-2 pr-4">
+                      <AutoText>Slides</AutoText>
+                    </th>
+                    <th scope="col" className="py-2 pr-4">
+                      <AutoText>Status</AutoText>
+                    </th>
+                    <th scope="col" className="py-2">
+                      <AutoText>Actions</AutoText>
+                    </th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-border">
@@ -140,8 +162,8 @@ export default async function OnboardingListPage() {
                           {campaign.internalName}
                         </Link>
                         <p className="text-xs text-muted-foreground">
-                          {KIND_LABELS[campaign.kind] ?? campaign.kind} · {campaign.slideSeconds}s per
-                          slide
+                          {KIND_LABELS[campaign.kind] ?? campaign.kind} · {campaign.slideSeconds}s
+                          per slide
                         </p>
                       </td>
                       <td className="py-3 pr-4">
@@ -159,9 +181,13 @@ export default async function OnboardingListPage() {
                       </td>
                       <td className="py-3 pr-4">
                         {campaign.isActive ? (
-                          <span className="rounded-full bg-surface-muted px-2 py-0.5 text-xs font-semibold text-foreground"><AutoText>Active</AutoText></span>
+                          <span className="rounded-full bg-surface-muted px-2 py-0.5 text-xs font-semibold text-foreground">
+                            <AutoText>Active</AutoText>
+                          </span>
                         ) : (
-                          <span className="text-muted-foreground"><AutoText>Inactive</AutoText></span>
+                          <span className="text-muted-foreground">
+                            <AutoText>Inactive</AutoText>
+                          </span>
                         )}
                       </td>
                       <td className="py-3">
@@ -169,7 +195,9 @@ export default async function OnboardingListPage() {
                           <Link
                             href={`/admin/marketing/onboarding/${campaign.id}/preview`}
                             className={buttonClasses({ variant: 'ghost', size: 'sm' })}
-                          ><AutoText>Preview</AutoText></Link>
+                          >
+                            <AutoText>Preview</AutoText>
+                          </Link>
                           <form action={setOnboardingActiveAction}>
                             <input type="hidden" name="csrf_token" value={csrf.token} />
                             <input type="hidden" name="campaignId" value={campaign.id} />

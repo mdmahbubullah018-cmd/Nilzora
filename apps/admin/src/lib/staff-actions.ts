@@ -185,7 +185,8 @@ export async function resendStaffInvitationAction(
       returnTo: STAFF_PATH,
       label: 'invitation resend',
       messages: {
-        invitation_invalid: 'This invitation was already accepted or revoked, so it cannot be sent again.',
+        invitation_invalid:
+          'This invitation was already accepted or revoked, so it cannot be sent again.',
         not_found: 'This invitation no longer exists.',
         forbidden: 'Only the store owner can send invitations.',
         rate_limited:
@@ -199,10 +200,14 @@ export async function resendStaffInvitationAction(
   if (!result.value.emailSent) {
     return {
       status: 'error',
-      message: 'A new link was created, but the email could not be sent right now. Try again in a moment.',
+      message:
+        'A new link was created, but the email could not be sent right now. Try again in a moment.',
     };
   }
-  return { status: 'success', message: `A new invitation was sent to ${result.value.invitation.email}.` };
+  return {
+    status: 'success',
+    message: `A new invitation was sent to ${result.value.invitation.email}.`,
+  };
 }
 
 /** Withdraws a pending invitation: its link stops working at once. */

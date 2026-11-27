@@ -103,11 +103,15 @@ export async function saveStoreProfileAction(
   const checked = checkStoreProfile(values, absent);
   if (!checked.ok) return invalid('Check the highlighted fields.', checked.errors, values);
 
-  const result = await adminAct(formData, (api, token) => api.saveStoreProfile(token, checked.value), {
-    returnTo: PROFILE_PATH,
-    label: 'store profile save',
-    messages: SITE_MESSAGES,
-  });
+  const result = await adminAct(
+    formData,
+    (api, token) => api.saveStoreProfile(token, checked.value),
+    {
+      returnTo: PROFILE_PATH,
+      label: 'store profile save',
+      messages: SITE_MESSAGES,
+    },
+  );
   if (!result.ok) return { ...result.state, values };
 
   revalidatePath(PROFILE_PATH);

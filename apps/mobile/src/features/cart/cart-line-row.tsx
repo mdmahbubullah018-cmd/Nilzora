@@ -51,11 +51,7 @@ export function CartLineRow({
   return (
     <Card flat style={[styles.card, problem ? styles.cardProblem : null]}>
       <View style={styles.top}>
-        <SelectBox
-          checked={selected}
-          name={name}
-          onChange={onSelectedChange}
-        />
+        <SelectBox checked={selected} name={name} onChange={onSelectedChange} />
         <CartLineThumb image={line.image} />
         <View style={styles.identity}>
           {slug !== null && openProduct ? (
@@ -156,7 +152,9 @@ function SelectBox({
       style={styles.selectTarget}
     >
       <View style={[styles.selectBox, checked ? styles.selectBoxChecked : null]}>
-        {checked ? <Check size={14} color={theme.brand.onSolid} strokeWidth={3} accessible={false} /> : null}
+        {checked ? (
+          <Check size={14} color={theme.brand.onSolid} strokeWidth={3} accessible={false} />
+        ) : null}
       </View>
     </Pressable>
   );

@@ -138,7 +138,8 @@ export function CartScreen() {
           // The selection is the customer's, so the totals and the "needs attention" gate are
           // worked out over the lines they mean to order. The checkout itself re-prices and
           // re-validates exactly these items on the server.
-          const isLineSelected = (line: CartLine) => cart.isSelected(line.productId, line.variantId);
+          const isLineSelected = (line: CartLine) =>
+            cart.isSelected(line.productId, line.variantId);
           const selectedRows = rows.filter(({ line }) => isLineSelected(line));
           // Every selected line, problems included: this is what decides whether checkout opens.
           const selectedAllLines = data.lines.filter((line) => isLineSelected(line));
@@ -189,7 +190,14 @@ export function CartScreen() {
                   style={styles.selectAllTarget}
                 >
                   <View style={[styles.selectAllBox, allSelected ? styles.selectAllBoxOn : null]}>
-                    {allSelected ? <Check size={14} color={theme.brand.onSolid} strokeWidth={3} accessible={false} /> : null}
+                    {allSelected ? (
+                      <Check
+                        size={14}
+                        color={theme.brand.onSolid}
+                        strokeWidth={3}
+                        accessible={false}
+                      />
+                    ) : null}
                   </View>
                   <Text style={styles.selectAllLabel}>
                     {allSelected ? 'Deselect all' : 'Select all'}

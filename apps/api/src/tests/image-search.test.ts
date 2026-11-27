@@ -152,7 +152,11 @@ function fakeStore(options: FakeStoreOptions = {}) {
 
 const logger = pino({ level: 'silent' });
 
-function match(productId: string, similarity: number, imageId = '22222222-2222-4222-8222-222222222222'): NearestMatch {
+function match(
+  productId: string,
+  similarity: number,
+  imageId = '22222222-2222-4222-8222-222222222222',
+): NearestMatch {
   return { imageId, productId, kind: 'primary', isPrimary: true, similarity };
 }
 
@@ -238,8 +242,20 @@ describe('image search service', () => {
     const { store } = fakeStore({ matches: [match(cheap.id, 0.9), match(dear.id, 0.9)] });
     const service = serviceWith(store, commerce);
     const image = await jpeg(300, 300);
-    const ascending = await service.search({ image, sort: 'price_asc', page: 1, pageSize: 24, client: 'web' });
-    const descending = await service.search({ image, sort: 'price_desc', page: 1, pageSize: 24, client: 'web' });
+    const ascending = await service.search({
+      image,
+      sort: 'price_asc',
+      page: 1,
+      pageSize: 24,
+      client: 'web',
+    });
+    const descending = await service.search({
+      image,
+      sort: 'price_desc',
+      page: 1,
+      pageSize: 24,
+      client: 'web',
+    });
     expect(ascending.items.map((item) => item.product.slug)).toEqual(['cheap', 'dear']);
     expect(descending.items.map((item) => item.product.slug)).toEqual(['dear', 'cheap']);
   });
@@ -252,8 +268,20 @@ describe('image search service', () => {
     });
     const service = serviceWith(store, commerce);
     const image = await jpeg(300, 300);
-    const first = await service.search({ image, sort: 'best_match', page: 1, pageSize: 2, client: 'web' });
-    const last = await service.search({ image, sort: 'best_match', page: 3, pageSize: 2, client: 'web' });
+    const first = await service.search({
+      image,
+      sort: 'best_match',
+      page: 1,
+      pageSize: 2,
+      client: 'web',
+    });
+    const last = await service.search({
+      image,
+      sort: 'best_match',
+      page: 3,
+      pageSize: 2,
+      client: 'web',
+    });
     expect(first.total).toBe(5);
     expect(first.totalPages).toBe(3);
     expect(first.items).toHaveLength(2);

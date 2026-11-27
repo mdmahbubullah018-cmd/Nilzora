@@ -83,7 +83,9 @@ export default async function CouponPage({
                     href={editCouponHref(coupon.value.id)}
                     className={buttonClasses({ variant: 'outline', size: 'sm' })}
                   >
-                    <Pencil aria-hidden="true" /><AutoText>Edit</AutoText></Link>
+                    <Pencil aria-hidden="true" />
+                    <AutoText>Edit</AutoText>
+                  </Link>
                   {coupon.value.redemptionCount === 0 ? (
                     <DeleteCouponForm
                       couponId={coupon.value.id}
@@ -183,7 +185,9 @@ function TargetingSummary({ targeting }: { targeting: CouponTargeting }) {
             <dt className="text-xs font-medium tracking-wide text-muted-foreground uppercase">
               {item.label}
             </dt>
-            <dd className="text-sm font-medium text-foreground"><AutoText value={item.value} /></dd>
+            <dd className="text-sm font-medium text-foreground">
+              <AutoText value={item.value} />
+            </dd>
           </div>
         ))}
       </dl>
@@ -193,7 +197,11 @@ function TargetingSummary({ targeting }: { targeting: CouponTargeting }) {
             Recipients ({String(targeting.customers.length)})
           </h2>
           {targeting.customers.length === 0 ? (
-            <p className="text-sm text-muted-foreground"><AutoText>No customer is chosen, so nobody can use this coupon. Edit it to choose customers.</AutoText></p>
+            <p className="text-sm text-muted-foreground">
+              <AutoText>
+                No customer is chosen, so nobody can use this coupon. Edit it to choose customers.
+              </AutoText>
+            </p>
           ) : (
             <ul className="grid gap-1.5 sm:grid-cols-2">
               {targeting.customers.map((customer) => (

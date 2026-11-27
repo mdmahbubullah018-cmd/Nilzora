@@ -141,7 +141,8 @@ export function Screen({
           styles.content,
           { paddingTop: topGap, gap: contentGap },
           bottomSpace > 0 ? { paddingBottom: theme.spacing[10] + bottomSpace } : null,
-        ]}        keyboardShouldPersistTaps="handled"
+        ]}
+        keyboardShouldPersistTaps="handled"
         keyboardDismissMode="on-drag"
         onRefresh={onRefresh}
         refreshEnabled={refreshEnabled}

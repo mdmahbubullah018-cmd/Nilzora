@@ -25,7 +25,9 @@ const count = z.number().int().min(0);
 const ratio = z.number().min(0).max(1).nullable();
 
 function daysBetween(from: string, to: string): number {
-  return Math.round((Date.parse(`${to}T00:00:00Z`) - Date.parse(`${from}T00:00:00Z`)) / 86_400_000) + 1;
+  return (
+    Math.round((Date.parse(`${to}T00:00:00Z`) - Date.parse(`${from}T00:00:00Z`)) / 86_400_000) + 1
+  );
 }
 
 /** GET /admin/analytics/overview?from=YYYY-MM-DD&to=YYYY-MM-DD&compare=true */
@@ -181,7 +183,10 @@ export const salesTargetRequestSchema = z.strictObject({
 });
 
 export const salesTargetResponseSchema = z.object({
-  target: z.object({ targetMinor: moneyMinorSchema.nullable(), updatedAt: z.iso.datetime().nullable() }),
+  target: z.object({
+    targetMinor: moneyMinorSchema.nullable(),
+    updatedAt: z.iso.datetime().nullable(),
+  }),
 });
 
 export type AnalyticsOverviewQuery = z.input<typeof analyticsOverviewQuerySchema>;

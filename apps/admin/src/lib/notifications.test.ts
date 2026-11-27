@@ -1,4 +1,8 @@
-import { NOTIFICATION_KIND_ICONS, NOTIFICATION_KIND_LABELS, notificationKindLabel } from './notifications';
+import {
+  NOTIFICATION_KIND_ICONS,
+  NOTIFICATION_KIND_LABELS,
+  notificationKindLabel,
+} from './notifications';
 import { STAFF_NOTIFICATION_KINDS } from '@nilzora/contracts';
 import { describe, expect, it } from 'vitest';
 

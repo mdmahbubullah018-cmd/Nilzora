@@ -256,7 +256,9 @@ export function LaunchChecklist({ items }: { items: readonly ChecklistItem[] }) 
                       : {item.done === true ? 'done' : item.done === false ? 'to do' : 'unknown'}
                     </span>
                   </span>
-                  <span className="text-xs text-muted-foreground"><AutoText value={item.detail} /></span>
+                  <span className="text-xs text-muted-foreground">
+                    <AutoText value={item.detail} />
+                  </span>
                 </span>
               </a>
             </li>
@@ -280,10 +282,14 @@ export function SeoSnippet({ product, seo }: { product: AdminProductDetail; seo:
         <p className="truncate font-mono text-xs text-muted-foreground">
           {seo.canonicalPath ?? `/products/${product.slug}`}
         </p>
-        <p className="line-clamp-1 text-base font-medium text-link"><AutoText value={title} /></p>
+        <p className="line-clamp-1 text-base font-medium text-link">
+          <AutoText value={title} />
+        </p>
         <p className="line-clamp-2 text-sm text-body">
           {description ?? (
-            <span className="text-muted-foreground"><AutoText>No summary yet: a standard line about the product is used.</AutoText></span>
+            <span className="text-muted-foreground">
+              <AutoText>No summary yet: a standard line about the product is used.</AutoText>
+            </span>
           )}
         </p>
       </div>
@@ -295,7 +301,9 @@ export function SeoSnippet({ product, seo }: { product: AdminProductDetail; seo:
           {seo.missingDescription ? 'Description: uses the summary' : 'Own description'}
         </Chip>
         {seo.noIndex ? (
-          <Chip tone="danger" dot><AutoText>Hidden from search engines</AutoText></Chip>
+          <Chip tone="danger" dot>
+            <AutoText>Hidden from search engines</AutoText>
+          </Chip>
         ) : null}
       </div>
     </div>

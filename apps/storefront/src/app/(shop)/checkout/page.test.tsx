@@ -167,10 +167,7 @@ describe('CheckoutPage: the order form', () => {
     expect(screen.getByText('৳60')).not.toBeNull();
     expect(screen.getByText('Total')).not.toBeNull();
     expect(screen.getAllByText('৳2,560').length).toBeGreaterThan(0);
-    expect(screen.getByRole('radio', { name: /Cash on Delivery/ })).toHaveProperty(
-      'checked',
-      true,
-    );
+    expect(screen.getByRole('radio', { name: /Cash on Delivery/ })).toHaveProperty('checked', true);
 
     expect(hiddenValue(container, 'addressId')).toBe(HOME_ID);
     expect(hiddenValue(container, 'expectedTotalMinor')).toBe('256000');

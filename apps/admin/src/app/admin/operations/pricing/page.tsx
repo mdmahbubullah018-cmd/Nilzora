@@ -57,13 +57,23 @@ function RateTables({
           <DataTable caption={`${providerName(provider)} negotiated rates`} dense>
             <TableHeader>
               <TableRow className="hover:bg-transparent">
-                <TableHead><AutoText>Zone</AutoText></TableHead>
-                <TableHead><AutoText>Up to</AutoText></TableHead>
-                <TableHead className="text-right"><AutoText>Charge</AutoText></TableHead>
-                <TableHead><AutoText>State</AutoText></TableHead>
+                <TableHead>
+                  <AutoText>Zone</AutoText>
+                </TableHead>
+                <TableHead>
+                  <AutoText>Up to</AutoText>
+                </TableHead>
+                <TableHead className="text-right">
+                  <AutoText>Charge</AutoText>
+                </TableHead>
+                <TableHead>
+                  <AutoText>State</AutoText>
+                </TableHead>
                 {canManage ? (
                   <TableHead>
-                    <span className="sr-only"><AutoText>Actions</AutoText></span>
+                    <span className="sr-only">
+                      <AutoText>Actions</AutoText>
+                    </span>
                   </TableHead>
                 ) : null}
               </TableRow>
@@ -76,8 +86,12 @@ function RateTables({
                     .sort((a, b) => a.weightUpToGrams - b.weightUpToGrams)
                     .map((rate) => (
                       <TableRow key={rate.id}>
-                        <TableCell><AutoText value={zone.label} /></TableCell>
-                        <TableCell><AutoText value={formatWeight(rate.weightUpToGrams)} /></TableCell>
+                        <TableCell>
+                          <AutoText value={zone.label} />
+                        </TableCell>
+                        <TableCell>
+                          <AutoText value={formatWeight(rate.weightUpToGrams)} />
+                        </TableCell>
                         <TableCell className="text-right font-semibold tabular-nums">
                           {formatMoney(rate.chargeMinor)}
                         </TableCell>
@@ -126,13 +140,17 @@ function PricingView({
         <Link
           href={OPERATIONS_PATHS.settings}
           className="font-medium text-link underline-offset-4 hover:underline"
-        ><AutoText>Courier settings</AutoText></Link>
+        >
+          <AutoText>Courier settings</AutoText>
+        </Link>
         .
       </p>
 
       <section aria-labelledby="rate-cards" className="grid gap-4">
         <div className="grid gap-1">
-          <h2 id="rate-cards" className="font-display text-lg font-semibold text-foreground"><AutoText>Negotiated rates (used for Internal Estimates)</AutoText></h2>
+          <h2 id="rate-cards" className="font-display text-lg font-semibold text-foreground">
+            <AutoText>Negotiated rates (used for Internal Estimates)</AutoText>
+          </h2>
           <p className="text-sm text-muted-foreground">
             What each courier charges Nilzora by zone and weight, as agreed with them. Where a
             courier’s API cannot quote, these give the “Internal Estimate” shown when comparing.

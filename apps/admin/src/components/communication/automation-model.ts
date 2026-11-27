@@ -90,7 +90,9 @@ export function actionProblem(action: ChatAutomationAction): string | null {
           ? 'Choose the new status.'
           : 'Choose the new priority.';
     case 'set_tags':
-      return Array.isArray(action.value) && action.value.length > 0 ? null : 'Choose at least one tag.';
+      return Array.isArray(action.value) && action.value.length > 0
+        ? null
+        : 'Choose at least one tag.';
     case 'assign_to':
       return action.userId === undefined ? 'Choose the teammate to assign.' : null;
     case 'schedule':

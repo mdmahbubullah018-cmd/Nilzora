@@ -49,7 +49,10 @@ vi.mock('@/lib/moderation-actions', () => ({
   withdrawReviewAction: vi.fn(),
   decideReviewAction: vi.fn(),
 }));
-vi.mock('@/lib/avatar-actions', () => ({ uploadAvatarAction: vi.fn(), removeAvatarAction: vi.fn() }));
+vi.mock('@/lib/avatar-actions', () => ({
+  uploadAvatarAction: vi.fn(),
+  removeAvatarAction: vi.fn(),
+}));
 vi.mock('@/components/shell/workspace-shell', () => ({
   WorkspaceShell: ({ children }: { children: ReactNode }) => <div>{children}</div>,
 }));
@@ -138,7 +141,12 @@ describe('staff pages', () => {
     expect(screen.queryByText('Team panel')).toBeNull();
     cleanup();
 
-    render(await StaffMemberPage({ params: Promise.resolve({ userId: USER }), searchParams: Promise.resolve({}) }));
+    render(
+      await StaffMemberPage({
+        params: Promise.resolve({ userId: USER }),
+        searchParams: Promise.resolve({}),
+      }),
+    );
     expect(screen.getByText(/“Assign staff roles” permission/)).toBeTruthy();
     expect(screen.queryByText('Member panel')).toBeNull();
     expect(reads.calls).toBe(0);
@@ -148,7 +156,9 @@ describe('staff pages', () => {
     render(await StaffPage(query()));
     expect(screen.getByText('Team panel')).toBeTruthy();
     cleanup();
-    signIn(testUser('staff', { permissions: [...ROLE_PERMISSIONS.staff, 'staff.permissions.manage'] }));
+    signIn(
+      testUser('staff', { permissions: [...ROLE_PERMISSIONS.staff, 'staff.permissions.manage'] }),
+    );
     render(await StaffPage(query()));
     expect(screen.getByText('Team panel')).toBeTruthy();
   });
@@ -162,7 +172,12 @@ describe('admin moderation pages', () => {
     expect(screen.getByText(/“Assign content reviews” permission/)).toBeTruthy();
     cleanup();
 
-    render(await AdminReviewPage({ params: Promise.resolve({ taskId: TASK }), searchParams: Promise.resolve({}) }));
+    render(
+      await AdminReviewPage({
+        params: Promise.resolve({ taskId: TASK }),
+        searchParams: Promise.resolve({}),
+      }),
+    );
     expect(screen.getByText(/“Assign content reviews” permission/)).toBeTruthy();
     expect(reads.calls).toBe(0);
   });
@@ -182,7 +197,12 @@ describe('moderator workspace pages', () => {
     expect(screen.getByText(/“Approve product content” permission/)).toBeTruthy();
     cleanup();
 
-    render(await ModeratorTaskPage({ params: Promise.resolve({ taskId: TASK }), searchParams: Promise.resolve({}) }));
+    render(
+      await ModeratorTaskPage({
+        params: Promise.resolve({ taskId: TASK }),
+        searchParams: Promise.resolve({}),
+      }),
+    );
     expect(screen.getByText(/“Approve product content” permission/)).toBeTruthy();
     expect(reads.calls).toBe(0);
   });

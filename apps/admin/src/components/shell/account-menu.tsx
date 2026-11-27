@@ -47,7 +47,9 @@ export function AccountMenu({ identity, csrf, profileHref }: AccountMenuProps) {
           <span className="max-w-40 truncate text-sm font-semibold text-foreground">
             {identity.name}
           </span>
-          <span className="truncate text-[11px] font-medium text-muted-foreground"><AutoText value={identity.role} /></span>
+          <span className="truncate text-[11px] font-medium text-muted-foreground">
+            <AutoText value={identity.role} />
+          </span>
         </span>
         <ChevronDown
           aria-hidden="true"
@@ -59,11 +61,17 @@ export function AccountMenu({ identity, csrf, profileHref }: AccountMenuProps) {
         <div className="flex items-center gap-3 rounded-xl bg-surface-muted/60 p-2.5">
           <Avatar identity={identity} />
           <div className="grid min-w-0 gap-0.5">
-            <p className="truncate text-sm font-semibold text-foreground"><AutoText value={identity.name} /></p>
+            <p className="truncate text-sm font-semibold text-foreground">
+              <AutoText value={identity.name} />
+            </p>
             {showEmail ? (
-              <p className="truncate text-xs text-muted-foreground"><AutoText value={identity.email} /></p>
+              <p className="truncate text-xs text-muted-foreground">
+                <AutoText value={identity.email} />
+              </p>
             ) : null}
-            <p className="text-[11px] font-medium text-muted-foreground"><AutoText value={identity.role} /></p>
+            <p className="text-[11px] font-medium text-muted-foreground">
+              <AutoText value={identity.role} />
+            </p>
           </div>
         </div>
         {profileHref ? (
@@ -71,7 +79,9 @@ export function AccountMenu({ identity, csrf, profileHref }: AccountMenuProps) {
             href={profileHref}
             className="inline-flex min-h-10 items-center gap-2 rounded-xl px-2.5 text-sm font-medium text-foreground transition-colors hover:bg-surface-muted"
           >
-            <ImageUp aria-hidden="true" className="size-4 text-muted-foreground" /><AutoText>Profile picture</AutoText></Link>
+            <ImageUp aria-hidden="true" className="size-4 text-muted-foreground" />
+            <AutoText>Profile picture</AutoText>
+          </Link>
         ) : null}
         <div className="border-t border-border/70 pt-2">
           <SignOutButton csrf={csrf} variant="outline" size="sm" className="grid" />

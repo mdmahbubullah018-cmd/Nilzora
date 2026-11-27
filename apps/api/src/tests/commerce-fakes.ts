@@ -424,7 +424,8 @@ export class FakeCommerce {
       const matches = this.products.filter((product) => {
         if (!this.onSale(product.id)) return false;
         // A zone filters by membership, exactly as the database's predicate does.
-        if (search.zoneSlug !== undefined && !this.inZone(search.zoneSlug, product.id)) return false;
+        if (search.zoneSlug !== undefined && !this.inZone(search.zoneSlug, product.id))
+          return false;
         const category = this.categories.find((candidate) => candidate.id === product.categoryId);
         if (inCategory !== null && !inCategory.includes(category?.slug ?? '')) return false;
         if (search.brandSlug !== undefined && product.brand?.slug !== search.brandSlug) {
@@ -483,9 +484,7 @@ export class FakeCommerce {
       const items = this.products
         .filter((product) => wanted.has(product.id) && this.onSale(product.id))
         .map((product) => {
-          const category = this.categories.find(
-            (candidate) => candidate.id === product.categoryId,
-          );
+          const category = this.categories.find((candidate) => candidate.id === product.categoryId);
           return {
             id: product.id,
             slug: product.slug,

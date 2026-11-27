@@ -109,10 +109,17 @@ export default async function MyVouchersPage({
           <div className="grid justify-items-center gap-3 rounded-3xl border border-dashed border-border px-6 py-14 text-center">
             <Ticket aria-hidden="true" className="size-10 text-muted-foreground" />
             <p className="font-semibold text-foreground">
-              {tab === 'available' ? 'No vouchers ready to use' : tab === 'used' ? 'No used vouchers' : 'No expired vouchers'}
+              {tab === 'available'
+                ? 'No vouchers ready to use'
+                : tab === 'used'
+                  ? 'No used vouchers'
+                  : 'No expired vouchers'}
             </p>
             {tab === 'available' ? (
-              <Link href="/vouchers" className="text-sm font-semibold text-link underline-offset-4 hover:underline">
+              <Link
+                href="/vouchers"
+                className="text-sm font-semibold text-link underline-offset-4 hover:underline"
+              >
                 Browse the Voucher Center
               </Link>
             ) : null}

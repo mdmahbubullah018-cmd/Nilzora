@@ -19,7 +19,11 @@ const CrumbContext = createContext<CrumbState | null>(null);
 
 export function CrumbProvider({ children }: { children: ReactNode }) {
   const [trail, setTrail] = useState<readonly Crumb[]>([]);
-  return <CrumbContext value={{ trail, setTrail }}><AutoText value={children} /></CrumbContext>;
+  return (
+    <CrumbContext value={{ trail, setTrail }}>
+      <AutoText value={children} />
+    </CrumbContext>
+  );
 }
 
 /** The current page's trail (empty outside a provider). */

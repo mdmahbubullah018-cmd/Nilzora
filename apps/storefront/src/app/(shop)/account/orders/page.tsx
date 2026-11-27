@@ -69,7 +69,9 @@ function OrderPreview({ order }: { order: OrderSummary }) {
         )}
       </div>
       <div className="grid min-w-0 gap-0.5">
-        <p className="line-clamp-2 text-sm font-medium wrap-break-word text-foreground">{summary}</p>
+        <p className="line-clamp-2 text-sm font-medium wrap-break-word text-foreground">
+          {summary}
+        </p>
         {first?.variantLabel ? (
           <p className="line-clamp-1 text-xs text-muted-foreground">{first.variantLabel}</p>
         ) : null}

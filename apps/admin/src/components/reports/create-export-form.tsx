@@ -35,7 +35,12 @@ const LABELS = { csv: 'CSV', xlsx: 'Excel', pdf: 'PDF' } as const;
  * the file should wait for you. The filters travel as hidden fields; the Server Action
  * parses them again and the API checks the permission, so nothing here is trusted.
  */
-export function CreateExportForm({ kind, query, csrf, formats = ['csv', 'xlsx'] }: CreateExportFormProps) {
+export function CreateExportForm({
+  kind,
+  query,
+  csrf,
+  formats = ['csv', 'xlsx'],
+}: CreateExportFormProps) {
   const [state, action] = useActionState(createExportAction, IDLE_STATE);
   return (
     <div className="grid gap-3">

@@ -17,13 +17,7 @@ export function seoEditorHref(entry: Pick<SeoOverviewRow, 'kind' | 'id'>): Route
 }
 
 /** How each page's search metadata stands: only what is set, no score and no ranking claim. */
-export function SeoOverviewView({
-  entries,
-  q,
-}: {
-  entries: readonly SeoOverviewRow[];
-  q: string;
-}) {
+export function SeoOverviewView({ entries, q }: { entries: readonly SeoOverviewRow[]; q: string }) {
   const publicCount = entries.filter((entry) => entry.isPublic).length;
   const missingTitle = entries.filter((entry) => entry.isPublic && entry.missingTitle).length;
   const missingDescription = entries.filter(
@@ -52,11 +46,21 @@ export function SeoOverviewView({
         <DataTable caption="Search metadata by page" dense>
           <TableHeader>
             <TableRow className="hover:bg-transparent">
-              <TableHead><AutoText>Page</AutoText></TableHead>
-              <TableHead><AutoText>Kind</AutoText></TableHead>
-              <TableHead><AutoText>Search title</AutoText></TableHead>
-              <TableHead><AutoText>Indexed</AutoText></TableHead>
-              <TableHead className="hidden md:table-cell"><AutoText>Updated</AutoText></TableHead>
+              <TableHead>
+                <AutoText>Page</AutoText>
+              </TableHead>
+              <TableHead>
+                <AutoText>Kind</AutoText>
+              </TableHead>
+              <TableHead>
+                <AutoText>Search title</AutoText>
+              </TableHead>
+              <TableHead>
+                <AutoText>Indexed</AutoText>
+              </TableHead>
+              <TableHead className="hidden md:table-cell">
+                <AutoText>Updated</AutoText>
+              </TableHead>
             </TableRow>
           </TableHeader>
           {entries.length > 0 ? (
@@ -72,7 +76,9 @@ export function SeoOverviewView({
                     </Link>
                     <p className="font-mono text-xs text-muted-foreground">/{entry.slug}</p>
                   </TableCell>
-                  <TableCell className="capitalize"><AutoText value={entry.kind} /></TableCell>
+                  <TableCell className="capitalize">
+                    <AutoText value={entry.kind} />
+                  </TableCell>
                   <TableCell className="max-w-72 whitespace-normal">
                     {entry.seoTitle ?? (
                       <Chip tone="warning">{`Missing — the ${entry.kind} name is used`}</Chip>
@@ -80,11 +86,17 @@ export function SeoOverviewView({
                   </TableCell>
                   <TableCell>
                     {!entry.isPublic ? (
-                      <Chip tone="neutral"><AutoText>Not public</AutoText></Chip>
+                      <Chip tone="neutral">
+                        <AutoText>Not public</AutoText>
+                      </Chip>
                     ) : entry.noIndex ? (
-                      <Chip tone="warning"><AutoText>Hidden</AutoText></Chip>
+                      <Chip tone="warning">
+                        <AutoText>Hidden</AutoText>
+                      </Chip>
                     ) : (
-                      <Chip tone="success" dot><AutoText>Indexable</AutoText></Chip>
+                      <Chip tone="success" dot>
+                        <AutoText>Indexable</AutoText>
+                      </Chip>
                     )}
                   </TableCell>
                   <TableCell className="hidden text-muted-foreground md:table-cell">

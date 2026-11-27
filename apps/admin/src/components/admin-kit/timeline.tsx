@@ -86,7 +86,11 @@ export function Timeline({ items, label, className }: TimelineProps) {
                   <DateTimeText value={item.at} style="datetime" />
                 </time>
               </div>
-              {item.actor ? <p className="text-xs text-muted-foreground"><AutoText value={item.actor} /></p> : null}
+              {item.actor ? (
+                <p className="text-xs text-muted-foreground">
+                  <AutoText value={item.actor} />
+                </p>
+              ) : null}
               {item.note ? (
                 <p className="rounded-md bg-surface-muted px-3 py-2 text-sm whitespace-pre-line text-body">
                   {item.note}

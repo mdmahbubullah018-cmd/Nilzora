@@ -262,14 +262,18 @@ export function StoreProfileForm({
           <MediaKeyField
             key={`logo-${String(round)}`}
             name="logoKey"
-            label={tx("Logo")}
-            hint={tx("A square picture with a transparent or white background, at least 400 pixels, works best. Use the picker to upload or choose a picture without leaving this page. Empty keeps Nilzora’s own mark.")}
+            label={tx('Logo')}
+            hint={tx(
+              'A square picture with a transparent or white background, at least 400 pixels, works best. Use the picker to upload or choose a picture without leaving this page. Empty keeps Nilzora’s own mark.',
+            )}
             defaultValue={profile.logoKey}
             previewUrl={profile.logoUrl}
             csrf={csrf}
           />
           {error('logoKey') ? (
-            <p className="-mt-3 text-xs font-medium text-danger-ink"><AutoText value={error('logoKey')} /></p>
+            <p className="-mt-3 text-xs font-medium text-danger-ink">
+              <AutoText value={error('logoKey')} />
+            </p>
           ) : null}
         </div>,
       )}
@@ -396,14 +400,18 @@ export function StoreProfileForm({
           <MediaKeyField
             key={`og-${String(round)}`}
             name="ogImageKey"
-            label={tx("Default share image")}
-            hint={tx("The picture shown when a link to the store is shared and the page has no picture of its own. 1200 by 630 pixels, JPEG, PNG or WebP. Use the picker to upload or choose one.")}
+            label={tx('Default share image')}
+            hint={tx(
+              'The picture shown when a link to the store is shared and the page has no picture of its own. 1200 by 630 pixels, JPEG, PNG or WebP. Use the picker to upload or choose one.',
+            )}
             defaultValue={profile.ogImageKey}
             previewUrl={profile.ogImageUrl}
             csrf={csrf}
           />
           {error('ogImageKey') ? (
-            <p className="-mt-3 text-xs font-medium text-danger-ink"><AutoText value={error('ogImageKey')} /></p>
+            <p className="-mt-3 text-xs font-medium text-danger-ink">
+              <AutoText value={error('ogImageKey')} />
+            </p>
           ) : null}
         </div>,
       )}
@@ -417,7 +425,9 @@ export function StoreProfileForm({
               {dirty ? (
                 <>
                   <span aria-hidden="true" className="size-2 rounded-full bg-warning" />
-                  <span className="font-medium text-foreground"><AutoText>Unsaved changes</AutoText></span>
+                  <span className="font-medium text-foreground">
+                    <AutoText>Unsaved changes</AutoText>
+                  </span>
                 </>
               ) : (
                 'Everything here is shown to customers.'
@@ -439,7 +449,9 @@ export function StoreProfileForm({
                   }}
                   className="max-sm:min-h-11 max-sm:flex-1"
                 >
-                  <Undo2 aria-hidden="true" strokeWidth={1.75} /><AutoText>Discard</AutoText></Button>
+                  <Undo2 aria-hidden="true" strokeWidth={1.75} />
+                  <AutoText>Discard</AutoText>
+                </Button>
               ) : null}
               <Button type="submit" loading={pending} className="max-sm:min-h-11 max-sm:flex-1">
                 {pending ? null : <Save aria-hidden="true" strokeWidth={1.75} />}

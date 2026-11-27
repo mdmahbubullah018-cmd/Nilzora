@@ -149,10 +149,7 @@ describe('catalog cache', () => {
     await new Promise((resolve) => setImmediate(resolve));
     resolveLoad?.(['fashion']);
 
-    await expect(Promise.all([first, second])).resolves.toStrictEqual([
-      ['fashion'],
-      ['fashion'],
-    ]);
+    await expect(Promise.all([first, second])).resolves.toStrictEqual([['fashion'], ['fashion']]);
     expect(load).toHaveBeenCalledTimes(1);
   });
 

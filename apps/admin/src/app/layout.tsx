@@ -61,7 +61,9 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
         <script dangerouslySetInnerHTML={{ __html: SIDEBAR_SCRIPT }} />
       </head>
       <body className="min-h-dvh antialiased" suppressHydrationWarning>
-        <LanguageProvider initialLanguage={language}><AutoText value={children} /></LanguageProvider>
+        <LanguageProvider initialLanguage={language}>
+          <AutoText value={children} />
+        </LanguageProvider>
       </body>
     </html>
   );

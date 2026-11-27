@@ -43,8 +43,12 @@ function BrandPanel() {
 
       <div className="relative grid max-w-md gap-8">
         <div className="grid gap-3">
-          <p className="text-xs font-semibold tracking-[0.18em] text-sky-200/90 uppercase"><AutoText>Nilzora workspace</AutoText></p>
-          <p className="font-display text-4xl leading-[1.1] font-semibold tracking-tight text-balance xl:text-[2.75rem]"><AutoText>Run the store from one calm, focused workspace.</AutoText></p>
+          <p className="text-xs font-semibold tracking-[0.18em] text-sky-200/90 uppercase">
+            <AutoText>Nilzora workspace</AutoText>
+          </p>
+          <p className="font-display text-4xl leading-[1.1] font-semibold tracking-tight text-balance xl:text-[2.75rem]">
+            <AutoText>Run the store from one calm, focused workspace.</AutoText>
+          </p>
         </div>
         <ul className="grid gap-3">
           {HIGHLIGHTS.map(({ icon: Icon, title, text }) => (
@@ -56,15 +60,21 @@ function BrandPanel() {
                 <Icon className="size-5" strokeWidth={1.75} />
               </span>
               <span className="grid gap-0.5">
-                <span className="text-sm font-semibold text-white"><AutoText value={title} /></span>
-                <span className="text-sm text-slate-300"><AutoText value={text} /></span>
+                <span className="text-sm font-semibold text-white">
+                  <AutoText value={title} />
+                </span>
+                <span className="text-sm text-slate-300">
+                  <AutoText value={text} />
+                </span>
               </span>
             </li>
           ))}
         </ul>
       </div>
 
-      <p className="relative text-xs text-slate-400"><AutoText>For Nilzora staff and moderators only.</AutoText></p>
+      <p className="relative text-xs text-slate-400">
+        <AutoText>For Nilzora staff and moderators only.</AutoText>
+      </p>
     </aside>
   );
 }

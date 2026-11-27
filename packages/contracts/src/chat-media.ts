@@ -89,10 +89,7 @@ const EXTENSION_BY_TYPE: ReadonlyMap<string, string> = new Map([
   ['application/pdf', '.pdf'],
   ['text/plain', '.txt'],
   ['text/csv', '.csv'],
-  [
-    'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-    '.docx',
-  ],
+  ['application/vnd.openxmlformats-officedocument.wordprocessingml.document', '.docx'],
   ['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', '.xlsx'],
   ['audio/webm', '.webm'],
   ['audio/ogg', '.ogg'],
@@ -117,7 +114,8 @@ export function sanitizeChatFileName(name: string, contentType: string): string 
     .trim()
     .replace(/^\.+/, '');
   const extension = EXTENSION_BY_TYPE.get(contentType.split(';')[0]?.trim().toLowerCase() ?? '');
-  const withoutExtension = extension === undefined ? cleaned : cleaned.replace(/\.[A-Za-z0-9]{1,8}$/, '');
+  const withoutExtension =
+    extension === undefined ? cleaned : cleaned.replace(/\.[A-Za-z0-9]{1,8}$/, '');
   const stem = withoutExtension.slice(0, 100).trim() || 'file';
   return `${stem}${extension ?? ''}`.slice(0, 120);
 }

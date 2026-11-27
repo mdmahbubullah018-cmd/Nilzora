@@ -11,7 +11,12 @@ import { describeApiError } from '@/lib/errors';
 import { useManualRefresh } from '@/query/use-manual-refresh';
 import { theme } from '@/theme';
 import { useBrands } from '@/features/brands/brand-hooks';
-import { useCategories, useDepartmentListing, useProductFacets, useProductFeed } from './catalog-hooks';
+import {
+  useCategories,
+  useDepartmentListing,
+  useProductFacets,
+  useProductFeed,
+} from './catalog-hooks';
 import { GRID_GAP, useGridCardWidth } from './catalog-layout';
 import {
   facetsQuery,

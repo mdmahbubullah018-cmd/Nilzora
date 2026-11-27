@@ -1,5 +1,10 @@
 import type { Logger } from 'pino';
-import { imageContentHash, ImageEmbeddingError, vectorLiteral, type ImageEmbeddingProvider } from './embedding/provider';
+import {
+  imageContentHash,
+  ImageEmbeddingError,
+  vectorLiteral,
+  type ImageEmbeddingProvider,
+} from './embedding/provider';
 import { inspectStoredImage, type ImageRejection } from './image-input';
 import type { ImageSourceReader } from './image-source';
 import type { ClaimedImage, ImageSearchStore } from './store';
@@ -62,7 +67,8 @@ export function createImageSearchIndexer(options: ImageSearchIndexerOptions): Im
   async function prepare(): Promise<void> {
     prepared ??= (async () => {
       const recovered = await store.recoverStale(600).catch(() => 0);
-      if (recovered > 0) logger.info({ recovered }, 'image search: returned interrupted pictures to the queue');
+      if (recovered > 0)
+        logger.info({ recovered }, 'image search: returned interrupted pictures to the queue');
       try {
         await provider.warmUp?.();
       } catch (error) {
@@ -77,7 +83,9 @@ export function createImageSearchIndexer(options: ImageSearchIndexerOptions): Im
     return prepared;
   }
 
-  async function processOne(image: ClaimedImage): Promise<'indexed' | 'failed' | 'excluded' | 'cached'> {
+  async function processOne(
+    image: ClaimedImage,
+  ): Promise<'indexed' | 'failed' | 'excluded' | 'cached'> {
     const bytes =
       image.kind === 'variant'
         ? await reader.readVariantUrl(image.sourceKey)
@@ -118,7 +126,11 @@ export function createImageSearchIndexer(options: ImageSearchIndexerOptions): Im
       vector = await provider.embed(bytes);
     } catch (error) {
       const retryable = error instanceof ImageEmbeddingError ? error.retryable : true;
-      await store.recordFailure(image.id, retryable ? 'embedding_failed' : 'embedding_rejected', retryable);
+      await store.recordFailure(
+        image.id,
+        retryable ? 'embedding_failed' : 'embedding_rejected',
+        retryable,
+      );
       return 'failed';
     }
 
@@ -219,5 +231,15 @@ export function createImageSearchIndexer(options: ImageSearchIndexerOptions): Im
 }
 
 /** The exclusion reasons the indexer can record, for the admin screen's wording. */
-export const IMAGE_EXCLUSION_REASONS: readonly (ImageRejection | 'unknown_dimensions' | 'host_not_allowed')[] =
-  ['too_small', 'too_large', 'unsupported_format', 'corrupt', 'placeholder', 'empty', 'unknown_dimensions', 'host_not_allowed'];
+export const IMAGE_EXCLUSION_REASONS: readonly (
+  ImageRejection | 'unknown_dimensions' | 'host_not_allowed'
+)[] = [
+  'too_small',
+  'too_large',
+  'unsupported_format',
+  'corrupt',
+  'placeholder',
+  'empty',
+  'unknown_dimensions',
+  'host_not_allowed',
+];

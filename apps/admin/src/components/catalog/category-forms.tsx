@@ -103,13 +103,17 @@ export function CategoryForm({
       <div className="grid items-start gap-5 sm:grid-cols-2">
         <Field
           id="category-parentId"
-          label={tx("Parent category")}
+          label={tx('Parent category')}
           error={errors.parentId}
-          hint={tx("Leave as a top-level department, or choose the category this one belongs under.")}
+          hint={tx(
+            'Leave as a top-level department, or choose the category this one belongs under.',
+          )}
         >
           {(control) => (
             <NativeSelect {...control} name="parentId" defaultValue={selectedParent}>
-              <option value=""><AutoText>Top level (no parent)</AutoText></option>
+              <option value="">
+                <AutoText>Top level (no parent)</AutoText>
+              </option>
               {options.map((candidate) => (
                 <option key={candidate.id} value={candidate.id}>
                   {candidate.parentId ? `— ${candidate.name}` : candidate.name}
@@ -127,13 +131,13 @@ export function CategoryForm({
                 ? (category?.isFeatured ?? false)
                 : state.values.isFeatured === 'on'
             }
-            label={tx("Feature this category")}
-            hint={tx("Featured categories can be highlighted on the storefront home page.")}
+            label={tx('Feature this category')}
+            hint={tx('Featured categories can be highlighted on the storefront home page.')}
           />
         </div>
       </div>
       <div className="grid items-start gap-5 sm:grid-cols-2">
-        <Field id="category-name" label={tx("Name")} error={errors.name} required>
+        <Field id="category-name" label={tx('Name')} error={errors.name} required>
           {(control) => (
             <Input
               {...control}
@@ -147,7 +151,7 @@ export function CategoryForm({
         </Field>
         <SlugField
           id="category-slug"
-          label={tx("Storefront address")}
+          label={tx('Storefront address')}
           kind="category"
           initial={shown(state, 'slug', category?.slug ?? '')}
           source={name}
@@ -167,9 +171,9 @@ export function CategoryForm({
       </div>
       <Field
         id="category-description"
-        label={tx("Description")}
+        label={tx('Description')}
         error={errors.description}
-        hint={tx("Optional. Shown on the category page. Up to 500 characters.")}
+        hint={tx('Optional. Shown on the category page. Up to 500 characters.')}
       >
         {(control) => (
           <Textarea
@@ -183,9 +187,9 @@ export function CategoryForm({
       </Field>
       <Field
         id="category-sortOrder"
-        label={tx("Sort order")}
+        label={tx('Sort order')}
         error={errors.sortOrder}
-        hint={tx("Lower numbers are listed first in the storefront.")}
+        hint={tx('Lower numbers are listed first in the storefront.')}
         className="sm:max-w-48"
       >
         {(control) => (
@@ -208,9 +212,11 @@ export function CategoryForm({
         <div className="grid gap-3">
           <Field
             id="category-image"
-            label={tx("Cover picture")}
+            label={tx('Cover picture')}
             error={pictureError ?? undefined}
-            hint={tx("Optional. JPEG, PNG or WebP, up to 5 MB and at least 400 pixels on the shorter side. You can add or change it later. A wide page banner can be added from the category's page once it exists.")}
+            hint={tx(
+              "Optional. JPEG, PNG or WebP, up to 5 MB and at least 400 pixels on the shorter side. You can add or change it later. A wide page banner can be added from the category's page once it exists.",
+            )}
           >
             {(control) => (
               <Input
@@ -231,7 +237,9 @@ export function CategoryForm({
           {picture && pictureError === null && upload.state.phase === 'idle' ? (
             <div className="flex items-center gap-3 text-sm text-muted-foreground">
               <SelectedImagePreview file={picture} />
-              <span className="min-w-0 truncate"><AutoText value={picture.name} /></span>
+              <span className="min-w-0 truncate">
+                <AutoText value={picture.name} />
+              </span>
               <Button
                 type="button"
                 variant="ghost"
@@ -242,7 +250,9 @@ export function CategoryForm({
                   const input = formRef.current?.elements.namedItem('image');
                   if (input instanceof HTMLInputElement) input.value = '';
                 }}
-              ><AutoText>Remove</AutoText></Button>
+              >
+                <AutoText>Remove</AutoText>
+              </Button>
             </div>
           ) : null}
           {/* No retry button: sending again would create the category a second time. */}
@@ -251,7 +261,9 @@ export function CategoryForm({
             <a
               href={`/admin/categories/${createdId}`}
               className="text-sm font-medium text-link underline-offset-4 hover:underline"
-            ><AutoText>Open the new category</AutoText></a>
+            >
+              <AutoText>Open the new category</AutoText>
+            </a>
           ) : null}
         </div>
       ) : null}
@@ -260,8 +272,8 @@ export function CategoryForm({
           id="category-isActive"
           name="isActive"
           defaultChecked={state.values === undefined ? true : state.values.isActive === 'on'}
-          label={tx("Show in the storefront")}
-          hint={tx("Hidden categories and their products never appear to shoppers.")}
+          label={tx('Show in the storefront')}
+          hint={tx('Hidden categories and their products never appear to shoppers.')}
         />
       ) : null}
 
@@ -365,13 +377,16 @@ export function CategoryVisibilityForm({
       align={align}
       trigger={
         <>
-          Hide <span className="sr-only"><AutoText value={category.name} /></span>
+          Hide{' '}
+          <span className="sr-only">
+            <AutoText value={category.name} />
+          </span>
         </>
       }
       triggerVariant="ghost"
       title={`Hide “${category.name}”?`}
       description={`The category and ${category.productCount > 0 ? products : 'anything added to it'} disappear from the storefront until it is shown again. Orders already placed are not affected.`}
-      confirmLabel={tx("Hide category")}
+      confirmLabel={tx('Hide category')}
       hiddenFields={{ categoryId: category.id, active: 'false' }}
     />
   ) : (
@@ -381,13 +396,16 @@ export function CategoryVisibilityForm({
       align={align}
       trigger={
         <>
-          Show <span className="sr-only"><AutoText value={category.name} /></span>
+          Show{' '}
+          <span className="sr-only">
+            <AutoText value={category.name} />
+          </span>
         </>
       }
       triggerVariant="ghost"
       title={`Show “${category.name}” in the storefront?`}
-      description={tx("The category appears again, with those of its products that are on sale.")}
-      confirmLabel={tx("Show category")}
+      description={tx('The category appears again, with those of its products that are on sale.')}
+      confirmLabel={tx('Show category')}
       tone="primary"
       hiddenFields={{ categoryId: category.id, active: 'true' }}
     />

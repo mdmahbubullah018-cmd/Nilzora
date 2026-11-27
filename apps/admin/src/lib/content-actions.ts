@@ -157,24 +157,35 @@ export async function moveMenuItemAction(
   const itemId = idOf(formData, 'itemId');
   const menu = formText(formData, 'menu');
   const direction = formText(formData, 'direction');
-  if (itemId === undefined || !isMenuName(menu) || (direction !== 'earlier' && direction !== 'later')) {
+  if (
+    itemId === undefined ||
+    !isMenuName(menu) ||
+    (direction !== 'earlier' && direction !== 'later')
+  ) {
     return PAGE_EXPIRED;
   }
   const order = formText(formData, 'order').split(',');
   const moved = moveId(order, itemId, direction);
   const parsed = moved ? reorderMenuRequestSchema.safeParse({ menu, ids: moved }) : undefined;
   if (!moved || !parsed?.success) {
-    return { status: 'error', message: 'The menu changed since this page loaded. Reload it and try again.' };
+    return {
+      status: 'error',
+      message: 'The menu changed since this page loaded. Reload it and try again.',
+    };
   }
 
-  const result = await adminAct(formData, (api, token) => api.adminReorderMenu(token, parsed.data), {
-    returnTo: MENUS_PATH,
-    label: 'menu order',
-    messages: {
-      ...CONTENT_MESSAGES,
-      bad_request: 'The menu changed since this page loaded. Reload it and try again.',
+  const result = await adminAct(
+    formData,
+    (api, token) => api.adminReorderMenu(token, parsed.data),
+    {
+      returnTo: MENUS_PATH,
+      label: 'menu order',
+      messages: {
+        ...CONTENT_MESSAGES,
+        bad_request: 'The menu changed since this page loaded. Reload it and try again.',
+      },
     },
-  });
+  );
   if (!result.ok) return result.state;
   revalidatePath(MENUS_PATH);
   return { status: 'success', message: 'Order saved.' };
@@ -193,23 +204,32 @@ export async function saveHomepageAction(
   const checked = checkHomepage(rows);
   const values: Record<string, string> = {};
   for (const [name, value] of formData.entries()) {
-    if (typeof value === 'string' && /^(enabled|title|itemLimit|categorySlug|brandSlug|position)_/.test(name)) {
+    if (
+      typeof value === 'string' &&
+      /^(enabled|title|itemLimit|categorySlug|brandSlug|position)_/.test(name)
+    ) {
       values[name] = value;
     }
   }
   if (!checked.ok) return invalid('Check the highlighted fields.', checked.errors, values);
 
-  const result = await adminAct(formData, (api, token) => api.adminSaveHomepage(token, checked.value), {
-    returnTo: HOMEPAGE_PATH,
-    label: 'homepage save',
-    messages: {
-      ...CONTENT_MESSAGES,
-      bad_request: 'The sections were refused. Check the headings, limits and filters.',
+  const result = await adminAct(
+    formData,
+    (api, token) => api.adminSaveHomepage(token, checked.value),
+    {
+      returnTo: HOMEPAGE_PATH,
+      label: 'homepage save',
+      messages: {
+        ...CONTENT_MESSAGES,
+        bad_request: 'The sections were refused. Check the headings, limits and filters.',
+      },
     },
-  });
+  );
   if (!result.ok) return { ...result.state, values };
 
   revalidatePath(HOMEPAGE_PATH);
-  return { status: 'success', message: 'Homepage saved. The storefront shows the sections in this order.' };
+  return {
+    status: 'success',
+    message: 'Homepage saved. The storefront shows the sections in this order.',
+  };
 }
-

@@ -39,9 +39,7 @@ describe('ClosePopoverOnOutside', () => {
   it('stays open while the click is inside it', () => {
     const { container, details } = renderPopover();
 
-    screen
-      .getByLabelText('From')
-      .dispatchEvent(new PointerEvent('pointerdown', { bubbles: true }));
+    screen.getByLabelText('From').dispatchEvent(new PointerEvent('pointerdown', { bubbles: true }));
 
     expect(container.querySelector('details')?.open).toBe(true);
     expect(details.open).toBe(true);

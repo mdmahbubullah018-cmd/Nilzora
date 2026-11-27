@@ -77,8 +77,7 @@ function clientsAnswering(
       {
         get(_target, method: string) {
           if (method === 'then') {
-            return (resolve: (value: unknown) => void) =>
-              resolve({ data: [], error: null });
+            return (resolve: (value: unknown) => void) => resolve({ data: [], error: null });
           }
           return () => proxy;
         },

@@ -92,11 +92,17 @@ export function MediaKeyField({
       </label>
       {guidance === undefined ? null : (
         <div className="grid gap-1 rounded-xl bg-info-soft/50 px-3 py-2">
-          <p className="text-xs font-semibold text-foreground"><AutoText value={guidanceLine(guidance)} /></p>
-          <p className="text-xs text-muted-foreground"><AutoText value={guidance.note} /></p>
+          <p className="text-xs font-semibold text-foreground">
+            <AutoText value={guidanceLine(guidance)} />
+          </p>
+          <p className="text-xs text-muted-foreground">
+            <AutoText value={guidance.note} />
+          </p>
         </div>
       )}
-      <p className="text-xs text-muted-foreground"><AutoText value={hint} /></p>
+      <p className="text-xs text-muted-foreground">
+        <AutoText value={hint} />
+      </p>
 
       <div className="flex items-start gap-3">
         <div
@@ -141,7 +147,7 @@ export function MediaKeyField({
               setKey(event.target.value);
               if (next !== previewKey.current) setPreview(null);
             }}
-            placeholder={tx("Choose a picture, or paste a media key")}
+            placeholder={tx('Choose a picture, or paste a media key')}
             className="w-full rounded-xl border border-input-border bg-surface px-3 py-2 text-sm max-sm:h-11"
           />
           <div className="flex flex-wrap items-center gap-2">
@@ -162,7 +168,9 @@ export function MediaKeyField({
                 onClick={clear}
                 className="inline-flex items-center gap-1.5 rounded-xl px-2 py-1.5 text-sm font-medium text-muted-foreground hover:text-foreground max-sm:min-h-11"
               >
-                <X aria-hidden="true" className="size-4" /><AutoText>Remove</AutoText></button>
+                <X aria-hidden="true" className="size-4" />
+                <AutoText>Remove</AutoText>
+              </button>
             )}
           </div>
           <p className="text-xs text-muted-foreground">

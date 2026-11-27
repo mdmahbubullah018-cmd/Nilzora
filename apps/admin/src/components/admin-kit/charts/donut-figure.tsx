@@ -53,9 +53,14 @@ export function DonutFigure({ title, segments, centerValue, centerLabel }: Donut
   return (
     // Side by side only when the panel is wide enough; stacked in narrow columns.
     <figure className="grid gap-5 @sm:grid-cols-[10rem_minmax(0,1fr)] @sm:items-center">
-      <figcaption className="sr-only"><AutoText value={title} /></figcaption>
+      <figcaption className="sr-only">
+        <AutoText value={title} />
+      </figcaption>
       <div className="relative mx-auto size-40" aria-hidden="true">
-        <svg viewBox={`0 0 ${String(RING_SIZE)} ${String(RING_SIZE)}`} className="size-full -rotate-90">
+        <svg
+          viewBox={`0 0 ${String(RING_SIZE)} ${String(RING_SIZE)}`}
+          className="size-full -rotate-90"
+        >
           <defs>
             <RingReveal id={maskId} />
           </defs>
@@ -107,8 +112,12 @@ export function DonutFigure({ title, segments, centerValue, centerLabel }: Donut
                 aria-hidden="true"
                 className={cn('size-2.5 shrink-0 rounded-full', CHART_TONES[segment.tone].swatch)}
               />
-              <span className="min-w-0 flex-1 truncate text-body"><AutoText value={segment.label} /></span>
-              <span className="nz-figure font-semibold text-foreground"><AutoText value={segment.valueText} /></span>
+              <span className="min-w-0 flex-1 truncate text-body">
+                <AutoText value={segment.label} />
+              </span>
+              <span className="nz-figure font-semibold text-foreground">
+                <AutoText value={segment.valueText} />
+              </span>
               <span className="nz-figure w-12 text-right text-xs text-muted-foreground">
                 {segment.shareText}
               </span>
@@ -130,7 +139,9 @@ export function DonutFigure({ title, segments, centerValue, centerLabel }: Donut
                   {content}
                 </Link>
               ) : (
-                <div className={row}><AutoText value={content} /></div>
+                <div className={row}>
+                  <AutoText value={content} />
+                </div>
               )}
             </li>
           );

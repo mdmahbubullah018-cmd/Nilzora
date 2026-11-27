@@ -39,7 +39,8 @@ export function isOpenReturn(status: string): boolean {
 const returnHref = (id: string) => `/admin/returns/${id}` as Route;
 const refundHref = (id: string) => `/admin/refunds/${id}` as Route;
 
-const LINK = 'inline-flex items-center gap-1 text-sm font-medium text-link underline-offset-4 hover:underline';
+const LINK =
+  'inline-flex items-center gap-1 text-sm font-medium text-link underline-offset-4 hover:underline';
 
 export interface OrderAfterSalesProps {
   orderNumber: string;
@@ -83,15 +84,21 @@ export function OrderAfterSales({
       <div className="grid gap-6">
         {returns.length > 0 ? (
           <div className="grid gap-2">
-            <h3 className="text-sm font-semibold text-foreground"><AutoText>Returns</AutoText></h3>
+            <h3 className="text-sm font-semibold text-foreground">
+              <AutoText>Returns</AutoText>
+            </h3>
             <ul className="divide-y divide-hairline rounded-xl border border-hairline">
               {returns.map((request) => (
-                <li key={request.id} className="flex flex-wrap items-center justify-between gap-3 px-4 py-3">
+                <li
+                  key={request.id}
+                  className="flex flex-wrap items-center justify-between gap-3 px-4 py-3"
+                >
                   <div className="grid min-w-0 gap-1">
                     <ReturnStatusChip status={request.status} />
                     <span className="text-xs text-muted-foreground">
-                      <CountText count={request.itemCount} one="item" /> · requested <DateTimeText value={request.requestedAt} style="datetime" /> ·{' '}
-                      up to {formatMoney(request.refundableMinor)}
+                      <CountText count={request.itemCount} one="item" /> · requested{' '}
+                      <DateTimeText value={request.requestedAt} style="datetime" /> · up to{' '}
+                      {formatMoney(request.refundableMinor)}
                     </span>
                     <span className="text-xs text-body">Reason: {request.reason}</span>
                   </div>
@@ -107,7 +114,9 @@ export function OrderAfterSales({
 
         {openReturn ? (
           <div className="grid gap-3 rounded-xl border border-hairline bg-neutral-soft/40 p-4">
-            <h3 className="text-sm font-semibold text-foreground"><AutoText>Next step on the open return</AutoText></h3>
+            <h3 className="text-sm font-semibold text-foreground">
+              <AutoText>Next step on the open return</AutoText>
+            </h3>
             <ul className="grid gap-1 text-sm text-body">
               {openReturn.items.map((item) => (
                 <li key={item.orderItemId}>
@@ -130,15 +139,20 @@ export function OrderAfterSales({
 
         {refunds.length > 0 ? (
           <div className="grid gap-2">
-            <h3 className="text-sm font-semibold text-foreground"><AutoText>Refunds</AutoText></h3>
+            <h3 className="text-sm font-semibold text-foreground">
+              <AutoText>Refunds</AutoText>
+            </h3>
             <ul className="divide-y divide-hairline rounded-xl border border-hairline">
               {refunds.map((refund) => (
-                <li key={refund.id} className="flex flex-wrap items-center justify-between gap-3 px-4 py-3">
+                <li
+                  key={refund.id}
+                  className="flex flex-wrap items-center justify-between gap-3 px-4 py-3"
+                >
                   <div className="grid min-w-0 gap-1">
                     <RefundStatusChip status={refund.status} />
                     <span className="text-xs text-muted-foreground">
-                      {formatMoney(refund.amountMinor)} · {refundMethodLabel(refund.method)} · requested{' '}
-                      <DateTimeText value={refund.requestedAt} style="datetime" />
+                      {formatMoney(refund.amountMinor)} · {refundMethodLabel(refund.method)} ·
+                      requested <DateTimeText value={refund.requestedAt} style="datetime" />
                       {refund.completedAt ? ` · paid ${formatDateTime(refund.completedAt)}` : ''}
                     </span>
                   </div>
@@ -155,8 +169,10 @@ export function OrderAfterSales({
         {openRefund && canApproveRefunds ? (
           <div className="grid gap-3 rounded-xl border border-hairline bg-neutral-soft/40 p-4">
             <h3 className="text-sm font-semibold text-foreground">
-              {openRefund.status === 'requested' ? 'Approve or reject the refund' : 'Record the payout'} (
-              {formatMoney(openRefund.amountMinor)})
+              {openRefund.status === 'requested'
+                ? 'Approve or reject the refund'
+                : 'Record the payout'}{' '}
+              ({formatMoney(openRefund.amountMinor)})
             </h3>
             <RefundSteps refundId={openRefund.id} status={openRefund.status} csrf={csrf} />
           </div>
@@ -164,7 +180,9 @@ export function OrderAfterSales({
 
         {paymentCollected && canRequestRefunds && !openRefund ? (
           <details className="group rounded-xl border border-hairline">
-            <summary className="flex min-h-11 cursor-pointer list-none items-center px-4 text-sm font-semibold text-link [&::-webkit-details-marker]:hidden"><AutoText>Start a refund on this order</AutoText></summary>
+            <summary className="flex min-h-11 cursor-pointer list-none items-center px-4 text-sm font-semibold text-link [&::-webkit-details-marker]:hidden">
+              <AutoText>Start a refund on this order</AutoText>
+            </summary>
             <div className="border-t border-hairline p-4">
               <RefundRequestForm csrf={csrf} defaultOrderNumber={orderNumber} />
             </div>
@@ -222,15 +240,24 @@ export function OrderAuditTrail({
       }
     >
       {entries.length === 0 ? (
-        <p className="text-sm text-muted-foreground"><AutoText>No staff action has been recorded yet.</AutoText></p>
+        <p className="text-sm text-muted-foreground">
+          <AutoText>No staff action has been recorded yet.</AutoText>
+        </p>
       ) : (
         <ol className="grid gap-2">
           {entries.map((entry) => (
-            <li key={entry.id} className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-0.5 text-sm">
-              <span className="text-foreground"><AutoText value={auditSummary(entry)} /></span>
+            <li
+              key={entry.id}
+              className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-0.5 text-sm"
+            >
+              <span className="text-foreground">
+                <AutoText value={auditSummary(entry)} />
+              </span>
               <span className="text-xs text-muted-foreground">
                 {entry.actor?.name ?? entry.actor?.email ?? 'A removed account'} ·{' '}
-                <time dateTime={entry.createdAt}><AutoText value={formatDateTime(entry.createdAt)} /></time>
+                <time dateTime={entry.createdAt}>
+                  <AutoText value={formatDateTime(entry.createdAt)} />
+                </time>
               </span>
             </li>
           ))}

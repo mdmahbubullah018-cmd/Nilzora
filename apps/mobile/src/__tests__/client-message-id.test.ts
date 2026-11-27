@@ -10,9 +10,7 @@ describe('newClientMessageId', () => {
   it('is a version 4 UUID the API accepts, every time', () => {
     for (let attempt = 0; attempt < 200; attempt += 1) {
       const id = newClientMessageId();
-      expect(id).toMatch(
-        /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/,
-      );
+      expect(id).toMatch(/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/);
       expect(() =>
         sendChatMessageRequestSchema.parse({ clientMessageId: id, body: 'Hello' }),
       ).not.toThrow();

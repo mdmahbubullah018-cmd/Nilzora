@@ -51,7 +51,9 @@ export function ReviewReplyEditor({
         </button>
       ) : (
         <div className="grid gap-1.5">
-          <p className="text-xs font-semibold text-foreground"><AutoText>Nilzora replied publicly</AutoText></p>
+          <p className="text-xs font-semibold text-foreground">
+            <AutoText>Nilzora replied publicly</AutoText>
+          </p>
           <p className="text-sm leading-relaxed whitespace-pre-line wrap-break-word text-body">
             {reply.body}
           </p>
@@ -88,7 +90,9 @@ export function ReviewReplyEditor({
           <input type="hidden" name={csrf.name} value={csrf.token} />
           <input type="hidden" name="reviewId" value={reviewId} />
           <label className="grid gap-1 text-sm">
-            <span className="font-medium text-foreground"><AutoText>Public answer</AutoText></span>
+            <span className="font-medium text-foreground">
+              <AutoText>Public answer</AutoText>
+            </span>
             <textarea
               name="body"
               rows={3}
@@ -97,7 +101,7 @@ export function ReviewReplyEditor({
               required
               value={draft}
               onChange={(event) => setDraft(event.target.value)}
-              placeholder={tx("Thank the customer, answer the point, and say what you will do.")}
+              placeholder={tx('Thank the customer, answer the point, and say what you will do.')}
               className="w-full rounded-xl border border-input-border bg-surface px-3 py-2 text-sm text-foreground"
             />
           </label>
@@ -106,7 +110,12 @@ export function ReviewReplyEditor({
             — never the name of the account that wrote it.
           </p>
           {status === 'rejected' ? (
-            <p className="text-xs text-warning-ink"><AutoText>This review is hidden. Publish it before answering, or the answer will not be visible.</AutoText></p>
+            <p className="text-xs text-warning-ink">
+              <AutoText>
+                This review is hidden. Publish it before answering, or the answer will not be
+                visible.
+              </AutoText>
+            </p>
           ) : null}
           <div className="flex items-center gap-2">
             <button

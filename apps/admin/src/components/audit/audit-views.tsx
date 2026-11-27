@@ -246,8 +246,12 @@ function Details({ details }: { details: AuditEntry['details'] }) {
         <dl className="grid grid-cols-[auto_minmax(0,1fr)] gap-x-3 gap-y-0.5">
           {rest.map(([key, value]) => (
             <div key={key} className="contents">
-              <dt className="text-muted-foreground"><AutoText value={detailLabel(key)} /></dt>
-              <dd className="font-mono break-all text-foreground"><AutoText value={detailText(value)} /></dd>
+              <dt className="text-muted-foreground">
+                <AutoText value={detailLabel(key)} />
+              </dt>
+              <dd className="font-mono break-all text-foreground">
+                <AutoText value={detailText(value)} />
+              </dd>
             </div>
           ))}
         </dl>
@@ -274,10 +278,18 @@ export function AuditTable({
         <DataTable caption="Audit log" dense>
           <TableHeader>
             <TableRow>
-              <TableHead><AutoText>Time</AutoText></TableHead>
-              <TableHead><AutoText>Actor</AutoText></TableHead>
-              <TableHead><AutoText>Action</AutoText></TableHead>
-              <TableHead className="hidden md:table-cell"><AutoText>Target</AutoText></TableHead>
+              <TableHead>
+                <AutoText>Time</AutoText>
+              </TableHead>
+              <TableHead>
+                <AutoText>Actor</AutoText>
+              </TableHead>
+              <TableHead>
+                <AutoText>Action</AutoText>
+              </TableHead>
+              <TableHead className="hidden md:table-cell">
+                <AutoText>Target</AutoText>
+              </TableHead>
             </TableRow>
           </TableHeader>
           {data.entries.length > 0 ? (
@@ -287,7 +299,9 @@ export function AuditTable({
                 return (
                   <TableRow key={entry.id} className="align-top">
                     <TableCell className="text-muted-foreground tabular-nums">
-                      <time dateTime={entry.createdAt}><AutoText value={formatDateTime(entry.createdAt)} /></time>
+                      <time dateTime={entry.createdAt}>
+                        <AutoText value={formatDateTime(entry.createdAt)} />
+                      </time>
                     </TableCell>
                     <TableCell>
                       {entry.actor ? (
@@ -299,12 +313,16 @@ export function AuditTable({
                           {actorLabel(entry)}
                         </Link>
                       ) : (
-                        <span className="text-muted-foreground"><AutoText value={actorLabel(entry)} /></span>
+                        <span className="text-muted-foreground">
+                          <AutoText value={actorLabel(entry)} />
+                        </span>
                       )}
                     </TableCell>
                     <TableCell>
                       <div className="grid">
-                        <span className="text-foreground"><AutoText value={formatAuditAction(entry.action)} /></span>
+                        <span className="text-foreground">
+                          <AutoText value={formatAuditAction(entry.action)} />
+                        </span>
                         <code className="font-mono text-[11px] text-muted-foreground">
                           {entry.action}
                         </code>
@@ -317,7 +335,9 @@ export function AuditTable({
                           {targetText(entry)}
                         </Link>
                       ) : (
-                        <span className="text-muted-foreground"><AutoText value={targetText(entry)} /></span>
+                        <span className="text-muted-foreground">
+                          <AutoText value={targetText(entry)} />
+                        </span>
                       )}
                     </TableCell>
                   </TableRow>

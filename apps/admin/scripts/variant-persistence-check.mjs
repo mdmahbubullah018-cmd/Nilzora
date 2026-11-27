@@ -161,8 +161,16 @@ try {
   const readBack = await call('GET', `/admin/products/${productId}/variants`);
   let variants = readBack.body?.variants ?? [];
   const keys = variants.map((variant) => [...variant.attributeValueIds].sort().join(','));
-  record('reopening the product shows the saved variants', variants.length === ticked.length, `${String(variants.length)} variants`);
-  record('every combination is distinct', new Set(keys).size === variants.length, `${String(new Set(keys).size)} distinct of ${String(variants.length)}`);
+  record(
+    'reopening the product shows the saved variants',
+    variants.length === ticked.length,
+    `${String(variants.length)} variants`,
+  );
+  record(
+    'every combination is distinct',
+    new Set(keys).size === variants.length,
+    `${String(new Set(keys).size)} distinct of ${String(variants.length)}`,
+  );
   const untickedKey = [unticked[0].id, unticked[1].id].sort().join(',');
   record('the unticked combination was not created', !keys.includes(untickedKey));
 
@@ -175,7 +183,11 @@ try {
     !duplicate.ok,
     `second save answered ${String(duplicate.status)}`,
   );
-  record('the variant count did not change', variants.length === ticked.length, `${String(variants.length)} variants`);
+  record(
+    'the variant count did not change',
+    variants.length === ticked.length,
+    `${String(variants.length)} variants`,
+  );
 
   // ─── The last combination, then a second refresh ─────────────────────────
   await save(unticked);
@@ -200,5 +212,7 @@ try {
 }
 
 const failures = results.filter((result) => !result.ok);
-console.log(`\n${String(results.length - failures.length)}/${String(results.length)} checks passed against ${API}`);
+console.log(
+  `\n${String(results.length - failures.length)}/${String(results.length)} checks passed against ${API}`,
+);
 process.exit(failures.length === 0 ? 0 : 1);

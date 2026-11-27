@@ -75,14 +75,18 @@ export function ReturnSteps({
   return (
     <div className="grid gap-6">
       {!canDecide ? (
-        <ViewOnly><AutoText>Deciding returns needs the “Update order status” permission.</AutoText></ViewOnly>
+        <ViewOnly>
+          <AutoText>Deciding returns needs the “Update order status” permission.</AutoText>
+        </ViewOnly>
       ) : decisions.length === 0 ? (
-        <ViewOnly><AutoText>This return is closed: no further decision can be taken.</AutoText></ViewOnly>
+        <ViewOnly>
+          <AutoText>This return is closed: no further decision can be taken.</AutoText>
+        </ViewOnly>
       ) : (
         <form action={decide} className="grid gap-3 sm:grid-cols-2" noValidate>
           <CsrfField csrf={csrf} />
           <input type="hidden" name="returnId" value={returnId} />
-          <Field id="return-decision" label={tx("Decision")}>
+          <Field id="return-decision" label={tx('Decision')}>
             {(control) => (
               <NativeSelect
                 {...control}
@@ -100,8 +104,8 @@ export function ReturnSteps({
           </Field>
           <Field
             id="return-note"
-            label={tx("Note")}
-            hint={tx("Required to reject; kept in the history")}
+            label={tx('Note')}
+            hint={tx('Required to reject; kept in the history')}
             error={errorOf(decideState, 'note')}
           >
             {(control) => (
@@ -117,20 +121,30 @@ export function ReturnSteps({
           <div className="grid gap-3 sm:col-span-2">
             <ActionFeedback state={decideState} />
             <div>
-              <SubmitButton variant="secondary" pendingLabel="Recording…" className={TOUCH}><AutoText>Record decision</AutoText></SubmitButton>
+              <SubmitButton variant="secondary" pendingLabel="Recording…" className={TOUCH}>
+                <AutoText>Record decision</AutoText>
+              </SubmitButton>
             </div>
           </div>
         </form>
       )}
 
       <div className="grid gap-3 border-t border-hairline pt-5">
-        <h3 className="text-sm font-semibold text-foreground"><AutoText>Restock</AutoText></h3>
+        <h3 className="text-sm font-semibold text-foreground">
+          <AutoText>Restock</AutoText>
+        </h3>
         {!canRestock ? (
-          <ViewOnly><AutoText>Restocking needs the “Adjust stock” permission.</AutoText></ViewOnly>
+          <ViewOnly>
+            <AutoText>Restocking needs the “Adjust stock” permission.</AutoText>
+          </ViewOnly>
         ) : restocked ? (
-          <ViewOnly><AutoText>The returned units are already back in stock.</AutoText></ViewOnly>
+          <ViewOnly>
+            <AutoText>The returned units are already back in stock.</AutoText>
+          </ViewOnly>
         ) : !received ? (
-          <ViewOnly><AutoText>Restocking becomes available once the goods are marked as received.</AutoText></ViewOnly>
+          <ViewOnly>
+            <AutoText>Restocking becomes available once the goods are marked as received.</AutoText>
+          </ViewOnly>
         ) : (
           <form action={restock} className="grid gap-3" noValidate>
             <CsrfField csrf={csrf} />
@@ -138,7 +152,7 @@ export function ReturnSteps({
             <div className="flex flex-wrap items-start gap-3">
               <Field
                 id="restock-note"
-                label={tx("Restock note")}
+                label={tx('Restock note')}
                 className="min-w-56 flex-1"
                 error={errorOf(restockState, 'note')}
               >
@@ -147,13 +161,15 @@ export function ReturnSteps({
                     {...control}
                     name="note"
                     maxLength={300}
-                    placeholder={tx("Returned items restocked")}
+                    placeholder={tx('Returned items restocked')}
                     className={TOUCH}
                   />
                 )}
               </Field>
               <div className="pt-6.5">
-                <SubmitButton pendingLabel="Restocking…" className={TOUCH}><AutoText>Restock received items</AutoText></SubmitButton>
+                <SubmitButton pendingLabel="Restocking…" className={TOUCH}>
+                  <AutoText>Restock received items</AutoText>
+                </SubmitButton>
               </div>
             </div>
             <ActionFeedback state={restockState} />
@@ -181,7 +197,11 @@ export function RefundSteps({
   const open = status === 'requested' || status === 'approved';
 
   if (!open) {
-    return <ViewOnly><AutoText>This refund is closed: nothing more can be recorded on it.</AutoText></ViewOnly>;
+    return (
+      <ViewOnly>
+        <AutoText>This refund is closed: nothing more can be recorded on it.</AutoText>
+      </ViewOnly>
+    );
   }
 
   return (
@@ -190,18 +210,22 @@ export function RefundSteps({
         <form action={decide} className="grid gap-3 sm:grid-cols-2" noValidate>
           <CsrfField csrf={csrf} />
           <input type="hidden" name="refundId" value={refundId} />
-          <Field id="refund-decision" label={tx("Decision")}>
+          <Field id="refund-decision" label={tx('Decision')}>
             {(control) => (
               <NativeSelect {...control} name="decision" defaultValue="approve" className={TOUCH}>
-                <option value="approve"><AutoText>Approve</AutoText></option>
-                <option value="reject"><AutoText>Reject</AutoText></option>
+                <option value="approve">
+                  <AutoText>Approve</AutoText>
+                </option>
+                <option value="reject">
+                  <AutoText>Reject</AutoText>
+                </option>
               </NativeSelect>
             )}
           </Field>
           <Field
             id="refund-decision-note"
-            label={tx("Note")}
-            hint={tx("Required to reject")}
+            label={tx('Note')}
+            hint={tx('Required to reject')}
             error={errorOf(decideState, 'note')}
           >
             {(control) => <Input {...control} name="note" maxLength={300} className={TOUCH} />}
@@ -209,7 +233,9 @@ export function RefundSteps({
           <div className="grid gap-3 sm:col-span-2">
             <ActionFeedback state={decideState} />
             <div>
-              <SubmitButton variant="secondary" pendingLabel="Recording…" className={TOUCH}><AutoText>Record decision</AutoText></SubmitButton>
+              <SubmitButton variant="secondary" pendingLabel="Recording…" className={TOUCH}>
+                <AutoText>Record decision</AutoText>
+              </SubmitButton>
             </div>
           </div>
         </form>
@@ -220,8 +246,8 @@ export function RefundSteps({
           <div className="grid gap-3 sm:grid-cols-2">
             <Field
               id="refund-reference"
-              label={tx("Payout reference")}
-              hint={tx("Receipt or transfer id — required")}
+              label={tx('Payout reference')}
+              hint={tx('Receipt or transfer id — required')}
               error={errorOf(completeState, 'reference')}
               required
             >
@@ -230,18 +256,22 @@ export function RefundSteps({
                   {...control}
                   name="reference"
                   maxLength={120}
-                  defaultValue={completeState.status === 'error' ? completeState.values?.reference : undefined}
+                  defaultValue={
+                    completeState.status === 'error' ? completeState.values?.reference : undefined
+                  }
                   className={TOUCH}
                 />
               )}
             </Field>
-            <Field id="refund-paid-note" label={tx("Note")} error={errorOf(completeState, 'note')}>
+            <Field id="refund-paid-note" label={tx('Note')} error={errorOf(completeState, 'note')}>
               {(control) => <Input {...control} name="note" maxLength={500} className={TOUCH} />}
             </Field>
           </div>
           <ActionFeedback state={completeState} />
           <div>
-            <SubmitButton pendingLabel="Recording payout…" className={TOUCH}><AutoText>Record payout</AutoText></SubmitButton>
+            <SubmitButton pendingLabel="Recording payout…" className={TOUCH}>
+              <AutoText>Record payout</AutoText>
+            </SubmitButton>
           </div>
         </form>
       )}
@@ -252,7 +282,7 @@ export function RefundSteps({
         <div className="flex flex-wrap items-start gap-3">
           <Field
             id="refund-cancel-note"
-            label={tx("Reason to cancel")}
+            label={tx('Reason to cancel')}
             className="min-w-56 flex-1"
             error={errorOf(cancelState, 'note')}
             required
@@ -260,7 +290,9 @@ export function RefundSteps({
             {(control) => <Input {...control} name="note" maxLength={300} className={TOUCH} />}
           </Field>
           <div className="pt-6.5">
-            <SubmitButton variant="ghost" pendingLabel="Cancelling…" className={TOUCH}><AutoText>Cancel refund</AutoText></SubmitButton>
+            <SubmitButton variant="ghost" pendingLabel="Cancelling…" className={TOUCH}>
+              <AutoText>Cancel refund</AutoText>
+            </SubmitButton>
           </div>
         </div>
         <ActionFeedback state={cancelState} />
@@ -283,12 +315,17 @@ export function RefundRequestForm({
   return (
     <form action={action} className="grid gap-4 sm:grid-cols-2" noValidate>
       <CsrfField csrf={csrf} />
-      <Field id="refund-order" label={tx("Order number")} error={errorOf(state, 'orderNumber')} required>
+      <Field
+        id="refund-order"
+        label={tx('Order number')}
+        error={errorOf(state, 'orderNumber')}
+        required
+      >
         {(control) => (
           <Input
             {...control}
             name="orderNumber"
-            placeholder={tx("NZ100001")}
+            placeholder={tx('NZ100001')}
             defaultValue={defaultOrderNumber}
             autoCapitalize="characters"
             className={`font-mono ${TOUCH}`}
@@ -297,30 +334,41 @@ export function RefundRequestForm({
       </Field>
       <Field
         id="refund-amount"
-        label={tx("Amount (৳)")}
-        hint={tx("Never more than was collected")}
+        label={tx('Amount (৳)')}
+        hint={tx('Never more than was collected')}
         error={errorOf(state, 'amount')}
         required
       >
         {(control) => (
-          <Input {...control} name="amount" inputMode="decimal" className={`tabular-nums ${TOUCH}`} />
+          <Input
+            {...control}
+            name="amount"
+            inputMode="decimal"
+            className={`tabular-nums ${TOUCH}`}
+          />
         )}
       </Field>
-      <Field id="refund-method" label={tx("Method")}>
+      <Field id="refund-method" label={tx('Method')}>
         {(control) => (
           <NativeSelect {...control} name="method" defaultValue="cod_manual" className={TOUCH}>
-            <option value="cod_manual"><AutoText>Cash paid back by hand</AutoText></option>
-            <option value="bank_transfer"><AutoText>Bank transfer</AutoText></option>
+            <option value="cod_manual">
+              <AutoText>Cash paid back by hand</AutoText>
+            </option>
+            <option value="bank_transfer">
+              <AutoText>Bank transfer</AutoText>
+            </option>
           </NativeSelect>
         )}
       </Field>
-      <Field id="refund-reason" label={tx("Reason")} error={errorOf(state, 'reason')} required>
+      <Field id="refund-reason" label={tx('Reason')} error={errorOf(state, 'reason')} required>
         {(control) => <Input {...control} name="reason" maxLength={200} className={TOUCH} />}
       </Field>
       <div className="grid gap-3 sm:col-span-2">
         <ActionFeedback state={state} />
         <div>
-          <SubmitButton pendingLabel="Requesting refund…" className={TOUCH}><AutoText>Request refund</AutoText></SubmitButton>
+          <SubmitButton pendingLabel="Requesting refund…" className={TOUCH}>
+            <AutoText>Request refund</AutoText>
+          </SubmitButton>
         </div>
       </div>
     </form>

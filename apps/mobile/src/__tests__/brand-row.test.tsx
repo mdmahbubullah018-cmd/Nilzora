@@ -90,8 +90,7 @@ describe('BrandRow', () => {
       if (node === null || typeof node !== 'object') return;
       const entry = node as { props?: { style?: unknown }; children?: unknown[] };
       const flat = StyleSheet.flatten(entry.props?.style as never) as
-        | { aspectRatio?: unknown }
-        | undefined;
+        { aspectRatio?: unknown } | undefined;
       const ratio = flat?.aspectRatio;
       if (typeof ratio === 'number') panels.push(ratio);
       for (const child of entry.children ?? []) walk(child);

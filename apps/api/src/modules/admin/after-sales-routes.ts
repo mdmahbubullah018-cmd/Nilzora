@@ -60,7 +60,11 @@ const REFUND_ANSWERS: Partial<Record<AdminRefusal, RefusalAnswer>> = {
     'refund_exceeds_balance',
     'The amount is more than this order can still refund',
   ],
-  refund_not_decidable: [409, 'refund_not_decidable', 'This refund is no longer waiting for a decision'],
+  refund_not_decidable: [
+    409,
+    'refund_not_decidable',
+    'This refund is no longer waiting for a decision',
+  ],
   refund_not_completable: [
     409,
     'refund_not_completable',
@@ -276,11 +280,7 @@ export function adminAfterSalesRouter(deps: AdminRouteDependencies): Router {
           identity.userId,
           body,
         );
-        const refund = await afterSales.getRefund(
-          identity.accessToken,
-          identity.userId,
-          refundId,
-        );
+        const refund = await afterSales.getRefund(identity.accessToken, identity.userId, refundId);
         if (refund === null) {
           sendError(res, 404, 'not_found', 'Refund not found');
           return;

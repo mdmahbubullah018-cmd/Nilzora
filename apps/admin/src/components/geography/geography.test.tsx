@@ -106,7 +106,13 @@ const GEOGRAPHY: OrderGeography = {
     unmappedOrders: 1,
   },
   divisions: [
-    { division: 'Chattogram', orderCount: 6, deliveredCount: 4, revenueMinor: 700_000, share: 0.6667 },
+    {
+      division: 'Chattogram',
+      orderCount: 6,
+      deliveredCount: 4,
+      revenueMinor: 700_000,
+      share: 0.6667,
+    },
     { division: 'Dhaka', orderCount: 3, deliveredCount: 2, revenueMinor: 200_000, share: 0.3333 },
     { division: 'Khulna', orderCount: 0, deliveredCount: 0, revenueMinor: 0, share: 0 },
     { division: 'Rajshahi', orderCount: 0, deliveredCount: 0, revenueMinor: 0, share: 0 },
@@ -188,7 +194,9 @@ describe('the projection', () => {
 describe('the map', () => {
   it('draws the districts, their Bengali names and the attribution', async () => {
     render(<GeographyView geography={GEOGRAPHY} selection={SELECTION} today="2026-11-11" />);
-    const map = await screen.findByRole('img', { name: /districts drawn from the current filters/i });
+    const map = await screen.findByRole('img', {
+      name: /districts drawn from the current filters/i,
+    });
     // One path per district, plus the division outline.
     expect(map.querySelectorAll('path')).toHaveLength(3);
     expect(screen.getByText(/Test boundaries/)).toBeTruthy();
@@ -244,7 +252,9 @@ describe('the page body', () => {
     const panel = screen.getByRole('region', { name: 'Divisions' });
     fireEvent.click(within(panel).getByRole('button', { name: /Khulna/ }));
     // Khulna holds no districts with orders in this fixture, so the ranking empties honestly.
-    expect(screen.getAllByText(/No order in this range could be placed on the map/).length).toBeGreaterThan(0);
+    expect(
+      screen.getAllByText(/No order in this range could be placed on the map/).length,
+    ).toBeGreaterThan(0);
   });
 
   it('reconciles mapped and unmapped orders and names the offending value', () => {
@@ -288,13 +298,34 @@ describe('the page body', () => {
   it('explains an empty range instead of drawing zeros', () => {
     const empty: OrderGeography = {
       ...GEOGRAPHY,
-      summary: { ...GEOGRAPHY.summary, totalOrders: 0, eligibleOrders: 0, mappedOrders: 0, unmappedOrders: 0, cancelledOrders: 0 },
-      districts: GEOGRAPHY.districts.map((row) => ({ ...row, orderCount: 0, deliveredCount: 0, revenueMinor: 0, share: null })),
+      summary: {
+        ...GEOGRAPHY.summary,
+        totalOrders: 0,
+        eligibleOrders: 0,
+        mappedOrders: 0,
+        unmappedOrders: 0,
+        cancelledOrders: 0,
+      },
+      districts: GEOGRAPHY.districts.map((row) => ({
+        ...row,
+        orderCount: 0,
+        deliveredCount: 0,
+        revenueMinor: 0,
+        share: null,
+      })),
       statusBreakdown: [],
-      unmapped: { orderCount: 0, revenueMinor: 0, missingDistrictCount: 0, unknownDistrictCount: 0, values: [] },
+      unmapped: {
+        orderCount: 0,
+        revenueMinor: 0,
+        missingDistrictCount: 0,
+        unknownDistrictCount: 0,
+        values: [],
+      },
     };
     render(<GeographyView geography={empty} selection={SELECTION} today="2026-11-11" />);
     expect(screen.getAllByText(/No orders were placed in this range/).length).toBeGreaterThan(0);
-    expect(screen.getByText(/Every order in this view names a district the map knows/)).toBeTruthy();
+    expect(
+      screen.getByText(/Every order in this view names a district the map knows/),
+    ).toBeTruthy();
   });
 });

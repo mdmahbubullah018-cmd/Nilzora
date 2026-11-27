@@ -67,9 +67,7 @@ export function BrandMark({
             setFailedSource(source);
           }}
           className={
-            shape === 'band'
-              ? 'h-full w-full object-contain'
-              : 'size-full object-contain p-2.5'
+            shape === 'band' ? 'h-full w-full object-contain' : 'size-full object-contain p-2.5'
           }
         />
       ) : (

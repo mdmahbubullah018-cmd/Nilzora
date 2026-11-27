@@ -56,5 +56,7 @@ export function CancelReturnForm({
   ...fields
 }: Omit<CancelReturnFormViewProps, keyof FormStatusProps> & { action: FormAction }) {
   const [state, formAction, pending] = useActionState(action, IDLE_STATE);
-  return <CancelReturnFormView {...fields} state={state} formAction={formAction} pending={pending} />;
+  return (
+    <CancelReturnFormView {...fields} state={state} formAction={formAction} pending={pending} />
+  );
 }

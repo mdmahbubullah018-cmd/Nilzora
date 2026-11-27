@@ -117,9 +117,9 @@ describe('the product voucher strip', () => {
     // Eight in the full list; the row itself holds six.
     expect(within(dialog).getAllByText(/^Voucher \d$/)).toHaveLength(8);
     expect(within(dialog).getByRole('link', { name: 'Open the Voucher Center' })).toBeTruthy();
-    expect(within(dialog).getByRole('link', { name: 'Open the Voucher Center' }).getAttribute('href')).toBe(
-      '/vouchers',
-    );
+    expect(
+      within(dialog).getByRole('link', { name: 'Open the Voucher Center' }).getAttribute('href'),
+    ).toBe('/vouchers');
   });
 
   it('gives a guest a Collect link to sign in that comes back to this voucher', () => {

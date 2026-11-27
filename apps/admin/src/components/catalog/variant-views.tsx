@@ -97,7 +97,7 @@ function AttributeFields({
   const tx = useTx();
   return (
     <>
-      <Field id={`${idPrefix}-name`} label={tx("Name")} error={errors.name} required>
+      <Field id={`${idPrefix}-name`} label={tx('Name')} error={errors.name} required>
         {(control) => (
           <Input
             {...control}
@@ -111,7 +111,7 @@ function AttributeFields({
       <div className="grid items-start gap-4 sm:grid-cols-[minmax(0,1fr)_7rem]">
         <Field
           id={`${idPrefix}-slug`}
-          label={tx("Address")}
+          label={tx('Address')}
           hint={attribute ? 'Lower-case words, e.g. size' : ADDRESS_HINT}
           error={errors.slug}
           required={attribute !== undefined}
@@ -130,8 +130,8 @@ function AttributeFields({
         </Field>
         <Field
           id={`${idPrefix}-position`}
-          label={tx("Order")}
-          hint={tx("0 comes first")}
+          label={tx('Order')}
+          hint={tx('0 comes first')}
           error={errors.position}
         >
           {(control) => (
@@ -147,8 +147,10 @@ function AttributeFields({
       </div>
       <Field
         id={`${idPrefix}-kind`}
-        label={tx("What it is")}
-        hint={tx("A colour shows as a swatch on the storefront and the app; a size shows as a chip.")}
+        label={tx('What it is')}
+        hint={tx(
+          'A colour shows as a swatch on the storefront and the app; a size shows as a chip.',
+        )}
         error={errors.kind}
       >
         {(control) => (
@@ -158,9 +160,15 @@ function AttributeFields({
             defaultValue={attribute?.kind ?? 'other'}
             className="h-11 rounded-xl border border-input-border bg-surface px-3 text-sm text-foreground"
           >
-            <option value="color"><AutoText>Colour</AutoText></option>
-            <option value="size"><AutoText>Size</AutoText></option>
-            <option value="other"><AutoText>Something else</AutoText></option>
+            <option value="color">
+              <AutoText>Colour</AutoText>
+            </option>
+            <option value="size">
+              <AutoText>Size</AutoText>
+            </option>
+            <option value="other">
+              <AutoText>Something else</AutoText>
+            </option>
           </select>
         )}
       </Field>
@@ -170,7 +178,9 @@ function AttributeFields({
           name="isActive"
           defaultChecked={attribute?.isActive ?? true}
           className="size-5 accent-primary-action"
-        /><AutoText>Available for new variants</AutoText></label>
+        />
+        <AutoText>Available for new variants</AutoText>
+      </label>
     </>
   );
 }
@@ -187,7 +197,10 @@ function AttributeEditForm({ attribute, csrf }: { attribute: AdminAttribute; csr
         className={`flex cursor-pointer list-none items-center gap-2 px-3 py-2 text-sm font-medium text-foreground [&::-webkit-details-marker]:hidden ${TOUCH}`}
       >
         <Pencil aria-hidden="true" className="size-4" strokeWidth={1.75} />
-        Edit attribute <span className="sr-only"><AutoText value={attribute.name} /></span>
+        Edit attribute{' '}
+        <span className="sr-only">
+          <AutoText value={attribute.name} />
+        </span>
       </summary>
       <form action={action} className="grid gap-4 border-t border-hairline p-3">
         <CsrfField csrf={csrf} />
@@ -199,7 +212,7 @@ function AttributeEditForm({ attribute, csrf }: { attribute: AdminAttribute; csr
         />
         <ActionFeedback state={state} />
         <div>
-          <SubmitButton label={tx("Save attribute")} variant="outline" />
+          <SubmitButton label={tx('Save attribute')} variant="outline" />
         </div>
       </form>
     </details>
@@ -264,13 +277,13 @@ function ValueChip({
         <CsrfField csrf={csrf} />
         <input type="hidden" name="attributeId" value={attribute.id} />
         <input type="hidden" name="valueId" value={value.id} />
-        <Field id={`${prefix}-value`} label={tx("Value")} error={errors.value} required>
+        <Field id={`${prefix}-value`} label={tx('Value')} error={errors.value} required>
           {(control) => (
             <Input {...control} name="value" maxLength={40} defaultValue={value.value} />
           )}
         </Field>
         <div className="grid grid-cols-[minmax(0,1fr)_5rem] items-start gap-3">
-          <Field id={`${prefix}-slug`} label={tx("Address")} error={errors.valueSlug} required>
+          <Field id={`${prefix}-slug`} label={tx('Address')} error={errors.valueSlug} required>
             {(control) => (
               <Input
                 {...control}
@@ -283,7 +296,7 @@ function ValueChip({
               />
             )}
           </Field>
-          <Field id={`${prefix}-position`} label={tx("Order")} error={errors.position}>
+          <Field id={`${prefix}-position`} label={tx('Order')} error={errors.position}>
             {(control) => (
               <Input
                 {...control}
@@ -298,8 +311,8 @@ function ValueChip({
         {attribute.kind === 'color' ? (
           <Field
             id={`${prefix}-swatch`}
-            label={tx("Swatch")}
-            hint={tx("Shown to customers beside the name")}
+            label={tx('Swatch')}
+            hint={tx('Shown to customers beside the name')}
             error={errors.swatchHex}
           >
             {(control) => (
@@ -321,7 +334,7 @@ function ValueChip({
         ) : null}
         <ActionFeedback state={state} inline />
         <div>
-          <SubmitButton label={tx("Save value")} variant="outline" size="sm" />
+          <SubmitButton label={tx('Save value')} variant="outline" size="sm" />
         </div>
       </form>
     </details>
@@ -351,7 +364,7 @@ function AddValueForm({ attribute, csrf }: { attribute: AdminAttribute; csrf: Cs
               {...control}
               name="value"
               maxLength={40}
-              placeholder={tx("e.g. XL")}
+              placeholder={tx('e.g. XL')}
               className="max-sm:h-11"
             />
           )}
@@ -359,8 +372,8 @@ function AddValueForm({ attribute, csrf }: { attribute: AdminAttribute; csrf: Cs
         {attribute.kind === 'color' ? (
           <Field
             id={`${prefix}-swatch`}
-            label={tx("Swatch")}
-            hint={tx("Shown beside the name")}
+            label={tx('Swatch')}
+            hint={tx('Shown beside the name')}
             error={errors.swatchHex}
           >
             {(control) => (
@@ -375,7 +388,7 @@ function AddValueForm({ attribute, csrf }: { attribute: AdminAttribute; csrf: Cs
           </Field>
         ) : null}
         <div className="pt-6.5">
-          <SubmitButton label={tx("Add value")} icon={Plus} variant="secondary" />
+          <SubmitButton label={tx('Add value')} icon={Plus} variant="secondary" />
         </div>
       </div>
       <ActionFeedback state={state} inline />
@@ -396,7 +409,9 @@ function AttributeCard({
     <li className="nz-panel-strong grid gap-3 rounded-2xl border p-4">
       <div className="flex flex-wrap items-start justify-between gap-2">
         <div className="grid gap-0.5">
-          <p className="font-medium text-foreground"><AutoText value={attribute.name} /></p>
+          <p className="font-medium text-foreground">
+            <AutoText value={attribute.name} />
+          </p>
           <p className="font-mono text-xs text-muted-foreground">
             {attribute.slug} · order {attribute.position}
           </p>
@@ -406,7 +421,9 @@ function AttributeCard({
         </Chip>
       </div>
       {attribute.values.length === 0 ? (
-        <p className="text-sm text-muted-foreground"><AutoText>No values yet.</AutoText></p>
+        <p className="text-sm text-muted-foreground">
+          <AutoText>No values yet.</AutoText>
+        </p>
       ) : (
         <ul aria-label={`${attribute.name} values`} className="flex flex-wrap gap-2">
           {attribute.values.map((value) => (
@@ -431,7 +448,7 @@ function NewAttributeForm({ csrf, next }: { csrf: CsrfInput; next: number }) {
   const [state, action] = useActionState(saveAttributeAction, IDLE_STATE);
   return (
     <SectionCard
-      title={tx("New attribute")}
+      title={tx('New attribute')}
       icon={ListPlus}
       description={tx("Then add its values, such as S, M and L, on the attribute's card.")}
       className="nz-panel-strong"
@@ -447,7 +464,7 @@ function NewAttributeForm({ csrf, next }: { csrf: CsrfInput; next: number }) {
           key={state.status === 'success' ? `${state.message ?? ''}-${String(next)}` : 'new'}
         />
         <ActionFeedback state={state} />
-        <SubmitButton label={tx("Add attribute")} icon={Plus} />
+        <SubmitButton label={tx('Add attribute')} icon={Plus} />
       </form>
     </SectionCard>
   );
@@ -485,9 +502,11 @@ export function AttributeManager({
 
   const list = (
     <SectionCard
-      title={tx("Attributes")}
+      title={tx('Attributes')}
       icon={Shapes}
-      description={tx("Reusable options such as Size or Colour. A product's variants are built from their values.")}
+      description={tx(
+        "Reusable options such as Size or Colour. A product's variants are built from their values.",
+      )}
       actions={
         attributes.length > 0 ? (
           <Chip tone="neutral">
@@ -526,7 +545,7 @@ export function AttributeManager({
       {attributes.length === 0 ? (
         <EmptyPanel
           icon={Shapes}
-          title={tx("No attributes yet")}
+          title={tx('No attributes yet')}
           description={
             canEdit
               ? 'Add Size, Colour, Material or anything else your products are sold in.'
@@ -583,7 +602,11 @@ export function AttributeManager({
     return (
       <div className="grid gap-4">
         {list}
-        <ViewOnly><AutoText>Your account can view attributes. Adding them needs the “Edit products” permission.</AutoText></ViewOnly>
+        <ViewOnly>
+          <AutoText>
+            Your account can view attributes. Adding them needs the “Edit products” permission.
+          </AutoText>
+        </ViewOnly>
       </div>
     );
   }
@@ -645,8 +668,10 @@ function VariantPicture({
         // The database stores the picture's address in this column, not a library key.
         valueKind="url"
         name="imageUrl"
-        label={tx("Variant picture")}
-        hint={tx("Optional. Shown on the product page when a customer chooses this combination; the product's own pictures are used when it is empty.")}
+        label={tx('Variant picture')}
+        hint={tx(
+          "Optional. Shown on the product page when a customer chooses this combination; the product's own pictures are used when it is empty.",
+        )}
         defaultValue={current}
         previewUrl={current}
         csrf={csrf}
@@ -658,7 +683,9 @@ function VariantPicture({
     'relative grid size-16 cursor-pointer place-items-center overflow-hidden rounded-xl border-2 border-hairline bg-surface-muted transition-colors has-checked:border-primary has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-ring max-sm:size-18';
   return (
     <fieldset className="grid gap-2">
-      <legend className="text-sm font-medium text-foreground"><AutoText>Variant picture</AutoText></legend>
+      <legend className="text-sm font-medium text-foreground">
+        <AutoText>Variant picture</AutoText>
+      </legend>
       <p id={`${idPrefix}-picture-hint`} className="text-xs text-muted-foreground">
         Optional. Shown when a customer chooses this combination; without one, the product&apos;s
         cover is shown.
@@ -677,7 +704,9 @@ function VariantPicture({
             className="sr-only"
           />
           <ImageOff aria-hidden="true" className="size-5 text-muted-foreground" />
-          <span className="sr-only"><AutoText>No picture of its own</AutoText></span>
+          <span className="sr-only">
+            <AutoText>No picture of its own</AutoText>
+          </span>
         </label>
         {own.map((image, index) => (
           <label key={image.id} className={option}>
@@ -718,8 +747,8 @@ function VariantFields({
     <div className="grid items-start gap-4 sm:grid-cols-2">
       <Field
         id={`${idPrefix}-sku`}
-        label={tx("SKU")}
-        hint={tx("Capital letters, digits and hyphens, e.g. NZ-PANJABI-M")}
+        label={tx('SKU')}
+        hint={tx('Capital letters, digits and hyphens, e.g. NZ-PANJABI-M')}
         error={errors.sku}
         required
       >
@@ -737,7 +766,7 @@ function VariantFields({
       </Field>
       <Field
         id={`${idPrefix}-price`}
-        label={tx("Price (BDT)")}
+        label={tx('Price (BDT)')}
         hint={`Leave empty to use the product price, ${formatMoney(product.priceMinor)}`}
         error={errors.price}
       >
@@ -753,7 +782,7 @@ function VariantFields({
       </Field>
       <Field
         id={`${idPrefix}-compare`}
-        label={tx("Former price (BDT)")}
+        label={tx('Former price (BDT)')}
         hint={tx("Optional; needs the variant's own price, and must be higher")}
         error={errors.compareAtPrice}
       >
@@ -769,8 +798,8 @@ function VariantFields({
       </Field>
       <Field
         id={`${idPrefix}-position`}
-        label={tx("Position")}
-        hint={tx("Lower numbers come first")}
+        label={tx('Position')}
+        hint={tx('Lower numbers come first')}
         error={errors.position}
       >
         {(control) => (
@@ -831,7 +860,7 @@ function VariantEditForm({
         />
         <ActionFeedback state={state} />
         <div>
-          <SubmitButton label={tx("Save variant")} variant="outline" />
+          <SubmitButton label={tx('Save variant')} variant="outline" />
         </div>
       </form>
     </details>
@@ -901,14 +930,20 @@ function VariantRow({
                 ))}
               {name}
             </p>
-            <p className="font-mono text-xs text-muted-foreground"><AutoText value={variant.sku} /></p>
+            <p className="font-mono text-xs text-muted-foreground">
+              <AutoText value={variant.sku} />
+            </p>
           </div>
         </div>
         <div className="flex flex-wrap items-center gap-2 text-sm">
           <span className="font-semibold text-foreground tabular-nums">
             {formatMoney(variant.priceMinor ?? product.priceMinor)}
           </span>
-          {variant.priceMinor === null ? <Chip tone="neutral"><AutoText>Product price</AutoText></Chip> : null}
+          {variant.priceMinor === null ? (
+            <Chip tone="neutral">
+              <AutoText>Product price</AutoText>
+            </Chip>
+          ) : null}
           {variant.compareAtPriceMinor !== null ? (
             <s className="text-xs text-muted-foreground tabular-nums">
               <span className="sr-only">Former price </span>
@@ -952,12 +987,17 @@ function VariantRow({
                 trigger={
                   <>
                     <Trash2 aria-hidden="true" strokeWidth={1.75} />
-                    Delete <span className="sr-only"><AutoText value={name} /></span>
+                    Delete{' '}
+                    <span className="sr-only">
+                      <AutoText value={name} />
+                    </span>
                   </>
                 }
                 title={`Delete the variant “${name}”?`}
-                description={tx("It disappears from the storefront. Orders already placed keep their own copy of it. This cannot be undone.")}
-                confirmLabel={tx("Delete variant")}
+                description={tx(
+                  'It disappears from the storefront. Orders already placed keep their own copy of it. This cannot be undone.',
+                )}
+                confirmLabel={tx('Delete variant')}
                 hiddenFields={{ productId: product.id, variantId: variant.id }}
                 error={deleteState.status === 'error' ? deleteState.message : undefined}
               />
@@ -971,8 +1011,8 @@ function VariantRow({
               <div className="flex flex-wrap items-start gap-3">
                 <Field
                   id={`mode-${variant.id}`}
-                  label={tx("Action")}
-                  hint={tx("Add, remove, set an exact count, or correct")}
+                  label={tx('Action')}
+                  hint={tx('Add, remove, set an exact count, or correct')}
                   className="w-44"
                 >
                   {(control) => (
@@ -982,17 +1022,23 @@ function VariantRow({
                       defaultValue={stockState.status === 'error' ? stockState.values?.mode : 'add'}
                       className="h-11 w-full rounded-xl border border-input-border bg-surface px-3 text-sm text-foreground max-sm:h-11"
                     >
-                      <option value="add"><AutoText>Add stock</AutoText></option>
-                      <option value="remove"><AutoText>Remove stock</AutoText></option>
-                      <option value="set"><AutoText>Set stock</AutoText></option>
+                      <option value="add">
+                        <AutoText>Add stock</AutoText>
+                      </option>
+                      <option value="remove">
+                        <AutoText>Remove stock</AutoText>
+                      </option>
+                      <option value="set">
+                        <AutoText>Set stock</AutoText>
+                      </option>
                       <option value="correction">Correction (+/−)</option>
                     </select>
                   )}
                 </Field>
                 <Field
                   id={`change-${variant.id}`}
-                  label={tx("Units")}
-                  hint={tx("e.g. 5")}
+                  label={tx('Units')}
+                  hint={tx('e.g. 5')}
                   error={stockErrors.change}
                   className="w-28"
                 >
@@ -1010,8 +1056,8 @@ function VariantRow({
                 </Field>
                 <Field
                   id={`note-${variant.id}`}
-                  label={tx("Reason")}
-                  hint={tx("Recorded in the ledger")}
+                  label={tx('Reason')}
+                  hint={tx('Recorded in the ledger')}
                   error={stockErrors.note}
                   className="min-w-48 flex-1"
                 >
@@ -1020,7 +1066,7 @@ function VariantRow({
                       {...control}
                       name="note"
                       maxLength={300}
-                      placeholder={tx("Stock received")}
+                      placeholder={tx('Stock received')}
                       defaultValue={
                         stockState.status === 'error' ? stockState.values?.note : undefined
                       }
@@ -1029,14 +1075,16 @@ function VariantRow({
                   )}
                 </Field>
                 <div className="pt-6.5">
-                  <SubmitButton label={tx("Update stock")} variant="secondary" />
+                  <SubmitButton label={tx('Update stock')} variant="secondary" />
                 </div>
               </div>
               <p className="text-xs text-muted-foreground">
                 Current stock:{' '}
                 <span className="font-semibold text-foreground tabular-nums">
                   {formatCount(variant.stockQuantity)}
-                </span><AutoText>. Every action is recorded in the ledger with its reason.</AutoText></p>
+                </span>
+                <AutoText>. Every action is recorded in the ledger with its reason.</AutoText>
+              </p>
               <ActionFeedback state={stockState} inline />
             </form>
           ) : null}
@@ -1124,11 +1172,12 @@ function VariantGenerator({
     });
   };
   const allSelected = fresh.length > 0 && selected.length === fresh.length;
-  const toggleAll = () => setDropped(allSelected ? new Set(fresh.map((combo) => combo.key)) : new Set<string>());
+  const toggleAll = () =>
+    setDropped(allSelected ? new Set(fresh.map((combo) => combo.key)) : new Set<string>());
 
   return (
     <SectionCard
-      title={tx("Generate variants")}
+      title={tx('Generate variants')}
       icon={Wand2}
       description={
         locked
@@ -1142,10 +1191,11 @@ function VariantGenerator({
         <input type="hidden" name="productId" value={product.id} />
         <div className="grid gap-3 sm:grid-cols-2">
           {attributes.map((attribute) => (
-            <fieldset key={attribute.id} className="grid gap-2 rounded-xl border border-hairline p-3">
-              <legend className="px-1 text-sm font-medium text-foreground">
-                {attribute.name}
-              </legend>
+            <fieldset
+              key={attribute.id}
+              className="grid gap-2 rounded-xl border border-hairline p-3"
+            >
+              <legend className="px-1 text-sm font-medium text-foreground">{attribute.name}</legend>
               <div className="flex flex-wrap gap-2">
                 {attribute.values.map((value) => (
                   <label
@@ -1167,7 +1217,9 @@ function VariantGenerator({
         </div>
 
         {combos.length === 0 ? (
-          <p className="text-sm text-muted-foreground"><AutoText>Choose at least one colour and one size to see the combinations.</AutoText></p>
+          <p className="text-sm text-muted-foreground">
+            <AutoText>Choose at least one colour and one size to see the combinations.</AutoText>
+          </p>
         ) : (
           <div className="grid gap-2 rounded-xl border border-hairline bg-surface px-3 py-3">
             <div className="flex flex-wrap items-center justify-between gap-2">
@@ -1193,8 +1245,12 @@ function VariantGenerator({
                   {combo.exists ? (
                     <span className="flex min-h-9 items-center gap-2 rounded-lg bg-neutral-soft px-2.5 text-sm text-muted-foreground">
                       <Check aria-hidden="true" className="size-4" />
-                      <span className="flex-1"><AutoText value={combo.label} /></span>
-                      <span className="text-xs"><AutoText>Already exists</AutoText></span>
+                      <span className="flex-1">
+                        <AutoText value={combo.label} />
+                      </span>
+                      <span className="text-xs">
+                        <AutoText>Already exists</AutoText>
+                      </span>
                     </span>
                   ) : (
                     <label className="flex min-h-9 cursor-pointer items-center gap-2 rounded-lg px-2.5 text-sm text-foreground hover:bg-surface-muted has-checked:bg-info-soft">
@@ -1206,7 +1262,9 @@ function VariantGenerator({
                         onChange={() => toggleCombo(combo.key)}
                         className="size-4 accent-primary-action"
                       />
-                      <span className="flex-1"><AutoText value={combo.label} /></span>
+                      <span className="flex-1">
+                        <AutoText value={combo.label} />
+                      </span>
                     </label>
                   )}
                 </li>
@@ -1225,11 +1283,13 @@ function VariantGenerator({
             )),
         )}
         {errors.generateValueIds ? (
-          <p className="text-sm text-danger-ink"><AutoText value={errors.generateValueIds} /></p>
+          <p className="text-sm text-danger-ink">
+            <AutoText value={errors.generateValueIds} />
+          </p>
         ) : null}
         <Field
           id="generate-sku"
-          label={tx("SKU start")}
+          label={tx('SKU start')}
           error={errors.skuPrefix}
           hint={tx("Each variant's SKU is this plus its values, e.g. TSHIRT-M-NAVY.")}
         >
@@ -1244,7 +1304,7 @@ function VariantGenerator({
         </Field>
         <ActionFeedback state={state} />
         <div>
-          <SubmitButton label={tx("Generate variants")} />
+          <SubmitButton label={tx('Generate variants')} />
         </div>
       </form>
     </SectionCard>
@@ -1267,7 +1327,7 @@ function AddVariantForm({
   const errors = errorsOf(state);
   return (
     <SectionCard
-      title={tx("Add a variant")}
+      title={tx('Add a variant')}
       icon={Plus}
       description={
         locked
@@ -1316,10 +1376,12 @@ function AddVariantForm({
             name="isActive"
             defaultChecked
             className="size-5 accent-primary-action"
-          /><AutoText>Sell this option on the storefront</AutoText></label>
+          />
+          <AutoText>Sell this option on the storefront</AutoText>
+        </label>
         <ActionFeedback state={state} />
         <div>
-          <SubmitButton label={tx("Save variant")} />
+          <SubmitButton label={tx('Save variant')} />
         </div>
       </form>
     </SectionCard>
@@ -1364,9 +1426,11 @@ function BulkStockForm({
 
   return (
     <SectionCard
-      title={tx("Bulk stock by option")}
+      title={tx('Bulk stock by option')}
       icon={Layers}
-      description={tx("Add or remove the same number of units for every variant of one value, such as all sizes of one colour. Each change is recorded in the ledger.")}
+      description={tx(
+        'Add or remove the same number of units for every variant of one value, such as all sizes of one colour. Each change is recorded in the ledger.',
+      )}
       className="nz-panel-strong"
     >
       <form action={action} className="grid gap-4" noValidate>
@@ -1375,8 +1439,8 @@ function BulkStockForm({
         <div className="grid gap-4 sm:grid-cols-2">
           <Field
             id="bulk-value"
-            label={tx("Which value")}
-            hint={tx("Every variant that uses it")}
+            label={tx('Which value')}
+            hint={tx('Every variant that uses it')}
             error={errors.valueId}
             required
           >
@@ -1387,7 +1451,9 @@ function BulkStockForm({
                 defaultValue=""
                 className="h-11 rounded-xl border border-input-border bg-surface px-3 text-sm text-foreground"
               >
-                <option value="" disabled><AutoText>Choose a value</AutoText></option>
+                <option value="" disabled>
+                  <AutoText>Choose a value</AutoText>
+                </option>
                 {choices.map(({ attribute, values }) => (
                   <optgroup key={attribute.id} label={attribute.name}>
                     {values.map((value) => (
@@ -1400,7 +1466,7 @@ function BulkStockForm({
               </select>
             )}
           </Field>
-          <Field id="bulk-mode" label={tx("Action")} hint={tx("Add to, or remove from, every one")}>
+          <Field id="bulk-mode" label={tx('Action')} hint={tx('Add to, or remove from, every one')}>
             {(control) => (
               <select
                 id={control.id}
@@ -1408,12 +1474,16 @@ function BulkStockForm({
                 defaultValue="add"
                 className="h-11 rounded-xl border border-input-border bg-surface px-3 text-sm text-foreground"
               >
-                <option value="add"><AutoText>Add stock</AutoText></option>
-                <option value="remove"><AutoText>Remove stock</AutoText></option>
+                <option value="add">
+                  <AutoText>Add stock</AutoText>
+                </option>
+                <option value="remove">
+                  <AutoText>Remove stock</AutoText>
+                </option>
               </select>
             )}
           </Field>
-          <Field id="bulk-change" label={tx("Units")} hint={tx("e.g. 10")} error={errors.change}>
+          <Field id="bulk-change" label={tx('Units')} hint={tx('e.g. 10')} error={errors.change}>
             {(control) => (
               <Input
                 {...control}
@@ -1423,13 +1493,18 @@ function BulkStockForm({
               />
             )}
           </Field>
-          <Field id="bulk-note" label={tx("Reason")} error={errors.note} hint={tx("Recorded in the ledger")}>
+          <Field
+            id="bulk-note"
+            label={tx('Reason')}
+            error={errors.note}
+            hint={tx('Recorded in the ledger')}
+          >
             {(control) => (
               <Input
                 {...control}
                 name="note"
                 maxLength={300}
-                placeholder={tx("Supplier delivery")}
+                placeholder={tx('Supplier delivery')}
                 className="max-sm:h-11"
               />
             )}
@@ -1437,7 +1512,7 @@ function BulkStockForm({
         </div>
         <ActionFeedback state={state} inline />
         <div>
-          <SubmitButton label={tx("Apply to every variant of that value")} variant="secondary" />
+          <SubmitButton label={tx('Apply to every variant of that value')} variant="secondary" />
         </div>
       </form>
     </SectionCard>
@@ -1497,8 +1572,8 @@ export function VariantEditor({
         {variants.length === 0 ? (
           <EmptyPanel
             icon={Layers}
-            title={tx("No variants yet")}
-            description={tx("Products without variants keep selling at their own price and stock.")}
+            title={tx('No variants yet')}
+            description={tx('Products without variants keep selling at their own price and stock.')}
           />
         ) : (
           <div className="grid gap-4">
@@ -1510,12 +1585,16 @@ export function VariantEditor({
                 ['Sold out', formatCount(soldOut)],
               ].map(([label, value]) => (
                 <div key={label} className="rounded-xl border border-hairline bg-surface px-3 py-2">
-                  <dt className="text-xs text-muted-foreground"><AutoText value={label} /></dt>
-                  <dd className="text-lg font-semibold text-foreground tabular-nums"><AutoText value={value} /></dd>
+                  <dt className="text-xs text-muted-foreground">
+                    <AutoText value={label} />
+                  </dt>
+                  <dd className="text-lg font-semibold text-foreground tabular-nums">
+                    <AutoText value={value} />
+                  </dd>
                 </div>
               ))}
             </dl>
-            <ul aria-label={tx("Variants")} className="grid gap-4">
+            <ul aria-label={tx('Variants')} className="grid gap-4">
               {variants.map((variant) => (
                 <VariantRow
                   key={variant.id}
@@ -1549,11 +1628,13 @@ export function VariantEditor({
 
       {canEdit ? (
         usable.length === 0 ? (
-          <SectionCard title={tx("Add a variant")} icon={Plus} className="nz-panel-strong">
+          <SectionCard title={tx('Add a variant')} icon={Plus} className="nz-panel-strong">
             <EmptyPanel
               icon={Shapes}
-              title={tx("Add an attribute first")}
-              description={tx("A variant is one value from each attribute. Add an attribute with at least one value on the Attributes page.")}
+              title={tx('Add an attribute first')}
+              description={tx(
+                'A variant is one value from each attribute. Add an attribute with at least one value on the Attributes page.',
+              )}
             />
           </SectionCard>
         ) : (

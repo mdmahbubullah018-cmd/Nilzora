@@ -94,11 +94,17 @@ function Step({
           {step}
         </span>
         <div className="grid gap-0.5">
-          <h2 className="font-display text-base font-semibold text-foreground"><AutoText value={title} /></h2>
-          <p className="text-sm text-muted-foreground"><AutoText value={description} /></p>
+          <h2 className="font-display text-base font-semibold text-foreground">
+            <AutoText value={title} />
+          </h2>
+          <p className="text-sm text-muted-foreground">
+            <AutoText value={description} />
+          </p>
         </div>
       </header>
-      <div className="grid gap-4"><AutoText value={children} /></div>
+      <div className="grid gap-4">
+        <AutoText value={children} />
+      </div>
     </section>
   );
 }
@@ -116,7 +122,11 @@ export function TargetCheckboxes({
   emptyLabel: string;
 }) {
   if (options.length === 0) {
-    return <p className="text-sm text-muted-foreground"><AutoText value={emptyLabel} /></p>;
+    return (
+      <p className="text-sm text-muted-foreground">
+        <AutoText value={emptyLabel} />
+      </p>
+    );
   }
   return (
     <ul className="grid max-h-64 gap-1 overflow-y-auto rounded-xl border border-border bg-surface-muted/40 p-2 sm:grid-cols-2">
@@ -130,7 +140,9 @@ export function TargetCheckboxes({
               defaultChecked={selected.includes(option.id)}
               className="size-4 rounded border-border-strong accent-primary"
             />
-            <span className="truncate text-foreground"><AutoText value={option.name} /></span>
+            <span className="truncate text-foreground">
+              <AutoText value={option.name} />
+            </span>
           </label>
         </li>
       ))}
@@ -164,8 +176,8 @@ export function ProductPicker({
   return (
     <div className="grid gap-2">
       <Input
-        aria-label={tx("Filter products")}
-        placeholder={tx("Type to filter by name or address")}
+        aria-label={tx('Filter products')}
+        placeholder={tx('Type to filter by name or address')}
         value={query}
         onChange={(event) => {
           setQuery(event.target.value);
@@ -177,7 +189,9 @@ export function ProductPicker({
           : `${String(checked.length)} chosen${query.trim() === '' ? '' : ', including any hidden by the filter'}.`}
       </p>
       {matches.length === 0 ? (
-        <p className="text-sm text-muted-foreground"><AutoText>No product matches that search.</AutoText></p>
+        <p className="text-sm text-muted-foreground">
+          <AutoText>No product matches that search.</AutoText>
+        </p>
       ) : (
         <ul className="grid max-h-64 gap-1 overflow-y-auto rounded-xl border border-border bg-surface-muted/40 p-2">
           {matches.map((option) => (
@@ -197,8 +211,12 @@ export function ProductPicker({
                   }}
                   className="size-4 rounded border-border-strong accent-primary"
                 />
-                <span className="truncate text-foreground"><AutoText value={option.name} /></span>
-                <span className="truncate text-xs text-muted-foreground"><AutoText value={option.slug} /></span>
+                <span className="truncate text-foreground">
+                  <AutoText value={option.name} />
+                </span>
+                <span className="truncate text-xs text-muted-foreground">
+                  <AutoText value={option.slug} />
+                </span>
               </label>
             </li>
           ))}
@@ -259,25 +277,32 @@ export function CampaignForm({
 
       <Step
         step={1}
-        title={tx("Name and message")}
-        description={tx("The internal name is for your team; the title is what shoppers read.")}
+        title={tx('Name and message')}
+        description={tx('The internal name is for your team; the title is what shoppers read.')}
       >
         <div className="grid gap-4 sm:grid-cols-2">
-          <Field id="campaign-name" label={tx("Campaign name")} error={state.fieldErrors?.name} required>
+          <Field
+            id="campaign-name"
+            label={tx('Campaign name')}
+            error={state.fieldErrors?.name}
+            required
+          >
             {(control) => (
               <Input
                 {...control}
                 name="name"
                 defaultValue={values?.name ?? campaign?.name ?? ''}
                 maxLength={120}
-                placeholder={tx("Winter Sale 2026")}
+                placeholder={tx('Winter Sale 2026')}
               />
             )}
           </Field>
           <Field
             id="campaign-title"
-            label={tx("Customer-facing title")}
-            hint={tx("Optional. Shown on the banner and beside the price; leave it empty and the offer alone is shown.")}
+            label={tx('Customer-facing title')}
+            hint={tx(
+              'Optional. Shown on the banner and beside the price; leave it empty and the offer alone is shown.',
+            )}
             error={state.fieldErrors?.customerTitle}
           >
             {(control) => (
@@ -286,15 +311,15 @@ export function CampaignForm({
                 name="customerTitle"
                 defaultValue={values?.customerTitle ?? campaign?.customerTitle ?? ''}
                 maxLength={120}
-                placeholder={tx("Winter Collection Sale")}
+                placeholder={tx('Winter Collection Sale')}
               />
             )}
           </Field>
         </div>
         <Field
           id="campaign-notes"
-          label={tx("Internal notes")}
-          hint={tx("Only your team sees this. Leave it empty if there is nothing to remember.")}
+          label={tx('Internal notes')}
+          hint={tx('Only your team sees this. Leave it empty if there is nothing to remember.')}
           error={state.fieldErrors?.internalNotes}
         >
           {(control) => (
@@ -304,7 +329,7 @@ export function CampaignForm({
               rows={2}
               maxLength={500}
               defaultValue={values?.internalNotes ?? campaign?.internalNotes ?? ''}
-              placeholder={tx("Agreed with the supplier on 12 November.")}
+              placeholder={tx('Agreed with the supplier on 12 November.')}
             />
           )}
         </Field>
@@ -312,11 +337,13 @@ export function CampaignForm({
 
       <Step
         step={2}
-        title={tx("What it covers")}
-        description={tx("A product is priced by the most specific campaign that reaches it.")}
+        title={tx('What it covers')}
+        description={tx('A product is priced by the most specific campaign that reaches it.')}
       >
         <fieldset className="grid gap-2">
-          <legend className="text-sm font-medium text-foreground"><AutoText>Scope</AutoText></legend>
+          <legend className="text-sm font-medium text-foreground">
+            <AutoText>Scope</AutoText>
+          </legend>
           <div className="grid gap-2 sm:grid-cols-2">
             {SCOPES.map((option) => (
               <label
@@ -336,14 +363,20 @@ export function CampaignForm({
                   className="mt-0.5 size-4 accent-primary"
                 />
                 <span className="grid gap-0.5">
-                  <span className="font-medium text-foreground"><AutoText value={option.label} /></span>
-                  <span className="text-xs text-muted-foreground"><AutoText value={option.hint} /></span>
+                  <span className="font-medium text-foreground">
+                    <AutoText value={option.label} />
+                  </span>
+                  <span className="text-xs text-muted-foreground">
+                    <AutoText value={option.hint} />
+                  </span>
                 </span>
               </label>
             ))}
           </div>
           {state.fieldErrors?.scope ? (
-            <p className="text-sm text-danger"><AutoText value={state.fieldErrors.scope} /></p>
+            <p className="text-sm text-danger">
+              <AutoText value={state.fieldErrors.scope} />
+            </p>
           ) : null}
         </fieldset>
 
@@ -352,7 +385,9 @@ export function CampaignForm({
             <p className="flex items-center gap-1.5 text-sm font-medium text-foreground">
               <Tags aria-hidden="true" className="size-4" /> Categories
             </p>
-            <p className="text-xs text-muted-foreground"><AutoText>A chosen category also covers its subcategories.</AutoText></p>
+            <p className="text-xs text-muted-foreground">
+              <AutoText>A chosen category also covers its subcategories.</AutoText>
+            </p>
           </div>
           <TargetCheckboxes
             name="categoryIds"
@@ -361,12 +396,16 @@ export function CampaignForm({
             emptyLabel="No categories exist yet."
           />
           {state.fieldErrors?.categoryIds ? (
-            <p className="text-sm text-danger"><AutoText value={state.fieldErrors.categoryIds} /></p>
+            <p className="text-sm text-danger">
+              <AutoText value={state.fieldErrors.categoryIds} />
+            </p>
           ) : null}
         </div>
 
         <div className="grid gap-1">
-          <p className="text-sm font-medium text-foreground"><AutoText>Brands</AutoText></p>
+          <p className="text-sm font-medium text-foreground">
+            <AutoText>Brands</AutoText>
+          </p>
           <TargetCheckboxes
             name="brandIds"
             options={brands}
@@ -374,12 +413,16 @@ export function CampaignForm({
             emptyLabel="No brands exist yet."
           />
           {state.fieldErrors?.brandIds ? (
-            <p className="text-sm text-danger"><AutoText value={state.fieldErrors.brandIds} /></p>
+            <p className="text-sm text-danger">
+              <AutoText value={state.fieldErrors.brandIds} />
+            </p>
           ) : null}
         </div>
 
         <div className="grid gap-1">
-          <p className="text-sm font-medium text-foreground"><AutoText>Selected products</AutoText></p>
+          <p className="text-sm font-medium text-foreground">
+            <AutoText>Selected products</AutoText>
+          </p>
           {productsTruncated ? (
             <p className="text-xs text-muted-foreground">
               Only the newest products are listed here. For a large selection, target a category or
@@ -388,22 +431,30 @@ export function CampaignForm({
           ) : null}
           <ProductPicker options={products} selected={productIds} />
           {state.fieldErrors?.productIds ? (
-            <p className="text-sm text-danger"><AutoText value={state.fieldErrors.productIds} /></p>
+            <p className="text-sm text-danger">
+              <AutoText value={state.fieldErrors.productIds} />
+            </p>
           ) : null}
         </div>
       </Step>
 
       <Step
         step={3}
-        title={tx("The discount")}
-        description={tx("Taken off each product's list price. The product's own sale price is never changed.")}
+        title={tx('The discount')}
+        description={tx(
+          "Taken off each product's list price. The product's own sale price is never changed.",
+        )}
       >
         <div className="grid gap-4 sm:grid-cols-3">
-          <Field id="campaign-kind" label={tx("Discount type")} required>
+          <Field id="campaign-kind" label={tx('Discount type')} required>
             {(control) => (
               <NativeSelect {...control} name="discountKind" defaultValue={kind}>
-                <option value="percent"><AutoText>Percentage off</AutoText></option>
-                <option value="fixed"><AutoText>Fixed amount off</AutoText></option>
+                <option value="percent">
+                  <AutoText>Percentage off</AutoText>
+                </option>
+                <option value="fixed">
+                  <AutoText>Fixed amount off</AutoText>
+                </option>
               </NativeSelect>
             )}
           </Field>
@@ -435,7 +486,7 @@ export function CampaignForm({
           </Field>
           <Field
             id="campaign-cap"
-            label={tx("Maximum discount (৳)")}
+            label={tx('Maximum discount (৳)')}
             hint={kind === 'fixed' ? 'A fixed discount needs no cap.' : 'Optional.'}
             error={state.fieldErrors?.maxDiscountMinor}
           >
@@ -457,11 +508,13 @@ export function CampaignForm({
 
       <Step
         step={4}
-        title={tx("When it runs")}
-        description={tx("Dates are Bangladesh time. A campaign stops applying by itself at its end.")}
+        title={tx('When it runs')}
+        description={tx(
+          'Dates are Bangladesh time. A campaign stops applying by itself at its end.',
+        )}
       >
         <div className="grid gap-4 sm:grid-cols-3">
-          <Field id="campaign-start" label={tx("Starts")} error={state.fieldErrors?.startsAt}>
+          <Field id="campaign-start" label={tx('Starts')} error={state.fieldErrors?.startsAt}>
             {(control) => (
               <Input
                 {...control}
@@ -471,7 +524,7 @@ export function CampaignForm({
               />
             )}
           </Field>
-          <Field id="campaign-end" label={tx("Ends")} error={state.fieldErrors?.endsAt}>
+          <Field id="campaign-end" label={tx('Ends')} error={state.fieldErrors?.endsAt}>
             {(control) => (
               <Input
                 {...control}
@@ -483,8 +536,8 @@ export function CampaignForm({
           </Field>
           <Field
             id="campaign-priority"
-            label={tx("Priority")}
-            hint={tx("From −100 to 100. Higher wins inside the same scope.")}
+            label={tx('Priority')}
+            hint={tx('From −100 to 100. Higher wins inside the same scope.')}
             error={state.fieldErrors?.priority}
           >
             {(control) => (
@@ -511,14 +564,14 @@ export function CampaignForm({
 
       <Step
         step={5}
-        title={tx("Eligibility and coupons")}
-        description={tx("What a shopper may combine with this promotion.")}
+        title={tx('Eligibility and coupons')}
+        description={tx('What a shopper may combine with this promotion.')}
       >
         <div className="grid gap-4 sm:grid-cols-2">
           <Field
             id="campaign-coupons"
-            label={tx("Coupons")}
-            hint={tx("Blocked means a coupon cannot be used on a cart holding these products.")}
+            label={tx('Coupons')}
+            hint={tx('Blocked means a coupon cannot be used on a cart holding these products.')}
           >
             {(control) => (
               <NativeSelect
@@ -526,15 +579,21 @@ export function CampaignForm({
                 name="couponPolicy"
                 defaultValue={values?.couponPolicy ?? campaign?.couponPolicy ?? 'stackable'}
               >
-                <option value="stackable"><AutoText>Coupons may be used with this campaign</AutoText></option>
-                <option value="blocked"><AutoText>No coupon on these products</AutoText></option>
+                <option value="stackable">
+                  <AutoText>Coupons may be used with this campaign</AutoText>
+                </option>
+                <option value="blocked">
+                  <AutoText>No coupon on these products</AutoText>
+                </option>
               </NativeSelect>
             )}
           </Field>
           <MediaKeyField
             name="bannerImageKey"
-            label={tx("Banner picture")}
-            hint={tx("Optional. Shown at the top of the customer website’s promotional band (and beside the products on sale). Choose from the media library or upload a picture: an upload is cropped to the 12:5 frame before it is saved. The discount applies with or without a picture.")}
+            label={tx('Banner picture')}
+            hint={tx(
+              'Optional. Shown at the top of the customer website’s promotional band (and beside the products on sale). Choose from the media library or upload a picture: an upload is cropped to the 12:5 frame before it is saved. The discount applies with or without a picture.',
+            )}
             defaultValue={values?.bannerImageKey ?? campaign?.bannerImageKey ?? null}
             previewUrl={campaign?.banner?.thumbUrl ?? null}
             csrf={csrf}
@@ -549,7 +608,9 @@ export function CampaignForm({
               values === undefined ? (campaign?.isVisible ?? true) : values.isVisible === 'on'
             }
             className="size-4 rounded border-border-strong accent-primary"
-          /><AutoText>Show this campaign&rsquo;s banner and price label on the storefront</AutoText></label>
+          />
+          <AutoText>Show this campaign&rsquo;s banner and price label on the storefront</AutoText>
+        </label>
       </Step>
 
       <ActionFeedback state={state} />
@@ -561,7 +622,9 @@ export function CampaignForm({
         </p>
         <div className="flex items-center gap-2">
           {editing && campaign.status === 'active' ? (
-            <Badge tone="success" dot><AutoText>Live</AutoText></Badge>
+            <Badge tone="success" dot>
+              <AutoText>Live</AutoText>
+            </Badge>
           ) : null}
           <SubmitButton editing={editing} />
         </div>

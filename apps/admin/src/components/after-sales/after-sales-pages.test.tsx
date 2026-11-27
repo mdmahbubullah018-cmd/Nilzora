@@ -88,9 +88,7 @@ const returnDetail: ReturnDetail = {
       lineTotalMinor: 125_000,
     },
   ],
-  history: [
-    { fromStatus: null, toStatus: 'requested', actorKind: 'customer', note: null, at: AT },
-  ],
+  history: [{ fromStatus: null, toStatus: 'requested', actorKind: 'customer', note: null, at: AT }],
 };
 
 const refundDetail: RefundDetail = {
@@ -115,7 +113,11 @@ const refundDetail: RefundDetail = {
     paymentStatus: 'paid',
     placedAt: AT,
   },
-  customer: { id: '00000000-0000-4000-8000-000000000002', name: 'Rahima Khatun', phone: '01712345678' },
+  customer: {
+    id: '00000000-0000-4000-8000-000000000002',
+    name: 'Rahima Khatun',
+    phone: '01712345678',
+  },
   history: [{ fromStatus: 'requested', toStatus: 'approved', note: null, at: AT }],
 };
 

@@ -39,7 +39,14 @@ import {
   PaymentStatusBadge,
   StockBadge,
 } from '@/components/admin-kit/status-badge';
-import { formatAuditAction, formatBdPhone, formatCount, formatDateTime, formatMoney, plural } from '@/lib/format';
+import {
+  formatAuditAction,
+  formatBdPhone,
+  formatCount,
+  formatDateTime,
+  formatMoney,
+  plural,
+} from '@/lib/format';
 import { AutoText } from '@/components/i18n/translate';
 import { CountText, RelativeTimeText } from '@/components/i18n/format-text';
 
@@ -122,7 +129,11 @@ export function OrderPipelineSection({
       title="Open orders"
       icon={ListOrdered}
       description="Orders waiting at each step"
-      actions={<ViewAll href="/admin/orders"><AutoText>All orders</AutoText></ViewAll>}
+      actions={
+        <ViewAll href="/admin/orders">
+          <AutoText>All orders</AutoText>
+        </ViewAll>
+      }
       className={className}
     >
       {open === 0 ? (
@@ -142,7 +153,9 @@ export function OrderPipelineSection({
                 href={step.href}
                 className="flex items-center gap-3 rounded-md px-2 py-2 text-sm transition-colors hover:bg-surface-muted"
               >
-                <span className="min-w-0 flex-1 truncate text-body"><AutoText value={step.label} /></span>
+                <span className="min-w-0 flex-1 truncate text-body">
+                  <AutoText value={step.label} />
+                </span>
                 <span
                   className={cn(
                     'font-semibold tabular-nums',
@@ -178,7 +191,9 @@ export function LowStockSection({ stock, className }: { stock: StockSummary; cla
       }
       actions={
         stock.lowStockCount > 0 ? (
-          <ViewAll href={withQuery('/admin/products', { status: 'active', stock: 'low' })}><AutoText>View all</AutoText></ViewAll>
+          <ViewAll href={withQuery('/admin/products', { status: 'active', stock: 'low' })}>
+            <AutoText>View all</AutoText>
+          </ViewAll>
         ) : undefined
       }
       className={className}
@@ -287,7 +302,9 @@ export function ReviewsSection({
         {rows.map((row) => {
           const content = (
             <>
-              <span className="min-w-0 flex-1 truncate text-body"><AutoText value={row.label} /></span>
+              <span className="min-w-0 flex-1 truncate text-body">
+                <AutoText value={row.label} />
+              </span>
               <span
                 className={cn(
                   'font-semibold tabular-nums',
@@ -309,7 +326,9 @@ export function ReviewsSection({
                   {content}
                 </Link>
               ) : (
-                <div className={rowClass}><AutoText value={content} /></div>
+                <div className={rowClass}>
+                  <AutoText value={content} />
+                </div>
               )}
             </li>
           );
@@ -337,19 +356,35 @@ export function RecentOrdersSection({
       title="Recent orders"
       icon={CartIcon}
       description="The latest orders placed"
-      actions={<ViewAll href="/admin/orders"><AutoText>All orders</AutoText></ViewAll>}
+      actions={
+        <ViewAll href="/admin/orders">
+          <AutoText>All orders</AutoText>
+        </ViewAll>
+      }
       flush
       className={className}
     >
       <DataTable caption="Recent orders" dense>
         <TableHeader>
           <TableRow>
-            <TableHead><AutoText>Order</AutoText></TableHead>
-            <TableHead><AutoText>Customer</AutoText></TableHead>
-            <TableHead><AutoText>Status</AutoText></TableHead>
-            <TableHead><AutoText>Payment</AutoText></TableHead>
-            <TableHead className="text-right"><AutoText>Total</AutoText></TableHead>
-            <TableHead className="text-right"><AutoText>Placed</AutoText></TableHead>
+            <TableHead>
+              <AutoText>Order</AutoText>
+            </TableHead>
+            <TableHead>
+              <AutoText>Customer</AutoText>
+            </TableHead>
+            <TableHead>
+              <AutoText>Status</AutoText>
+            </TableHead>
+            <TableHead>
+              <AutoText>Payment</AutoText>
+            </TableHead>
+            <TableHead className="text-right">
+              <AutoText>Total</AutoText>
+            </TableHead>
+            <TableHead className="text-right">
+              <AutoText>Placed</AutoText>
+            </TableHead>
           </TableRow>
         </TableHeader>
         {orders.length > 0 ? (
@@ -366,7 +401,9 @@ export function RecentOrdersSection({
                 </TableCell>
                 <TableCell>
                   <div className="grid">
-                    <span className="max-w-48 truncate text-foreground"><AutoText value={order.recipientName} /></span>
+                    <span className="max-w-48 truncate text-foreground">
+                      <AutoText value={order.recipientName} />
+                    </span>
                     <span className="text-xs text-muted-foreground tabular-nums">
                       {formatBdPhone(order.phone)}
                     </span>
@@ -428,7 +465,11 @@ export function ActivitySection({
       title="Recent activity"
       icon={Activity}
       description="Privileged actions from the audit log"
-      actions={<ViewAll href="/admin/audit"><AutoText>Audit log</AutoText></ViewAll>}
+      actions={
+        <ViewAll href="/admin/audit">
+          <AutoText>Audit log</AutoText>
+        </ViewAll>
+      }
       className={className}
     >
       {entries.length > 0 ? (
@@ -443,14 +484,20 @@ export function ActivitySection({
                 />
                 <div className="grid min-w-0 gap-0.5">
                   <p className="text-sm text-foreground">
-                    <span className="font-medium"><AutoText value={actorName(entry)} /></span>
+                    <span className="font-medium">
+                      <AutoText value={actorName(entry)} />
+                    </span>
                     <span className="text-body"> · {formatAuditAction(entry.action)}</span>
                   </p>
                   <p className="flex flex-wrap gap-x-2 text-xs text-muted-foreground">
                     <time dateTime={entry.createdAt} title={formatDateTime(entry.createdAt)}>
                       <RelativeTimeText value={entry.createdAt} now={now} />
                     </time>
-                    {target ? <span className="truncate font-mono"><AutoText value={target} /></span> : null}
+                    {target ? (
+                      <span className="truncate font-mono">
+                        <AutoText value={target} />
+                      </span>
+                    ) : null}
                   </p>
                 </div>
               </li>
@@ -494,7 +541,9 @@ export function PendingReviewsSection({
       }
       actions={
         reviews.total > 0 ? (
-          <ViewAll href={withQuery('/admin/reviews', { status: 'pending' })}><AutoText>Moderate</AutoText></ViewAll>
+          <ViewAll href={withQuery('/admin/reviews', { status: 'pending' })}>
+            <AutoText>Moderate</AutoText>
+          </ViewAll>
         ) : undefined
       }
       className={className}
@@ -529,7 +578,8 @@ export function PendingReviewsSection({
                 {review.body}
               </p>
               <p className="text-xs text-muted-foreground">
-                {review.authorName ?? 'Customer'} · <RelativeTimeText value={review.createdAt} now={now} />
+                {review.authorName ?? 'Customer'} ·{' '}
+                <RelativeTimeText value={review.createdAt} now={now} />
               </p>
             </li>
           ))}

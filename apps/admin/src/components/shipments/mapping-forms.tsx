@@ -65,7 +65,12 @@ export function MappingForm({ csrf, districts, mapping }: MappingFormProps) {
       ) : null}
       {editing ? null : (
         <div className="grid gap-3 sm:grid-cols-3">
-          <Field id={id('provider')} label={tx("Courier")} error={state.fieldErrors?.provider} required>
+          <Field
+            id={id('provider')}
+            label={tx('Courier')}
+            error={state.fieldErrors?.provider}
+            required
+          >
             {(control) => (
               <NativeSelect
                 {...control}
@@ -80,14 +85,21 @@ export function MappingForm({ csrf, districts, mapping }: MappingFormProps) {
               </NativeSelect>
             )}
           </Field>
-          <Field id={id('district')} label={tx("District")} error={state.fieldErrors?.district} required>
+          <Field
+            id={id('district')}
+            label={tx('District')}
+            error={state.fieldErrors?.district}
+            required
+          >
             {(control) => (
               <NativeSelect
                 {...control}
                 name="district"
                 defaultValue={state.values?.district ?? ''}
               >
-                <option value="" disabled><AutoText>Choose a district</AutoText></option>
+                <option value="" disabled>
+                  <AutoText>Choose a district</AutoText>
+                </option>
                 {districts.map((district) => (
                   <option key={district} value={district}>
                     {district}
@@ -98,8 +110,8 @@ export function MappingForm({ csrf, districts, mapping }: MappingFormProps) {
           </Field>
           <Field
             id={id('area')}
-            label={tx("Area")}
-            hint={tx("Optional. Empty: the whole district.")}
+            label={tx('Area')}
+            hint={tx('Optional. Empty: the whole district.')}
             error={state.fieldErrors?.area}
           >
             {(control) => (
@@ -110,11 +122,23 @@ export function MappingForm({ csrf, districts, mapping }: MappingFormProps) {
       )}
 
       <fieldset className="grid gap-2">
-        <legend className="mb-1 text-sm font-medium text-foreground"><AutoText>Courier location</AutoText></legend>
+        <legend className="mb-1 text-sm font-medium text-foreground">
+          <AutoText>Courier location</AutoText>
+        </legend>
         <p className="text-xs text-muted-foreground">
-          The ids the courier’s API expects, e.g. <span className="font-mono"><AutoText>cityId</AutoText></span>,{' '}
-          <span className="font-mono"><AutoText>zoneId</AutoText></span>, <span className="font-mono"><AutoText>areaId</AutoText></span>. Up
-          to 12 fields.
+          The ids the courier’s API expects, e.g.{' '}
+          <span className="font-mono">
+            <AutoText>cityId</AutoText>
+          </span>
+          ,{' '}
+          <span className="font-mono">
+            <AutoText>zoneId</AutoText>
+          </span>
+          ,{' '}
+          <span className="font-mono">
+            <AutoText>areaId</AutoText>
+          </span>
+          . Up to 12 fields.
         </p>
         {rows.map((row) => (
           <div
@@ -125,7 +149,9 @@ export function MappingForm({ csrf, districts, mapping }: MappingFormProps) {
               <label
                 htmlFor={id(`key-${String(row.id)}`)}
                 className="text-xs text-muted-foreground"
-              ><AutoText>Field</AutoText></label>
+              >
+                <AutoText>Field</AutoText>
+              </label>
               <Input
                 id={id(`key-${String(row.id)}`)}
                 name="destKey"
@@ -144,7 +170,9 @@ export function MappingForm({ csrf, districts, mapping }: MappingFormProps) {
               <label
                 htmlFor={id(`value-${String(row.id)}`)}
                 className="text-xs text-muted-foreground"
-              ><AutoText>Value</AutoText></label>
+              >
+                <AutoText>Value</AutoText>
+              </label>
               <Input
                 id={id(`value-${String(row.id)}`)}
                 name="destValue"
@@ -180,7 +208,9 @@ export function MappingForm({ csrf, districts, mapping }: MappingFormProps) {
             setNextId(nextId + 1);
           }}
         >
-          <Plus aria-hidden="true" /><AutoText>Add a field</AutoText></Button>
+          <Plus aria-hidden="true" />
+          <AutoText>Add a field</AutoText>
+        </Button>
         {state.fieldErrors?.destination ? (
           <p role="alert" className="text-xs font-medium text-danger-ink">
             {state.fieldErrors.destination}
@@ -190,8 +220,8 @@ export function MappingForm({ csrf, districts, mapping }: MappingFormProps) {
 
       <Field
         id={id('label')}
-        label={tx("Label")}
-        hint={tx("Optional, e.g. “Dhaka › Mirpur”.")}
+        label={tx('Label')}
+        hint={tx('Optional, e.g. “Dhaka › Mirpur”.')}
         error={state.fieldErrors?.label}
       >
         {(control) => (
@@ -236,8 +266,10 @@ export function DeleteMappingForm({
           </>
         }
         title={`Remove the ${providerName(mapping.provider)} location for ${place}?`}
-        description={tx("Bookings to this place will need the courier location again (or fall back to a district-wide mapping).")}
-        confirmLabel={tx("Remove mapping")}
+        description={tx(
+          'Bookings to this place will need the courier location again (or fall back to a district-wide mapping).',
+        )}
+        confirmLabel={tx('Remove mapping')}
         hiddenFields={{ mappingId: mapping.id }}
         error={state.status === 'error' ? state.message : undefined}
       />

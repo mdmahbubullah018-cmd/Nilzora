@@ -90,7 +90,9 @@ describe('sitemap', () => {
 
   it('lists each brand the API shows publicly, and survives a brand read that fails', async () => {
     api.sitemap.mockResolvedValue({ entries: [] });
-    api.listBrands.mockResolvedValue({ brands: [{ slug: 'test-brand-one' }, { slug: 'test-brand-two' }] });
+    api.listBrands.mockResolvedValue({
+      brands: [{ slug: 'test-brand-one' }, { slug: 'test-brand-two' }],
+    });
     const listed = urls(await sitemap());
     expect(listed).toContain(`${SITE}/test-brand-one`);
     expect(listed).toContain(`${SITE}/test-brand-two`);

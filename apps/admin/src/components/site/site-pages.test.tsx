@@ -30,7 +30,9 @@ const api = vi.hoisted(() => ({
   adminCustomerInsights: vi.fn(),
   adminListCustomers: vi.fn(),
 }));
-const read = vi.hoisted((): { outcome: 'ok' | 'signed_out' | 'unavailable' } => ({ outcome: 'ok' }));
+const read = vi.hoisted((): { outcome: 'ok' | 'signed_out' | 'unavailable' } => ({
+  outcome: 'ok',
+}));
 const gate = vi.hoisted((): { user: unknown; csrf: unknown } => ({
   user: undefined,
   csrf: undefined,
@@ -130,7 +132,7 @@ const storeProfile: StoreProfileResponse = {
     defaultSeoDescription: null,
     ogImageKey: null,
     ogImageUrl: null,
-  codAvailable: true,
+    codAvailable: true,
     updatedAt: AT,
   },
 };
@@ -268,7 +270,9 @@ describe('SEO editor', () => {
     api.adminSeoOverview.mockResolvedValue({ entries: [seoEntry()] });
     render(
       <>
-        {await SeoEditorPage({ params: Promise.resolve({ kind: 'product', targetId: PRODUCT_ID }) })}
+        {await SeoEditorPage({
+          params: Promise.resolve({ kind: 'product', targetId: PRODUCT_ID }),
+        })}
       </>,
     );
 
@@ -302,7 +306,9 @@ describe('SEO editor', () => {
     api.adminSeoOverview.mockResolvedValue({ entries: [seoEntry()] });
     render(
       <>
-        {await SeoEditorPage({ params: Promise.resolve({ kind: 'product', targetId: PRODUCT_ID }) })}
+        {await SeoEditorPage({
+          params: Promise.resolve({ kind: 'product', targetId: PRODUCT_ID }),
+        })}
       </>,
     );
 
@@ -314,7 +320,9 @@ describe('SEO editor', () => {
     api.adminSeoOverview.mockResolvedValue({ entries: [seoEntry()] });
     const { container } = render(
       <>
-        {await SeoEditorPage({ params: Promise.resolve({ kind: 'product', targetId: PRODUCT_ID }) })}
+        {await SeoEditorPage({
+          params: Promise.resolve({ kind: 'product', targetId: PRODUCT_ID }),
+        })}
       </>,
     );
 
@@ -332,7 +340,9 @@ describe('SEO editor', () => {
     });
     render(
       <>
-        {await SeoEditorPage({ params: Promise.resolve({ kind: 'product', targetId: PRODUCT_ID }) })}
+        {await SeoEditorPage({
+          params: Promise.resolve({ kind: 'product', targetId: PRODUCT_ID }),
+        })}
       </>,
     );
 
@@ -483,7 +493,9 @@ describe('customer insight', () => {
 
 describe('customers directory', () => {
   it('offers spending and segments from the customer list', async () => {
-    render(<>{await CustomersPage({ params: Promise.resolve({}), searchParams: searchParams() })}</>);
+    render(
+      <>{await CustomersPage({ params: Promise.resolve({}), searchParams: searchParams() })}</>,
+    );
 
     expect(screen.getByRole('link', { name: 'Spending and segments' }).getAttribute('href')).toBe(
       '/admin/customers/insights',

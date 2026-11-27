@@ -60,7 +60,13 @@ beforeAll(async () => {
         status, moderation_status, published_at)
      values ($1, $2, $3, $4, $5, 12000, 5, 5, 'active', 'approved', now())
      returning id`,
-    [categoryId, `${tag}-product`, `NZIMG${run}`.toUpperCase(), `Image product ${run}`, 'A picture'],
+    [
+      categoryId,
+      `${tag}-product`,
+      `NZIMG${run}`.toUpperCase(),
+      `Image product ${run}`,
+      'A picture',
+    ],
   );
   productId = product.rows[0]?.id ?? '';
   created.products.push(productId);
@@ -90,22 +96,37 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
-  await pool.query('delete from public.image_search_jobs where created_by = any($1::uuid[])', [created.users]);
+  await pool.query('delete from public.image_search_jobs where created_by = any($1::uuid[])', [
+    created.users,
+  ]);
   await pool.query('delete from public.products where id = any($1::uuid[])', [created.products]);
-  await pool.query('delete from public.categories where id = any($1::uuid[])', [created.categories]);
+  await pool.query('delete from public.categories where id = any($1::uuid[])', [
+    created.categories,
+  ]);
   await pool.query('delete from public.profiles where id = any($1::uuid[])', [created.users]);
   await pool.end();
 });
 
 describe('visual search in PostgreSQL', () => {
   it('queues a new product picture through the trigger, with its eligibility decided', async () => {
-    const rows = await pool.query<{ status: string; kind: string; is_primary: boolean; width: number; exclusion_reason: string | null }>(
+    const rows = await pool.query<{
+      status: string;
+      kind: string;
+      is_primary: boolean;
+      width: number;
+      exclusion_reason: string | null;
+    }>(
       `select status::text as status, kind::text as kind, is_primary, width, exclusion_reason
        from public.image_search_images where product_id = $1`,
       [productId],
     );
     expect(rows.rows).toHaveLength(1);
-    expect(rows.rows[0]).toMatchObject({ status: 'pending', kind: 'primary', is_primary: true, width: 640 });
+    expect(rows.rows[0]).toMatchObject({
+      status: 'pending',
+      kind: 'primary',
+      is_primary: true,
+      width: 640,
+    });
   });
 
   it('excludes a picture smaller than 128 px instead of queueing it for embedding', async () => {
@@ -122,7 +143,10 @@ describe('visual search in PostgreSQL', () => {
     );
     expect(rows.rows[0]).toMatchObject({ status: 'excluded', exclusion_reason: 'too_small' });
     await pool.query('delete from public.product_images where id = $1', [smallId]);
-    const gone = await pool.query('select 1 from public.image_search_images where product_image_id = $1', [smallId]);
+    const gone = await pool.query(
+      'select 1 from public.image_search_images where product_image_id = $1',
+      [smallId],
+    );
     expect(gone.rowCount).toBe(0);
   });
 
@@ -134,7 +158,10 @@ describe('visual search in PostgreSQL', () => {
       [doomedId, productId, `products/${productId}/${doomedId}`],
     );
     await pool.query('delete from public.product_images where id = $1', [doomedId]);
-    const rows = await pool.query('select 1 from public.image_search_images where product_image_id = $1', [doomedId]);
+    const rows = await pool.query(
+      'select 1 from public.image_search_images where product_image_id = $1',
+      [doomedId],
+    );
     expect(rows.rowCount).toBe(0);
   });
 
@@ -173,10 +200,14 @@ describe('visual search in PostgreSQL', () => {
 
   it('refuses the admin functions to an account without image_search.manage', async () => {
     await expect(
-      withUser(pool, customer, async (client) => client.query('select public.admin_image_search_stats()')),
+      withUser(pool, customer, async (client) =>
+        client.query('select public.admin_image_search_stats()'),
+      ),
     ).rejects.toThrow();
     await expect(
-      withUser(pool, owner, async (client) => client.query('select public.admin_image_search_stats()')),
+      withUser(pool, owner, async (client) =>
+        client.query('select public.admin_image_search_stats()'),
+      ),
     ).resolves.toBeTruthy();
   });
 
@@ -202,15 +233,19 @@ describe('visual search in PostgreSQL', () => {
        from public.products where id = $4`,
       [`${tag}-bare`, `NZIMGB${run}`.toUpperCase(), `Bare product ${run}`, productId],
     );
-    const bare = await pool.query<{ id: string }>('select id from public.products where slug = $1', [`${tag}-bare`]);
+    const bare = await pool.query<{ id: string }>(
+      'select id from public.products where slug = $1',
+      [`${tag}-bare`],
+    );
     const bareId = bare.rows[0]?.id ?? '';
     created.products.push(bareId);
 
     const answer = await withUser(pool, owner, async (client) => {
-      const result = await client.query<{ value: { items: { product_id: string; reason: string }[]; total: number } }>(
-        `select public.admin_image_search_missing_images($1, 20, 0) as value`,
-        [`Bare product ${run}`],
-      );
+      const result = await client.query<{
+        value: { items: { product_id: string; reason: string }[]; total: number };
+      }>(`select public.admin_image_search_missing_images($1, 20, 0) as value`, [
+        `Bare product ${run}`,
+      ]);
       return result.rows[0]?.value;
     });
     expect(answer?.items.map((item) => item.product_id)).toContain(bareId);

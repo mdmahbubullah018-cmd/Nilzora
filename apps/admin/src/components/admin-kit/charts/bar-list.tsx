@@ -34,7 +34,13 @@ export interface BarListProps {
  * list order carries the rank; the visible numbers repeat it). Bars grow in once, one
  * after another.
  */
-export function BarList({ items, label, tone = 'primary', ranked = false, className }: BarListProps) {
+export function BarList({
+  items,
+  label,
+  tone = 'primary',
+  ranked = false,
+  className,
+}: BarListProps) {
   const max = Math.max(0, ...items.map((item) => item.value));
   return (
     <ol aria-label={label} className={cn('grid gap-3', className)}>
@@ -53,11 +59,18 @@ export function BarList({ items, label, tone = 'primary', ranked = false, classN
               </span>
             ) : null}
             <div className="flex min-w-0 items-baseline justify-between gap-3 text-sm">
-              <span className="min-w-0 truncate font-medium text-foreground"><AutoText value={item.label} /></span>
-              <span className="nz-figure shrink-0 font-semibold text-foreground"><AutoText value={item.display} /></span>
+              <span className="min-w-0 truncate font-medium text-foreground">
+                <AutoText value={item.label} />
+              </span>
+              <span className="nz-figure shrink-0 font-semibold text-foreground">
+                <AutoText value={item.display} />
+              </span>
             </div>
             <div className="flex min-w-0 items-center gap-3">
-              <span aria-hidden="true" className="h-1.5 flex-1 overflow-hidden rounded-full bg-chart-track">
+              <span
+                aria-hidden="true"
+                className="h-1.5 flex-1 overflow-hidden rounded-full bg-chart-track"
+              >
                 <span
                   className={cn('nz-grow-x block h-full rounded-full', CHART_TONES[tone].swatch)}
                   style={{
@@ -67,23 +80,32 @@ export function BarList({ items, label, tone = 'primary', ranked = false, classN
                 />
               </span>
               {item.secondary ? (
-                <span className="nz-figure shrink-0 text-xs text-muted-foreground"><AutoText value={item.secondary} /></span>
+                <span className="nz-figure shrink-0 text-xs text-muted-foreground">
+                  <AutoText value={item.secondary} />
+                </span>
               ) : null}
             </div>
           </>
         );
-        const layout = ranked ? 'grid grid-cols-[auto_minmax(0,1fr)] gap-x-3 gap-y-1.5' : 'grid gap-1.5';
+        const layout = ranked
+          ? 'grid grid-cols-[auto_minmax(0,1fr)] gap-x-3 gap-y-1.5'
+          : 'grid gap-1.5';
         return (
           <li key={item.key}>
             {item.href ? (
               <Link
                 href={item.href}
-                className={cn(layout, '-mx-2 rounded-md px-2 py-1 transition-colors hover:bg-surface-muted')}
+                className={cn(
+                  layout,
+                  '-mx-2 rounded-md px-2 py-1 transition-colors hover:bg-surface-muted',
+                )}
               >
                 {body}
               </Link>
             ) : (
-              <div className={layout}><AutoText value={body} /></div>
+              <div className={layout}>
+                <AutoText value={body} />
+              </div>
             )}
           </li>
         );

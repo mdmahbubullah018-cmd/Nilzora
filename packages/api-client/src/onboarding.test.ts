@@ -102,9 +102,7 @@ describe('completeOnboarding', () => {
 
     await expect(client.completeOnboarding(ACCESS, CAMPAIGN)).resolves.toBeUndefined();
     const request = sent();
-    expect(request.url).toBe(
-      `http://localhost:4000/api/v1/onboarding/${CAMPAIGN}/complete`,
-    );
+    expect(request.url).toBe(`http://localhost:4000/api/v1/onboarding/${CAMPAIGN}/complete`);
     expect(request.method).toBe('POST');
     expect(request.headers.get('Authorization')).toBe(`Bearer ${ACCESS}`);
   });
@@ -203,9 +201,7 @@ describe('admin onboarding management', () => {
     await expect(client.previewOnboardingCampaign(ACCESS, CAMPAIGN)).resolves.toStrictEqual(
       preview,
     );
-    expect(sent().url).toBe(
-      `http://localhost:4000/api/v1/admin/onboarding/${CAMPAIGN}/preview`,
-    );
+    expect(sent().url).toBe(`http://localhost:4000/api/v1/admin/onboarding/${CAMPAIGN}/preview`);
   });
 
   it('deletes a slide from its campaign', async () => {

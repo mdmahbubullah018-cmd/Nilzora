@@ -37,7 +37,9 @@ describe('bucketSizeFor', () => {
 describe('bucketOverview', () => {
   it('keeps one bucket per day for a short range, with the comparison beside it', () => {
     const buckets = bucketOverview(overview(3));
-    expect(buckets.map((b) => [b.key, b.revenueMinor, b.orderCount, b.previousRevenueMinor])).toEqual([
+    expect(
+      buckets.map((b) => [b.key, b.revenueMinor, b.orderCount, b.previousRevenueMinor]),
+    ).toEqual([
       ['2026-10-01', 1000, 1, 500],
       ['2026-10-02', 2000, 2, 500],
       ['2026-10-03', 3000, 3, 500],

@@ -182,15 +182,15 @@ export function ProductPreview({
 
   return (
     <SectionCard
-      title={tx("Preview")}
+      title={tx('Preview')}
       icon={Eye}
-      description={tx("How shoppers will see it, as you type. Nothing is saved until you save.")}
+      description={tx('How shoppers will see it, as you type. Nothing is saved until you save.')}
     >
       {/* Side by side only when the card itself is wide (the create form keeps it in a narrow column). */}
       <div className="@container">
         <div className="grid gap-5 @lg:grid-cols-[12rem_minmax(0,1fr)]">
           <div
-            aria-label={tx("Listing card preview")}
+            aria-label={tx('Listing card preview')}
             className="overflow-hidden rounded-2xl border border-hairline bg-surface"
           >
             <div className="relative grid aspect-square place-items-center bg-surface-muted">
@@ -203,7 +203,9 @@ export function ProductPreview({
                 />
               ) : (
                 <span className="grid justify-items-center gap-1 text-center text-xs text-muted-foreground">
-                  <ImageOff aria-hidden="true" className="size-8" /><AutoText>No picture yet</AutoText></span>
+                  <ImageOff aria-hidden="true" className="size-8" />
+                  <AutoText>No picture yet</AutoText>
+                </span>
               )}
               <span className="absolute top-2 left-2 flex flex-wrap gap-1">
                 {off > 0 ? (
@@ -213,7 +215,9 @@ export function ProductPreview({
                 ) : null}
                 {draft.featured ? (
                   <span className="inline-flex items-center gap-0.5 rounded-full bg-brand-navy px-2 py-0.5 text-[11px] font-semibold text-white">
-                    <Star aria-hidden="true" className="size-3" strokeWidth={2} /><AutoText>Featured</AutoText></span>
+                    <Star aria-hidden="true" className="size-3" strokeWidth={2} />
+                    <AutoText>Featured</AutoText>
+                  </span>
                 ) : null}
               </span>
             </div>
@@ -240,7 +244,7 @@ export function ProductPreview({
             </div>
           </div>
 
-          <div aria-label={tx("Product page preview")} className="grid content-start gap-2">
+          <div aria-label={tx('Product page preview')} className="grid content-start gap-2">
             {draft.category ? (
               <p className="text-xs font-medium tracking-wide text-muted-foreground uppercase">
                 {draft.category}
@@ -272,14 +276,20 @@ export function ProductPreview({
                 ) : null}
               </p>
             ) : (
-              <p className="text-sm text-warning-ink"><AutoText>Enter a price to see it.</AutoText></p>
+              <p className="text-sm text-warning-ink">
+                <AutoText>Enter a price to see it.</AutoText>
+              </p>
             )}
             {draft.compareAt !== null && draft.price !== null && draft.compareAt <= draft.price ? (
-              <p className="text-sm text-warning-ink"><AutoText>The former price must be higher than the price to show a sale.</AutoText></p>
+              <p className="text-sm text-warning-ink">
+                <AutoText>The former price must be higher than the price to show a sale.</AutoText>
+              </p>
             ) : null}
             {draft.hasSizeChart ? (
               <p className="inline-flex items-center gap-1.5 text-sm font-medium text-link">
-                <Ruler aria-hidden="true" className="size-4" strokeWidth={1.75} /><AutoText>Size guide shown on the product page</AutoText></p>
+                <Ruler aria-hidden="true" className="size-4" strokeWidth={1.75} />
+                <AutoText>Size guide shown on the product page</AutoText>
+              </p>
             ) : null}
           </div>
         </div>

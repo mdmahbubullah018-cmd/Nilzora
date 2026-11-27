@@ -1,4 +1,8 @@
-import { checkoutListResponseSchema, checkoutResponseSchema, cartResponseSchema } from '@nilzora/contracts';
+import {
+  checkoutListResponseSchema,
+  checkoutResponseSchema,
+  cartResponseSchema,
+} from '@nilzora/contracts';
 import { randomUUID } from 'node:crypto';
 import request from 'supertest';
 import { describe, expect, it } from 'vitest';
@@ -35,7 +39,12 @@ const PRODUCTS: Record<string, FakeProduct> = {
   },
   [PEN]: { name: 'Gel Pen', sku: 'PEN-1', priceMinor: 500 },
   [DRAFT]: { name: 'Draft Item', sku: 'DRAFT-1', priceMinor: 900, offSale: true },
-  [MUG]: { name: 'Ceramic Mug', sku: 'MUG-1', priceMinor: 2_500, variants: { [MUG_VARIANT]: 'Size: Large' } },
+  [MUG]: {
+    name: 'Ceramic Mug',
+    sku: 'MUG-1',
+    priceMinor: 2_500,
+    variants: { [MUG_VARIANT]: 'Size: Large' },
+  },
 };
 
 /**
@@ -469,7 +478,9 @@ describe('checkout lifecycle', () => {
     const setup = cartSetup();
     await setup.call('put', '/me/cart/items', 'customer', { productId: PEN, quantity: 1 });
 
-    const first = await setup.call('post', '/checkout/sessions', 'customer', { couponCode: 'EID10' });
+    const first = await setup.call('post', '/checkout/sessions', 'customer', {
+      couponCode: 'EID10',
+    });
     expect(first.status).toBe(201);
     expect(first.headers['cache-control']).toBe('no-store');
     const session = (first.body as { checkout: { id: string; status: string } }).checkout;
@@ -564,8 +575,14 @@ describe('GET /admin/checkouts', () => {
 
   it('lists checkouts with lifecycle status and pagination', async () => {
     const setup = cartSetup();
-    setup.carts.seedCheckout(setup.customer.id, [{ productId: LAMP, variantId: LAMP_RED, quantity: 2 }]);
-    setup.carts.seedCheckout(setup.other.id, [{ productId: PEN, variantId: null, quantity: 1 }], 'converted');
+    setup.carts.seedCheckout(setup.customer.id, [
+      { productId: LAMP, variantId: LAMP_RED, quantity: 2 },
+    ]);
+    setup.carts.seedCheckout(
+      setup.other.id,
+      [{ productId: PEN, variantId: null, quantity: 1 }],
+      'converted',
+    );
 
     const response = await setup.call('get', '/admin/checkouts', 'staff');
     expect(response.status).toBe(200);
@@ -584,7 +601,9 @@ describe('GET /admin/checkouts', () => {
 
   it('searches by customer name and pages the queue', async () => {
     const setup = cartSetup();
-    setup.carts.seedCheckout(setup.customer.id, [{ productId: LAMP, variantId: null, quantity: 1 }]);
+    setup.carts.seedCheckout(setup.customer.id, [
+      { productId: LAMP, variantId: null, quantity: 1 },
+    ]);
     setup.carts.seedCheckout(setup.other.id, [{ productId: PEN, variantId: null, quantity: 1 }]);
 
     const searched = await setup.call('get', '/admin/checkouts?q=karim', 'staff');
@@ -608,7 +627,9 @@ describe('GET /admin/checkouts', () => {
     const setup = cartSetup();
     const token = randomUUID();
     await setup.call('post', '/guest/cart', undefined, { token });
-    setup.carts.seedCheckout(setup.customer.id, [{ productId: LAMP, variantId: null, quantity: 1 }]);
+    setup.carts.seedCheckout(setup.customer.id, [
+      { productId: LAMP, variantId: null, quantity: 1 },
+    ]);
 
     const response = await setup.call('get', '/admin/checkouts', 'staff');
     expect(JSON.stringify(response.body)).not.toContain(token);

@@ -35,8 +35,12 @@ export default async function ResetPasswordPage({
   return (
     <AuthFrame>
       <div className="grid gap-1.5 text-center">
-        <h1 className="font-display text-2xl font-semibold tracking-tight text-foreground"><AutoText>Choose a new password</AutoText></h1>
-        <p className="text-sm text-muted-foreground"><AutoText>Every other session for this account ends once the password changes.</AutoText></p>
+        <h1 className="font-display text-2xl font-semibold tracking-tight text-foreground">
+          <AutoText>Choose a new password</AutoText>
+        </h1>
+        <p className="text-sm text-muted-foreground">
+          <AutoText>Every other session for this account ends once the password changes.</AutoText>
+        </p>
       </div>
 
       <Card className="nz-panel-strong nz-panel-sheen rounded-2xl">

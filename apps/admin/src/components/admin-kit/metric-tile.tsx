@@ -48,11 +48,15 @@ export function MetricTile({
         <Icon className="size-4" />
       </span>
       <span className="grid min-w-0 gap-0.5">
-        <span className="truncate text-xs font-medium text-muted-foreground"><AutoText value={label} /></span>
+        <span className="truncate text-xs font-medium text-muted-foreground">
+          <AutoText value={label} />
+        </span>
         {unavailable ? (
           <span className="text-sm font-semibold text-muted-foreground">
             <span aria-hidden="true">—</span>
-            <span className="sr-only"><AutoText value={unavailable} /></span>
+            <span className="sr-only">
+              <AutoText value={unavailable} />
+            </span>
           </span>
         ) : (
           <span className="nz-figure font-display text-lg font-semibold text-foreground">
@@ -64,26 +68,27 @@ export function MetricTile({
             {unavailable}
           </span>
         ) : hint ? (
-          <span className="truncate text-[11px] text-muted-foreground"><AutoText value={hint} /></span>
+          <span className="truncate text-[11px] text-muted-foreground">
+            <AutoText value={hint} />
+          </span>
         ) : null}
       </span>
     </>
   );
 
   return (
-    <div
-      className={cn(
-        'nz-panel rounded-xl border',
-        href && 'nz-hover-lift',
-        className,
-      )}
-    >
+    <div className={cn('nz-panel rounded-xl border', href && 'nz-hover-lift', className)}>
       {href ? (
-        <Link href={href} className="relative flex items-center gap-3 p-3.5 after:absolute after:inset-0 after:rounded-xl">
+        <Link
+          href={href}
+          className="relative flex items-center gap-3 p-3.5 after:absolute after:inset-0 after:rounded-xl"
+        >
           {body}
         </Link>
       ) : (
-        <div className="flex items-center gap-3 p-3.5"><AutoText value={body} /></div>
+        <div className="flex items-center gap-3 p-3.5">
+          <AutoText value={body} />
+        </div>
       )}
     </div>
   );

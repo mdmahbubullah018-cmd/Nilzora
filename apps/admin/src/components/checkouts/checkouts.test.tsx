@@ -133,15 +133,20 @@ describe('CheckoutListView', () => {
     const previous = within(pager as HTMLElement).getByRole('link', { name: 'Previous' });
     const next = within(pager as HTMLElement).getByRole('link', { name: 'Next' });
     expect(previous.getAttribute('href')).toBe('/admin/checkouts?status=incomplete&q=rahima');
-    expect(next.getAttribute('href')).toBe(
-      '/admin/checkouts?status=incomplete&q=rahima&page=3',
-    );
+    expect(next.getAttribute('href')).toBe('/admin/checkouts?status=incomplete&q=rahima&page=3');
   });
 });
 
 describe('CheckoutDetailView', () => {
   it('shows the cart with its variant label and the current price', () => {
-    render(<CheckoutDetailView checkout={detail} csrf={csrf} storefrontUrl="https://shop.test" canAct={false} />);
+    render(
+      <CheckoutDetailView
+        checkout={detail}
+        csrf={csrf}
+        storefrontUrl="https://shop.test"
+        canAct={false}
+      />,
+    );
 
     expect(screen.getByRole('heading', { name: 'Rahima Khatun' })).toBeTruthy();
     expect(screen.getByText('Colour: Red')).toBeTruthy();
@@ -151,7 +156,14 @@ describe('CheckoutDetailView', () => {
   });
 
   it('labels the cart value as current prices, never as an agreed total', () => {
-    render(<CheckoutDetailView checkout={detail} csrf={csrf} storefrontUrl="https://shop.test" canAct={false} />);
+    render(
+      <CheckoutDetailView
+        checkout={detail}
+        csrf={csrf}
+        storefrontUrl="https://shop.test"
+        canAct={false}
+      />,
+    );
     expect(screen.getByText(/No total is agreed until the order is placed/)).toBeTruthy();
   });
 });

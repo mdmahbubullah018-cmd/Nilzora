@@ -137,9 +137,7 @@ describe('the home page brands', () => {
     expect(tile?.className).not.toMatch(/ring|border|shadow/);
     // The logo, contained and never stretched, on a square panel that fills the card's face.
     const picture = tile?.querySelector('img');
-    expect(picture?.getAttribute('src')).toBe(
-      'https://media.example.com/brands/0/logo-thumb.webp',
-    );
+    expect(picture?.getAttribute('src')).toBe('https://media.example.com/brands/0/logo-thumb.webp');
     expect(picture?.className).toContain('object-contain');
     expect(picture?.closest('.aspect-square')).toBeTruthy();
     expect(tile?.querySelector('img[src$="/full.webp"]')).toBeNull();

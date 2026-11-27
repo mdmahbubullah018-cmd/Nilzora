@@ -1,4 +1,9 @@
-import { cartResponseSchema, checkoutListResponseSchema, refundResponseSchema, returnResponseSchema } from '@nilzora/contracts';
+import {
+  cartResponseSchema,
+  checkoutListResponseSchema,
+  refundResponseSchema,
+  returnResponseSchema,
+} from '@nilzora/contracts';
 import { randomUUID } from 'node:crypto';
 import request from 'supertest';
 import { describe, expect, it } from 'vitest';
@@ -84,7 +89,20 @@ function crossFeatureSetup() {
     return body === undefined ? pending : pending.send(body);
   }
 
-  return { identity, commerce, carts, afterSales, customer, staff, owner, tokens, orders, call, lamp, pen };
+  return {
+    identity,
+    commerce,
+    carts,
+    afterSales,
+    customer,
+    staff,
+    owner,
+    tokens,
+    orders,
+    call,
+    lamp,
+    pen,
+  };
 }
 
 type Setup = ReturnType<typeof crossFeatureSetup>;
@@ -117,7 +135,13 @@ async function placeOrder(setup: Setup): Promise<string> {
     status: 'delivered',
     totalMinor: EXPECTED_TOTAL,
     items: [
-      { orderItemId: 1, productName: 'Desk Lamp', sku: 'LAMP-1', quantity: 2, lineTotalMinor: 20_000 },
+      {
+        orderItemId: 1,
+        productName: 'Desk Lamp',
+        sku: 'LAMP-1',
+        quantity: 2,
+        lineTotalMinor: 20_000,
+      },
       { orderItemId: 2, productName: 'Gel Pen', sku: 'PEN-1', quantity: 1, lineTotalMinor: 1_000 },
     ],
   };
@@ -157,7 +181,10 @@ describe('saved cart through order, return and refund', () => {
 
   it('never converts a checkout with an order number the caller does not own', async () => {
     const setup = crossFeatureSetup();
-    await setup.call('put', '/me/cart/items', 'customer', { productId: setup.lamp.id, quantity: 1 });
+    await setup.call('put', '/me/cart/items', 'customer', {
+      productId: setup.lamp.id,
+      quantity: 1,
+    });
     const started = await setup.call('post', '/checkout/sessions', 'customer', {});
     const sessionId = (started.body as { checkout: { id: string } }).checkout.id;
 

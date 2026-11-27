@@ -165,7 +165,9 @@ export function createImageSearchService(deps: ImageSearchServiceDeps): ImageSea
       const bySlug = new Map(cards.map((card) => [card.id, card]));
       const known = grouped
         .map((entry) => ({ entry, card: bySlug.get(entry.productId) }))
-        .filter((row): row is { entry: GroupedProduct; card: ProductSummary } => row.card !== undefined)
+        .filter(
+          (row): row is { entry: GroupedProduct; card: ProductSummary } => row.card !== undefined,
+        )
         .map(({ entry, card }) => ({
           ...entry,
           inStock: card.availability !== 'out_of_stock',
@@ -173,7 +175,8 @@ export function createImageSearchService(deps: ImageSearchServiceDeps): ImageSea
 
       const sorted = known.sort((a, b) => {
         if (input.sort === 'price_asc' || input.sort === 'price_desc') {
-          const difference = (bySlug.get(a.productId)?.priceMinor ?? 0) - (bySlug.get(b.productId)?.priceMinor ?? 0);
+          const difference =
+            (bySlug.get(a.productId)?.priceMinor ?? 0) - (bySlug.get(b.productId)?.priceMinor ?? 0);
           if (difference !== 0) return input.sort === 'price_asc' ? difference : -difference;
           return b.similarity - a.similarity;
         }
@@ -209,7 +212,10 @@ export function createImageSearchService(deps: ImageSearchServiceDeps): ImageSea
       });
     } catch (error) {
       // A search must not fail because its log line could not be written.
-      logger.warn({ err: { name: error instanceof Error ? error.name : 'UnknownError' } }, 'image search log failed');
+      logger.warn(
+        { err: { name: error instanceof Error ? error.name : 'UnknownError' } },
+        'image search log failed',
+      );
     }
 
     return {

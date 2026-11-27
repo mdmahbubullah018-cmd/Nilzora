@@ -80,12 +80,18 @@ export function LoginForm({ csrf, next }: LoginFormProps) {
       {next ? <input type="hidden" name="next" value={next} /> : null}
 
       {rateLimited ? (
-        <Alert tone="warning" title={tx("Too many sign-in attempts")}><AutoText>To keep accounts safe, signing in is paused for a few minutes. Wait, then try again.</AutoText></Alert>
+        <Alert tone="warning" title={tx('Too many sign-in attempts')}>
+          <AutoText>
+            To keep accounts safe, signing in is paused for a few minutes. Wait, then try again.
+          </AutoText>
+        </Alert>
       ) : state.status === 'error' && state.message ? (
-        <Alert tone="danger"><AutoText value={state.message} /></Alert>
+        <Alert tone="danger">
+          <AutoText value={state.message} />
+        </Alert>
       ) : null}
 
-      <Field id="email" label={tx("Email address")} error={errors.email} required>
+      <Field id="email" label={tx('Email address')} error={errors.email} required>
         {(control) => (
           <Input
             {...control}
@@ -102,7 +108,7 @@ export function LoginForm({ csrf, next }: LoginFormProps) {
         )}
       </Field>
 
-      <Field id="password" label={tx("Password")} error={errors.password} required>
+      <Field id="password" label={tx('Password')} error={errors.password} required>
         {(control) => (
           <div className="relative">
             <Input
@@ -116,7 +122,7 @@ export function LoginForm({ csrf, next }: LoginFormProps) {
             <button
               type="button"
               onClick={() => setShowPassword((shown) => !shown)}
-              aria-label={tx("Show password")}
+              aria-label={tx('Show password')}
               aria-pressed={showPassword}
               aria-controls={control.id}
               className="absolute inset-y-0 right-0 grid w-11 place-items-center rounded-r-xl text-muted-foreground transition-colors hover:text-foreground"
@@ -137,7 +143,9 @@ export function LoginForm({ csrf, next }: LoginFormProps) {
             ref={remember}
             type="checkbox"
             className="size-4 rounded border-input-border accent-primary-action"
-          /><AutoText>Remember my email on this device</AutoText></label>
+          />
+          <AutoText>Remember my email on this device</AutoText>
+        </label>
         <Link
           href="/forgot-password"
           className="inline-flex min-h-11 items-center text-sm font-medium text-link underline-offset-4 hover:underline"

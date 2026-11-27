@@ -29,7 +29,9 @@ const TIME = new Intl.DateTimeFormat('en-GB', {
 function AddButton() {
   const { pending } = useFormStatus();
   return (
-    <Button type="submit" size="sm" loading={pending}><AutoText>Add note</AutoText></Button>
+    <Button type="submit" size="sm" loading={pending}>
+      <AutoText>Add note</AutoText>
+    </Button>
   );
 }
 
@@ -54,13 +56,15 @@ export function OrderInternalPanel({
   return (
     <div className="grid gap-6 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
       <SectionCard
-        title={tx("Internal notes")}
+        title={tx('Internal notes')}
         icon={StickyNote}
-        description={tx("Visible to staff only. The customer never sees these.")}
+        description={tx('Visible to staff only. The customer never sees these.')}
       >
         <div className="grid gap-4">
           {internal.notes.length === 0 ? (
-            <p className="text-sm text-muted-foreground"><AutoText>No notes yet.</AutoText></p>
+            <p className="text-sm text-muted-foreground">
+              <AutoText>No notes yet.</AutoText>
+            </p>
           ) : (
             <ol className="grid gap-3">
               {internal.notes.map((note) => (
@@ -68,7 +72,9 @@ export function OrderInternalPanel({
                   key={note.id}
                   className="rounded-xl border border-hairline bg-surface-muted/50 p-3"
                 >
-                  <p className="text-sm whitespace-pre-wrap text-foreground"><AutoText value={note.body} /></p>
+                  <p className="text-sm whitespace-pre-wrap text-foreground">
+                    <AutoText value={note.body} />
+                  </p>
                   <p className="mt-1 text-xs text-muted-foreground">
                     {note.author ?? 'Staff'} · {TIME.format(new Date(note.createdAt))}
                   </p>
@@ -82,7 +88,7 @@ export function OrderInternalPanel({
               <input type="hidden" name="orderNumber" value={orderNumber} />
               <Field
                 id={`note-${orderNumber}`}
-                label={tx("Add a note")}
+                label={tx('Add a note')}
                 error={noteState.fieldErrors?.body}
               >
                 {(control) => (
@@ -94,7 +100,7 @@ export function OrderInternalPanel({
                     defaultValue={
                       noteState.status === 'error' ? (noteState.values?.body ?? '') : ''
                     }
-                    placeholder={tx("e.g. Customer asked for evening delivery")}
+                    placeholder={tx('e.g. Customer asked for evening delivery')}
                   />
                 )}
               </Field>
@@ -134,7 +140,9 @@ export function OrderInternalPanel({
                 <input type="hidden" name="orderNumber" value={orderNumber} />
                 <input type="hidden" name="archive" value="false" />
                 <Button type="submit" variant="outline" size="sm">
-                  <ArchiveRestore aria-hidden="true" /><AutoText>Restore to the queues</AutoText></Button>
+                  <ArchiveRestore aria-hidden="true" />
+                  <AutoText>Restore to the queues</AutoText>
+                </Button>
               </form>
             ) : (
               <ConfirmForm
@@ -148,15 +156,17 @@ export function OrderInternalPanel({
                   </>
                 }
                 title={`Archive ${orderNumber}?`}
-                description={tx("It leaves the order queues and reports' working views. You can restore it at any time.")}
-                confirmLabel={tx("Archive")}
+                description={tx(
+                  "It leaves the order queues and reports' working views. You can restore it at any time.",
+                )}
+                confirmLabel={tx('Archive')}
                 tone="danger"
                 hiddenFields={{ orderNumber, archive: 'true' }}
                 error={archiveState.status === 'error' ? archiveState.message : undefined}
               >
                 <Field
                   id={`archive-reason-${orderNumber}`}
-                  label={tx("Reason")}
+                  label={tx('Reason')}
                   error={archiveState.fieldErrors?.reason}
                   required
                 >
@@ -166,7 +176,7 @@ export function OrderInternalPanel({
                       name="reason"
                       rows={2}
                       maxLength={300}
-                      placeholder={tx("e.g. Test order")}
+                      placeholder={tx('e.g. Test order')}
                     />
                   )}
                 </Field>

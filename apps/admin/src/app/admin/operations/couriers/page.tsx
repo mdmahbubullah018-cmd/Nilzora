@@ -48,7 +48,9 @@ export default async function CourierOverviewPage({
               href={withQuery('/admin/audit', { area: 'shipment.' })}
               className={buttonClasses({ variant: 'outline', size: 'sm' })}
             >
-              <ScrollText aria-hidden="true" /><AutoText>Shipment audit log</AutoText></Link>
+              <ScrollText aria-hidden="true" />
+              <AutoText>Shipment audit log</AutoText>
+            </Link>
           ) : null}
         </>
       }

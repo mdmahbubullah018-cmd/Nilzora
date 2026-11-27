@@ -21,7 +21,11 @@ export const INVENTORY_REASON: Record<InventoryReason, { label: string; tone: St
 
 export function ReasonBadge({ reason }: { reason: InventoryReason }) {
   const style = INVENTORY_REASON[reason];
-  return <Chip tone={style.tone}><AutoText value={style.label} /></Chip>;
+  return (
+    <Chip tone={style.tone}>
+      <AutoText value={style.label} />
+    </Chip>
+  );
 }
 
 /** "+12" or "−3", with the direction in words for assistive technology. */
@@ -80,10 +84,14 @@ export function RecentMovementList({ movements }: { movements: readonly Inventor
               {movement.orderNumber ? <OrderLink orderNumber={movement.orderNumber} /> : null}
             </div>
             {movement.note ? (
-              <p className="text-xs break-words text-body"><AutoText value={movement.note} /></p>
+              <p className="text-xs break-words text-body">
+                <AutoText value={movement.note} />
+              </p>
             ) : null}
             <p className="text-xs text-muted-foreground">
-              <time dateTime={movement.createdAt}><AutoText value={formatDateTime(movement.createdAt)} /></time>
+              <time dateTime={movement.createdAt}>
+                <AutoText value={formatDateTime(movement.createdAt)} />
+              </time>
               {' · '}
               {movementActor(movement)}
             </p>

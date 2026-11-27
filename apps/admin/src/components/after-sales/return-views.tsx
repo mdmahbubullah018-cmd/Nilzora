@@ -129,12 +129,24 @@ export function ReturnListView({
       <DataTable caption="Return requests" dense>
         <TableHeader>
           <TableRow className="hover:bg-transparent">
-            <TableHead><AutoText>Order</AutoText></TableHead>
-            <TableHead><AutoText>Status</AutoText></TableHead>
-            <TableHead className="text-right"><AutoText>Items</AutoText></TableHead>
-            <TableHead className="text-right"><AutoText>Refundable</AutoText></TableHead>
-            <TableHead><AutoText>Requested</AutoText></TableHead>
-            <TableHead><AutoText>Reason</AutoText></TableHead>
+            <TableHead>
+              <AutoText>Order</AutoText>
+            </TableHead>
+            <TableHead>
+              <AutoText>Status</AutoText>
+            </TableHead>
+            <TableHead className="text-right">
+              <AutoText>Items</AutoText>
+            </TableHead>
+            <TableHead className="text-right">
+              <AutoText>Refundable</AutoText>
+            </TableHead>
+            <TableHead>
+              <AutoText>Requested</AutoText>
+            </TableHead>
+            <TableHead>
+              <AutoText>Reason</AutoText>
+            </TableHead>
           </TableRow>
         </TableHeader>
         {returns.length > 0 ? (
@@ -152,14 +164,18 @@ export function ReturnListView({
                 <TableCell>
                   <ReturnStatusChip status={request.status} />
                 </TableCell>
-                <TableCell className="text-right tabular-nums"><AutoText value={request.itemCount} /></TableCell>
+                <TableCell className="text-right tabular-nums">
+                  <AutoText value={request.itemCount} />
+                </TableCell>
                 <TableCell className="text-right tabular-nums">
                   {formatMoney(request.refundableMinor)}
                 </TableCell>
                 <TableCell className="text-muted-foreground">
                   <DateTimeText value={request.requestedAt} style="datetime" />
                 </TableCell>
-                <TableCell className="max-w-64 truncate"><AutoText value={request.reason} /></TableCell>
+                <TableCell className="max-w-64 truncate">
+                  <AutoText value={request.reason} />
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>
@@ -233,7 +249,9 @@ export function ReturnDetailView({
 
         <SectionCard title="Items to return" icon={Package} flush>
           {request.items.length === 0 ? (
-            <p className="px-5 pb-5 text-sm text-muted-foreground sm:px-6"><AutoText>This request has no lines.</AutoText></p>
+            <p className="px-5 pb-5 text-sm text-muted-foreground sm:px-6">
+              <AutoText>This request has no lines.</AutoText>
+            </p>
           ) : (
             <ul className="divide-y divide-hairline border-t border-hairline">
               {request.items.map((item) => (
@@ -242,11 +260,17 @@ export function ReturnDetailView({
                   className="flex flex-wrap justify-between gap-3 px-5 py-3 sm:px-6"
                 >
                   <div className="grid min-w-0 gap-0.5">
-                    <p className="font-medium text-foreground"><AutoText value={item.productName} /></p>
+                    <p className="font-medium text-foreground">
+                      <AutoText value={item.productName} />
+                    </p>
                     {item.variantLabel ? (
-                      <p className="text-xs text-muted-foreground"><AutoText value={item.variantLabel} /></p>
+                      <p className="text-xs text-muted-foreground">
+                        <AutoText value={item.variantLabel} />
+                      </p>
                     ) : null}
-                    <p className="font-mono text-xs text-muted-foreground"><AutoText value={item.sku} /></p>
+                    <p className="font-mono text-xs text-muted-foreground">
+                      <AutoText value={item.sku} />
+                    </p>
                   </div>
                   <div className="text-right text-sm tabular-nums">
                     <p className="text-foreground">
@@ -255,7 +279,9 @@ export function ReturnDetailView({
                         <span className="text-muted-foreground"> of {item.orderedQuantity}</span>
                       )}
                     </p>
-                    <p className="text-muted-foreground"><AutoText value={formatMoney(item.lineTotalMinor)} /></p>
+                    <p className="text-muted-foreground">
+                      <AutoText value={formatMoney(item.lineTotalMinor)} />
+                    </p>
                   </div>
                 </li>
               ))}
@@ -267,7 +293,9 @@ export function ReturnDetailView({
           {request.history.length > 0 ? (
             <Timeline label="Return history" items={historyItems(request)} />
           ) : (
-            <p className="text-sm text-muted-foreground"><AutoText>No history has been recorded yet.</AutoText></p>
+            <p className="text-sm text-muted-foreground">
+              <AutoText>No history has been recorded yet.</AutoText>
+            </p>
           )}
         </SectionCard>
       </div>

@@ -27,7 +27,9 @@ function Outcome({ state }: { state: ActionState }) {
   if (state.status === 'idle' || !state.message) return null;
   return (
     <Alert tone={state.status === 'success' ? 'success' : 'danger'}>
-      <span aria-live="polite"><AutoText value={state.message} /></span>
+      <span aria-live="polite">
+        <AutoText value={state.message} />
+      </span>
     </Alert>
   );
 }
@@ -87,7 +89,7 @@ export function BrandForm({
       {brand ? <input type="hidden" name="brandId" value={brand.id} /> : null}
       <Outcome state={state} />
       <div className={stacked ? 'grid gap-4' : 'grid items-start gap-4 sm:grid-cols-2'}>
-        <Field id={`brand-name-${id}`} label={tx("Name")} error={errors.name} required>
+        <Field id={`brand-name-${id}`} label={tx('Name')} error={errors.name} required>
           {(control) => (
             <Input
               {...control}
@@ -102,7 +104,7 @@ export function BrandForm({
         <SlugField
           key={round}
           id={`brand-slug-${id}`}
-          label={tx("Address (slug)")}
+          label={tx('Address (slug)')}
           kind="brand"
           initial={values?.slug ?? brand?.slug ?? ''}
           source={name}
@@ -112,13 +114,15 @@ export function BrandForm({
           csrf={csrf}
           error={errors.slug}
           maxLength={60}
-          hint={tx("Shown as nilzora.com/your-slug. Made from the name until you type one.")}
+          hint={tx('Shown as nilzora.com/your-slug. Made from the name until you type one.')}
         />
       </div>
       <Field
         id={`brand-description-${id}`}
-        label={tx("Description")}
-        hint={tx("Optional. A sentence under the name on the brand's page. Leave it empty if there is nothing to say.")}
+        label={tx('Description')}
+        hint={tx(
+          "Optional. A sentence under the name on the brand's page. Leave it empty if there is nothing to say.",
+        )}
         error={errors.description}
       >
         {(control) => (
@@ -134,7 +138,7 @@ export function BrandForm({
       <div className="flex flex-wrap items-center justify-between gap-3">
         <Check
           name="isActive"
-          label={tx("Visible in the store")}
+          label={tx('Visible in the store')}
           defaultChecked={brand?.isActive ?? true}
         />
         <Button type="submit" loading={pending} className="max-sm:min-h-11">
@@ -162,7 +166,9 @@ export function BrandLogoForm({ brand, csrf }: { brand: AdminBrand; csrf: CsrfIn
           <CsrfField csrf={csrf} />
           <input type="hidden" name="brandId" value={brand.id} />
           <Outcome state={state} />
-          <Button type="submit" variant="ghost" loading={removing} className="justify-self-start"><AutoText>Remove logo</AutoText></Button>
+          <Button type="submit" variant="ghost" loading={removing} className="justify-self-start">
+            <AutoText>Remove logo</AutoText>
+          </Button>
         </form>
       ) : null}
     </div>
@@ -181,7 +187,9 @@ export function BrandBannerForm({ brand, csrf }: { brand: AdminBrand; csrf: Csrf
         idValue={brand.id}
         csrf={csrf}
         label={brand.banner ? 'Replace banner' : 'Upload banner'}
-        hint={tx("Shown as the wide band on the brand's own page, under its logo. Without a banner the page is simply the logo and the name.")}
+        hint={tx(
+          "Shown as the wide band on the brand's own page, under its logo. Without a banner the page is simply the logo and the name.",
+        )}
         action={uploadBrandBannerAction}
       />
       {brand.banner ? (
@@ -189,7 +197,9 @@ export function BrandBannerForm({ brand, csrf }: { brand: AdminBrand; csrf: Csrf
           <CsrfField csrf={csrf} />
           <input type="hidden" name="brandId" value={brand.id} />
           <Outcome state={state} />
-          <Button type="submit" variant="ghost" loading={removing} className="justify-self-start"><AutoText>Remove banner</AutoText></Button>
+          <Button type="submit" variant="ghost" loading={removing} className="justify-self-start">
+            <AutoText>Remove banner</AutoText>
+          </Button>
         </form>
       ) : null}
     </div>
@@ -210,12 +220,17 @@ export function DeleteBrandForm({ brand, csrf }: { brand: AdminBrand; csrf: Csrf
         trigger={
           <>
             <Trash2 aria-hidden="true" strokeWidth={1.75} />
-            Delete brand <span className="sr-only"><AutoText value={brand.name} /></span>
+            Delete brand{' '}
+            <span className="sr-only">
+              <AutoText value={brand.name} />
+            </span>
           </>
         }
         title={`Delete the brand “${brand.name}”?`}
-        description={tx("Its page disappears from the store. Brands that products still use cannot be deleted. This cannot be undone.")}
-        confirmLabel={tx("Delete brand")}
+        description={tx(
+          'Its page disappears from the store. Brands that products still use cannot be deleted. This cannot be undone.',
+        )}
+        confirmLabel={tx('Delete brand')}
         hiddenFields={{ brandId: brand.id }}
         error={state.status === 'error' ? state.message : undefined}
       />
@@ -243,10 +258,12 @@ export function ProductBrandForm({
       <input type="hidden" name="productId" value={productId} />
       <Outcome state={state} />
       <div className="flex flex-wrap items-end gap-3">
-        <Field id={`product-brand-${productId}`} label={tx("Brand")} className="flex-1">
+        <Field id={`product-brand-${productId}`} label={tx('Brand')} className="flex-1">
           {(control) => (
             <NativeSelect {...control} name="brandId" defaultValue={currentBrandId ?? ''}>
-              <option value=""><AutoText>No brand</AutoText></option>
+              <option value="">
+                <AutoText>No brand</AutoText>
+              </option>
               {brands.map((brand) => (
                 <option key={brand.id} value={brand.id}>
                   {brand.name}
@@ -256,7 +273,9 @@ export function ProductBrandForm({
             </NativeSelect>
           )}
         </Field>
-        <Button type="submit" variant="outline" loading={pending}><AutoText>Save brand</AutoText></Button>
+        <Button type="submit" variant="outline" loading={pending}>
+          <AutoText>Save brand</AutoText>
+        </Button>
       </div>
     </form>
   );

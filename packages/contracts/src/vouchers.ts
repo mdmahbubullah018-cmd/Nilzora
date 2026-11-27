@@ -69,7 +69,9 @@ export const voucherResponseSchema = z.object({ voucher: voucherSchema });
 export type VoucherResponse = z.infer<typeof voucherResponseSchema>;
 
 /** Where "Use" takes a customer: the qualifying category or product, else the catalogue. */
-export function voucherUsePath(voucher: Pick<Voucher, 'scope' | 'categories' | 'products'>): string {
+export function voucherUsePath(
+  voucher: Pick<Voucher, 'scope' | 'categories' | 'products'>,
+): string {
   if (voucher.scope === 'categories' && voucher.categories[0]) {
     return `/categories/${voucher.categories[0].slug}`;
   }

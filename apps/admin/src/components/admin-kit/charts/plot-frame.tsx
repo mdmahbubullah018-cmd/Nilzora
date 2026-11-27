@@ -37,7 +37,15 @@ function xLabelPosition(index: number, count: number): { left: string; className
   return { left: `${String(bandCenter(index, count))}%`, className: '-translate-x-1/2' };
 }
 
-function YAxis({ axis, side, heightClass }: { axis: PlotAxis; side: 'left' | 'right'; heightClass: string }) {
+function YAxis({
+  axis,
+  side,
+  heightClass,
+}: {
+  axis: PlotAxis;
+  side: 'left' | 'right';
+  heightClass: string;
+}) {
   return (
     <div className={cn('relative shrink-0', side === 'left' ? 'w-12' : 'w-9', heightClass)}>
       {axis.ticks.map((tick) => (
@@ -114,7 +122,11 @@ export function PlotFrame({
             })}
           </svg>
 
-          {plot ? <div className={cn('absolute inset-0', toneClass)}><AutoText value={plot} /></div> : null}
+          {plot ? (
+            <div className={cn('absolute inset-0', toneClass)}>
+              <AutoText value={plot} />
+            </div>
+          ) : null}
 
           {/* Hover targets span the whole height of each band, wider than the mark. */}
           <div className={cn('absolute inset-0 flex', toneClass)}>
@@ -123,7 +135,10 @@ export function PlotFrame({
               const share = (index + 0.5) / count;
               const opensRight = share < 0.6;
               return (
-                <div key={`${label}-${String(index)}`} className="group/band relative h-full min-w-0 flex-1">
+                <div
+                  key={`${label}-${String(index)}`}
+                  className="group/band relative h-full min-w-0 flex-1"
+                >
                   {crosshair ? (
                     <span className="absolute inset-y-0 left-1/2 w-px bg-chart-axis/40 opacity-0 transition-opacity group-hover/band:opacity-100" />
                   ) : null}

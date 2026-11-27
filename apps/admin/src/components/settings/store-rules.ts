@@ -29,8 +29,7 @@ export type StoreRuleField = (typeof STORE_RULE_FIELDS)[number];
 export type StoreRuleTexts = Record<StoreRuleField, string>;
 export type StoreRuleErrors = Partial<Record<StoreRuleField, string>>;
 export type StoreRulesChecked =
-  | { ok: true; value: SaveStoreSettingsRequest }
-  | { ok: false; errors: StoreRuleErrors };
+  { ok: true; value: SaveStoreSettingsRequest } | { ok: false; errors: StoreRuleErrors };
 
 export const STORE_RULE_LIMITS = {
   returnWindowDays: RETURN_WINDOW_DAYS,
@@ -75,7 +74,9 @@ function whole(text: string): number {
  * inactivity are required; a threshold left empty is left out of the request, which keeps
  * its current value. Messages are fixed text naming the allowed range.
  */
-export function checkStoreRules(values: Partial<Record<StoreRuleField, string>>): StoreRulesChecked {
+export function checkStoreRules(
+  values: Partial<Record<StoreRuleField, string>>,
+): StoreRulesChecked {
   const text = (field: StoreRuleField) => (values[field] ?? '').trim();
   const optional = (field: StoreRuleField, parse: (value: string) => number) =>
     text(field) === '' ? undefined : parse(text(field));
@@ -88,7 +89,9 @@ export function checkStoreRules(values: Partial<Record<StoreRuleField, string>>)
     inactiveDays: optional('inactiveDays', whole),
   };
   // Optional fields that were left empty are omitted, not sent as undefined keys.
-  const body = Object.fromEntries(Object.entries(candidate).filter(([, value]) => value !== undefined));
+  const body = Object.fromEntries(
+    Object.entries(candidate).filter(([, value]) => value !== undefined),
+  );
 
   const parsed = saveStoreSettingsRequestSchema.safeParse(body);
   if (parsed.success) return { ok: true, value: parsed.data };

@@ -84,7 +84,7 @@ describe('sidebarCookie', () => {
 describe('SIDEBAR_SCRIPT', () => {
   it('resolves auto from the same breakpoint the stylesheet documents', () => {
     expect(SIDEBAR_SCRIPT).toContain(SIDEBAR_AUTO_WIDE_QUERY);
-    expect(SIDEBAR_SCRIPT).toContain("data-sidebar-effective");
+    expect(SIDEBAR_SCRIPT).toContain('data-sidebar-effective');
     // A fixed string: no interpolation or user input can reach it.
     expect(SIDEBAR_SCRIPT).not.toContain('${');
   });

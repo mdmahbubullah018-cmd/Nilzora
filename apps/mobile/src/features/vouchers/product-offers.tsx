@@ -384,7 +384,11 @@ function VoucherActionPill({
         accessibilityHint="Shows the products this voucher applies to"
         onPress={onUse}
         hitSlop={{ top: 8, bottom: 8, left: 6, right: 6 }}
-        style={({ pressed }) => [styles.pill, styles.pillOutline, pressed ? styles.pillPressed : null]}
+        style={({ pressed }) => [
+          styles.pill,
+          styles.pillOutline,
+          pressed ? styles.pillPressed : null,
+        ]}
       >
         <Text style={[styles.pillText, styles.pillTextOutline]}>Use</Text>
       </Pressable>
@@ -423,7 +427,13 @@ function VoucherActionPill({
 }
 
 /** A short confirmation that floats over the strip and disappears on its own. */
-function SectionToast({ tone, message }: { tone: 'success' | 'error'; message: string }): ReactNode {
+function SectionToast({
+  tone,
+  message,
+}: {
+  tone: 'success' | 'error';
+  message: string;
+}): ReactNode {
   return (
     <View pointerEvents="none" style={styles.toastWrap}>
       <View

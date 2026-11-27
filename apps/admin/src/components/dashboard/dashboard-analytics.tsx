@@ -35,13 +35,7 @@ import { withQuery } from '@/components/admin-kit/href';
 import { SectionCard } from '@/components/admin-kit/section-card';
 import { ORDER_STATUS, ORDER_STATUS_CHART_TONE } from '@/components/admin-kit/status-badge';
 import { DELIVERY_ZONE_LABEL } from '@/components/orders/order-query';
-import {
-  formatCompactMoney,
-  formatCount,
-  formatMoney,
-  formatPercent,
-  plural,
-} from '@/lib/format';
+import { formatCompactMoney, formatCount, formatMoney, formatPercent, plural } from '@/lib/format';
 import { BUCKET_NOUN, bucketOverview, bucketSizeFor } from '@/lib/analytics';
 import type { ReportRange } from '@/lib/date-range';
 import type { ReactNode } from 'react';
@@ -138,7 +132,9 @@ export function StatusPerDaySection({
       className={className}
     >
       {total === 0 ? (
-        <EmptyNote><AutoText>No orders were placed in this period.</AutoText></EmptyNote>
+        <EmptyNote>
+          <AutoText>No orders were placed in this period.</AutoText>
+        </EmptyNote>
       ) : (
         <StackedBarChart
           title={`Orders per ${noun} by current status, ${range.label.toLowerCase()}`}
@@ -183,7 +179,9 @@ export function StatusSplitSection({
       className={className}
     >
       {segments.length === 0 ? (
-        <EmptyNote><AutoText>No orders were placed in this period.</AutoText></EmptyNote>
+        <EmptyNote>
+          <AutoText>No orders were placed in this period.</AutoText>
+        </EmptyNote>
       ) : (
         <DonutChart
           title="Orders placed in this period by status"
@@ -232,7 +230,9 @@ export function PaymentSplitSection({
       className={className}
     >
       {segments.length === 0 ? (
-        <EmptyNote><AutoText>No cash is due on this period&apos;s orders.</AutoText></EmptyNote>
+        <EmptyNote>
+          <AutoText>No cash is due on this period&apos;s orders.</AutoText>
+        </EmptyNote>
       ) : (
         <DonutChart
           title="Cash on delivery: pending vs collected"
@@ -274,7 +274,9 @@ export function DeliveryZoneSection({
       className={className}
     >
       {segments.length === 0 ? (
-        <EmptyNote><AutoText>No orders were delivered or placed for delivery in this period.</AutoText></EmptyNote>
+        <EmptyNote>
+          <AutoText>No orders were delivered or placed for delivery in this period.</AutoText>
+        </EmptyNote>
       ) : (
         <DonutChart
           title="Orders by delivery zone"
@@ -378,7 +380,9 @@ export function CategorySalesSection({
       className={className}
     >
       {overview.salesByCategory.length === 0 ? (
-        <EmptyNote><AutoText>Nothing was sold in this period.</AutoText></EmptyNote>
+        <EmptyNote>
+          <AutoText>Nothing was sold in this period.</AutoText>
+        </EmptyNote>
       ) : (
         <BarList
           label="Sales by category"
@@ -411,7 +415,9 @@ export function TopProductsSection({
       className={className}
     >
       {overview.topProducts.length === 0 ? (
-        <EmptyNote><AutoText>Nothing was sold in this period.</AutoText></EmptyNote>
+        <EmptyNote>
+          <AutoText>Nothing was sold in this period.</AutoText>
+        </EmptyNote>
       ) : (
         <BarList
           label="Top products by units sold"
@@ -447,7 +453,9 @@ export function TopCustomersSection({
     >
       {customers.length === 0 ? (
         <div className="px-5 pb-5 sm:px-6">
-          <EmptyNote><AutoText>No customer ordered in this period.</AutoText></EmptyNote>
+          <EmptyNote>
+            <AutoText>No customer ordered in this period.</AutoText>
+          </EmptyNote>
         </div>
       ) : (
         <ol className="divide-y divide-border">
@@ -601,13 +609,11 @@ export function FunnelSection({
 
         {partialCoverage && trackingSince ? (
           <p className="rounded-xl border border-warning/30 bg-warning/5 p-3 text-xs text-foreground">
-            <AutoText>
-              Carts and checkouts have only been recorded since
-            </AutoText>{' '}
+            <AutoText>Carts and checkouts have only been recorded since</AutoText>{' '}
             <DateTimeText value={trackingSince} style="date" />.{' '}
             <AutoText>
-              This range starts before that, so orders from the untracked days are counted but
-              the carts they came from are not. Conversions are hidden until the whole period is
+              This range starts before that, so orders from the untracked days are counted but the
+              carts they came from are not. Conversions are hidden until the whole period is
               tracked; the counts below are still exact.
             </AutoText>
           </p>
@@ -687,8 +693,8 @@ export function FunnelSection({
           )}
           <p>
             <AutoText>
-              Product views are not tracked, so this journey starts at the cart. Carts and
-              checkouts are compared with the previous period only where tracking existed then
+              Product views are not tracked, so this journey starts at the cart. Carts and checkouts
+              are compared with the previous period only where tracking existed then
             </AutoText>
             {trackingSince ? (
               <>

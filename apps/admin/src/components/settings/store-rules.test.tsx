@@ -69,7 +69,9 @@ describe('storeRuleTexts', () => {
       highSpend: '15000',
       inactiveDays: '90',
     });
-    expect(storeRuleTexts({ ...SETTINGS, highSpendThresholdMinor: 150_050 }).highSpend).toBe('1500.50');
+    expect(storeRuleTexts({ ...SETTINGS, highSpendThresholdMinor: 150_050 }).highSpend).toBe(
+      '1500.50',
+    );
   });
 });
 
@@ -90,15 +92,27 @@ describe('checkStoreRules', () => {
   });
 
   it('leaves an empty threshold out of the request, so the API keeps its current value', () => {
-    const checked = checkStoreRules({ ...TEXTS, repeatOrderThreshold: '', highSpend: ' ', inactiveDays: '' });
+    const checked = checkStoreRules({
+      ...TEXTS,
+      repeatOrderThreshold: '',
+      highSpend: ' ',
+      inactiveDays: '',
+    });
     expect(checked.ok).toBe(true);
     if (checked.ok) {
-      expect(Object.keys(checked.value).sort()).toEqual(['cartInactivityMinutes', 'returnWindowDays']);
+      expect(Object.keys(checked.value).sort()).toEqual([
+        'cartInactivityMinutes',
+        'returnWindowDays',
+      ]);
     }
   });
 
   it('requires the return window and cart inactivity', () => {
-    const checked = checkStoreRules({ ...TEXTS, returnWindowDays: '', cartInactivityMinutes: '  ' });
+    const checked = checkStoreRules({
+      ...TEXTS,
+      returnWindowDays: '',
+      cartInactivityMinutes: '  ',
+    });
     expect(checked.ok).toBe(false);
     if (!checked.ok) {
       expect(checked.errors).toEqual({
@@ -125,10 +139,13 @@ describe('checkStoreRules', () => {
     if (!checked.ok) expect(checked.errors).toEqual({ [field]: STORE_RULE_MESSAGES[field] });
   });
 
-  it.each([['7.5'], ['-7'], ['seven'], ['1e2'], ['1,000']])('refuses %j as a number of days', (value) => {
-    const checked = checkStoreRules({ ...TEXTS, returnWindowDays: value });
-    expect(checked.ok).toBe(false);
-  });
+  it.each([['7.5'], ['-7'], ['seven'], ['1e2'], ['1,000']])(
+    'refuses %j as a number of days',
+    (value) => {
+      const checked = checkStoreRules({ ...TEXTS, returnWindowDays: value });
+      expect(checked.ok).toBe(false);
+    },
+  );
 
   it('accepts the limits themselves', () => {
     expect(
@@ -152,7 +169,8 @@ describe('checkStoreRules', () => {
 });
 
 describe('StoreRulesForm', () => {
-  const renderForm = (initial: StoreRuleTexts = TEXTS) => render(<StoreRulesForm initial={initial} csrf={csrf} />);
+  const renderForm = (initial: StoreRuleTexts = TEXTS) =>
+    render(<StoreRulesForm initial={initial} csrf={csrf} />);
 
   it('starts from the saved values, labelled, with the units beside them', () => {
     renderForm();

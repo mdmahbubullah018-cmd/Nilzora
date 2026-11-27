@@ -1,4 +1,4 @@
- /*
+/*
  * Sidebar width preference
  * ------------------------
  * The navigation rail has four preferences:

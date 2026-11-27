@@ -8,11 +8,7 @@ import {
 } from './coupons';
 import { placeOrderRequestSchema } from './orders';
 import { voucherSchema } from './vouchers';
-import {
-  COUPON_AUDIENCES,
-  COUPON_RECIPIENT_LIMIT,
-  couponTargetingInputSchema,
-} from './vouchers';
+import { COUPON_AUDIENCES, COUPON_RECIPIENT_LIMIT, couponTargetingInputSchema } from './vouchers';
 
 /*
  * Coupon contracts. The database is the authority on whether a coupon applies; these
@@ -169,7 +165,13 @@ describe('checkoutQuoteSchema', () => {
       shippingFeeMinor: 6_000,
       totalMinor: 96_000,
       discountMinor: 10_000,
-      coupon: { code: 'SAVE10', kind: 'percent', value: 10, maxDiscountMinor: null, description: null },
+      coupon: {
+        code: 'SAVE10',
+        kind: 'percent',
+        value: 10,
+        maxDiscountMinor: null,
+        description: null,
+      },
       couponProblem: null,
       purchasable: true,
     });
@@ -206,7 +208,12 @@ describe('coupons for chosen customers', () => {
   });
 
   it('keeps the other audiences as they were', () => {
-    expect(COUPON_AUDIENCES).toEqual(['all', 'new_customers', 'returning_customers', 'selected_customers']);
+    expect(COUPON_AUDIENCES).toEqual([
+      'all',
+      'new_customers',
+      'returning_customers',
+      'selected_customers',
+    ]);
     expect(couponTargetingInputSchema.parse({}).customerIds).toEqual([]);
   });
 });
@@ -215,7 +222,8 @@ describe('free delivery coupons', () => {
   it('is its own kind, valued 1, and carries no cap', () => {
     expect(COUPON_KINDS).toContain('free_delivery');
     expect(
-      couponSaveRequestSchema.safeParse({ code: 'FREESHIP', kind: 'free_delivery', value: 1 }).success,
+      couponSaveRequestSchema.safeParse({ code: 'FREESHIP', kind: 'free_delivery', value: 1 })
+        .success,
     ).toBe(true);
     // Like a fixed amount, it has nothing to cap.
     expect(
@@ -229,8 +237,6 @@ describe('free delivery coupons', () => {
   });
 
   it('is accepted in a collectable voucher and in a checkout quote', () => {
-    expect(
-      voucherSchema.shape.kind.safeParse('free_delivery').success,
-    ).toBe(true);
+    expect(voucherSchema.shape.kind.safeParse('free_delivery').success).toBe(true);
   });
 });

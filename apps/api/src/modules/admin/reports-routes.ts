@@ -160,7 +160,8 @@ export function adminReportsRouter(deps: AdminRouteDependencies): Router {
 
   /** Each card is read only when the caller holds its permission; the others are null. */
   router.get(
-    '/admin/dashboard',    noStore,
+    '/admin/dashboard',
+    noStore,
     requireUser,
     requireAnyPermission(['admin_workspace.access', 'moderator_workspace.access']),
     async (_req, res) => {

@@ -6,14 +6,7 @@ import {
   type AdminProductListResponse,
   type InventoryMovementListResponse,
 } from '@nilzora/contracts';
-import {
-  buttonClasses,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@nilzora/ui';
+import { buttonClasses, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@nilzora/ui';
 import {
   Boxes,
   History,
@@ -176,7 +169,10 @@ export function AttentionSection({ attention }: { attention: Outcome<AdminProduc
                     href={productPath(product.id)}
                     className="nz-tap text-xs font-medium text-link underline-offset-4 hover:underline"
                   >
-                    Restock <span className="sr-only"><AutoText value={product.name} /></span>
+                    Restock{' '}
+                    <span className="sr-only">
+                      <AutoText value={product.name} />
+                    </span>
                   </Link>
                 </div>
               </li>
@@ -189,7 +185,9 @@ export function AttentionSection({ attention }: { attention: Outcome<AdminProduc
               <Link
                 href={onSaleStockHref('low')}
                 className="font-medium text-link underline-offset-4 hover:underline"
-              ><AutoText>See them all</AutoText></Link>
+              >
+                <AutoText>See them all</AutoText>
+              </Link>
             </p>
           ) : null}
         </>
@@ -233,61 +231,77 @@ export function StockLevelsSection({
       }
       header={
         <>
-        <TableHeading
-          title="Stock levels"
-          description="Exact units per product. Stock changes only through orders and recorded adjustments."
-        />
-        <FilterBar
-          action="/admin/inventory"
-          label="Filter stock levels"
-          hidden={{ sort: productSortParam(params.sort) }}
-          resetHref={filtered ? '/admin/inventory' : undefined}
-        >
-          <SearchFilter label="Search" defaultValue={params.q} placeholder="Name, SKU or address" />
-          <SelectFilter
-            name="stock"
-            label="Stock"
-            allLabel="Any stock level"
-            defaultValue={params.stock}
-            options={[
-              { value: 'low', label: STOCK_FILTER_LABELS.low },
-              { value: 'out', label: STOCK_FILTER_LABELS.out },
-            ]}
+          <TableHeading
+            title="Stock levels"
+            description="Exact units per product. Stock changes only through orders and recorded adjustments."
           />
-          <SelectFilter
-            name="status"
-            label="Status"
-            allLabel="Any status"
-            defaultValue={params.status}
-            options={PRODUCT_STATUSES.map((status) => ({
-              value: status,
-              label: PRODUCT_STATUS[status].label,
-            }))}
-          />
-          {categories ? (
-            <SelectFilter
-              name="category"
-              label="Category"
-              allLabel="All categories"
-              defaultValue={params.category}
-              options={categoryFilterOptions(categories)}
+          <FilterBar
+            action="/admin/inventory"
+            label="Filter stock levels"
+            hidden={{ sort: productSortParam(params.sort) }}
+            resetHref={filtered ? '/admin/inventory' : undefined}
+          >
+            <SearchFilter
+              label="Search"
+              defaultValue={params.q}
+              placeholder="Name, SKU or address"
             />
-          ) : null}
-        </FilterBar>
-        <FilterChips chips={stockChips(params, categories ?? [])} clearHref="/admin/inventory" />
+            <SelectFilter
+              name="stock"
+              label="Stock"
+              allLabel="Any stock level"
+              defaultValue={params.stock}
+              options={[
+                { value: 'low', label: STOCK_FILTER_LABELS.low },
+                { value: 'out', label: STOCK_FILTER_LABELS.out },
+              ]}
+            />
+            <SelectFilter
+              name="status"
+              label="Status"
+              allLabel="Any status"
+              defaultValue={params.status}
+              options={PRODUCT_STATUSES.map((status) => ({
+                value: status,
+                label: PRODUCT_STATUS[status].label,
+              }))}
+            />
+            {categories ? (
+              <SelectFilter
+                name="category"
+                label="Category"
+                allLabel="All categories"
+                defaultValue={params.category}
+                options={categoryFilterOptions(categories)}
+              />
+            ) : null}
+          </FilterBar>
+          <FilterChips chips={stockChips(params, categories ?? [])} clearHref="/admin/inventory" />
         </>
       }
     >
       <DataTable caption="Stock levels" dense>
         <TableHeader>
           <TableRow className="hover:bg-transparent">
-            <SortableHead column="name" sort={sort} hrefFor={sortHref}><AutoText>Product</AutoText></SortableHead>
-            <TableHead><AutoText>Category</AutoText></TableHead>
-            <TableHead><AutoText>Status</AutoText></TableHead>
-            <SortableHead column="stock" sort={sort} hrefFor={sortHref}><AutoText>Stock</AutoText></SortableHead>
-            <TableHead className="text-right"><AutoText>Per order</AutoText></TableHead>
+            <SortableHead column="name" sort={sort} hrefFor={sortHref}>
+              <AutoText>Product</AutoText>
+            </SortableHead>
             <TableHead>
-              <span className="sr-only"><AutoText>Actions</AutoText></span>
+              <AutoText>Category</AutoText>
+            </TableHead>
+            <TableHead>
+              <AutoText>Status</AutoText>
+            </TableHead>
+            <SortableHead column="stock" sort={sort} hrefFor={sortHref}>
+              <AutoText>Stock</AutoText>
+            </SortableHead>
+            <TableHead className="text-right">
+              <AutoText>Per order</AutoText>
+            </TableHead>
+            <TableHead>
+              <span className="sr-only">
+                <AutoText>Actions</AutoText>
+              </span>
             </TableHead>
           </TableRow>
         </TableHeader>
@@ -298,7 +312,9 @@ export function StockLevelsSection({
                 <TableCell>
                   <ProductCell product={product} />
                 </TableCell>
-                <TableCell><AutoText value={product.category.name} /></TableCell>
+                <TableCell>
+                  <AutoText value={product.category.name} />
+                </TableCell>
                 <TableCell>
                   <ProductStatusBadge status={product.status} />
                 </TableCell>
@@ -319,9 +335,16 @@ export function StockLevelsSection({
                     <Link
                       // Lands on the product's inventory section (its stock per variant, if it has any).
                       href={`${productPath(product.id)}#product-inventory` as Route}
-                      className={buttonClasses({ variant: 'outline', size: 'sm', className: TOUCH })}
+                      className={buttonClasses({
+                        variant: 'outline',
+                        size: 'sm',
+                        className: TOUCH,
+                      })}
                     >
-                      Adjust <span className="sr-only"><AutoText value={product.name} /></span>
+                      Adjust{' '}
+                      <span className="sr-only">
+                        <AutoText value={product.name} />
+                      </span>
                     </Link>
                   </div>
                 </TableCell>
@@ -401,51 +424,63 @@ export function MovementLedgerSection({
       }
       header={
         <>
-        <TableHeading
-          title="Stock ledger"
-          description="Every change to stock, newest first: opening stock, orders, cancellations and adjustments with their reasons."
-        />
-        <FilterBar
-          action="/admin/inventory"
-          label="Filter the stock ledger"
-          hidden={{ view: 'movements' }}
-          resetHref={filtered ? movementListHref({ page: 1 }) : undefined}
-        >
-          {productOptions.length > 0 ? (
-            <SelectFilter
-              name="product"
-              label="Product"
-              allLabel="All products"
-              defaultValue={params.product}
-              options={productOptions}
-              className="min-w-56"
-            />
-          ) : null}
-          <SelectFilter
-            name="reason"
-            label="Reason"
-            allLabel="Any reason"
-            defaultValue={params.reason}
-            options={INVENTORY_REASONS.map((reason) => ({
-              value: reason,
-              label: INVENTORY_REASON[reason].label,
-            }))}
+          <TableHeading
+            title="Stock ledger"
+            description="Every change to stock, newest first: opening stock, orders, cancellations and adjustments with their reasons."
           />
-        </FilterBar>
-        <FilterChips chips={chips} clearHref={movementListHref({ page: 1 })} />
+          <FilterBar
+            action="/admin/inventory"
+            label="Filter the stock ledger"
+            hidden={{ view: 'movements' }}
+            resetHref={filtered ? movementListHref({ page: 1 }) : undefined}
+          >
+            {productOptions.length > 0 ? (
+              <SelectFilter
+                name="product"
+                label="Product"
+                allLabel="All products"
+                defaultValue={params.product}
+                options={productOptions}
+                className="min-w-56"
+              />
+            ) : null}
+            <SelectFilter
+              name="reason"
+              label="Reason"
+              allLabel="Any reason"
+              defaultValue={params.reason}
+              options={INVENTORY_REASONS.map((reason) => ({
+                value: reason,
+                label: INVENTORY_REASON[reason].label,
+              }))}
+            />
+          </FilterBar>
+          <FilterChips chips={chips} clearHref={movementListHref({ page: 1 })} />
         </>
       }
     >
       <DataTable caption="Stock ledger" dense>
         <TableHeader>
           <TableRow className="hover:bg-transparent">
-            <TableHead><AutoText>When</AutoText></TableHead>
-            <TableHead><AutoText>Product</AutoText></TableHead>
-            <TableHead className="text-right"><AutoText>Change</AutoText></TableHead>
-            <TableHead className="text-right"><AutoText>Stock after</AutoText></TableHead>
-            <TableHead><AutoText>Reason</AutoText></TableHead>
+            <TableHead>
+              <AutoText>When</AutoText>
+            </TableHead>
+            <TableHead>
+              <AutoText>Product</AutoText>
+            </TableHead>
+            <TableHead className="text-right">
+              <AutoText>Change</AutoText>
+            </TableHead>
+            <TableHead className="text-right">
+              <AutoText>Stock after</AutoText>
+            </TableHead>
+            <TableHead>
+              <AutoText>Reason</AutoText>
+            </TableHead>
             <TableHead>By</TableHead>
-            <TableHead><AutoText>Order</AutoText></TableHead>
+            <TableHead>
+              <AutoText>Order</AutoText>
+            </TableHead>
           </TableRow>
         </TableHeader>
         {movements.movements.length > 0 ? (
@@ -453,7 +488,9 @@ export function MovementLedgerSection({
             {movements.movements.map((movement) => (
               <TableRow key={movement.id}>
                 <TableCell className="text-muted-foreground tabular-nums">
-                  <time dateTime={movement.createdAt}><AutoText value={formatDateTime(movement.createdAt)} /></time>
+                  <time dateTime={movement.createdAt}>
+                    <AutoText value={formatDateTime(movement.createdAt)} />
+                  </time>
                 </TableCell>
                 <TableCell>
                   <div className="grid gap-0.5">
@@ -484,7 +521,9 @@ export function MovementLedgerSection({
                     ) : null}
                   </div>
                 </TableCell>
-                <TableCell><AutoText value={movementActor(movement)} /></TableCell>
+                <TableCell>
+                  <AutoText value={movementActor(movement)} />
+                </TableCell>
                 <TableCell>
                   {movement.orderNumber ? (
                     <OrderLink orderNumber={movement.orderNumber} />
@@ -493,7 +532,9 @@ export function MovementLedgerSection({
                       <span aria-hidden="true" className="text-muted-foreground">
                         —
                       </span>
-                      <span className="sr-only"><AutoText>None</AutoText></span>
+                      <span className="sr-only">
+                        <AutoText>None</AutoText>
+                      </span>
                     </>
                   )}
                 </TableCell>

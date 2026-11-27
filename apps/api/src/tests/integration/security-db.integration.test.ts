@@ -169,9 +169,9 @@ describe('S2: the identity assumed by withUser never outlives its transaction', 
   });
 
   it('rejects a userId that is not a UUID before touching the database', async () => {
-    await expect(withUser(pool, 'not-a-uuid', (client) => client.query('select 1'))).rejects.toThrow(
-      TypeError,
-    );
+    await expect(
+      withUser(pool, 'not-a-uuid', (client) => client.query('select 1')),
+    ).rejects.toThrow(TypeError);
     const after = await pool.query('select 1');
     expect(after.rowCount).toBe(1);
   });

@@ -68,13 +68,27 @@ export function QuoteTable({ comparison, names }: QuoteTableProps) {
     <DataTable caption="Courier prices for this parcel" dense>
       <TableHeader>
         <TableRow className="hover:bg-transparent">
-          <TableHead><AutoText>Courier</AutoText></TableHead>
-          <TableHead><AutoText>Price source</AutoText></TableHead>
-          <TableHead className="text-right"><AutoText>Delivery</AutoText></TableHead>
-          <TableHead className="text-right"><AutoText>COD fee</AutoText></TableHead>
-          <TableHead className="text-right"><AutoText>Return charge</AutoText></TableHead>
-          <TableHead className="text-right"><AutoText>Total</AutoText></TableHead>
-          <TableHead><AutoText>Valid until</AutoText></TableHead>
+          <TableHead>
+            <AutoText>Courier</AutoText>
+          </TableHead>
+          <TableHead>
+            <AutoText>Price source</AutoText>
+          </TableHead>
+          <TableHead className="text-right">
+            <AutoText>Delivery</AutoText>
+          </TableHead>
+          <TableHead className="text-right">
+            <AutoText>COD fee</AutoText>
+          </TableHead>
+          <TableHead className="text-right">
+            <AutoText>Return charge</AutoText>
+          </TableHead>
+          <TableHead className="text-right">
+            <AutoText>Total</AutoText>
+          </TableHead>
+          <TableHead>
+            <AutoText>Valid until</AutoText>
+          </TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -87,7 +101,9 @@ export function QuoteTable({ comparison, names }: QuoteTableProps) {
                   <span className="flex items-center gap-2 font-medium text-foreground">
                     {names[quote.provider] ?? providerName(quote.provider)}
                     {quote.provider === recommended ? (
-                      <span className="text-xs font-semibold text-success-ink"><AutoText>Recommended</AutoText></span>
+                      <span className="text-xs font-semibold text-success-ink">
+                        <AutoText>Recommended</AutoText>
+                      </span>
                     ) : null}
                   </span>
                   {!quote.available ? (
@@ -196,7 +212,9 @@ export function BookingForm({
       <input type="hidden" name="recommendedProvider" value={recommended ?? ''} />
 
       <fieldset className="grid gap-2">
-        <legend className="mb-1 text-sm font-medium text-foreground"><AutoText>Courier</AutoText></legend>
+        <legend className="mb-1 text-sm font-medium text-foreground">
+          <AutoText>Courier</AutoText>
+        </legend>
         <div className="flex flex-wrap gap-2">
           {choosable.map((option) => (
             <label
@@ -229,7 +247,7 @@ export function BookingForm({
         <Field
           id={`selection-reason-${orderNumber}`}
           label={`Why ${name} instead of ${names[recommended] ?? providerName(recommended)}?`}
-          hint={tx("Required when you do not take the recommendation. Kept on the shipment.")}
+          hint={tx('Required when you do not take the recommendation. Kept on the shipment.')}
           error={mine ? state.fieldErrors?.selectionReason : undefined}
           required
         >
@@ -247,7 +265,11 @@ export function BookingForm({
         </Field>
       ) : null}
 
-      <Field id={`booking-note-${orderNumber}`} label={tx("Note for the courier record")} hint={tx("Optional")}>
+      <Field
+        id={`booking-note-${orderNumber}`}
+        label={tx('Note for the courier record')}
+        hint={tx('Optional')}
+      >
         {(control) => (
           <Input
             {...control}
@@ -259,14 +281,22 @@ export function BookingForm({
       </Field>
 
       <section
-        aria-label={tx("Booking preview")}
+        aria-label={tx('Booking preview')}
         className="grid gap-2 rounded-xl border border-hairline bg-surface-muted/50 p-4 text-sm"
       >
-        <p className="font-semibold text-foreground"><AutoText>Before you book</AutoText></p>
+        <p className="font-semibold text-foreground">
+          <AutoText>Before you book</AutoText>
+        </p>
         <dl className="grid grid-cols-[auto_minmax(0,1fr)] gap-x-4 gap-y-1.5">
-          <dt className="text-muted-foreground"><AutoText>Courier</AutoText></dt>
-          <dd className="text-foreground"><AutoText value={name} /></dd>
-          <dt className="text-muted-foreground"><AutoText>Deliver to</AutoText></dt>
+          <dt className="text-muted-foreground">
+            <AutoText>Courier</AutoText>
+          </dt>
+          <dd className="text-foreground">
+            <AutoText value={name} />
+          </dd>
+          <dt className="text-muted-foreground">
+            <AutoText>Deliver to</AutoText>
+          </dt>
           <dd className="text-foreground">
             {order.area}, {order.district} ({order.division})
             {mapping?.label ? (
@@ -275,16 +305,28 @@ export function BookingForm({
               </span>
             ) : null}
           </dd>
-          <dt className="text-muted-foreground"><AutoText>Cash to collect</AutoText></dt>
-          <dd className="text-foreground tabular-nums"><AutoText value={formatMoney(order.codDueMinor)} /></dd>
-          <dt className="text-muted-foreground"><AutoText>Parcel weight</AutoText></dt>
-          <dd className="text-foreground"><AutoText value={formatWeight(comparison.weightGrams)} /></dd>
-          <dt className="text-muted-foreground"><AutoText>Expected courier charge</AutoText></dt>
+          <dt className="text-muted-foreground">
+            <AutoText>Cash to collect</AutoText>
+          </dt>
+          <dd className="text-foreground tabular-nums">
+            <AutoText value={formatMoney(order.codDueMinor)} />
+          </dd>
+          <dt className="text-muted-foreground">
+            <AutoText>Parcel weight</AutoText>
+          </dt>
+          <dd className="text-foreground">
+            <AutoText value={formatWeight(comparison.weightGrams)} />
+          </dd>
+          <dt className="text-muted-foreground">
+            <AutoText>Expected courier charge</AutoText>
+          </dt>
           <dd className="flex flex-wrap items-center gap-2 text-foreground tabular-nums">
             {total === null ? 'No price' : formatMoney(total)}
             {quote ? <QuoteKindChip kind={quote.kind} /> : null}
           </dd>
-          <dt className="text-muted-foreground"><AutoText>Customer paid for delivery</AutoText></dt>
+          <dt className="text-muted-foreground">
+            <AutoText>Customer paid for delivery</AutoText>
+          </dt>
           <dd className="text-foreground tabular-nums">
             {formatMoney(order.shippingFeeMinor)}{' '}
             <span className="text-xs text-muted-foreground">(unchanged by booking)</span>
@@ -305,7 +347,9 @@ export function BookingForm({
             setBookingKey(newBookingKey());
             onNewAttempt();
           }}
-        ><AutoText>Start a new booking attempt</AutoText></Button>
+        >
+          <AutoText>Start a new booking attempt</AutoText>
+        </Button>
       ) : settled ? null : (
         <SubmitButton className="w-fit" pendingLabel={`Booking with ${name}…`}>
           <Send aria-hidden="true" />
@@ -396,7 +440,9 @@ export function OrderCourierPanel({
       ) : null}
 
       {!context.bookable ? null : !canBook ? (
-        <p className="text-sm text-muted-foreground"><AutoText>Your account can see shipments but cannot book couriers.</AutoText></p>
+        <p className="text-sm text-muted-foreground">
+          <AutoText>Your account can see shipments but cannot book couriers.</AutoText>
+        </p>
       ) : !apiBookable ? (
         <section
           aria-labelledby={`portal-heading-${orderNumber}`}
@@ -406,7 +452,9 @@ export function OrderCourierPanel({
             <h3
               id={`portal-heading-${orderNumber}`}
               className="font-display text-sm font-semibold text-foreground"
-            ><AutoText>Book in the courier portal, then record it here</AutoText></h3>
+            >
+              <AutoText>Book in the courier portal, then record it here</AutoText>
+            </h3>
             <p className="text-sm text-muted-foreground">
               {mode === 'off'
                 ? 'Courier connections are switched off on this server, so Nilzora cannot book for you.'
@@ -427,7 +475,7 @@ export function OrderCourierPanel({
           <input type="hidden" name="orderNumber" value={orderNumber} />
           <Field
             id={`parcel-weight-${orderNumber}`}
-            label={tx("Parcel weight (kg)")}
+            label={tx('Parcel weight (kg)')}
             hint={`Default ${formatWeight(context.defaultParcelWeightGrams)}; change it for a heavier parcel.`}
             error={compareState.fieldErrors?.weight}
             className="w-full max-w-56"
@@ -477,7 +525,9 @@ export function OrderCourierPanel({
             {comparison.recommendation.reasons.length > 0 ? (
               <ul className="list-disc pl-5 text-muted-foreground">
                 {comparison.recommendation.reasons.map((reason) => (
-                  <li key={reason}><AutoText value={reason} /></li>
+                  <li key={reason}>
+                    <AutoText value={reason} />
+                  </li>
                 ))}
               </ul>
             ) : null}
@@ -499,8 +549,8 @@ export function OrderCourierPanel({
 
       {canCompare ? (
         <ActionDisclosure
-          title={tx("Booked in the courier portal instead?")}
-          description={tx("Record a parcel already booked in the courier’s merchant portal")}
+          title={tx('Booked in the courier portal instead?')}
+          description={tx('Record a parcel already booked in the courier’s merchant portal')}
           open={portalState.status !== 'idle'}
         >
           {portalForm}

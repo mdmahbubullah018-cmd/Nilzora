@@ -60,7 +60,9 @@ export function RangeFilter({ path, range, keep = {}, className }: RangeFilterPr
         <summary
           className={cn(
             'nz-panel inline-flex h-10 cursor-pointer list-none items-center gap-2 rounded-xl border px-3 text-xs font-semibold transition-colors select-none [&::-webkit-details-marker]:hidden',
-            customOpen ? 'text-foreground ring-1 ring-info-line' : 'text-muted-foreground hover:text-foreground',
+            customOpen
+              ? 'text-foreground ring-1 ring-info-line'
+              : 'text-muted-foreground hover:text-foreground',
           )}
         >
           <CalendarRange aria-hidden="true" className="size-4" strokeWidth={1.75} />
@@ -78,7 +80,9 @@ export function RangeFilter({ path, range, keep = {}, className }: RangeFilterPr
               <input key={name} type="hidden" name={name} value={value} />
             ),
           )}
-          <p className="text-sm font-semibold text-foreground"><AutoText>Custom range</AutoText></p>
+          <p className="text-sm font-semibold text-foreground">
+            <AutoText>Custom range</AutoText>
+          </p>
           <div className="grid grid-cols-2 gap-2">
             <label className="grid gap-1 text-xs font-medium text-muted-foreground">
               From
@@ -104,8 +108,12 @@ export function RangeFilter({ path, range, keep = {}, className }: RangeFilterPr
               />
             </label>
           </div>
-          <p className="text-xs text-muted-foreground"><AutoText>Up to 366 days, ending today at the latest.</AutoText></p>
-          <button type="submit" className={buttonClasses({ size: 'sm', className: 'rounded-lg' })}><AutoText>Apply range</AutoText></button>
+          <p className="text-xs text-muted-foreground">
+            <AutoText>Up to 366 days, ending today at the latest.</AutoText>
+          </p>
+          <button type="submit" className={buttonClasses({ size: 'sm', className: 'rounded-lg' })}>
+            <AutoText>Apply range</AutoText>
+          </button>
         </form>
       </details>
 
@@ -119,7 +127,9 @@ export function RangeFilter({ path, range, keep = {}, className }: RangeFilterPr
         }
         className={cn(
           'nz-panel inline-flex h-10 items-center gap-2 rounded-xl border px-3 text-xs font-semibold transition-colors',
-          range.compare ? 'text-foreground ring-1 ring-info-line' : 'text-muted-foreground hover:text-foreground',
+          range.compare
+            ? 'text-foreground ring-1 ring-info-line'
+            : 'text-muted-foreground hover:text-foreground',
         )}
       >
         {range.compare ? (

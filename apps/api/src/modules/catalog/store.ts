@@ -392,7 +392,8 @@ export function createSupabaseCatalogStore(
    * always matches the numbers on the cards. It runs with the publishable key, so Row
    * Level Security still decides what a visitor may see.
    */
-  async function searchPage(    search: ProductSearch,
+  async function searchPage(
+    search: ProductSearch,
     branchSlugs: readonly string[] | null,
   ): Promise<{ rows: ListingRow[]; total: number }> {
     const call = (limit: number, offset: number) =>
@@ -538,7 +539,9 @@ export function createSupabaseCatalogStore(
       // scanned text can never add PostgREST filter syntax of its own.
       const value = code.trim();
       const bySku = /^[A-Za-z0-9][A-Za-z0-9-]{1,39}$/.test(value) ? value.toUpperCase() : null;
-      const bySlug = /^[a-z0-9]+(-[a-z0-9]+)*$/.test(value.toLowerCase()) ? value.toLowerCase() : null;
+      const bySlug = /^[a-z0-9]+(-[a-z0-9]+)*$/.test(value.toLowerCase())
+        ? value.toLowerCase()
+        : null;
       if (bySku === null && bySlug === null) return null;
 
       for (const [column, match] of [

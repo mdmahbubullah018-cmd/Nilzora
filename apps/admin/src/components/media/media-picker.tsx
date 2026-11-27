@@ -148,15 +148,17 @@ function PickerDialog({
     <Dialog
       open
       onOpenChange={onOpenChange}
-      title={tx("Choose a picture")}
-      description={tx("Pick one from the library or upload a new one. Nothing changes on the storefront until you save this page.")}
+      title={tx('Choose a picture')}
+      description={tx(
+        'Pick one from the library or upload a new one. Nothing changes on the storefront until you save this page.',
+      )}
       closeLabel="Close the picture picker"
       className="sm:max-w-3xl"
     >
       <div className="grid gap-4">
         <div
           role="tablist"
-          aria-label={tx("Where the picture comes from")}
+          aria-label={tx('Where the picture comes from')}
           className="flex gap-1 rounded-xl bg-surface-muted p-1"
         >
           {TABS.map((entry) => {
@@ -206,8 +208,8 @@ function PickerDialog({
                   onChange={(event) => {
                     setQuery(event.target.value);
                   }}
-                  aria-label={tx("Search the media library")}
-                  placeholder={tx("Description or file name")}
+                  aria-label={tx('Search the media library')}
+                  placeholder={tx('Description or file name')}
                   className="w-full rounded-xl border border-input-border bg-surface py-1.5 pr-3 pl-8 text-sm max-sm:h-11"
                 />
               </div>
@@ -215,7 +217,9 @@ function PickerDialog({
                 type="submit"
                 disabled={loading}
                 className="rounded-xl border border-input-border px-3 py-1.5 text-sm font-medium text-foreground hover:bg-neutral-soft disabled:opacity-50 max-sm:min-h-11"
-              ><AutoText>Search</AutoText></button>
+              >
+                <AutoText>Search</AutoText>
+              </button>
             </form>
 
             {error === null ? null : (
@@ -226,7 +230,9 @@ function PickerDialog({
 
             {loading ? (
               <p className="flex items-center gap-2 py-6 text-sm text-muted-foreground">
-                <Loader2 aria-hidden="true" className="size-4 motion-safe:animate-spin" /><AutoText>Reading the library…</AutoText></p>
+                <Loader2 aria-hidden="true" className="size-4 motion-safe:animate-spin" />
+                <AutoText>Reading the library…</AutoText>
+              </p>
             ) : assets === null || assets.length === 0 ? (
               <p className="py-6 text-sm text-muted-foreground">
                 {error !== null
@@ -238,7 +244,7 @@ function PickerDialog({
             ) : (
               <>
                 <ul
-                  aria-label={tx("Media library")}
+                  aria-label={tx('Media library')}
                   className="grid max-h-[min(52vh,26rem)] grid-cols-2 gap-2 overflow-y-auto pr-1 sm:grid-cols-4"
                 >
                   {assets.map((asset) => {
@@ -315,7 +321,7 @@ function PickerDialog({
               <PictureUploadForm
                 kind="media"
                 csrf={csrf}
-                label={tx("Upload a picture")}
+                label={tx('Upload a picture')}
                 action={uploadMediaAction}
                 guidance={guidance}
                 onUploaded={choose}
@@ -324,7 +330,9 @@ function PickerDialog({
           </section>
         )}
 
-        <p className="text-xs text-muted-foreground"><AutoText>Closing this window leaves the page exactly as it was.</AutoText></p>
+        <p className="text-xs text-muted-foreground">
+          <AutoText>Closing this window leaves the page exactly as it was.</AutoText>
+        </p>
       </div>
     </Dialog>
   );

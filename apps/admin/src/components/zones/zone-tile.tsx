@@ -68,10 +68,16 @@ export function ZoneTilePreview({
       {/* The words under the picture, exactly where the storefront puts them. */}
       <div className="flex items-center justify-between gap-2 px-3 py-2">
         <div className="grid min-w-0 gap-0.5">
-          <p className="truncate text-sm font-semibold text-foreground"><AutoText value={zone.name} /></p>
-          <p className="truncate text-xs text-muted-foreground"><AutoText value={products} /></p>
+          <p className="truncate text-sm font-semibold text-foreground">
+            <AutoText value={zone.name} />
+          </p>
+          <p className="truncate text-xs text-muted-foreground">
+            <AutoText value={products} />
+          </p>
           {zone.banner ? null : (
-            <p className="text-[11px] font-medium text-muted-foreground"><AutoText>Branded tile, no picture</AutoText></p>
+            <p className="text-[11px] font-medium text-muted-foreground">
+              <AutoText>Branded tile, no picture</AutoText>
+            </p>
           )}
         </div>
         <p className="inline-flex shrink-0 items-center gap-1 text-xs font-semibold text-link">
@@ -131,9 +137,15 @@ export function ZoneAppCardPreview({
         className="absolute inset-x-0 bottom-0 h-2/3 bg-linear-to-t from-brand-navy/85 via-brand-navy/35 to-transparent"
       />
       <div className="absolute inset-x-0 bottom-0 grid gap-0.5 p-3">
-        <p className="truncate text-sm font-semibold text-white"><AutoText value={zone.name} /></p>
-        <p className="truncate text-xs text-white/85"><AutoText value={products} /></p>
-        <p className="text-xs font-semibold text-white"><AutoText>Shop →</AutoText></p>
+        <p className="truncate text-sm font-semibold text-white">
+          <AutoText value={zone.name} />
+        </p>
+        <p className="truncate text-xs text-white/85">
+          <AutoText value={products} />
+        </p>
+        <p className="text-xs font-semibold text-white">
+          <AutoText>Shop →</AutoText>
+        </p>
       </div>
     </div>
   );

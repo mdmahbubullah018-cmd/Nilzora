@@ -134,7 +134,9 @@ export function ShareButton({
               'text-white drop-shadow-[0_1px_3px_rgba(15,23,42,0.85)]'
             : 'bg-surface/90 text-body shadow-sm ring-1 ring-border/70 backdrop-blur',
           'transition-[color,opacity,scale] duration-200 ease-soft',
-          tone === 'onMedia' ? 'hover:text-white hover:opacity-80' : 'hover:text-primary hover:ring-primary/40 active:scale-95',
+          tone === 'onMedia'
+            ? 'hover:text-white hover:opacity-80'
+            : 'hover:text-primary hover:ring-primary/40 active:scale-95',
           'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring',
           'motion-reduce:transition-none motion-reduce:active:scale-100',
           status === 'failed' &&

@@ -62,26 +62,38 @@ export function wishlistRoutes(deps: WishlistRouteDependencies): Router {
     }
   });
 
-  router.delete('/me/wishlist/:productId', noStore, requireUser, validate(itemSchemas), async (_req, res) => {
-    const identity = currentIdentity(res);
-    const { params } = requestInput<typeof itemSchemas>(res);
-    try {
-      answer(res, await wishlist.remove(identity.accessToken, identity.userId, params.productId));
-    } catch (error) {
-      sendAdminFailure(res, error, WISHLIST_ANSWERS);
-    }
-  });
+  router.delete(
+    '/me/wishlist/:productId',
+    noStore,
+    requireUser,
+    validate(itemSchemas),
+    async (_req, res) => {
+      const identity = currentIdentity(res);
+      const { params } = requestInput<typeof itemSchemas>(res);
+      try {
+        answer(res, await wishlist.remove(identity.accessToken, identity.userId, params.productId));
+      } catch (error) {
+        sendAdminFailure(res, error, WISHLIST_ANSWERS);
+      }
+    },
+  );
 
   // The guest list, folded into the account after sign-in. Safe to call again.
-  router.post('/me/wishlist/merge', noStore, requireUser, validate(mergeSchemas), async (_req, res) => {
-    const identity = currentIdentity(res);
-    const { body } = requestInput<typeof mergeSchemas>(res);
-    try {
-      answer(res, await wishlist.merge(identity.accessToken, identity.userId, body.slugs));
-    } catch (error) {
-      sendAdminFailure(res, error, WISHLIST_ANSWERS);
-    }
-  });
+  router.post(
+    '/me/wishlist/merge',
+    noStore,
+    requireUser,
+    validate(mergeSchemas),
+    async (_req, res) => {
+      const identity = currentIdentity(res);
+      const { body } = requestInput<typeof mergeSchemas>(res);
+      try {
+        answer(res, await wishlist.merge(identity.accessToken, identity.userId, body.slugs));
+      } catch (error) {
+        sendAdminFailure(res, error, WISHLIST_ANSWERS);
+      }
+    },
+  );
 
   return router;
 }

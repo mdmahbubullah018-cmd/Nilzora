@@ -120,12 +120,24 @@ export function CustomersTable({
       <DataTable caption="Customers" dense>
         <TableHeader>
           <TableRow className="hover:bg-transparent">
-            <TableHead><AutoText>Customer</AutoText></TableHead>
-            <TableHead className="hidden lg:table-cell"><AutoText>Phone</AutoText></TableHead>
-            <TableHead><AutoText>Status</AutoText></TableHead>
-            <TableHead className="text-right"><AutoText>Orders</AutoText></TableHead>
-            <TableHead className="hidden md:table-cell"><AutoText>Last order</AutoText></TableHead>
-            <TableHead className="hidden xl:table-cell"><AutoText>Joined</AutoText></TableHead>
+            <TableHead>
+              <AutoText>Customer</AutoText>
+            </TableHead>
+            <TableHead className="hidden lg:table-cell">
+              <AutoText>Phone</AutoText>
+            </TableHead>
+            <TableHead>
+              <AutoText>Status</AutoText>
+            </TableHead>
+            <TableHead className="text-right">
+              <AutoText>Orders</AutoText>
+            </TableHead>
+            <TableHead className="hidden md:table-cell">
+              <AutoText>Last order</AutoText>
+            </TableHead>
+            <TableHead className="hidden xl:table-cell">
+              <AutoText>Joined</AutoText>
+            </TableHead>
           </TableRow>
         </TableHeader>
         {data.customers.length > 0 ? (
@@ -233,11 +245,21 @@ function RecentOrders({ orders }: { orders: readonly AdminOrderSummary[] }) {
     <DataTable caption="Recent orders" dense>
       <TableHeader>
         <TableRow>
-          <TableHead><AutoText>Order</AutoText></TableHead>
-          <TableHead><AutoText>Placed</AutoText></TableHead>
-          <TableHead><AutoText>Status</AutoText></TableHead>
-          <TableHead><AutoText>Payment</AutoText></TableHead>
-          <TableHead className="text-right"><AutoText>Total</AutoText></TableHead>
+          <TableHead>
+            <AutoText>Order</AutoText>
+          </TableHead>
+          <TableHead>
+            <AutoText>Placed</AutoText>
+          </TableHead>
+          <TableHead>
+            <AutoText>Status</AutoText>
+          </TableHead>
+          <TableHead>
+            <AutoText>Payment</AutoText>
+          </TableHead>
+          <TableHead className="text-right">
+            <AutoText>Total</AutoText>
+          </TableHead>
         </TableRow>
       </TableHeader>
       {orders.length > 0 ? (
@@ -298,10 +320,16 @@ export function CustomerDetailView({ customer, permissions, csrf }: CustomerDeta
         title={name}
         meta={
           <>
-            {customer.fullName ? <span><AutoText value={customer.email} /></span> : null}
+            {customer.fullName ? (
+              <span>
+                <AutoText value={customer.email} />
+              </span>
+            ) : null}
             {/* The persistent account id, not a display code: it can be searched and quoted. */}
             <span className="font-mono text-xs">Customer ID {customer.id}</span>
-            <span>Joined <DateTimeText value={customer.createdAt} /></span>
+            <span>
+              Joined <DateTimeText value={customer.createdAt} />
+            </span>
           </>
         }
         avatar={
@@ -330,7 +358,9 @@ export function CustomerDetailView({ customer, permissions, csrf }: CustomerDeta
                     size: 'sm',
                     className: 'max-sm:min-h-11',
                   })}
-                ><AutoText>All orders</AutoText></Link>
+                >
+                  <AutoText>All orders</AutoText>
+                </Link>
               ) : undefined
             }
           >
@@ -381,7 +411,11 @@ export function CustomerDetailView({ customer, permissions, csrf }: CustomerDeta
                 csrf={csrf}
               />
             ) : (
-              <p className="text-sm text-muted-foreground"><AutoText>Changing an account’s status needs the “Edit customers” permission.</AutoText></p>
+              <p className="text-sm text-muted-foreground">
+                <AutoText>
+                  Changing an account’s status needs the “Edit customers” permission.
+                </AutoText>
+              </p>
             )}
           </SectionCard>
         </div>

@@ -91,16 +91,19 @@ export function GeographyView({ geography, selection, today }: GeographyViewProp
     <div className="grid gap-5">
       <PageToolbar
         icon={MapPin}
-        title={tx("Bangladesh Order Analytics")}
-        description={tx("Explore customer orders across Bangladesh by division and district.")}
+        title={tx('Bangladesh Order Analytics')}
+        description={tx('Explore customer orders across Bangladesh by division and district.')}
         meta={
           <span className="inline-flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-muted-foreground">
-            <span><AutoText value={label} /></span>
+            <span>
+              <AutoText value={label} />
+            </span>
             <span aria-hidden="true">·</span>
             <span>Updated {updatedLabel(geography.generatedAt)}</span>
             <span aria-hidden="true">·</span>
             <span>
-              {formatCount(summary.mappedOrders)} <CountText count={summary.mappedOrders} one="order" /> mapped
+              {formatCount(summary.mappedOrders)}{' '}
+              <CountText count={summary.mappedOrders} one="order" /> mapped
             </span>
           </span>
         }
@@ -110,22 +113,26 @@ export function GeographyView({ geography, selection, today }: GeographyViewProp
               href={geographyHref(selection)}
               className="inline-flex h-9 items-center gap-1.5 rounded-lg bg-surface px-3 text-xs font-semibold text-foreground ring-1 ring-hairline hover:bg-surface-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-action"
             >
-              <TrendingUp className="size-3.5" aria-hidden="true" /><AutoText>Refresh</AutoText></Link>
+              <TrendingUp className="size-3.5" aria-hidden="true" />
+              <AutoText>Refresh</AutoText>
+            </Link>
             <Link
               href="/admin/analytics"
               className="inline-flex h-9 items-center gap-1.5 rounded-lg bg-surface px-3 text-xs font-semibold text-foreground ring-1 ring-hairline hover:bg-surface-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-action"
             >
-              <Receipt className="size-3.5" aria-hidden="true" /><AutoText>Sales analytics</AutoText></Link>
+              <Receipt className="size-3.5" aria-hidden="true" />
+              <AutoText>Sales analytics</AutoText>
+            </Link>
           </div>
         }
       />
 
       <GeographyFilters selection={selection} geography={geography} today={today} />
 
-      <section aria-label={tx("Headline figures")}>
+      <section aria-label={tx('Headline figures')}>
         <div className="nz-stagger grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-3 2xl:grid-cols-5">
           <KpiCard
-            label={tx("Orders")}
+            label={tx('Orders')}
             animate={{ value: summary.eligibleOrders, kind: 'count' }}
             icon={Receipt}
             tone="primary"
@@ -133,7 +140,7 @@ export function GeographyView({ geography, selection, today }: GeographyViewProp
             footnote={`${formatCount(summary.cancelledOrders)} cancelled excluded`}
           />
           <KpiCard
-            label={tx("Delivered")}
+            label={tx('Delivered')}
             animate={{ value: summary.deliveredOrders, kind: 'count' }}
             icon={PackageCheck}
             tone="success"
@@ -141,21 +148,21 @@ export function GeographyView({ geography, selection, today }: GeographyViewProp
             footnote={`${formatCount(summary.pendingOrders)} still pending`}
           />
           <KpiCard
-            label={tx("Revenue")}
+            label={tx('Revenue')}
             animate={{ value: summary.revenueMinor, kind: 'money' }}
             icon={Banknote}
             tone="violet"
             footnote="COD totals, delivery included"
           />
           <KpiCard
-            label={tx("Average order")}
+            label={tx('Average order')}
             animate={{ value: summary.averageOrderMinor, kind: 'money' }}
             icon={CircleGauge}
             tone="warning"
             footnote="Revenue ÷ orders"
           />
           <KpiCard
-            label={tx("Delivery success")}
+            label={tx('Delivery success')}
             value={summary.deliveredRate === null ? '—' : formatPercent(summary.deliveredRate)}
             icon={CircleCheck}
             tone={
@@ -172,11 +179,11 @@ export function GeographyView({ geography, selection, today }: GeographyViewProp
 
       <div className="grid gap-5 xl:grid-cols-[minmax(0,1fr)_20rem]">
         <SectionCard
-          title={tx("Where the orders come from")}
+          title={tx('Where the orders come from')}
           description={`Shaded by ${noun}. Click a district to inspect it, or a division to narrow the ranking.`}
           icon={MapPin}
           actions={
-            <div role="group" aria-label={tx("Shade the map by")} className="flex gap-1">
+            <div role="group" aria-label={tx('Shade the map by')} className="flex gap-1">
               {METRIC_OPTIONS.map((option) => (
                 <Link
                   key={option.metric}
@@ -238,7 +245,7 @@ export function GeographyView({ geography, selection, today }: GeographyViewProp
 
       <div className="grid gap-5 xl:grid-cols-2">
         <SectionCard
-          title={tx("Top districts")}
+          title={tx('Top districts')}
           description={`The ten busiest by ${noun}. Select one on the map to inspect it.`}
           icon={Trophy}
         >
@@ -263,8 +270,10 @@ export function GeographyView({ geography, selection, today }: GeographyViewProp
         </SectionCard>
 
         <SectionCard
-          title={tx("Orders over time")}
-          description={tx("Orders placed each day in the range, with the ones that were delivered.")}
+          title={tx('Orders over time')}
+          description={tx(
+            'Orders placed each day in the range, with the ones that were delivered.',
+          )}
           icon={TrendingUp}
         >
           <ComboChart
@@ -288,12 +297,12 @@ export function GeographyView({ geography, selection, today }: GeographyViewProp
 
       <div className="grid gap-5 lg:grid-cols-2 xl:grid-cols-3">
         <SectionCard
-          title={tx("Revenue by division")}
-          description={tx("Where the money comes from.")}
+          title={tx('Revenue by division')}
+          description={tx('Where the money comes from.')}
           icon={Banknote}
         >
           <BarList
-            label={tx("Revenue by division")}
+            label={tx('Revenue by division')}
             items={[...geography.divisions]
               .sort((a, b) => b.revenueMinor - a.revenueMinor)
               .map((row) => ({
@@ -307,12 +316,12 @@ export function GeographyView({ geography, selection, today }: GeographyViewProp
         </SectionCard>
 
         <SectionCard
-          title={tx("Orders by division")}
-          description={tx("Demand across the eight divisions.")}
+          title={tx('Orders by division')}
+          description={tx('Demand across the eight divisions.')}
           icon={Layers}
         >
           <BarList
-            label={tx("Orders by division")}
+            label={tx('Orders by division')}
             items={[...geography.divisions]
               .sort((a, b) => b.orderCount - a.orderCount)
               .map((row) => ({
@@ -326,12 +335,12 @@ export function GeographyView({ geography, selection, today }: GeographyViewProp
         </SectionCard>
 
         <SectionCard
-          title={tx("Order status")}
-          description={tx("Every order placed in the range.")}
+          title={tx('Order status')}
+          description={tx('Every order placed in the range.')}
           icon={ChartPie}
         >
           {geography.statusBreakdown.length === 0 ? (
-            <Empty text={tx("No orders in this range.")} />
+            <Empty text={tx('No orders in this range.')} />
           ) : (
             <DonutChart
               segments={geography.statusBreakdown.map((entry) => ({
@@ -340,7 +349,7 @@ export function GeographyView({ geography, selection, today }: GeographyViewProp
                 value: entry.count,
                 tone: ORDER_STATUS_CHART_TONE[entry.status],
               }))}
-              title={tx("Orders by status")}
+              title={tx('Orders by status')}
               centerValue={formatCount(summary.totalOrders)}
               centerLabel="orders placed"
               formatValue={formatCount}
@@ -417,7 +426,11 @@ function DivisionRanking({
   );
   const max = rows.reduce((top, row) => Math.max(top, metricValue(row, metric)), 0);
   return (
-    <SectionCard title={tx("Divisions")} description={tx("Select one to narrow the ranking.")} icon={Layers}>
+    <SectionCard
+      title={tx('Divisions')}
+      description={tx('Select one to narrow the ranking.')}
+      icon={Layers}
+    >
       <ul role="list" className="grid gap-1">
         {rows.map((row) => {
           const value = metricValue(row, metric);
@@ -435,7 +448,9 @@ function DivisionRanking({
                 }`}
               >
                 <span className="flex min-w-0 items-center gap-2">
-                  <span className="truncate font-medium text-foreground"><AutoText value={row.division} /></span>
+                  <span className="truncate font-medium text-foreground">
+                    <AutoText value={row.division} />
+                  </span>
                   <span className="h-1.5 flex-1 overflow-hidden rounded-full bg-surface-muted">
                     <span
                       className="block h-full rounded-full bg-chart-1"
@@ -476,22 +491,20 @@ function InsightPanel({
         actions={<ClearButton onClick={onClear} />}
       >
         <dl className="grid grid-cols-2 gap-x-3 gap-y-2 text-xs">
-          <Fact label={tx("Orders")} value={formatCount(focusedDistrict.orderCount)} />
-          <Fact label={tx("Delivered")} value={formatCount(focusedDistrict.deliveredCount)} />
-          <Fact label={tx("Revenue")} value={formatMoney(focusedDistrict.revenueMinor)} />
+          <Fact label={tx('Orders')} value={formatCount(focusedDistrict.orderCount)} />
+          <Fact label={tx('Delivered')} value={formatCount(focusedDistrict.deliveredCount)} />
+          <Fact label={tx('Revenue')} value={formatMoney(focusedDistrict.revenueMinor)} />
           <Fact
-            label={tx("Average order")}
+            label={tx('Average order')}
             value={
               focusedDistrict.orderCount === 0
                 ? '—'
-                : formatMoney(
-                    Math.round(focusedDistrict.revenueMinor / focusedDistrict.orderCount),
-                  )
+                : formatMoney(Math.round(focusedDistrict.revenueMinor / focusedDistrict.orderCount))
             }
           />
-          <Fact label={tx("Share of orders")} value={shareText(focusedDistrict.share)} />
+          <Fact label={tx('Share of orders')} value={shareText(focusedDistrict.share)} />
           <Fact
-            label={tx("Delivery rate")}
+            label={tx('Delivery rate')}
             value={
               focusedDistrict.orderCount === 0
                 ? '—'
@@ -499,7 +512,9 @@ function InsightPanel({
             }
           />
         </dl>
-        <p className="mt-3 text-[11px] text-muted-foreground"><AutoText>Every figure comes from the same aggregate as the map and the cards.</AutoText></p>
+        <p className="mt-3 text-[11px] text-muted-foreground">
+          <AutoText>Every figure comes from the same aggregate as the map and the cards.</AutoText>
+        </p>
       </SectionCard>
     );
   }
@@ -513,21 +528,25 @@ function InsightPanel({
         actions={<ClearButton onClick={onClear} />}
       >
         <dl className="grid grid-cols-2 gap-x-3 gap-y-2 text-xs">
-          <Fact label={tx("Orders")} value={formatCount(focusedDivision.orderCount)} />
-          <Fact label={tx("Delivered")} value={formatCount(focusedDivision.deliveredCount)} />
-          <Fact label={tx("Revenue")} value={formatMoney(focusedDivision.revenueMinor)} />
-          <Fact label={tx("Share of orders")} value={shareText(focusedDivision.share)} />
+          <Fact label={tx('Orders')} value={formatCount(focusedDivision.orderCount)} />
+          <Fact label={tx('Delivered')} value={formatCount(focusedDivision.deliveredCount)} />
+          <Fact label={tx('Revenue')} value={formatMoney(focusedDivision.revenueMinor)} />
+          <Fact label={tx('Share of orders')} value={shareText(focusedDivision.share)} />
         </dl>
         <p className="mt-3 text-[11px] text-muted-foreground">
-          The ranking beside the map lists this division&apos;s districts. Pick one on the map
-          to inspect it.
+          The ranking beside the map lists this division&apos;s districts. Pick one on the map to
+          inspect it.
         </p>
       </SectionCard>
     );
   }
 
   return (
-    <SectionCard title={tx("Nothing selected")} description={tx("Click a district on the map.")} icon={MapPin}>
+    <SectionCard
+      title={tx('Nothing selected')}
+      description={tx('Click a district on the map.')}
+      icon={MapPin}
+    >
       <p className="text-xs text-muted-foreground">
         A district opens its orders, delivered orders, revenue, average order and share of the
         current filter. Nothing is re-read: the map already holds all sixty-four districts.
@@ -543,15 +562,21 @@ function ClearButton({ onClick }: { onClick: () => void }) {
       onClick={onClick}
       className="inline-flex items-center gap-1 rounded-lg px-1.5 py-1 text-xs font-medium text-link hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-action"
     >
-      <X className="size-3" aria-hidden="true" /><AutoText>Clear</AutoText></button>
+      <X className="size-3" aria-hidden="true" />
+      <AutoText>Clear</AutoText>
+    </button>
   );
 }
 
 function Fact({ label, value }: { label: string; value: string }) {
   return (
     <div className="grid gap-0.5">
-      <dt className="text-muted-foreground"><AutoText value={label} /></dt>
-      <dd className="font-semibold tabular-nums text-foreground"><AutoText value={value} /></dd>
+      <dt className="text-muted-foreground">
+        <AutoText value={label} />
+      </dt>
+      <dd className="font-semibold tabular-nums text-foreground">
+        <AutoText value={value} />
+      </dd>
     </div>
   );
 }
@@ -571,7 +596,7 @@ function DistrictTable({
   const rows = rankDistricts(geography.districts, metric);
   return (
     <SectionCard
-      title={tx("Districts")}
+      title={tx('Districts')}
       description={`All ${String(geography.districts.length)} districts from the reference table, busiest first — the map's accessible alternative.`}
       icon={Layers}
       flush
@@ -585,12 +610,24 @@ function DistrictTable({
           <DataTable caption="Orders, delivered orders and revenue by district">
             <TableHeader className="nz-sticky-head">
               <TableRow>
-                <TableHead><AutoText>District</AutoText></TableHead>
-                <TableHead><AutoText>Division</AutoText></TableHead>
-                <TableHead className="text-right"><AutoText>Orders</AutoText></TableHead>
-                <TableHead className="text-right"><AutoText>Delivered</AutoText></TableHead>
-                <TableHead className="text-right"><AutoText>Revenue</AutoText></TableHead>
-                <TableHead className="text-right"><AutoText>Share</AutoText></TableHead>
+                <TableHead>
+                  <AutoText>District</AutoText>
+                </TableHead>
+                <TableHead>
+                  <AutoText>Division</AutoText>
+                </TableHead>
+                <TableHead className="text-right">
+                  <AutoText>Orders</AutoText>
+                </TableHead>
+                <TableHead className="text-right">
+                  <AutoText>Delivered</AutoText>
+                </TableHead>
+                <TableHead className="text-right">
+                  <AutoText>Revenue</AutoText>
+                </TableHead>
+                <TableHead className="text-right">
+                  <AutoText>Share</AutoText>
+                </TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -610,7 +647,9 @@ function DistrictTable({
                         {row.district}
                       </button>
                     </TableCell>
-                    <TableCell className="text-muted-foreground"><AutoText value={row.division} /></TableCell>
+                    <TableCell className="text-muted-foreground">
+                      <AutoText value={row.division} />
+                    </TableCell>
                     <TableCell className="text-right tabular-nums">
                       {formatCount(row.orderCount)}
                     </TableCell>
@@ -644,14 +683,14 @@ function UnmappedNote({ geography }: { geography: OrderGeography }) {
   const reconciled = summary.mappedOrders + summary.unmappedOrders === summary.eligibleOrders;
   return (
     <SectionCard
-      title={tx("Orders the map cannot place")}
-      description={tx("Kept in every total, never guessed into a district.")}
+      title={tx('Orders the map cannot place')}
+      description={tx('Kept in every total, never guessed into a district.')}
       icon={MapPin}
     >
       <div className="grid gap-3 sm:grid-cols-3">
-        <Fact label={tx("Mapped orders")} value={formatCount(summary.mappedOrders)} />
-        <Fact label={tx("Unmapped orders")} value={formatCount(unmapped.orderCount)} />
-        <Fact label={tx("Unmapped revenue")} value={formatMoney(unmapped.revenueMinor)} />
+        <Fact label={tx('Mapped orders')} value={formatCount(summary.mappedOrders)} />
+        <Fact label={tx('Unmapped orders')} value={formatCount(unmapped.orderCount)} />
+        <Fact label={tx('Unmapped revenue')} value={formatMoney(unmapped.revenueMinor)} />
       </div>
       <p className="mt-2 text-xs text-muted-foreground">
         {reconciled
@@ -660,7 +699,9 @@ function UnmappedNote({ geography }: { geography: OrderGeography }) {
       </p>
       {unmapped.orderCount > 0 ? (
         <div className="mt-3">
-          <p className="mb-1 text-[11px] font-semibold text-muted-foreground"><AutoText>Delivery districts that are not in the reference table</AutoText></p>
+          <p className="mb-1 text-[11px] font-semibold text-muted-foreground">
+            <AutoText>Delivery districts that are not in the reference table</AutoText>
+          </p>
           <ul role="list" className="grid gap-1 text-xs">
             {unmapped.values.map((value) => (
               <li
@@ -685,7 +726,9 @@ function UnmappedNote({ geography }: { geography: OrderGeography }) {
           </p>
         </div>
       ) : (
-        <p className="mt-2 text-xs text-muted-foreground"><AutoText>Every order in this view names a district the map knows.</AutoText></p>
+        <p className="mt-2 text-xs text-muted-foreground">
+          <AutoText>Every order in this view names a district the map knows.</AutoText>
+        </p>
       )}
     </SectionCard>
   );

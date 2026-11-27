@@ -122,7 +122,6 @@ export const checkoutSummarySchema = z.object({
   attemptCount: z.number().int().min(0).default(0),
 });
 
-
 export const checkoutListResponseSchema = z.object({
   checkouts: z.array(checkoutSummarySchema),
   page: z.number().int().min(1).default(1),
@@ -134,7 +133,11 @@ export const checkoutListResponseSchema = z.object({
 export const checkoutDetailSchema = checkoutSummarySchema.extend({
   convertedAt: z.iso.datetime().nullable().default(null),
   customer: z
-    .object({ id: z.uuid(), name: z.string().nullable(), phone: z.string().nullable().default(null) })
+    .object({
+      id: z.uuid(),
+      name: z.string().nullable(),
+      phone: z.string().nullable().default(null),
+    })
     .optional(),
   items: z.array(
     z.object({
@@ -239,7 +242,6 @@ export const checkoutRecoveryRestoreResponseSchema = z.object({
     )
     .default([]),
 });
-
 
 export const checkoutResponseSchema = z.object({ checkout: checkoutDetailSchema });
 

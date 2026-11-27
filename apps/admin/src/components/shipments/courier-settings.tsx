@@ -98,9 +98,15 @@ export function CourierSettingsView({
               ]}
             />
             {!config.mockAllowed ? (
-              <p className="text-xs text-muted-foreground"><AutoText value={MOCK_REFUSED_REASON} /></p>
+              <p className="text-xs text-muted-foreground">
+                <AutoText value={MOCK_REFUSED_REASON} />
+              </p>
             ) : null}
-            <p className="text-xs text-muted-foreground"><AutoText>Only the store owner (Enable and configure couriers) can change these.</AutoText></p>
+            <p className="text-xs text-muted-foreground">
+              <AutoText>
+                Only the store owner (Enable and configure couriers) can change these.
+              </AutoText>
+            </p>
           </div>
         )}
       </SectionCard>
@@ -143,17 +149,23 @@ export function CourierSettingsView({
           href={OPERATIONS_PATHS.providers}
           className={buttonClasses({ variant: 'outline', size: 'sm' })}
         >
-          <Plug aria-hidden="true" /><AutoText>Providers and credentials</AutoText></Link>
+          <Plug aria-hidden="true" />
+          <AutoText>Providers and credentials</AutoText>
+        </Link>
         <Link
           href={OPERATIONS_PATHS.pricing}
           className={buttonClasses({ variant: 'outline', size: 'sm' })}
         >
-          <Calculator aria-hidden="true" /><AutoText>Negotiated rates</AutoText></Link>
+          <Calculator aria-hidden="true" />
+          <AutoText>Negotiated rates</AutoText>
+        </Link>
         <Link
           href={OPERATIONS_PATHS.locations}
           className={buttonClasses({ variant: 'outline', size: 'sm' })}
         >
-          <MapPinned aria-hidden="true" /><AutoText>Location mappings</AutoText></Link>
+          <MapPinned aria-hidden="true" />
+          <AutoText>Location mappings</AutoText>
+        </Link>
       </nav>
     </div>
   );

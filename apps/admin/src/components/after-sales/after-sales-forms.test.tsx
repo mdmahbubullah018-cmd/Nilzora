@@ -110,7 +110,10 @@ describe('ReturnSteps', () => {
     expect(screen.queryByRole('button', { name: 'Restock received items' })).toBeNull();
     cleanup();
 
-    actions.restockReturn.mockResolvedValue({ status: 'error', message: 'This return has already moved on.' });
+    actions.restockReturn.mockResolvedValue({
+      status: 'error',
+      message: 'This return has already moved on.',
+    });
     returnSteps({ status: 'received', received: true });
     fireEvent.click(screen.getByRole('button', { name: 'Restock received items' }));
     expect(await screen.findByText('This return has already moved on.')).toBeTruthy();
@@ -150,7 +153,10 @@ describe('RefundSteps', () => {
     expect(await screen.findByText(/Enter the receipt or transfer reference/)).toBeTruthy();
     cleanup();
 
-    actions.completeRefund.mockResolvedValue({ status: 'success', message: 'Payout recorded. The refund is paid out.' });
+    actions.completeRefund.mockResolvedValue({
+      status: 'success',
+      message: 'Payout recorded. The refund is paid out.',
+    });
     render(<RefundSteps refundId={REFUND} status="approved" csrf={csrf} />);
     fireEvent.click(screen.getByRole('button', { name: 'Record payout' }));
     expect(await screen.findByText('Payout recorded. The refund is paid out.')).toBeTruthy();
@@ -181,7 +187,10 @@ describe('RefundRequestForm', () => {
     actions.requestRefund.mockResolvedValue({
       status: 'error',
       message: 'Check the highlighted fields',
-      fieldErrors: { orderNumber: 'Enter the order number, e.g. NZ100001.', amount: 'Enter the amount to refund in taka.' },
+      fieldErrors: {
+        orderNumber: 'Enter the order number, e.g. NZ100001.',
+        amount: 'Enter the amount to refund in taka.',
+      },
     });
     render(<RefundRequestForm csrf={csrf} />);
     fireEvent.click(screen.getByRole('button', { name: 'Request refund' }));

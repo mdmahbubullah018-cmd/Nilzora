@@ -20,7 +20,9 @@ export function BookingOutcomeNotice({
       <Link
         href={shipmentHref(state.shipmentId)}
         className="font-semibold underline underline-offset-4"
-      ><AutoText>Open the shipment</AutoText></Link>
+      >
+        <AutoText>Open the shipment</AutoText>
+      </Link>
     ) : null;
   const tone =
     state.outcome === 'booked'

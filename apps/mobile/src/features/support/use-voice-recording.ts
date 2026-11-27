@@ -43,7 +43,6 @@ const VOICE_OPTIONS: RecordingOptions = {
   isMeteringEnabled: true,
 };
 
-
 const MAX_BYTES = chatMediaMaxBytes('audio');
 const MAX_LABEL = chatMediaMaxLabel('audio');
 const MAX_DURATION_MS = CHAT_AUDIO_MAX_DURATION_MS;

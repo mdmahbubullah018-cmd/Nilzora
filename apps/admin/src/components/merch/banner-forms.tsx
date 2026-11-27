@@ -32,7 +32,9 @@ function Outcome({ state }: { state: ActionState }) {
   if (state.status === 'idle' || !state.message) return null;
   return (
     <Alert tone={state.status === 'success' ? 'success' : 'danger'}>
-      <span aria-live="polite"><AutoText value={state.message} /></span>
+      <span aria-live="polite">
+        <AutoText value={state.message} />
+      </span>
     </Alert>
   );
 }
@@ -126,7 +128,12 @@ export function BannerForm({
       {banner ? <input type="hidden" name="bannerId" value={banner.id} /> : null}
       <Outcome state={state} />
       <div className="grid items-start gap-4 sm:grid-cols-2">
-        <Field id={`banner-placement-${id}`} label={tx("Placement")} error={errors.placement} required>
+        <Field
+          id={`banner-placement-${id}`}
+          label={tx('Placement')}
+          error={errors.placement}
+          required
+        >
           {(control) => (
             <NativeSelect
               {...control}
@@ -143,7 +150,7 @@ export function BannerForm({
         </Field>
         <Field
           id={`banner-category-${id}`}
-          label={tx("Category (category strips only)")}
+          label={tx('Category (category strips only)')}
           error={errors.categoryId}
         >
           {(control) => (
@@ -169,9 +176,9 @@ export function BannerForm({
       </p>
       <Field
         id={`banner-title-${id}`}
-        label={tx("Heading (optional)")}
+        label={tx('Heading (optional)')}
         error={errors.title}
-        hint={tx("Leave empty when the picture says it all.")}
+        hint={tx('Leave empty when the picture says it all.')}
       >
         {(control) => (
           <Input
@@ -184,9 +191,11 @@ export function BannerForm({
       </Field>
       <Field
         id={`banner-alt-${id}`}
-        label={tx("Picture description (for screen readers)")}
+        label={tx('Picture description (for screen readers)')}
         error={errors.imageAlt}
-        hint={tx("Not shown on the page. Needed when there is no heading, for example “Two cotton sarees in blue and gold”.")}
+        hint={tx(
+          'Not shown on the page. Needed when there is no heading, for example “Two cotton sarees in blue and gold”.',
+        )}
       >
         {(control) => (
           <Input
@@ -199,7 +208,7 @@ export function BannerForm({
       </Field>
       <Field
         id={`banner-subtitle-${id}`}
-        label={tx("Supporting text (optional)")}
+        label={tx('Supporting text (optional)')}
         error={errors.subtitle}
       >
         {(control) => (
@@ -214,7 +223,7 @@ export function BannerForm({
       <div className="grid items-start gap-4 sm:grid-cols-2">
         <Field
           id={`banner-cta-label-${id}`}
-          label={tx("Button label (optional)")}
+          label={tx('Button label (optional)')}
           error={errors.ctaLabel}
         >
           {(control) => (
@@ -222,14 +231,14 @@ export function BannerForm({
               {...control}
               name="ctaLabel"
               maxLength={30}
-              placeholder={tx("Shop now")}
+              placeholder={tx('Shop now')}
               defaultValue={values?.ctaLabel ?? banner?.ctaLabel ?? ''}
             />
           )}
         </Field>
         <Field
           id={`banner-cta-href-${id}`}
-          label={tx("Button link (optional store path)")}
+          label={tx('Button link (optional store path)')}
           error={errors.ctaHref}
         >
           {(control) => (
@@ -245,7 +254,7 @@ export function BannerForm({
         </Field>
       </div>
       <div className="grid items-start gap-4 sm:grid-cols-3">
-        <Field id={`banner-order-${id}`} label={tx("Display order")} error={errors.sortOrder}>
+        <Field id={`banner-order-${id}`} label={tx('Display order')} error={errors.sortOrder}>
           {(control) => (
             <Input
               {...control}
@@ -257,7 +266,7 @@ export function BannerForm({
             />
           )}
         </Field>
-        <Field id={`banner-starts-${id}`} label={tx("Starts (BD time)")} error={errors.startsAt}>
+        <Field id={`banner-starts-${id}`} label={tx('Starts (BD time)')} error={errors.startsAt}>
           {(control) => (
             <Input
               {...control}
@@ -267,7 +276,7 @@ export function BannerForm({
             />
           )}
         </Field>
-        <Field id={`banner-ends-${id}`} label={tx("Ends (BD time)")} error={errors.endsAt}>
+        <Field id={`banner-ends-${id}`} label={tx('Ends (BD time)')} error={errors.endsAt}>
           {(control) => (
             <Input
               {...control}
@@ -279,13 +288,15 @@ export function BannerForm({
         </Field>
       </div>
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <Check name="isActive" label={tx("Active")} defaultChecked={banner?.isActive ?? false} />
+        <Check name="isActive" label={tx('Active')} defaultChecked={banner?.isActive ?? false} />
         <Button type="submit" loading={pending}>
           {banner ? 'Save banner' : 'Create banner'}
         </Button>
       </div>
       <div className="grid gap-2 rounded-xl border border-hairline bg-surface-muted/40 p-3">
-        <p className="text-xs font-semibold tracking-wide text-muted-foreground uppercase"><AutoText>Live preview</AutoText></p>
+        <p className="text-xs font-semibold tracking-wide text-muted-foreground uppercase">
+          <AutoText>Live preview</AutoText>
+        </p>
         <BannerPreview
           values={draft}
           label={`Preview of the banner being edited: ${bannerName({ ...draft, title: draft.title })}`}
@@ -327,7 +338,11 @@ export function BannerMobileImageForm({ banner, csrf }: { banner: AdminBanner; c
           className="max-h-40 w-auto max-w-full justify-self-start rounded-xl border border-hairline object-contain"
         />
       ) : (
-        <p className="text-sm text-muted-foreground"><AutoText>No small-screen picture: phones and narrow windows show the main picture.</AutoText></p>
+        <p className="text-sm text-muted-foreground">
+          <AutoText>
+            No small-screen picture: phones and narrow windows show the main picture.
+          </AutoText>
+        </p>
       )}
       <PictureForm
         kind="banner-mobile-image"
@@ -347,7 +362,9 @@ export function BannerMobileImageForm({ banner, csrf }: { banner: AdminBanner; c
             variant="ghost"
             loading={removing}
             className="justify-self-start max-sm:min-h-11"
-          ><AutoText>Remove small-screen picture</AutoText></Button>
+          >
+            <AutoText>Remove small-screen picture</AutoText>
+          </Button>
         </form>
       ) : null}
     </div>
@@ -421,12 +438,17 @@ export function DeleteBannerForm({ banner, csrf }: { banner: AdminBanner; csrf: 
       trigger={
         <>
           <Trash2 aria-hidden="true" strokeWidth={1.75} />
-          Delete banner <span className="sr-only"><AutoText value={bannerName(banner)} /></span>
+          Delete banner{' '}
+          <span className="sr-only">
+            <AutoText value={bannerName(banner)} />
+          </span>
         </>
       }
       title={`Delete the banner “${bannerName(banner)}”?`}
-      description={tx("It disappears from the storefront and its pictures are removed. This cannot be undone.")}
-      confirmLabel={tx("Delete banner")}
+      description={tx(
+        'It disappears from the storefront and its pictures are removed. This cannot be undone.',
+      )}
+      confirmLabel={tx('Delete banner')}
       hiddenFields={{ bannerId: banner.id }}
       error={state.status === 'error' ? state.message : undefined}
     />

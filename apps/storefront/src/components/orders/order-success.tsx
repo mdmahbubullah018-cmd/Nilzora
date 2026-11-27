@@ -72,7 +72,9 @@ export function OrderSuccess({ order, pdfHref }: { order: OrderDetail; pdfHref: 
       <ul className="grid gap-3 text-left text-sm text-muted-foreground">
         <li className="flex items-start gap-3">
           <PackageCheck aria-hidden="true" className="mt-0.5 size-4 shrink-0 text-primary" />
-          <span>We confirm your order, then pack it. You can follow every step in your orders.</span>
+          <span>
+            We confirm your order, then pack it. You can follow every step in your orders.
+          </span>
         </li>
         <li className="flex items-start gap-3">
           <Phone aria-hidden="true" className="mt-0.5 size-4 shrink-0 text-primary" />

@@ -84,8 +84,10 @@ export function supportsAvif(): Promise<boolean> {
         .avif({ quality: 50, effort: 1 })
         .toBuffer();
       // Bytes 4..8 are the box type ("ftyp") and 8..12 the brand ("avif" or "avis").
-      return output.subarray(4, 8).toString('latin1') === 'ftyp' &&
-        output.subarray(8, 12).toString('latin1').startsWith('avi');
+      return (
+        output.subarray(4, 8).toString('latin1') === 'ftyp' &&
+        output.subarray(8, 12).toString('latin1').startsWith('avi')
+      );
     } catch {
       return false;
     }

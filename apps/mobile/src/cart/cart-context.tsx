@@ -10,7 +10,13 @@ import {
   useSyncExternalStore,
   type ReactNode,
 } from 'react';
-import { lineKey, countUnits, type AddOutcome, type CartItem, type CartLineRef } from './cart-items';
+import {
+  lineKey,
+  countUnits,
+  type AddOutcome,
+  type CartItem,
+  type CartLineRef,
+} from './cart-items';
 import {
   applyCartFixes,
   planCartFixes,
@@ -95,9 +101,7 @@ export function useCart(): CartHandle {
   return useMemo(() => {
     const isSelected = (productId: string, variantId?: string | null) =>
       snapshot.selected.has(lineKey({ productId, variantId }));
-    const selectedItems = snapshot.items.filter((item) =>
-      snapshot.selected.has(lineKey(item)),
-    );
+    const selectedItems = snapshot.items.filter((item) => snapshot.selected.has(lineKey(item)));
     return {
       items: snapshot.items,
       count: snapshot.count,

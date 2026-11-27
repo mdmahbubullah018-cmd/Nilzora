@@ -114,11 +114,15 @@ export function PriceCell({
 }: Pick<AdminProductSummary, 'priceMinor' | 'compareAtPriceMinor'>) {
   return (
     <div className="grid justify-items-end">
-      <span className="font-semibold text-foreground tabular-nums"><AutoText value={formatMoney(priceMinor)} /></span>
+      <span className="font-semibold text-foreground tabular-nums">
+        <AutoText value={formatMoney(priceMinor)} />
+      </span>
       {compareAtPriceMinor !== null ? (
         <span className="text-xs text-muted-foreground tabular-nums">
           <span className="sr-only">Former price </span>
-          <s><AutoText value={formatMoney(compareAtPriceMinor)} /></s>
+          <s>
+            <AutoText value={formatMoney(compareAtPriceMinor)} />
+          </s>
         </span>
       ) : null}
     </div>
@@ -135,7 +139,9 @@ export function ProductCell({ product }: { product: AdminProductSummary }) {
           href={productPath(product.id)}
           className="nz-tap flex max-w-72 items-center gap-1.5 truncate rounded-sm font-medium text-foreground hover:text-link hover:underline"
         >
-          <span className="truncate"><AutoText value={product.name} /></span>
+          <span className="truncate">
+            <AutoText value={product.name} />
+          </span>
           {product.isFeatured ? (
             <>
               <Star
@@ -147,7 +153,9 @@ export function ProductCell({ product }: { product: AdminProductSummary }) {
             </>
           ) : null}
         </Link>
-        <span className="font-mono text-[11px] text-muted-foreground"><AutoText value={product.sku} /></span>
+        <span className="font-mono text-[11px] text-muted-foreground">
+          <AutoText value={product.sku} />
+        </span>
       </div>
     </div>
   );
@@ -196,7 +204,9 @@ function UpdatedHead({ sort, href }: { sort: ProductSortState; href: Route }) {
       >
         Updated
         <ArrowUpDown aria-hidden="true" className="size-3.5 opacity-50" />
-        <span className="sr-only"><AutoText>, sort newest first</AutoText></span>
+        <span className="sr-only">
+          <AutoText>, sort newest first</AutoText>
+        </span>
       </Link>
     </th>
   );
@@ -223,7 +233,9 @@ export function ProductListView({
   const chips = productFilterChips(params, categories ?? []);
   const newProduct = canCreate ? (
     <Link href="/admin/products/new" className={buttonClasses({ className: TOUCH })}>
-      <Plus aria-hidden="true" strokeWidth={1.75} /><AutoText>New product</AutoText></Link>
+      <Plus aria-hidden="true" strokeWidth={1.75} />
+      <AutoText>New product</AutoText>
+    </Link>
   ) : null;
 
   return (
@@ -234,7 +246,9 @@ export function ProductListView({
         description="Every product in any state. New products start as drafts; their content is reviewed before they can go on sale."
         actions={newProduct}
       />
-      <SuccessNotice><AutoText value={notice} /></SuccessNotice>
+      <SuccessNotice>
+        <AutoText value={notice} />
+      </SuccessNotice>
 
       <GlassTable
         label="Product list"
@@ -309,14 +323,26 @@ export function ProductListView({
         <DataTable caption="Products" dense>
           <TableHeader>
             <TableRow className="hover:bg-transparent">
-              <SortableHead column="name" sort={sort} hrefFor={sortHref}><AutoText>Product</AutoText></SortableHead>
-              <TableHead className="hidden lg:table-cell"><AutoText>Category</AutoText></TableHead>
-              <SortableHead column="stock" sort={sort} hrefFor={sortHref}><AutoText>Stock</AutoText></SortableHead>
-              <SortableHead column="price" sort={sort} hrefFor={sortHref} align="right"><AutoText>Price</AutoText></SortableHead>
-              <TableHead><AutoText>Status</AutoText></TableHead>
+              <SortableHead column="name" sort={sort} hrefFor={sortHref}>
+                <AutoText>Product</AutoText>
+              </SortableHead>
+              <TableHead className="hidden lg:table-cell">
+                <AutoText>Category</AutoText>
+              </TableHead>
+              <SortableHead column="stock" sort={sort} hrefFor={sortHref}>
+                <AutoText>Stock</AutoText>
+              </SortableHead>
+              <SortableHead column="price" sort={sort} hrefFor={sortHref} align="right">
+                <AutoText>Price</AutoText>
+              </SortableHead>
+              <TableHead>
+                <AutoText>Status</AutoText>
+              </TableHead>
               <UpdatedHead sort={sort} href={sortHref(DEFAULT_PRODUCT_SORT)} />
               <TableHead className="text-right">
-                <span className="sr-only"><AutoText>Actions</AutoText></span>
+                <span className="sr-only">
+                  <AutoText>Actions</AutoText>
+                </span>
               </TableHead>
             </TableRow>
           </TableHeader>
@@ -328,9 +354,13 @@ export function ProductListView({
                     <ProductCell product={product} />
                   </TableCell>
                   <TableCell className="hidden lg:table-cell">
-                    <span className="text-body"><AutoText value={product.category.name} /></span>
+                    <span className="text-body">
+                      <AutoText value={product.category.name} />
+                    </span>
                     {product.category.isActive ? null : (
-                      <span className="block text-xs text-muted-foreground"><AutoText>Hidden category</AutoText></span>
+                      <span className="block text-xs text-muted-foreground">
+                        <AutoText>Hidden category</AutoText>
+                      </span>
                     )}
                   </TableCell>
                   <TableCell>
@@ -374,7 +404,10 @@ export function ProductListView({
                           className: TOUCH,
                         })}
                       >
-                        {canEdit ? 'Edit' : 'View'} <span className="sr-only"><AutoText value={product.name} /></span>
+                        {canEdit ? 'Edit' : 'View'}{' '}
+                        <span className="sr-only">
+                          <AutoText value={product.name} />
+                        </span>
                       </Link>
                       {canPublish ? (
                         <ProductRowActions
@@ -399,7 +432,9 @@ export function ProductListView({
                 <Link
                   href="/admin/products"
                   className={buttonClasses({ variant: 'outline', size: 'sm' })}
-                ><AutoText>Clear filters</AutoText></Link>
+                >
+                  <AutoText>Clear filters</AutoText>
+                </Link>
               }
             />
           ) : (

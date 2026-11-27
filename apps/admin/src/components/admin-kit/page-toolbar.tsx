@@ -56,7 +56,9 @@ export function PageToolbar({
       <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div className="flex min-w-0 items-start gap-3">
           {avatar ? (
-            <span className="mt-0.5 shrink-0"><AutoText value={avatar} /></span>
+            <span className="mt-0.5 shrink-0">
+              <AutoText value={avatar} />
+            </span>
           ) : Icon ? (
             <span
               aria-hidden="true"
@@ -66,7 +68,11 @@ export function PageToolbar({
             </span>
           ) : null}
           <div className="grid min-w-0 gap-1.5">
-            {eyebrow ? <div className="flex flex-wrap items-center gap-2"><AutoText value={eyebrow} /></div> : null}
+            {eyebrow ? (
+              <div className="flex flex-wrap items-center gap-2">
+                <AutoText value={eyebrow} />
+              </div>
+            ) : null}
             <h1 className="font-display text-[1.6rem] leading-tight font-semibold tracking-tight wrap-break-word text-foreground sm:text-[1.9rem]">
               {<AutoText value={title} />}
             </h1>
@@ -83,7 +89,9 @@ export function PageToolbar({
           </div>
         </div>
         {actions ? (
-          <div className="flex shrink-0 flex-wrap items-center gap-2"><AutoText value={actions} /></div>
+          <div className="flex shrink-0 flex-wrap items-center gap-2">
+            <AutoText value={actions} />
+          </div>
         ) : null}
       </div>
     </div>

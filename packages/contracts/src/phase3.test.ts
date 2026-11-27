@@ -173,7 +173,9 @@ describe('public media URLs in the public shapes', () => {
   });
 
   it('refuses anything that is not an absolute URL, so no relative or script URL leaks out', () => {
-    expect(() => publicStoreProfileSchema.parse({ ...profile, logoUrl: '/brand/logo.webp' })).toThrow();
+    expect(() =>
+      publicStoreProfileSchema.parse({ ...profile, logoUrl: '/brand/logo.webp' }),
+    ).toThrow();
     expect(() => seoMetadataSchema.parse({ ...seo, ogImageUrl: 'javascript:alert(1)' })).toThrow();
   });
 });

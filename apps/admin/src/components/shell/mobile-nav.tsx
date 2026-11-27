@@ -56,7 +56,7 @@ export function MobileNav({
           <QuickSearch
             scopes={scopes}
             inline
-            label={tx("Search from the navigation")}
+            label={tx('Search from the navigation')}
             onSubmitted={onNavigate}
           />
         </div>
@@ -76,9 +76,15 @@ export function MobileNav({
           </Link>
         ) : null}
         <p className="grid px-3 pt-2 text-xs text-muted-foreground">
-          <span><AutoText>Signed in as</AutoText></span>
-          <span className="truncate text-sm font-medium text-foreground"><AutoText value={identity.name} /></span>
-          <span><AutoText value={identity.role} /></span>
+          <span>
+            <AutoText>Signed in as</AutoText>
+          </span>
+          <span className="truncate text-sm font-medium text-foreground">
+            <AutoText value={identity.name} />
+          </span>
+          <span>
+            <AutoText value={identity.role} />
+          </span>
         </p>
       </div>
     </>
@@ -88,7 +94,7 @@ export function MobileNav({
     return (
       <details className="group -ml-2 lg:hidden">
         <summary
-          aria-label={tx("Navigation")}
+          aria-label={tx('Navigation')}
           className={cn(
             buttonClasses({ variant: 'ghost', size: 'icon' }),
             'list-none [&::-webkit-details-marker]:hidden',
@@ -111,7 +117,7 @@ export function MobileNav({
         variant="ghost"
         size="icon"
         className="-ml-2 lg:hidden"
-        aria-label={tx("Open navigation")}
+        aria-label={tx('Open navigation')}
         aria-expanded={open}
         onClick={() => setOpen(true)}
       >

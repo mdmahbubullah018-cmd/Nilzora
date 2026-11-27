@@ -65,7 +65,12 @@ export const SITE_PAGE_LABELS: Record<SitePageSlug, string> = {
   faq: 'Frequently asked questions',
 };
 
-export const SITE_PAGE_LIMITS = { title: 120, body: SITE_PAGE_BODY_MAX, seoTitle: 70, seoDescription: 200 } as const;
+export const SITE_PAGE_LIMITS = {
+  title: 120,
+  body: SITE_PAGE_BODY_MAX,
+  seoTitle: 70,
+  seoDescription: 200,
+} as const;
 
 const PAGE_MESSAGES: FieldErrors = {
   title: 'Enter a title of up to 120 characters.',
@@ -94,11 +99,12 @@ export function checkSitePage(
     ok: false,
     errors: errorsFrom(parsed.error.issues, {
       ...PAGE_MESSAGES,
-      body: isPublished && (values.body ?? '').trim() === ''
-        ? 'A published page needs text. Write it, or save it as a draft.'
-        : (values.body ?? '').length > SITE_PAGE_BODY_MAX
-          ? `Keep the text under ${SITE_PAGE_BODY_MAX.toLocaleString('en-US')} characters.`
-          : 'Remove the control characters from the text.',
+      body:
+        isPublished && (values.body ?? '').trim() === ''
+          ? 'A published page needs text. Write it, or save it as a draft.'
+          : (values.body ?? '').length > SITE_PAGE_BODY_MAX
+            ? `Keep the text under ${SITE_PAGE_BODY_MAX.toLocaleString('en-US')} characters.`
+            : 'Remove the control characters from the text.',
     }),
   };
 }
@@ -108,7 +114,10 @@ export function checkSitePage(
 // ---------------------------------------------------------------------------
 
 export const MENU_LABELS: Record<MenuName, { title: string; description: string }> = {
-  header: { title: 'Header menu', description: 'The links across the top of every storefront page.' },
+  header: {
+    title: 'Header menu',
+    description: 'The links across the top of every storefront page.',
+  },
   footer_shop: { title: 'Footer: Shop', description: 'The shopping links in the footer.' },
   footer_help: { title: 'Footer: Help', description: 'The help and policy links in the footer.' },
 };
@@ -155,12 +164,18 @@ export function moveId(
 // ---------------------------------------------------------------------------
 
 export const HOMEPAGE_LABELS: Record<HomepageSectionKey, { title: string; description: string }> = {
-  hero: { title: 'Hero banner', description: 'The large banner at the top. Its pictures are the Homepage hero banners.' },
+  hero: {
+    title: 'Hero banner',
+    description: 'The large banner at the top. Its pictures are the Homepage hero banners.',
+  },
   categories: { title: 'Categories', description: 'Shortcuts to the store’s categories.' },
   featured: { title: 'Featured products', description: 'A row of the products you feature.' },
   new_arrivals: { title: 'New arrivals', description: 'A row of the newest products on sale.' },
   brands: { title: 'Brands', description: 'A row of the store’s brands.' },
-  promotions: { title: 'Promotions', description: 'The campaign banners. Their pictures are the Homepage campaign banners.' },
+  promotions: {
+    title: 'Promotions',
+    description: 'The campaign banners. Their pictures are the Homepage campaign banners.',
+  },
   services: { title: 'Services', description: 'The services strip.' },
 };
 
@@ -191,7 +206,8 @@ export function checkHomepage(rows: readonly HomepageRow[]): Checked<SaveHomepag
   const errors: FieldErrors = {};
   const sections = rows.map((row) => {
     const limitText = row.itemLimit.trim();
-    const limit = limitText === '' ? null : /^\d{1,3}$/.test(limitText) ? Number(limitText) : Number.NaN;
+    const limit =
+      limitText === '' ? null : /^\d{1,3}$/.test(limitText) ? Number(limitText) : Number.NaN;
     if (Number.isNaN(limit)) errors[`itemLimit_${row.key}`] = HOMEPAGE_MESSAGES.itemLimit;
     const config: { categorySlug?: string; brandSlug?: string } = {};
     if (takesFilter(row.key)) {
@@ -213,7 +229,8 @@ export function checkHomepage(rows: readonly HomepageRow[]): Checked<SaveHomepag
       const field = issue.path[2];
       const row = typeof index === 'number' ? rows[index] : undefined;
       if (!row || typeof field !== 'string') continue;
-      errors[`${field}_${row.key}`] ??= HOMEPAGE_MESSAGES[field === 'config' ? 'config' : field] ?? issue.message;
+      errors[`${field}_${row.key}`] ??=
+        HOMEPAGE_MESSAGES[field === 'config' ? 'config' : field] ?? issue.message;
     }
   }
   if (Object.keys(errors).length > 0) return { ok: false, errors };
@@ -266,4 +283,3 @@ export function rowsFromForm(formData: FormData): HomepageRow[] {
   });
   return rows.sort((a, b) => a.position - b.position || a.index - b.index).map((item) => item.row);
 }
-

@@ -25,7 +25,9 @@ function Outcome({ state }: { state: ActionState }) {
   if (state.status === 'idle' || !state.message) return null;
   return (
     <Alert tone={state.status === 'success' ? 'success' : 'danger'}>
-      <span aria-live="polite"><AutoText value={state.message} /></span>
+      <span aria-live="polite">
+        <AutoText value={state.message} />
+      </span>
     </Alert>
   );
 }
@@ -43,7 +45,9 @@ function ZoneChoices({ zones, selected, onChange, hintFor }: ZoneChoiceProps) {
     return (
       <p className="text-sm text-muted-foreground">
         There are no shopping zones yet.{' '}
-        <Link className="text-link underline-offset-4 hover:underline" href="/admin/zones"><AutoText>Create the first one</AutoText></Link>{' '}
+        <Link className="text-link underline-offset-4 hover:underline" href="/admin/zones">
+          <AutoText>Create the first one</AutoText>
+        </Link>{' '}
         to group products this way.
       </p>
     );
@@ -66,11 +70,17 @@ function ZoneChoices({ zones, selected, onChange, hintFor }: ZoneChoiceProps) {
               />
               <span className="grid min-w-0 gap-0.5">
                 <span className="flex flex-wrap items-center gap-2">
-                  <span className="text-sm font-medium text-foreground"><AutoText value={zone.name} /></span>
+                  <span className="text-sm font-medium text-foreground">
+                    <AutoText value={zone.name} />
+                  </span>
                   {zone.isActive ? null : (
                     <span className="text-xs font-medium text-muted-foreground">hidden</span>
                   )}
-                  {hint ? <span className="text-xs font-medium text-moderator"><AutoText value={hint} /></span> : null}
+                  {hint ? (
+                    <span className="text-xs font-medium text-moderator">
+                      <AutoText value={hint} />
+                    </span>
+                  ) : null}
                 </span>
                 <span className="truncate text-xs text-muted-foreground">
                   /products?zone={zone.slug} · {zone.productCount}{' '}
@@ -122,7 +132,9 @@ export function ProductZoneForm({
       <Outcome state={state} />
 
       <fieldset className="grid gap-2">
-        <legend className="text-xs font-semibold text-muted-foreground"><AutoText>Where this product goes</AutoText></legend>
+        <legend className="text-xs font-semibold text-muted-foreground">
+          <AutoText>Where this product goes</AutoText>
+        </legend>
         <label className="flex cursor-pointer items-start gap-3 rounded-xl p-2 ring-1 ring-hairline has-checked:ring-primary">
           <input
             type="radio"
@@ -132,7 +144,9 @@ export function ProductZoneForm({
             className="mt-1 size-4 accent-primary-action"
           />
           <span className="grid gap-0.5">
-            <span className="text-sm font-medium text-foreground"><AutoText>Follow the category</AutoText></span>
+            <span className="text-sm font-medium text-foreground">
+              <AutoText>Follow the category</AutoText>
+            </span>
             <span className="text-xs text-muted-foreground">
               {inheritedNames.length > 0
                 ? `Inherits ${inheritedNames.join(', ')} from ${'its category'}.`
@@ -149,8 +163,14 @@ export function ProductZoneForm({
             className="mt-1 size-4 accent-primary-action"
           />
           <span className="grid gap-0.5">
-            <span className="text-sm font-medium text-foreground"><AutoText>Choose this product’s zones</AutoText></span>
-            <span className="text-xs text-muted-foreground"><AutoText>Pinned zones win: the category’s collections are ignored for this product.</AutoText></span>
+            <span className="text-sm font-medium text-foreground">
+              <AutoText>Choose this product’s zones</AutoText>
+            </span>
+            <span className="text-xs text-muted-foreground">
+              <AutoText>
+                Pinned zones win: the category’s collections are ignored for this product.
+              </AutoText>
+            </span>
           </span>
         </label>
       </fieldset>
@@ -164,8 +184,8 @@ export function ProductZoneForm({
               on ? [...current, zoneId] : current.filter((value) => value !== zoneId),
             )
           }
-                    hintFor={(zoneId) => (inherited.includes(zoneId) ? 'from the category' : undefined)}
-                  />
+          hintFor={(zoneId) => (inherited.includes(zoneId) ? 'from the category' : undefined)}
+        />
       ) : inherited.length > 0 ? (
         <ul role="list" className="grid gap-1 rounded-xl bg-surface-muted/40 p-3 text-sm">
           {inheritedNames.map((name) => (
@@ -188,7 +208,9 @@ export function ProductZoneForm({
           loading={pending}
           disabled={mode === 'own' && chosen.length === 0}
           className="max-sm:min-h-11 max-sm:w-full"
-        ><AutoText>Save zones</AutoText></Button>
+        >
+          <AutoText>Save zones</AutoText>
+        </Button>
       </div>
     </form>
   );
@@ -215,8 +237,7 @@ export function CategoryZoneForm({
       <input type="hidden" name="categoryId" value={categoryId} />
       <Outcome state={state} />
       <p className="text-sm text-muted-foreground">
-        Every product in this category appears in these collections, unless it has zones of its
-        own.
+        Every product in this category appears in these collections, unless it has zones of its own.
       </p>
       <ZoneChoices
         zones={zones}
@@ -231,7 +252,9 @@ export function CategoryZoneForm({
         <span className={cn('text-xs text-muted-foreground')}>
           {chosen.length === 0 ? 'Feeds no collection.' : `${String(chosen.length)} selected.`}
         </span>
-        <Button type="submit" loading={pending} className="max-sm:min-h-11"><AutoText>Save zones</AutoText></Button>
+        <Button type="submit" loading={pending} className="max-sm:min-h-11">
+          <AutoText>Save zones</AutoText>
+        </Button>
       </div>
     </form>
   );

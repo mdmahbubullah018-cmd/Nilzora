@@ -130,4 +130,3 @@ describe('chat automation worker', () => {
     expect(subject.isRunning()).toBe(false);
   });
 });
-

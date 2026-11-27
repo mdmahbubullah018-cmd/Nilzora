@@ -12,7 +12,12 @@ import { useTx } from '@/lib/i18n/provider';
 function SaveButton() {
   const { pending } = useFormStatus();
   return (
-    <Button type="submit" variant="outline" loading={pending} className="rounded-xl max-sm:min-h-11">
+    <Button
+      type="submit"
+      variant="outline"
+      loading={pending}
+      className="rounded-xl max-sm:min-h-11"
+    >
       {pending ? null : <Target aria-hidden="true" strokeWidth={1.75} />}
       Save target
     </Button>
@@ -29,15 +34,16 @@ export interface SalesTargetFormProps {
 export function SalesTargetForm({ targetMinor, csrf }: SalesTargetFormProps) {
   const tx = useTx();
   const [state, action] = useActionState(setSalesTargetAction, IDLE_STATE);
-  const current = targetMinor === null || targetMinor === undefined ? '' : String(targetMinor / 100);
+  const current =
+    targetMinor === null || targetMinor === undefined ? '' : String(targetMinor / 100);
   return (
     <form action={action} className="grid gap-3">
       <CsrfField csrf={csrf} />
       <div className="flex flex-wrap items-end gap-3">
         <Field
           id="sales-target"
-          label={tx("Monthly revenue target (৳)")}
-          hint={tx("Leave empty to remove the target from the dashboard.")}
+          label={tx('Monthly revenue target (৳)')}
+          hint={tx('Leave empty to remove the target from the dashboard.')}
           error={state.fieldErrors?.target}
           className="w-full max-w-64"
         >
@@ -50,7 +56,7 @@ export function SalesTargetForm({ targetMinor, csrf }: SalesTargetFormProps) {
               max={1_000_000_000}
               step="0.01"
               inputMode="decimal"
-              placeholder={tx("e.g. 500000")}
+              placeholder={tx('e.g. 500000')}
               defaultValue={state.values?.target ?? current}
               className="tabular-nums max-sm:h-11"
             />

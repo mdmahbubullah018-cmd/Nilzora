@@ -22,7 +22,6 @@ function publishedProfile(): PublicStoreProfile {
   });
 }
 
-
 /** A profile with nothing published: every optional field empty, as the API would send it. */
 function bareProfile(): PublicStoreProfile {
   return fakeStoreProfile({
@@ -73,7 +72,9 @@ describe('StoreScreen', () => {
 
   it('shows the logo the store published', async () => {
     await renderWithProviders(<StoreRoute />, {
-      api: storeApi(fakeStoreProfile({ logoUrl: 'https://media.nilzora.test/brand/logo/thumb.webp' })),
+      api: storeApi(
+        fakeStoreProfile({ logoUrl: 'https://media.nilzora.test/brand/logo/thumb.webp' }),
+      ),
     });
 
     const logo = await screen.findByTestId('store-logo');
@@ -83,7 +84,9 @@ describe('StoreScreen', () => {
   });
 
   it('shows no logo when the store has published none', async () => {
-    await renderWithProviders(<StoreRoute />, { api: storeApi(fakeStoreProfile({ logoUrl: null })) });
+    await renderWithProviders(<StoreRoute />, {
+      api: storeApi(fakeStoreProfile({ logoUrl: null })),
+    });
 
     expect(await screen.findByRole('header', { name: 'Nilzora' })).toBeOnTheScreen();
     expect(screen.queryByTestId('store-logo')).not.toBeOnTheScreen();

@@ -234,7 +234,12 @@ export function formatBdPhone(value: string): string {
  * "1 item" / "3 items", and — because Bangla does not inflect the noun — "1টি আইটেম" /
  * "3টি আইটেম". The noun is looked up in the dictionary, so a new count needs no code.
  */
-export function plural(count: number, one: string, many = `${one}s`, lang: Language = 'en'): string {
+export function plural(
+  count: number,
+  one: string,
+  many = `${one}s`,
+  lang: Language = 'en',
+): string {
   const number = formatCount(count);
   if (lang === 'bn') return `${number}টি ${bnText(one)}`;
   return `${number} ${count === 1 ? one : many}`;

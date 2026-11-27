@@ -1,9 +1,5 @@
 import { render, screen, userEvent, waitFor } from '@testing-library/react-native';
-import {
-  AccessibilityInfo,
-  StyleSheet,
-  type ViewStyle,
-} from 'react-native';
+import { AccessibilityInfo, StyleSheet, type ViewStyle } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { TabBar, type TabBarItem } from '../components/tab-bar';
 import { badgeFor, definitionFor, hrefFor, TAB_BAR, TAB_DEFINITIONS } from '../navigation/tabs';

@@ -148,7 +148,10 @@ export function WorkspaceFrame({ workspace, user, csrf, children }: Readonly<Wor
         The rail carries the background so it spans pages taller than the viewport,
         and switches focus rings to the variant verified against navy and slate.
       */}
-        <div data-nav-rail="" className="nz-rail hidden lg:block [--nz-ring:var(--nz-ring-on-dark)]">
+        <div
+          data-nav-rail=""
+          className="nz-rail hidden lg:block [--nz-ring:var(--nz-ring-on-dark)]"
+        >
           <aside className="sticky top-0 flex h-dvh flex-col text-sidebar-muted">
             <div className="nz-rail-head flex h-16 shrink-0 items-center gap-3 px-5">
               {/* One link, one name ("Nilzora"), whichever artwork the rail has room for:

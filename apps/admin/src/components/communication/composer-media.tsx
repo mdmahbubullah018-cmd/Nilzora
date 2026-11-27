@@ -140,7 +140,7 @@ export function ComposerMediaMenu({
         type="button"
         aria-haspopup="menu"
         aria-expanded={open}
-        aria-label={tx("Add a picture, a file, a photo or a voice message")}
+        aria-label={tx('Add a picture, a file, a photo or a voice message')}
         disabled={disabled || transferring}
         onClick={() => setOpen((value) => !value)}
         className="inline-flex size-9 items-center justify-center rounded-lg text-muted-foreground transition hover:bg-surface-muted hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:cursor-not-allowed disabled:opacity-50"
@@ -160,7 +160,9 @@ export function ComposerMediaMenu({
               onClick={() => choose(fileInput.current)}
               className="flex w-full items-center gap-2 px-3 py-2 text-left text-xs text-foreground hover:bg-surface-muted"
             >
-              <ImageIcon aria-hidden className="size-3.5" /><AutoText>Image</AutoText></button>
+              <ImageIcon aria-hidden className="size-3.5" />
+              <AutoText>Image</AutoText>
+            </button>
           </li>
           <li role="none">
             <button
@@ -169,7 +171,9 @@ export function ComposerMediaMenu({
               onClick={() => choose(fileInput.current)}
               className="flex w-full items-center gap-2 px-3 py-2 text-left text-xs text-foreground hover:bg-surface-muted"
             >
-              <FileText aria-hidden className="size-3.5" /><AutoText>File upload</AutoText></button>
+              <FileText aria-hidden className="size-3.5" />
+              <AutoText>File upload</AutoText>
+            </button>
           </li>
           <li role="none">
             <button
@@ -178,7 +182,9 @@ export function ComposerMediaMenu({
               onClick={() => choose(cameraInput.current)}
               className="flex w-full items-center gap-2 px-3 py-2 text-left text-xs text-foreground hover:bg-surface-muted"
             >
-              <Camera aria-hidden className="size-3.5" /><AutoText>Take photo</AutoText></button>
+              <Camera aria-hidden className="size-3.5" />
+              <AutoText>Take photo</AutoText>
+            </button>
           </li>
           <li role="none">
             <button
@@ -190,7 +196,9 @@ export function ComposerMediaMenu({
               }}
               className="flex w-full items-center gap-2 px-3 py-2 text-left text-xs text-foreground hover:bg-surface-muted"
             >
-              <Mic aria-hidden className="size-3.5" /><AutoText>Record voice</AutoText></button>
+              <Mic aria-hidden className="size-3.5" />
+              <AutoText>Record voice</AutoText>
+            </button>
           </li>
         </ul>
       ) : null}
@@ -205,7 +213,7 @@ export function ComposerMediaMenu({
           if (file !== undefined) chooseFile(file);
         }}
         className="sr-only"
-        aria-label={tx("Picture or file")}
+        aria-label={tx('Picture or file')}
       />
       <input
         ref={cameraInput}
@@ -218,7 +226,7 @@ export function ComposerMediaMenu({
           if (file !== undefined) chooseFile(file);
         }}
         className="sr-only"
-        aria-label={tx("Take a photo")}
+        aria-label={tx('Take a photo')}
       />
 
       {recording ? (
@@ -228,9 +236,7 @@ export function ComposerMediaMenu({
             onRecorded={(voice) => {
               setRecording(false);
               setDurationMs(voice.durationMs);
-              pending.select(
-                new File([voice.blob], voice.fileName, { type: voice.contentType }),
-              );
+              pending.select(new File([voice.blob], voice.fileName, { type: voice.contentType }));
             }}
             onDiscard={() => setRecording(false)}
           />
@@ -254,8 +260,10 @@ export function ComposerMediaMenu({
 
       {attachment === null ? null : (
         <span className="flex max-w-40 items-center gap-1 rounded-full bg-surface-muted px-2 py-0.5 text-[11px] text-foreground">
-          <span className="truncate"><AutoText value={attachment.fileName} /></span>
-          <button type="button" aria-label={tx("Remove the attachment")} onClick={clear}>
+          <span className="truncate">
+            <AutoText value={attachment.fileName} />
+          </span>
+          <button type="button" aria-label={tx('Remove the attachment')} onClick={clear}>
             <X aria-hidden className="size-3" />
           </button>
         </span>

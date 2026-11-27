@@ -137,13 +137,7 @@ function SavedCard({
 }
 
 /** A saved product that is no longer on sale: it can only be removed. */
-function UnavailableRow({
-  onRemove,
-  busy,
-}: {
-  onRemove: () => void;
-  busy: boolean;
-}) {
+function UnavailableRow({ onRemove, busy }: { onRemove: () => void; busy: boolean }) {
   return (
     <li className="flex items-center justify-between gap-3 py-4">
       <div className="min-w-0">

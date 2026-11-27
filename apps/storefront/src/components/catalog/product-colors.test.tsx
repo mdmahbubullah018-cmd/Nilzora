@@ -52,7 +52,13 @@ describe('product colour preview', () => {
   });
 
   it('summarises the colours past the fourth as a count', () => {
-    const many = [black, navy, white, { valueSlug: 'grey', value: 'Grey', swatchHex: '#94A3B8' }, { valueSlug: 'red', value: 'Red', swatchHex: '#EF4444' }];
+    const many = [
+      black,
+      navy,
+      white,
+      { valueSlug: 'grey', value: 'Grey', swatchHex: '#94A3B8' },
+      { valueSlug: 'red', value: 'Red', swatchHex: '#EF4444' },
+    ];
     const { container } = render(<ProductColors colors={many} />);
     // Four discs plus the "+1", and the label still names every colour.
     expect(swatches(container)).toHaveLength(5);
@@ -63,7 +69,9 @@ describe('product colour preview', () => {
   it('is a preview, not a control: nothing inside it is focusable or clickable', () => {
     const { container } = render(<ProductColors colors={[black, navy]} />);
     const preview = container.querySelector('p[aria-label]');
-    expect(preview?.querySelectorAll('a, button, input, [tabindex], [role="button"]').length).toBe(0);
+    expect(preview?.querySelectorAll('a, button, input, [tabindex], [role="button"]').length).toBe(
+      0,
+    );
   });
 
   it('appears on the card, so a listing shows the choice without opening the product', () => {

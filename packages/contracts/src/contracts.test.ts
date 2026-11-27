@@ -22,7 +22,10 @@ describe('healthResponseSchema', () => {
   });
 
   it('accepts a local target with no project ref', () => {
-    const local = { ...valid, database: { target: 'local', connection: 'local', projectRef: null } };
+    const local = {
+      ...valid,
+      database: { target: 'local', connection: 'local', projectRef: null },
+    };
     expect(healthResponseSchema.parse(local)).toStrictEqual(local);
   });
 

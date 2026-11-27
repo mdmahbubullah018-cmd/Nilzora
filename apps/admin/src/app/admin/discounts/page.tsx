@@ -87,7 +87,9 @@ export default async function CampaignsPage({ searchParams }: PageProps<'/admin/
           actions={
             canCreate ? (
               <Link href="/admin/discounts/new" className={buttonClasses({ size: 'sm' })}>
-                <Plus aria-hidden="true" /><AutoText>New campaign</AutoText></Link>
+                <Plus aria-hidden="true" />
+                <AutoText>New campaign</AutoText>
+              </Link>
             ) : null
           }
         />

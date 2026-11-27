@@ -83,9 +83,8 @@ export default async function ProductPage({
         .adminSeoOverview(token, { q: product.slug })
         .then(
           (response) =>
-            response.entries.find(
-              (entry) => entry.kind === 'product' && entry.id === productId,
-            ) ?? null,
+            response.entries.find((entry) => entry.kind === 'product' && entry.id === productId) ??
+            null,
         ),
     ),
     // The zone panel is optional: an account without the permission, or a store whose zone
@@ -95,9 +94,7 @@ export default async function ProductPage({
           api.adminListZones(token, { pageSize: 100 }).then((response) => response.zones),
         )
       : null,
-    canManageZones
-      ? adminRead((api, token) => api.adminProductZones(token, productId))
-      : null,
+    canManageZones ? adminRead((api, token) => api.adminProductZones(token, productId)) : null,
   ]);
   return shell(
     <ProductDetailView

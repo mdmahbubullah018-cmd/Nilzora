@@ -23,11 +23,15 @@ export function ForgotPasswordForm({ csrf }: { csrf: CsrfInput }) {
     const address = state.values?.email ?? '';
     return (
       <div className="grid gap-4">
-        <Alert tone="success"><AutoText value={state.message} /></Alert>
+        <Alert tone="success">
+          <AutoText value={state.message} />
+        </Alert>
         <Link
           href={`/reset-password?email=${encodeURIComponent(address)}` as Route}
           className="text-sm font-medium text-primary underline-offset-4 hover:underline"
-        ><AutoText>I have the code</AutoText></Link>
+        >
+          <AutoText>I have the code</AutoText>
+        </Link>
       </div>
     );
   }
@@ -36,10 +40,12 @@ export function ForgotPasswordForm({ csrf }: { csrf: CsrfInput }) {
     <form action={formAction} className="grid gap-5">
       <CsrfField csrf={csrf} />
       {state.status === 'error' && state.message ? (
-        <Alert tone="danger"><AutoText value={state.message} /></Alert>
+        <Alert tone="danger">
+          <AutoText value={state.message} />
+        </Alert>
       ) : null}
 
-      <Field id="forgot-email" label={tx("Email address")} error={errors.email} required>
+      <Field id="forgot-email" label={tx('Email address')} error={errors.email} required>
         {(control) => (
           <Input
             {...control}
@@ -54,7 +60,9 @@ export function ForgotPasswordForm({ csrf }: { csrf: CsrfInput }) {
         )}
       </Field>
 
-      <Button type="submit" size="lg" loading={pending} className="w-full"><AutoText>Email me a code</AutoText></Button>
+      <Button type="submit" size="lg" loading={pending} className="w-full">
+        <AutoText>Email me a code</AutoText>
+      </Button>
     </form>
   );
 }

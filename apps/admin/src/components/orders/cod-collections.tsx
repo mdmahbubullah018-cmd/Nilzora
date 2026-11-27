@@ -176,7 +176,10 @@ export function CodCollectionsView({
           <div className="grid gap-3">
             <p className="text-sm text-muted-foreground tabular-nums">
               <CountText count={orders.length} one="order" /> on this page add up to{' '}
-              <span className="font-semibold text-foreground"><AutoText value={formatMoney(pageTotal)} /></span>.
+              <span className="font-semibold text-foreground">
+                <AutoText value={formatMoney(pageTotal)} />
+              </span>
+              .
             </p>
             <Pagination
               page={page}
@@ -193,15 +196,27 @@ export function CodCollectionsView({
       <DataTable caption={collecting ? 'Cash to collect' : 'Collected cash'} dense>
         <TableHeader>
           <TableRow className="hover:bg-transparent">
-            <TableHead><AutoText>Order</AutoText></TableHead>
-            <TableHead><AutoText>Placed</AutoText></TableHead>
-            <TableHead><AutoText>Customer</AutoText></TableHead>
-            <TableHead><AutoText>Status</AutoText></TableHead>
-            <TableHead><AutoText>Payment</AutoText></TableHead>
+            <TableHead>
+              <AutoText>Order</AutoText>
+            </TableHead>
+            <TableHead>
+              <AutoText>Placed</AutoText>
+            </TableHead>
+            <TableHead>
+              <AutoText>Customer</AutoText>
+            </TableHead>
+            <TableHead>
+              <AutoText>Status</AutoText>
+            </TableHead>
+            <TableHead>
+              <AutoText>Payment</AutoText>
+            </TableHead>
             <TableHead className="text-right">{collecting ? 'Cash due' : 'Amount'}</TableHead>
             {collecting && canRecord ? (
               <TableHead>
-                <span className="sr-only"><AutoText>Actions</AutoText></span>
+                <span className="sr-only">
+                  <AutoText>Actions</AutoText>
+                </span>
               </TableHead>
             ) : null}
           </TableRow>
@@ -225,7 +240,9 @@ export function CodCollectionsView({
                 </TableCell>
                 <TableCell>
                   <div className="grid">
-                    <span className="max-w-48 truncate text-foreground"><AutoText value={order.recipientName} /></span>
+                    <span className="max-w-48 truncate text-foreground">
+                      <AutoText value={order.recipientName} />
+                    </span>
                     <span className="text-xs text-muted-foreground tabular-nums">
                       {formatBdPhone(order.phone)}
                     </span>

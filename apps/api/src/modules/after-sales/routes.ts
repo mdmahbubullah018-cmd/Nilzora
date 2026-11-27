@@ -73,25 +73,31 @@ export function afterSalesRoutes(deps: AfterSalesRouteDependencies): Router {
     }
   });
 
-  router.get('/returns/:returnId', noStore, requireUser, validate(detailSchemas), async (_req, res) => {
-    const identity = currentIdentity(res);
-    const { params } = requestInput<typeof detailSchemas>(res);
-    try {
-      const request = await afterSales.myReturn(
-        identity.accessToken,
-        identity.userId,
-        params.returnId,
-      );
-      if (request === null) {
-        sendError(res, 404, 'not_found', 'Return not found');
-        return;
+  router.get(
+    '/returns/:returnId',
+    noStore,
+    requireUser,
+    validate(detailSchemas),
+    async (_req, res) => {
+      const identity = currentIdentity(res);
+      const { params } = requestInput<typeof detailSchemas>(res);
+      try {
+        const request = await afterSales.myReturn(
+          identity.accessToken,
+          identity.userId,
+          params.returnId,
+        );
+        if (request === null) {
+          sendError(res, 404, 'not_found', 'Return not found');
+          return;
+        }
+        const response: ReturnResponse = returnResponseSchema.parse({ return: request });
+        res.json(response);
+      } catch (error) {
+        sendCommerceFailure(res, error);
       }
-      const response: ReturnResponse = returnResponseSchema.parse({ return: request });
-      res.json(response);
-    } catch (error) {
-      sendCommerceFailure(res, error);
-    }
-  });
+    },
+  );
 
   router.post(
     '/returns/:returnId/cancel',

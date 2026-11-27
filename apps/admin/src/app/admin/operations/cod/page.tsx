@@ -144,7 +144,9 @@ export default async function CodReconciliationPage({
         {settlements.kind === 'ok' ? (
           <SettlementList settlements={settlements.value.settlements} />
         ) : (
-          <p className="text-sm text-muted-foreground"><AutoText>Recorded settlements could not be loaded just now.</AutoText></p>
+          <p className="text-sm text-muted-foreground">
+            <AutoText>Recorded settlements could not be loaded just now.</AutoText>
+          </p>
         )}
       </div>
     </WorkspaceShell>

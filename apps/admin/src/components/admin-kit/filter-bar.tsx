@@ -32,8 +32,14 @@ export function Toolbar({ children, actions, className }: ToolbarProps) {
     <div
       className={cn('flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-between', className)}
     >
-      <div className="min-w-0 flex-1"><AutoText value={children} /></div>
-      {actions ? <div className="flex shrink-0 flex-wrap items-center gap-2"><AutoText value={actions} /></div> : null}
+      <div className="min-w-0 flex-1">
+        <AutoText value={children} />
+      </div>
+      {actions ? (
+        <div className="flex shrink-0 flex-wrap items-center gap-2">
+          <AutoText value={actions} />
+        </div>
+      ) : null}
     </div>
   );
 }
@@ -87,15 +93,16 @@ export function FilterBar({
           <Link
             href={resetHref}
             className={buttonClasses({ variant: 'ghost', className: 'max-sm:flex-1' })}
-          ><AutoText>Clear</AutoText></Link>
+          >
+            <AutoText>Clear</AutoText>
+          </Link>
         ) : null}
       </div>
     </FilterForm>
   );
 }
 
-const fieldLabel =
-  'text-[11px] font-semibold tracking-[0.06em] text-muted-foreground uppercase';
+const fieldLabel = 'text-[11px] font-semibold tracking-[0.06em] text-muted-foreground uppercase';
 
 export interface SearchFilterProps {
   name?: string;
@@ -118,7 +125,9 @@ export function SearchFilter({
 }: SearchFilterProps) {
   const id = useId();
   return (
-    <div className={cn('grid min-w-0 flex-1 basis-full gap-1.5 sm:max-w-sm sm:basis-auto', className)}>
+    <div
+      className={cn('grid min-w-0 flex-1 basis-full gap-1.5 sm:max-w-sm sm:basis-auto', className)}
+    >
       <label htmlFor={id} className={fieldLabel}>
         {label}
       </label>
@@ -167,7 +176,12 @@ export function SelectFilter({
 }: SelectFilterProps) {
   const id = useId();
   return (
-    <div className={cn('grid min-w-0 basis-[calc(50%-0.375rem)] gap-1.5 sm:min-w-40 sm:basis-auto', className)}>
+    <div
+      className={cn(
+        'grid min-w-0 basis-[calc(50%-0.375rem)] gap-1.5 sm:min-w-40 sm:basis-auto',
+        className,
+      )}
+    >
       <label htmlFor={id} className={fieldLabel}>
         {label}
       </label>
@@ -178,7 +192,9 @@ export function SelectFilter({
           defaultValue={defaultValue ?? ''}
           className="appearance-none pr-9"
         >
-          <option value=""><AutoText value={allLabel} /></option>
+          <option value="">
+            <AutoText value={allLabel} />
+          </option>
           {options.map((option) => (
             <option key={option.value} value={option.value}>
               {option.label}
@@ -245,7 +261,9 @@ export function FilterChips({ chips, clearHref, className }: FilterChipsProps) {
   if (chips.length === 0) return null;
   return (
     <div className={cn('flex flex-wrap items-center gap-2 text-sm', className)}>
-      <span className="text-xs font-medium text-muted-foreground"><AutoText>Filtered by</AutoText></span>
+      <span className="text-xs font-medium text-muted-foreground">
+        <AutoText>Filtered by</AutoText>
+      </span>
       <ul className="flex flex-wrap items-center gap-2">
         {chips.map((chip) => (
           <li key={chip.key}>
@@ -265,7 +283,9 @@ export function FilterChips({ chips, clearHref, className }: FilterChipsProps) {
         <Link
           href={clearHref}
           className="text-xs font-medium text-link underline-offset-4 hover:underline"
-        ><AutoText>Clear all</AutoText></Link>
+        >
+          <AutoText>Clear all</AutoText>
+        </Link>
       ) : null}
     </div>
   );

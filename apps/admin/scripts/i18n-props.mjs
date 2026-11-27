@@ -27,10 +27,7 @@ const show = process.argv.includes('--show');
 
 const PROPS =
   'title|label|placeholder|hint|description|legend|aria-label|alt|empty|actionLabel|detail|heading|subtitle|message|text|subject|confirmLabel';
-const propPattern = new RegExp(
-  `\\b(${PROPS})=("([^"{}]{2,400})"|\\{'([^'{}]{2,400})'\\})`,
-  'g',
-);
+const propPattern = new RegExp(`\\b(${PROPS})=("([^"{}]{2,400})"|\\{'([^'{}]{2,400})'\\})`, 'g');
 
 function walk(dir) {
   const out = [];
@@ -58,7 +55,9 @@ function injectHooks(code) {
   };
   const already = (at) => out.slice(at, at + 60).includes('const tx = useTx();');
 
-  for (const match of out.matchAll(/^(?:export\s+)?(?:default\s+)?function\s+([A-Z]\w*)\s*[(<]/gm)) {
+  for (const match of out.matchAll(
+    /^(?:export\s+)?(?:default\s+)?function\s+([A-Z]\w*)\s*[(<]/gm,
+  )) {
     const body = findBody(match.index + match[0].length - 1);
     if (body > 0 && !already(body)) insertions.push({ at: body });
   }
@@ -98,7 +97,11 @@ function addImport(code) {
 const results = [];
 for (const file of walk(src)) {
   const original = readFileSync(file, 'utf8');
-  if (file.includes(`${join('src', 'lib', 'i18n')}`) || file.includes(`${join('src', 'components', 'i18n')}`)) continue;
+  if (
+    file.includes(`${join('src', 'lib', 'i18n')}`) ||
+    file.includes(`${join('src', 'components', 'i18n')}`)
+  )
+    continue;
   if (!/^\s*('use client'|"use client")/m.test(original.slice(0, 400))) continue;
   if (only !== undefined && !file.includes(only)) continue;
 

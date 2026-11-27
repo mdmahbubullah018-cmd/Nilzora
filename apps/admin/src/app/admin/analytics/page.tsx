@@ -47,7 +47,12 @@ export default async function AnalyticsPage({ searchParams }: PageProps<'/admin/
   if (result.kind === 'signed_out') redirect(signInPath(ANALYTICS_PATH));
   if (result.kind !== 'ok') {
     return shell(
-      <PageFailure title={TITLE} failure={result.kind} retryHref={ANALYTICS_PATH} permission="finance.read" />,
+      <PageFailure
+        title={TITLE}
+        failure={result.kind}
+        retryHref={ANALYTICS_PATH}
+        permission="finance.read"
+      />,
     );
   }
   return shell(

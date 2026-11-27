@@ -43,7 +43,9 @@ export function ShipmentSummaryList({
                     {shipment.merchantRef}
                   </Link>
                 ) : (
-                  <span className="font-mono"><AutoText value={shipment.merchantRef} /></span>
+                  <span className="font-mono">
+                    <AutoText value={shipment.merchantRef} />
+                  </span>
                 )}
                 {shipment.isMock ? <TestChip /> : null}
               </span>

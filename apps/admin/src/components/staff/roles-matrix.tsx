@@ -24,7 +24,11 @@ export interface RoleRow {
 /** The permission groups, in reading order, by the part of the key before the dot. */
 const GROUPS: readonly { id: string; label: string; prefixes: readonly string[] }[] = [
   { id: 'catalog', label: 'Catalog and stock', prefixes: ['products.', 'inventory.', 'zones.'] },
-  { id: 'orders', label: 'Orders and payments', prefixes: ['orders.', 'checkouts.', 'payments.', 'refunds.'] },
+  {
+    id: 'orders',
+    label: 'Orders and payments',
+    prefixes: ['orders.', 'checkouts.', 'payments.', 'refunds.'],
+  },
   { id: 'shipping', label: 'Shipping and couriers', prefixes: ['couriers.', 'shipments.'] },
   { id: 'customers', label: 'Customers', prefixes: ['customers.'] },
   { id: 'marketing', label: 'Promotions', prefixes: ['coupons.', 'discounts.'] },
@@ -35,7 +39,11 @@ const GROUPS: readonly { id: string; label: string; prefixes: readonly string[] 
   },
   { id: 'chat', label: 'Customer chat', prefixes: ['chat.', 'notifications.'] },
   { id: 'finance', label: 'Finance and reports', prefixes: ['finance.', 'audit_logs.'] },
-  { id: 'team', label: 'Team and settings', prefixes: ['staff.', 'settings.', 'image_search.', 'admin_workspace.'] },
+  {
+    id: 'team',
+    label: 'Team and settings',
+    prefixes: ['staff.', 'settings.', 'image_search.', 'admin_workspace.'],
+  },
 ];
 
 /** Permissions grouped for the matrix; anything a group does not name goes in "Other". */
@@ -80,7 +88,9 @@ export function RolesMatrix({ roles }: { roles: readonly RoleRow[] }) {
           <DataTable caption="Permissions held by each role" dense className="nz-sticky-head">
             <TableHeader>
               <TableRow>
-                <TableHead className="min-w-56"><AutoText>Permission</AutoText></TableHead>
+                <TableHead className="min-w-56">
+                  <AutoText>Permission</AutoText>
+                </TableHead>
                 {ordered.map((row) => (
                   <TableHead key={row.role} className="min-w-24 text-center">
                     <span className="grid justify-items-center gap-0.5">
@@ -107,7 +117,9 @@ export function RolesMatrix({ roles }: { roles: readonly RoleRow[] }) {
                   <TableRow key={permission}>
                     <TableCell>
                       <span className="grid">
-                        <span className="text-foreground"><AutoText value={permissionLabel(permission)} /></span>
+                        <span className="text-foreground">
+                          <AutoText value={permissionLabel(permission)} />
+                        </span>
                         <code className="font-mono text-[11px] text-muted-foreground">
                           {permission}
                         </code>

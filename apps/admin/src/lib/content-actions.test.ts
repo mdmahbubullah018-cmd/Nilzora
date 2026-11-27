@@ -81,7 +81,10 @@ describe('saveSitePageAction', () => {
 
   it('saves a page by its slug and says whether visitors can see it', async () => {
     const state = await saveSitePageAction(IDLE, form(PAGE));
-    expect(state).toEqual({ status: 'success', message: 'Page saved and published. Visitors see it now.' });
+    expect(state).toEqual({
+      status: 'success',
+      message: 'Page saved and published. Visitors see it now.',
+    });
     expect(api.adminSaveSitePage).toHaveBeenCalledWith('access-token', 'about', {
       title: 'About us',
       body: 'Who we are.',
@@ -159,7 +162,11 @@ describe('saveMenuItemAction', () => {
   it('saves a link when the form carries a valid id, and an unticked box hides it', async () => {
     const state = await saveMenuItemAction(IDLE, form({ ...LINK, itemId: A, isActive: '' }));
     expect(state).toEqual({ status: 'success', message: 'Link saved.' });
-    expect(api.adminUpdateMenuItem).toHaveBeenCalledWith('access-token', A, expect.objectContaining({ isActive: false }));
+    expect(api.adminUpdateMenuItem).toHaveBeenCalledWith(
+      'access-token',
+      A,
+      expect.objectContaining({ isActive: false }),
+    );
     expect(api.adminCreateMenuItem).not.toHaveBeenCalled();
   });
 
@@ -171,10 +178,15 @@ describe('saveMenuItemAction', () => {
   });
 
   it('marks an off-site or script link and an unknown menu before calling the API', async () => {
-    const bad = await saveMenuItemAction(IDLE, form({ ...LINK, href: 'javascript:alert(1)', menu: 'sidebar' }));
+    const bad = await saveMenuItemAction(
+      IDLE,
+      form({ ...LINK, href: 'javascript:alert(1)', menu: 'sidebar' }),
+    );
     expect(bad.status).toBe('error');
     if (bad.status === 'error') {
-      expect(bad.fieldErrors?.href).toBe('Use a store path such as /products, or an https address.');
+      expect(bad.fieldErrors?.href).toBe(
+        'Use a store path such as /products, or an https address.',
+      );
       expect(bad.fieldErrors?.menu).toBe('Choose which menu the link belongs to.');
       expect(bad.values?.href).toBe('javascript:alert(1)');
     }
@@ -199,7 +211,10 @@ describe('deleteMenuItemAction', () => {
   });
 
   it('needs a valid id, and says plainly when the link is already gone', async () => {
-    expect(await deleteMenuItemAction(IDLE, form({ itemId: 'x' }))).toEqual({ status: 'error', message: EXPIRED });
+    expect(await deleteMenuItemAction(IDLE, form({ itemId: 'x' }))).toEqual({
+      status: 'error',
+      message: EXPIRED,
+    });
     expect(api.adminDeleteMenuItem).not.toHaveBeenCalled();
 
     api.adminDeleteMenuItem.mockRejectedValue(refusal(404, 'not_found'));
@@ -224,28 +239,49 @@ describe('moveMenuItemAction', () => {
       form({ menu: 'header', itemId: B, direction: 'earlier', order: ORDER }),
     );
     expect(earlier).toEqual({ status: 'success', message: 'Order saved.' });
-    expect(api.adminReorderMenu).toHaveBeenLastCalledWith('access-token', { menu: 'header', ids: [B, A, C] });
+    expect(api.adminReorderMenu).toHaveBeenLastCalledWith('access-token', {
+      menu: 'header',
+      ids: [B, A, C],
+    });
 
-    await moveMenuItemAction(IDLE, form({ menu: 'footer_help', itemId: B, direction: 'later', order: ORDER }));
-    expect(api.adminReorderMenu).toHaveBeenLastCalledWith('access-token', { menu: 'footer_help', ids: [A, C, B] });
+    await moveMenuItemAction(
+      IDLE,
+      form({ menu: 'footer_help', itemId: B, direction: 'later', order: ORDER }),
+    );
+    expect(api.adminReorderMenu).toHaveBeenLastCalledWith('access-token', {
+      menu: 'footer_help',
+      ids: [A, C, B],
+    });
     expect(revalidatePath).toHaveBeenCalledWith('/admin/navigation');
   });
 
   it('refuses a move past either end, a stale order and a tampered direction, menu or id without calling the API', async () => {
     const stale = 'The menu changed since this page loaded. Reload it and try again.';
     expect(
-      await moveMenuItemAction(IDLE, form({ menu: 'header', itemId: A, direction: 'earlier', order: ORDER })),
+      await moveMenuItemAction(
+        IDLE,
+        form({ menu: 'header', itemId: A, direction: 'earlier', order: ORDER }),
+      ),
     ).toEqual({ status: 'error', message: stale });
     expect(
-      await moveMenuItemAction(IDLE, form({ menu: 'header', itemId: C, direction: 'later', order: ORDER })),
+      await moveMenuItemAction(
+        IDLE,
+        form({ menu: 'header', itemId: C, direction: 'later', order: ORDER }),
+      ),
     ).toEqual({ status: 'error', message: stale });
     // The id is not in the order the page carried.
     expect(
-      await moveMenuItemAction(IDLE, form({ menu: 'header', itemId: B, direction: 'later', order: `${A},${C}` })),
+      await moveMenuItemAction(
+        IDLE,
+        form({ menu: 'header', itemId: B, direction: 'later', order: `${A},${C}` }),
+      ),
     ).toEqual({ status: 'error', message: stale });
     // Ids that are not ids.
     expect(
-      await moveMenuItemAction(IDLE, form({ menu: 'header', itemId: B, direction: 'later', order: `${B},drop-table` })),
+      await moveMenuItemAction(
+        IDLE,
+        form({ menu: 'header', itemId: B, direction: 'later', order: `${B},drop-table` }),
+      ),
     ).toEqual({ status: 'error', message: stale });
 
     for (const bad of [
@@ -253,7 +289,10 @@ describe('moveMenuItemAction', () => {
       { menu: 'header', itemId: B, direction: 'sideways', order: ORDER },
       { menu: 'header', itemId: 'nope', direction: 'later', order: ORDER },
     ]) {
-      expect(await moveMenuItemAction(IDLE, form(bad))).toEqual({ status: 'error', message: EXPIRED });
+      expect(await moveMenuItemAction(IDLE, form(bad))).toEqual({
+        status: 'error',
+        message: EXPIRED,
+      });
     }
     expect(api.adminReorderMenu).not.toHaveBeenCalled();
   });
@@ -288,7 +327,13 @@ describe('saveHomepageAction', () => {
     expect(state.status).toBe('success');
     expect(api.adminSaveHomepage).toHaveBeenCalledTimes(1);
     const sent = api.adminSaveHomepage.mock.calls[0]?.[1] as {
-      sections: { key: string; isEnabled: boolean; title: string | null; itemLimit: number | null; config: object }[];
+      sections: {
+        key: string;
+        isEnabled: boolean;
+        title: string | null;
+        itemLimit: number | null;
+        config: object;
+      }[];
     };
     expect(sent.sections).toHaveLength(7);
     expect(sent.sections[0]).toMatchObject({
@@ -307,14 +352,18 @@ describe('saveHomepageAction', () => {
     const state = await saveHomepageAction(IDLE, form({ ...FIELDS, itemLimit_featured: '99' }));
     expect(state.status).toBe('error');
     if (state.status !== 'error') return;
-    expect(state.fieldErrors?.itemLimit_featured).toBe('Use a whole number from 1 to 24, or leave it empty.');
+    expect(state.fieldErrors?.itemLimit_featured).toBe(
+      'Use a whole number from 1 to 24, or leave it empty.',
+    );
     expect(state.values).toMatchObject({ itemLimit_featured: '99', title_featured: ' Our picks ' });
     expect(api.adminSaveHomepage).not.toHaveBeenCalled();
   });
 
   it('ignores a filter smuggled onto a section that takes none', async () => {
     await saveHomepageAction(IDLE, form({ ...FIELDS, categorySlug_brands: 'eid' }));
-    const sent = api.adminSaveHomepage.mock.calls[0]?.[1] as { sections: { key: string; config: object }[] };
+    const sent = api.adminSaveHomepage.mock.calls[0]?.[1] as {
+      sections: { key: string; config: object }[];
+    };
     expect(sent.sections.find((section) => section.key === 'brands')?.config).toEqual({});
   });
 
@@ -322,7 +371,9 @@ describe('saveHomepageAction', () => {
     api.adminSaveHomepage.mockRejectedValue(refusal(400, 'bad_request'));
     const refused = await saveHomepageAction(IDLE, form(FIELDS));
     expect(refused.status).toBe('error');
-    expect(refused.message).toBe('The sections were refused. Check the headings, limits and filters.');
+    expect(refused.message).toBe(
+      'The sections were refused. Check the headings, limits and filters.',
+    );
     expect(JSON.stringify(refused)).not.toContain(API_TEXT);
 
     api.adminSaveHomepage.mockClear();

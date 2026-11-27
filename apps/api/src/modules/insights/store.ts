@@ -46,7 +46,9 @@ function toIso(value: string | Date | null): string | null {
   return isoTimestamp(value);
 }
 
-function insightOver(rpcFor: (accessToken: string | null, userId: string | null) => Rpc): InsightStore {
+function insightOver(
+  rpcFor: (accessToken: string | null, userId: string | null) => Rpc,
+): InsightStore {
   return {
     async customers(accessToken, userId, query, page) {
       const rows = await rpcFor(accessToken, userId)<InsightRow[]>(

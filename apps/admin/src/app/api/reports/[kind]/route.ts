@@ -19,11 +19,16 @@ export async function GET(request: NextRequest, context: { params: Promise<{ kin
   const kind = REPORT_KINDS.find((candidate) => candidate === raw);
   if (!kind) return refusal(404, 'There is no such report.');
 
-  const parsed = reportExportQuerySchema.safeParse(Object.fromEntries(request.nextUrl.searchParams));
-  if (!parsed.success) return refusal(400, 'The report filters are not valid. Go back and try again.');
+  const parsed = reportExportQuerySchema.safeParse(
+    Object.fromEntries(request.nextUrl.searchParams),
+  );
+  if (!parsed.success)
+    return refusal(400, 'The report filters are not valid. Go back and try again.');
 
   try {
-    const result = await session.read((api, token) => api.adminDownloadReport(token, kind, parsed.data));
+    const result = await session.read((api, token) =>
+      api.adminDownloadReport(token, kind, parsed.data),
+    );
     if (result.kind === 'signed_out') {
       return NextResponse.redirect(new URL(signInPath('/admin/reports'), request.url));
     }
@@ -35,13 +40,15 @@ export async function GET(request: NextRequest, context: { params: Promise<{ kin
     if (error instanceof ApiError) {
       if (error.code === 'export_too_large') {
         const back = new URL('/admin/reports', request.url);
-        for (const [name, value] of request.nextUrl.searchParams) back.searchParams.set(name, value);
+        for (const [name, value] of request.nextUrl.searchParams)
+          back.searchParams.set(name, value);
         back.searchParams.set('kind', kind);
         back.searchParams.set('tooLarge', '1');
         return NextResponse.redirect(back, 303);
       }
       if (error.status === 403) return refusal(403, 'Your account may not download this report.');
-      if (error.status === 429) return refusal(429, 'Too many downloads. Wait a moment, then try again.');
+      if (error.status === 429)
+        return refusal(429, 'Too many downloads. Wait a moment, then try again.');
       if (error.status === 400) return refusal(400, 'The report filters are not valid.');
     }
     return refusal(503, 'The report could not be created right now. Try again in a moment.');

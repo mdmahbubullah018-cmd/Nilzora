@@ -64,7 +64,9 @@ export function StackedBarChart({
   heightClass = 'h-56',
   className,
 }: StackedBarChartProps) {
-  const totals = data.map((datum) => series.reduce((sum, item) => sum + valueOf(datum, item.key), 0));
+  const totals = data.map((datum) =>
+    series.reduce((sum, item) => sum + valueOf(datum, item.key), 0),
+  );
   const scale = niceScale(Math.max(0, ...totals), 4, { integer: integerAxis });
   const seriesTotals = series.map((item) =>
     data.reduce((sum, datum) => sum + valueOf(datum, item.key), 0),
@@ -134,9 +136,18 @@ export function StackedBarChart({
                   value={formatValue(valueOf(datum, item.key))}
                 />
               ))}
-              <span className={cn('flex items-center gap-2', filled.length > 0 && 'border-t border-hairline pt-1')}>
-                <span className="nz-figure font-semibold text-foreground"><AutoText value={formatValue(totals[index] ?? 0)} /></span>
-                <span className="text-muted-foreground"><AutoText value={totalLabel} /></span>
+              <span
+                className={cn(
+                  'flex items-center gap-2',
+                  filled.length > 0 && 'border-t border-hairline pt-1',
+                )}
+              >
+                <span className="nz-figure font-semibold text-foreground">
+                  <AutoText value={formatValue(totals[index] ?? 0)} />
+                </span>
+                <span className="text-muted-foreground">
+                  <AutoText value={totalLabel} />
+                </span>
               </span>
             </>
           );

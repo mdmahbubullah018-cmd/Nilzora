@@ -110,9 +110,7 @@ describe('sanitizeChatFileName', () => {
   });
 
   it('keeps a readable name untouched', () => {
-    expect(sanitizeChatFileName('March invoice.pdf', 'application/pdf')).toBe(
-      'March invoice.pdf',
-    );
+    expect(sanitizeChatFileName('March invoice.pdf', 'application/pdf')).toBe('March invoice.pdf');
   });
 });
 
@@ -141,9 +139,9 @@ describe('a voice message length', () => {
 
   it('is refused beyond five minutes, empty or not a whole number of milliseconds', () => {
     for (const durationMs of ['0', '-1', '300001', '1.5', 'abc']) {
-      expect(uploadChatAttachmentQuerySchema.safeParse({ fileName: 'v.webm', durationMs }).success).toBe(
-        false,
-      );
+      expect(
+        uploadChatAttachmentQuerySchema.safeParse({ fileName: 'v.webm', durationMs }).success,
+      ).toBe(false);
     }
     expect(
       uploadChatAttachmentQuerySchema.safeParse({
@@ -162,6 +160,8 @@ describe('a voice message length', () => {
       byteSize: 1024,
     };
     expect(beginChatAttachmentSchema.safeParse({ ...base, durationMs: 60_000 }).success).toBe(true);
-    expect(beginChatAttachmentSchema.safeParse({ ...base, durationMs: 300_001 }).success).toBe(false);
+    expect(beginChatAttachmentSchema.safeParse({ ...base, durationMs: 300_001 }).success).toBe(
+      false,
+    );
   });
 });

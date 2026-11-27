@@ -47,7 +47,9 @@ describe('the admin brand logo', () => {
     render(<BrandLogo brand={brand()} />);
 
     const picture = screen.getByRole('presentation', { hidden: true });
-    expect(picture.getAttribute('src')).toBe('https://media.nilzora.test/brands/north-star/thumb.webp');
+    expect(picture.getAttribute('src')).toBe(
+      'https://media.nilzora.test/brands/north-star/thumb.webp',
+    );
   });
 
   it('shows the initials when the brand has no logo', () => {

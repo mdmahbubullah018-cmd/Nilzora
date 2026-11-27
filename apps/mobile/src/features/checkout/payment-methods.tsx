@@ -59,13 +59,20 @@ export function PaymentMethods({ codAvailable }: { codAvailable: boolean }) {
                     {method.status === 'available' ? (
                       <Text style={styles.available}>{codAvailable ? 'Available' : 'Off'}</Text>
                     ) : (
-                      <Text style={[styles.soon, { color: BRAND[method.id], backgroundColor: `${BRAND[method.id]}1F` }]}>
+                      <Text
+                        style={[
+                          styles.soon,
+                          { color: BRAND[method.id], backgroundColor: `${BRAND[method.id]}1F` },
+                        ]}
+                      >
                         {method.badge ?? 'Coming soon'}
                       </Text>
                     )}
                   </View>
                   <Text style={styles.note}>
-                    {method.status === 'available' ? method.description : `${method.description} Not available yet.`}
+                    {method.status === 'available'
+                      ? method.description
+                      : `${method.description} Not available yet.`}
                   </Text>
                 </View>
                 {selectable ? (

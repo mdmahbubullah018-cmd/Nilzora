@@ -149,7 +149,12 @@ export function useVisualSearch() {
         return result;
       } catch (error) {
         const failure = messageFor(error);
-        setState({ status: 'error', result: null, error: failure.message, retryable: failure.retryable });
+        setState({
+          status: 'error',
+          result: null,
+          error: failure.message,
+          retryable: failure.retryable,
+        });
         return null;
       }
     },
@@ -163,13 +168,23 @@ export function useVisualSearch() {
         if (api === null) throw new ApiNotConfiguredError();
         const result = await api.findSimilarProducts(
           { productId },
-          { sort: options.sort ?? 'best_match', page: options.page ?? 1, pageSize: 24, client: 'android' },
+          {
+            sort: options.sort ?? 'best_match',
+            page: options.page ?? 1,
+            pageSize: 24,
+            client: 'android',
+          },
         );
         setState({ status: 'ready', result, error: null, retryable: false });
         return result;
       } catch (error) {
         const failure = messageFor(error);
-        setState({ status: 'error', result: null, error: failure.message, retryable: failure.retryable });
+        setState({
+          status: 'error',
+          result: null,
+          error: failure.message,
+          retryable: failure.retryable,
+        });
         return null;
       }
     },

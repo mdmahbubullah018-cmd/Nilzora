@@ -19,11 +19,15 @@ export default function GlobalError({
   return (
     <html lang="en" data-theme="light">
       <body className="min-h-dvh antialiased" suppressHydrationWarning>
-        <title><AutoText>Something went wrong · Nilzora Admin</AutoText></title>
+        <title>
+          <AutoText>Something went wrong · Nilzora Admin</AutoText>
+        </title>
         <main className="grid min-h-dvh place-items-center bg-surface-muted px-4">
           <div className="grid max-w-md justify-items-center gap-4 text-center">
             <LogoMark decorative />
-            <h1 className="font-display text-xl font-semibold tracking-tight text-foreground"><AutoText>Nilzora could not be loaded</AutoText></h1>
+            <h1 className="font-display text-xl font-semibold tracking-tight text-foreground">
+              <AutoText>Nilzora could not be loaded</AutoText>
+            </h1>
             <p className="text-sm leading-relaxed text-muted-foreground">
               Something went wrong on our side. Try again, and if it keeps happening, let an admin
               know.
@@ -34,8 +38,12 @@ export default function GlobalError({
               </p>
             ) : null}
             <div className="flex flex-wrap justify-center gap-2">
-              <button type="button" onClick={retry} className={buttonClasses()}><AutoText>Try again</AutoText></button>
-              <Link href="/" className={buttonClasses({ variant: 'outline' })}><AutoText>Go to your workspace</AutoText></Link>
+              <button type="button" onClick={retry} className={buttonClasses()}>
+                <AutoText>Try again</AutoText>
+              </button>
+              <Link href="/" className={buttonClasses({ variant: 'outline' })}>
+                <AutoText>Go to your workspace</AutoText>
+              </Link>
             </div>
           </div>
         </main>

@@ -50,11 +50,13 @@ describe('classifyDatabaseUrl', () => {
   });
 
   it('treats an unrecognised host as other', () => {
-    expect(classifyDatabaseUrl('postgresql://u:p@db.example.internal:5432/postgres')).toStrictEqual({
-      mode: 'other',
-      connection: 'other',
-      projectRef: null,
-    });
+    expect(classifyDatabaseUrl('postgresql://u:p@db.example.internal:5432/postgres')).toStrictEqual(
+      {
+        mode: 'other',
+        connection: 'other',
+        projectRef: null,
+      },
+    );
   });
 
   it.each([undefined, 'not a url', ''])('never reports %s as local', (url) => {
@@ -124,7 +126,11 @@ describe('loadConfig database target', () => {
 
   it('refuses to start production on the local database', () => {
     try {
-      config({ NODE_ENV: 'production', SUPABASE_URL: 'http://127.0.0.1:54321', DATABASE_URL: LOCAL_DB });
+      config({
+        NODE_ENV: 'production',
+        SUPABASE_URL: 'http://127.0.0.1:54321',
+        DATABASE_URL: LOCAL_DB,
+      });
       throw new Error('expected ConfigError');
     } catch (error) {
       expect(error).toBeInstanceOf(ConfigError);
@@ -186,7 +192,10 @@ describe('withProjectRef', () => {
   });
 
   it('adds nothing to a local target', () => {
-    const merged = withProjectRef(classifyDatabaseUrl(LOCAL_DB), classifySupabaseUrl(HOSTED_SUPABASE));
+    const merged = withProjectRef(
+      classifyDatabaseUrl(LOCAL_DB),
+      classifySupabaseUrl(HOSTED_SUPABASE),
+    );
     expect(merged.projectRef).toBeNull();
   });
 });

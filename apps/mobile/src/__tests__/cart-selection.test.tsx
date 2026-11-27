@@ -1,6 +1,12 @@
 import type { CartLine, CartQuote } from '@nilzora/contracts';
 import { screen, waitFor } from '@testing-library/react-native';
-import { CART_SELECTION_KEY, CART_STORAGE_KEY, createCartStore, lineKey, serializeCart } from '../cart';
+import {
+  CART_SELECTION_KEY,
+  CART_STORAGE_KEY,
+  createCartStore,
+  lineKey,
+  serializeCart,
+} from '../cart';
 import { CartScreen } from '../features/cart/cart-screen';
 import { createFakeApiClient } from '../test-utils/api-fakes';
 import { createMemoryCartStorage, PRODUCT_A, PRODUCT_B } from '../test-utils/cart-fakes';

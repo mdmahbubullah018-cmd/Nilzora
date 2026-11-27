@@ -139,13 +139,17 @@ export function CourierOverviewView({
             <Link
               href={shipmentsHref({ status: 'booking_pending', test: includeTest })}
               className="font-semibold underline underline-offset-4"
-            ><AutoText>Open pending bookings</AutoText></Link>
+            >
+              <AutoText>Open pending bookings</AutoText>
+            </Link>
           ) : null}
         </Alert>
       ) : null}
 
       <section aria-labelledby="shipment-counts" className="grid gap-3">
-        <h2 id="shipment-counts" className="sr-only"><AutoText>Shipments by status</AutoText></h2>
+        <h2 id="shipment-counts" className="sr-only">
+          <AutoText>Shipments by status</AutoText>
+        </h2>
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4">
           <MetricTile
             label="Uncertain bookings"
@@ -197,12 +201,16 @@ export function CourierOverviewView({
             <Link
               href={OPERATIONS_PATHS.providers}
               className={buttonClasses({ variant: 'outline', size: 'sm' })}
-            ><AutoText>Manage providers</AutoText></Link>
+            >
+              <AutoText>Manage providers</AutoText>
+            </Link>
           ) : undefined
         }
       >
         {overview.providers.length === 0 ? (
-          <p className="text-sm text-muted-foreground"><AutoText>No couriers are set up yet.</AutoText></p>
+          <p className="text-sm text-muted-foreground">
+            <AutoText>No couriers are set up yet.</AutoText>
+          </p>
         ) : (
           <ul className="grid gap-4 md:grid-cols-2">
             {overview.providers.map((provider) => {
@@ -231,19 +239,25 @@ export function CourierOverviewView({
                   </div>
                   <dl className="grid grid-cols-3 gap-2 text-sm">
                     <div>
-                      <dt className="text-xs text-muted-foreground"><AutoText>Delivered</AutoText></dt>
+                      <dt className="text-xs text-muted-foreground">
+                        <AutoText>Delivered</AutoText>
+                      </dt>
                       <dd className="font-semibold text-foreground tabular-nums">
                         {formatCount(provider.delivered)}
                       </dd>
                     </div>
                     <div>
-                      <dt className="text-xs text-muted-foreground"><AutoText>Failed</AutoText></dt>
+                      <dt className="text-xs text-muted-foreground">
+                        <AutoText>Failed</AutoText>
+                      </dt>
                       <dd className="font-semibold text-foreground tabular-nums">
                         {formatCount(provider.failed)}
                       </dd>
                     </div>
                     <div>
-                      <dt className="text-xs text-muted-foreground"><AutoText>Delivery rate</AutoText></dt>
+                      <dt className="text-xs text-muted-foreground">
+                        <AutoText>Delivery rate</AutoText>
+                      </dt>
                       <dd className="font-semibold text-foreground tabular-nums">
                         {finished > 0 ? formatPercent(provider.delivered / finished) : '—'}
                       </dd>
@@ -261,7 +275,9 @@ export function CourierOverviewView({
                     </p>
                   ) : null}
                   {detail?.blockedReason ? (
-                    <p className="text-xs text-muted-foreground"><AutoText value={detail.blockedReason} /></p>
+                    <p className="text-xs text-muted-foreground">
+                      <AutoText value={detail.blockedReason} />
+                    </p>
                   ) : null}
                 </li>
               );

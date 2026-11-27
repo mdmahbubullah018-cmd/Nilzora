@@ -872,7 +872,8 @@ export function CommunicationCenter({
           'h-[calc(100dvh-20.5rem)] min-h-80 lg:h-auto lg:min-h-0',
           !mobileThread && 'hidden lg:flex',
         )}
-      >````````
+      >
+        ````````
         {activeId === null ? (
           <div className="grid flex-1 place-items-center p-8 text-center">
             <div className="grid max-w-sm justify-items-center gap-4">

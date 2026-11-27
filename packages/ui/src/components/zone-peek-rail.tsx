@@ -38,8 +38,7 @@ export interface ZonePeekItem {
  * the next banner (2.25rem on a phone, 4rem from `lg`) so the peek still says "there are more".
  * A single collection takes the full row.
  */
-const BANNER =
-  'w-[calc(100%_-_2.25rem_-_0.75rem)] sm:w-[calc(100%_-_2.75rem_-_1rem)]';
+const BANNER = 'w-[calc(100%_-_2.25rem_-_0.75rem)] sm:w-[calc(100%_-_2.75rem_-_1rem)]';
 /** From `lg` the banners sit two to a row (one gap between them), with no peek. */
 const BANNER_DESKTOP = 'lg:w-[calc((100%_-_1.25rem)/2)]';
 

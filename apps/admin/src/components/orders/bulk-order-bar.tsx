@@ -121,7 +121,7 @@ export function BulkOrderBar({ permissions, csrf }: BulkOrderBarProps) {
       {selected.length > 0 ? (
         <div className="nz-fade-in sticky bottom-3 z-30 sm:bottom-4">
           <section
-            aria-label={tx("Bulk actions")}
+            aria-label={tx('Bulk actions')}
             className="nz-glass nz-bulk-bar grid gap-3 rounded-2xl border px-4 py-3 shadow-glass-lg sm:px-5"
           >
             <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
@@ -155,12 +155,14 @@ export function BulkOrderBar({ permissions, csrf }: BulkOrderBarProps) {
                       setAnnouncement('Selection cleared.');
                     }}
                   >
-                    <X aria-hidden="true" /><AutoText>Clear selection</AutoText></Button>
+                    <X aria-hidden="true" />
+                    <AutoText>Clear selection</AutoText>
+                  </Button>
                 </span>
               </div>
               <div
                 role="group"
-                aria-label={tx("Actions for the selected orders")}
+                aria-label={tx('Actions for the selected orders')}
                 className="flex flex-wrap items-center gap-2"
               >
                 {canChangeStatus ? (
@@ -169,7 +171,9 @@ export function BulkOrderBar({ permissions, csrf }: BulkOrderBarProps) {
                     className={BULK_ACTION_CLASS}
                     onClick={(event) => openDialog(event, { kind: 'status', selection: selected })}
                   >
-                    <ListChecks aria-hidden="true" /><AutoText>Change status</AutoText></Button>
+                    <ListChecks aria-hidden="true" />
+                    <AutoText>Change status</AutoText>
+                  </Button>
                 ) : null}
                 {canBook ? (
                   <Button
@@ -178,7 +182,9 @@ export function BulkOrderBar({ permissions, csrf }: BulkOrderBarProps) {
                     className={BULK_ACTION_CLASS}
                     onClick={(event) => openDialog(event, { kind: 'courier', selection: selected })}
                   >
-                    <Truck aria-hidden="true" /><AutoText>Prepare courier booking</AutoText></Button>
+                    <Truck aria-hidden="true" />
+                    <AutoText>Prepare courier booking</AutoText>
+                  </Button>
                 ) : null}
                 {canExport ? (
                   <Button
@@ -317,14 +323,16 @@ export function SelectedTray({
       </button>
       <div id={listId} hidden={!open} className="max-h-56 overflow-y-auto">
         {state.kind === 'loading' || state.kind === 'idle' ? (
-          <p role="status" className="text-sm text-muted-foreground"><AutoText>Loading the selected orders…</AutoText></p>
+          <p role="status" className="text-sm text-muted-foreground">
+            <AutoText>Loading the selected orders…</AutoText>
+          </p>
         ) : state.kind === 'failed' ? (
           <p role="alert" className="text-sm text-danger-ink">
             {state.message}
           </p>
         ) : (
           <div className="grid gap-2">
-            <ul aria-label={tx("Selected orders on other pages")} className="grid gap-1">
+            <ul aria-label={tx('Selected orders on other pages')} className="grid gap-1">
               {state.orders
                 .filter((order) => orderNumbers.includes(order.orderNumber))
                 .map((order) => (
@@ -351,17 +359,21 @@ export function SelectedTray({
                       className="ml-auto h-8"
                       aria-label={`Remove ${order.orderNumber} from the selection`}
                       onClick={() => selection?.deselectMany([order.orderNumber])}
-                    ><AutoText>Remove</AutoText></Button>
+                    >
+                      <AutoText>Remove</AutoText>
+                    </Button>
                   </li>
                 ))}
             </ul>
             {state.missing.length > 0 ? (
               <div className="grid gap-1 rounded-lg border border-warning-line bg-warning-soft/40 px-3 py-2 text-sm">
                 <p className="font-medium text-warning-ink">
-                  <CountText count={state.missing.length} one="selected order" /> could not be found, or{' '}
-                  {state.missing.length === 1 ? 'is' : 'are'} not visible to your account:
+                  <CountText count={state.missing.length} one="selected order" /> could not be
+                  found, or {state.missing.length === 1 ? 'is' : 'are'} not visible to your account:
                 </p>
-                <p className="font-mono text-xs text-foreground"><AutoText value={state.missing.join(', ')} /></p>
+                <p className="font-mono text-xs text-foreground">
+                  <AutoText value={state.missing.join(', ')} />
+                </p>
                 <Button
                   variant="outline"
                   size="sm"

@@ -117,24 +117,26 @@ export function SlugField({
       {(control) => (
         <div className="grid gap-1.5">
           <Input
-              {...control}
-              aria-describedby={[control['aria-describedby'], status ? statusId : undefined]
+            {...control}
+            aria-describedby={
+              [control['aria-describedby'], status ? statusId : undefined]
                 .filter(Boolean)
-                .join(' ') || undefined}
-              form={form}
-              name={name}
-              value={value}
-              maxLength={maxLength}
-              autoCapitalize="none"
-              autoComplete="off"
-              spellCheck={false}
-              onChange={(event) => {
-                const next = event.currentTarget.value;
-                setTyped(next);
-                setManual(next !== '');
-              }}
-              className="font-mono max-sm:h-11"
-            />
+                .join(' ') || undefined
+            }
+            form={form}
+            name={name}
+            value={value}
+            maxLength={maxLength}
+            autoCapitalize="none"
+            autoComplete="off"
+            spellCheck={false}
+            onChange={(event) => {
+              const next = event.currentTarget.value;
+              setTyped(next);
+              setManual(next !== '');
+            }}
+            className="font-mono max-sm:h-11"
+          />
           <SlugStatus id={statusId} status={status} onUse={use} />
         </div>
       )}
@@ -160,25 +162,33 @@ function SlugStatus({
     case 'checking':
       content = (
         <span className="flex items-center gap-1.5 text-muted-foreground">
-          <Spinner label="" className="[&_svg]:size-3.5" /><AutoText>Checking the address…</AutoText></span>
+          <Spinner label="" className="[&_svg]:size-3.5" />
+          <AutoText>Checking the address…</AutoText>
+        </span>
       );
       break;
     case 'current':
       content = (
         <span className="flex items-center gap-1.5 text-muted-foreground">
-          <Link2 aria-hidden="true" className="size-3.5" strokeWidth={1.75} /><AutoText>The current address</AutoText></span>
+          <Link2 aria-hidden="true" className="size-3.5" strokeWidth={1.75} />
+          <AutoText>The current address</AutoText>
+        </span>
       );
       break;
     case 'available':
       content = (
         <span className="flex items-center gap-1.5 font-medium text-success-ink">
-          <CircleCheck aria-hidden="true" className="size-3.5" strokeWidth={1.75} /><AutoText>Available</AutoText></span>
+          <CircleCheck aria-hidden="true" className="size-3.5" strokeWidth={1.75} />
+          <AutoText>Available</AutoText>
+        </span>
       );
       break;
     case 'invalid':
       content = (
         <span className="flex items-center gap-1.5 font-medium text-danger-ink">
-          <CircleAlert aria-hidden="true" className="size-3.5" strokeWidth={1.75} /><AutoText>Not a valid address</AutoText></span>
+          <CircleAlert aria-hidden="true" className="size-3.5" strokeWidth={1.75} />
+          <AutoText>Not a valid address</AutoText>
+        </span>
       );
       break;
     case 'taken':
@@ -191,7 +201,9 @@ function SlugStatus({
             {status.suggestion ? (
               <>
                 {' — try '}
-                <span className="font-mono"><AutoText value={status.suggestion} /></span>
+                <span className="font-mono">
+                  <AutoText value={status.suggestion} />
+                </span>
               </>
             ) : null}
           </span>

@@ -21,7 +21,11 @@ const api = vi.hoisted(() => ({
 
 vi.mock('@/lib/access', () => ({
   workspaceGate: () =>
-    Promise.resolve({ access: 'allowed', user: gate.user, csrf: { name: 'csrf_token', token: 't' } }),
+    Promise.resolve({
+      access: 'allowed',
+      user: gate.user,
+      csrf: { name: 'csrf_token', token: 't' },
+    }),
 }));
 vi.mock('@/lib/session', () => ({
   session: {
@@ -115,13 +119,16 @@ describe('reports page: access', () => {
   });
 
   it('lists only the reports an account holds the permission for', async () => {
-    gate.user = testUser('staff', { permissions: ['admin_workspace.access', 'orders.read', 'customers.read'] });
+    gate.user = testUser('staff', {
+      permissions: ['admin_workspace.access', 'orders.read', 'customers.read'],
+    });
     await show({ kind: 'audit_logs' }); // not permitted: falls back to a permitted one
     const nav = screen.getByRole('navigation', { name: 'Reports' });
-    expect(within(nav).getAllByRole('link').map((link) => link.textContent)).toEqual([
-      'Orders',
-      'New customers',
-    ]);
+    expect(
+      within(nav)
+        .getAllByRole('link')
+        .map((link) => link.textContent),
+    ).toEqual(['Orders', 'New customers']);
     expect(api.adminReportPreview.mock.calls[0]?.[1]).toBe('orders');
   });
 
@@ -141,8 +148,18 @@ describe('reports page: access', () => {
 
 describe('reports page: the report', () => {
   it('previews the chosen report with its filters, and drops filters it does not accept', async () => {
-    await show({ kind: 'orders', status: 'delivered', paymentStatus: 'pending', q: 'NZ1', brandId: '0f8fad5b-d9cb-469f-a165-70867728950e' });
-    const [, kind, query] = api.adminReportPreview.mock.calls[0] as [string, string, Record<string, string>];
+    await show({
+      kind: 'orders',
+      status: 'delivered',
+      paymentStatus: 'pending',
+      q: 'NZ1',
+      brandId: '0f8fad5b-d9cb-469f-a165-70867728950e',
+    });
+    const [, kind, query] = api.adminReportPreview.mock.calls[0] as [
+      string,
+      string,
+      Record<string, string>,
+    ];
     expect(kind).toBe('orders');
     expect(query).toMatchObject({ status: 'delivered', paymentStatus: 'pending', q: 'NZ1' });
     expect(query).not.toHaveProperty('brandId');
@@ -194,7 +211,13 @@ describe('reports page: the report', () => {
 
 describe('reports page: downloads', () => {
   it('offers CSV, Excel and PDF downloads of exactly the rows shown', async () => {
-    await show({ kind: 'orders', status: 'delivered', range: 'custom', from: '2026-10-01', to: '2026-10-31' });
+    await show({
+      kind: 'orders',
+      status: 'delivered',
+      range: 'custom',
+      from: '2026-10-01',
+      to: '2026-10-31',
+    });
     const section = screen.getByRole('region', { name: 'Download this report' });
     const hrefs = within(section)
       .getAllByRole('link')
@@ -227,16 +250,33 @@ describe('reports page: your exports', () => {
     api.adminListExports.mockResolvedValue({
       jobs: [
         job(),
-        job({ id: '1f8fad5b-d9cb-469f-a165-70867728950e', status: 'running', progress: 40, rowCount: null, fileBytes: null }),
-        job({ id: '2f8fad5b-d9cb-469f-a165-70867728950e', status: 'failed', error: 'The export could not be prepared.', fileBytes: null }),
+        job({
+          id: '1f8fad5b-d9cb-469f-a165-70867728950e',
+          status: 'running',
+          progress: 40,
+          rowCount: null,
+          fileBytes: null,
+        }),
+        job({
+          id: '2f8fad5b-d9cb-469f-a165-70867728950e',
+          status: 'failed',
+          error: 'The export could not be prepared.',
+          fileBytes: null,
+        }),
       ],
     });
     await show({ kind: 'orders' });
     const exports = screen.getByRole('region', { name: 'Your exports' });
     const links = within(exports).getAllByRole('link', { name: /Download/ });
     expect(links).toHaveLength(1);
-    expect(links[0]?.getAttribute('href')).toBe('/api/exports/0f8fad5b-d9cb-469f-a165-70867728950e');
-    expect(within(exports).getByRole('progressbar', { name: 'Export progress' }).getAttribute('aria-valuenow')).toBe('40');
+    expect(links[0]?.getAttribute('href')).toBe(
+      '/api/exports/0f8fad5b-d9cb-469f-a165-70867728950e',
+    );
+    expect(
+      within(exports)
+        .getByRole('progressbar', { name: 'Export progress' })
+        .getAttribute('aria-valuenow'),
+    ).toBe('40');
     expect(within(exports).getByText('The export could not be prepared.')).toBeTruthy();
     expect(within(exports).getByText('Ready')).toBeTruthy();
   });

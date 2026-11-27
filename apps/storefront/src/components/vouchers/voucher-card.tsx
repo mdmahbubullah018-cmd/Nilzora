@@ -57,7 +57,9 @@ export function VoucherCard({
       )}
     >
       <div className="relative flex w-24 shrink-0 flex-col items-center justify-center gap-1.5 bg-linear-to-br from-brand-sky via-primary to-primary-action-hover px-2 text-center text-white sm:w-32">
-        <span className="text-[10px] font-semibold tracking-[0.18em] uppercase opacity-90">Voucher</span>
+        <span className="text-[10px] font-semibold tracking-[0.18em] uppercase opacity-90">
+          Voucher
+        </span>
         {voucher.kind === 'free_delivery' ? (
           <>
             <Truck aria-hidden="true" className="size-7" />
@@ -74,22 +76,35 @@ export function VoucherCard({
           </>
         )}
         {/* The perforation: two notches and a dashed edge. */}
-        <span aria-hidden="true" className="absolute -top-2.5 -right-2.5 size-5 rounded-full bg-background" />
-        <span aria-hidden="true" className="absolute -right-2.5 -bottom-2.5 size-5 rounded-full bg-background" />
-        <span aria-hidden="true" className="absolute inset-y-3 right-0 border-r-2 border-dashed border-white/45" />
+        <span
+          aria-hidden="true"
+          className="absolute -top-2.5 -right-2.5 size-5 rounded-full bg-background"
+        />
+        <span
+          aria-hidden="true"
+          className="absolute -right-2.5 -bottom-2.5 size-5 rounded-full bg-background"
+        />
+        <span
+          aria-hidden="true"
+          className="absolute inset-y-3 right-0 border-r-2 border-dashed border-white/45"
+        />
       </div>
 
       <div className="flex min-w-0 flex-1 flex-col justify-between gap-2.5 p-3.5 sm:p-4">
         <div className="grid gap-1">
           <div className="flex items-start justify-between gap-2">
-            <h3 className="line-clamp-2 text-[15px] leading-snug font-semibold text-foreground">{voucher.title}</h3>
+            <h3 className="line-clamp-2 text-[15px] leading-snug font-semibold text-foreground">
+              {voucher.title}
+            </h3>
             {STATE_LABEL[voucher.state] ? (
               <span className="shrink-0 rounded-full bg-surface-muted px-2 py-0.5 text-[11px] font-semibold text-muted-foreground ring-1 ring-border/70">
                 {STATE_LABEL[voucher.state]}
               </span>
             ) : null}
           </div>
-          <p className="text-[13px] leading-relaxed text-muted-foreground">{voucherConditions(voucher)}</p>
+          <p className="text-[13px] leading-relaxed text-muted-foreground">
+            {voucherConditions(voucher)}
+          </p>
           <p className="flex items-center gap-1.5 text-xs text-muted-foreground">
             <ShoppingBag aria-hidden="true" className="size-3.5 shrink-0" />
             <span className="truncate">{voucherEligibility(voucher)}</span>

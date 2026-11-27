@@ -99,17 +99,25 @@ export function RadialProgress({
             {text}
           </span>
           {known && centerLabel ? (
-            <span className="text-[11px] leading-tight text-muted-foreground"><AutoText value={centerLabel} /></span>
+            <span className="text-[11px] leading-tight text-muted-foreground">
+              <AutoText value={centerLabel} />
+            </span>
           ) : null}
         </div>
       </div>
       <figcaption className="grid gap-0.5">
-        <span className="text-sm font-medium text-foreground"><AutoText value={label} /></span>
+        <span className="text-sm font-medium text-foreground">
+          <AutoText value={label} />
+        </span>
         {known && targetLabel ? (
-          <span className="text-xs text-muted-foreground"><AutoText value={targetLabel} /></span>
+          <span className="text-xs text-muted-foreground">
+            <AutoText value={targetLabel} />
+          </span>
         ) : null}
         {!known && emptyReason ? (
-          <span className="text-xs text-muted-foreground"><AutoText value={emptyReason} /></span>
+          <span className="text-xs text-muted-foreground">
+            <AutoText value={emptyReason} />
+          </span>
         ) : null}
       </figcaption>
     </figure>

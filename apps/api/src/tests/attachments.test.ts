@@ -295,7 +295,10 @@ describe('GET /api/v1/me', () => {
       forUsers: (ids) =>
         Promise.resolve(
           new Map(
-            ids.map((id) => [id, { customKey: null, googleUrl: 'https://lh3.googleusercontent.com/a/x' }]),
+            ids.map((id) => [
+              id,
+              { customKey: null, googleUrl: 'https://lh3.googleusercontent.com/a/x' },
+            ]),
           ),
         ),
     };

@@ -232,15 +232,21 @@ const MODE_NAMES: Record<SidebarMode, string> = {
 /** The icon that stands for a mode, drawn by the rail's summary row. */
 export function SidebarModeIcon({ mode }: { mode: SidebarMode | null }) {
   if (mode === 'collapsed') {
-    return <PanelLeftClose aria-hidden="true" className="size-[1.15rem] shrink-0" strokeWidth={1.75} />;
+    return (
+      <PanelLeftClose aria-hidden="true" className="size-[1.15rem] shrink-0" strokeWidth={1.75} />
+    );
   }
   if (mode === 'hover') {
-    return <ChevronsRight aria-hidden="true" className="size-[1.15rem] shrink-0" strokeWidth={1.75} />;
+    return (
+      <ChevronsRight aria-hidden="true" className="size-[1.15rem] shrink-0" strokeWidth={1.75} />
+    );
   }
   if (mode === 'auto') {
     return <Wand2 aria-hidden="true" className="size-[1.15rem] shrink-0" strokeWidth={1.75} />;
   }
-  return <PanelLeftOpen aria-hidden="true" className="size-[1.15rem] shrink-0" strokeWidth={1.75} />;
+  return (
+    <PanelLeftOpen aria-hidden="true" className="size-[1.15rem] shrink-0" strokeWidth={1.75} />
+  );
 }
 
 export interface SidebarToggleProps {

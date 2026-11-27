@@ -116,9 +116,7 @@ export function PendingAttachmentCard({
               {file.name}
             </span>
             <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
-              {kind === 'audio' ? (
-                <Mic aria-hidden className="size-3" strokeWidth={1.75} />
-              ) : null}
+              {kind === 'audio' ? <Mic aria-hidden className="size-3" strokeWidth={1.75} /> : null}
               {formatBytes(file.size)}
               {kind === 'audio' && durationMs !== undefined && durationMs !== null
                 ? ` · ${durationLabel(durationMs)}`

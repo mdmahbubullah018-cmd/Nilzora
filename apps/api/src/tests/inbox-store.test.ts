@@ -39,7 +39,9 @@ function poolReturning(rows: Row[]) {
       if (sql.includes('pg_catalog.pg_proc')) return Promise.resolve({ rows: [{ retset: false }] });
       if (sql.includes('from public.my_staff_notifications')) return Promise.resolve({ rows });
       if (sql.includes('my_unread_notification_count')) {
-        return Promise.resolve({ rows: [{ value: rows.filter((row) => row.read_at === null).length }] });
+        return Promise.resolve({
+          rows: [{ value: rows.filter((row) => row.read_at === null).length }],
+        });
       }
       return Promise.resolve({ rows: [] });
     },
@@ -90,7 +92,12 @@ describe('the staff inbox store', () => {
   it('reads a chat notification instead of failing the whole page', async () => {
     const { pool } = poolReturning([chatRow, escalationRow, orderRow]);
 
-    const { notifications, total } = await createPostgresInboxStore(pool).list('token', USER, {}, page);
+    const { notifications, total } = await createPostgresInboxStore(pool).list(
+      'token',
+      USER,
+      {},
+      page,
+    );
 
     expect(total).toBe(2);
     expect(notifications).toHaveLength(3);
@@ -101,7 +108,10 @@ describe('the staff inbox store', () => {
       actionPath: '/admin/communication?conversation=2e186311-5cbc-485c-a188-1705b09dfc8d',
       readAt: null,
     });
-    expect(notifications[1]).toMatchObject({ kind: 'chat_escalation', readAt: '2026-11-10T14:00:00.000Z' });
+    expect(notifications[1]).toMatchObject({
+      kind: 'chat_escalation',
+      readAt: '2026-11-10T14:00:00.000Z',
+    });
     expect(notifications[2]).toMatchObject({ kind: 'order_new', entityType: 'order', body: null });
   });
 
@@ -110,9 +120,9 @@ describe('the staff inbox store', () => {
     // something to pass through to the browsers.
     const { pool } = poolReturning([{ ...orderRow, kind: 'something_new' }]);
 
-    await expect(createPostgresInboxStore(pool).list('token', USER, {}, page)).rejects.toBeInstanceOf(
-      ZodError,
-    );
+    await expect(
+      createPostgresInboxStore(pool).list('token', USER, {}, page),
+    ).rejects.toBeInstanceOf(ZodError);
   });
 
   it('counts the unread rows it was given', async () => {

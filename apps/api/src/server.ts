@@ -516,7 +516,8 @@ function start(): void {
           provider: config.imageSearch.provider,
           indexer: imageSearchIndexer,
         };
-  const merchandising = merchandisingRouter({    ...auth,
+  const merchandising = merchandisingRouter({
+    ...auth,
     store: database
       ? createPostgresMerchandisingStore(database, { mediaBaseUrl, cache: catalogCache })
       : createSupabaseMerchandisingStore(supabase, { mediaBaseUrl, cache: catalogCache }),

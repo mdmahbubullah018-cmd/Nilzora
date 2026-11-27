@@ -19,7 +19,8 @@ import { Router, type Response } from 'express';
 import { z } from 'zod';
 import type { RequestIdentity } from '../../auth/identity';
 import { customAvatarPicture } from '../users/avatar-directory';
-import { sendError } from '../../http/send-error';import {
+import { sendError } from '../../http/send-error';
+import {
   currentIdentity,
   requireAnyPermission,
   requirePermission,

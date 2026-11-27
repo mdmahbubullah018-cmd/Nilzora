@@ -153,6 +153,7 @@ export function useWishlist(): WishlistHandle {
  */
 export function useWishlistStore(): WishlistStore {
   const store = useContext(WishlistContext);
-  if (store === undefined) throw new Error('useWishlistStore() must be used inside <WishlistProvider>');
+  if (store === undefined)
+    throw new Error('useWishlistStore() must be used inside <WishlistProvider>');
   return store;
 }

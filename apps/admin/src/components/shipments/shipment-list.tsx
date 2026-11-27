@@ -182,19 +182,33 @@ export function ShipmentListView({
       <DataTable caption="Shipments" dense>
         <TableHeader>
           <TableRow className="hover:bg-transparent">
-            <TableHead><AutoText>Shipment</AutoText></TableHead>
-            <TableHead><AutoText>Order</AutoText></TableHead>
-            <SortableHead column="courier" sort={sort} hrefFor={sortHref}><AutoText>Courier</AutoText></SortableHead>
-            <SortableHead column="status" sort={sort} hrefFor={sortHref}><AutoText>Status</AutoText></SortableHead>
-            <TableHead><AutoText>Consignment</AutoText></TableHead>
+            <TableHead>
+              <AutoText>Shipment</AutoText>
+            </TableHead>
+            <TableHead>
+              <AutoText>Order</AutoText>
+            </TableHead>
+            <SortableHead column="courier" sort={sort} hrefFor={sortHref}>
+              <AutoText>Courier</AutoText>
+            </SortableHead>
+            <SortableHead column="status" sort={sort} hrefFor={sortHref}>
+              <AutoText>Status</AutoText>
+            </SortableHead>
+            <TableHead>
+              <AutoText>Consignment</AutoText>
+            </TableHead>
             <SortableHead
               column="cod"
               sort={sort}
               hrefFor={sortHref}
               align="right"
               firstDirection="desc"
-            ><AutoText>COD</AutoText></SortableHead>
-            <SortableHead column="updated" sort={sort} hrefFor={sortHref} firstDirection="desc"><AutoText>Last update</AutoText></SortableHead>
+            >
+              <AutoText>COD</AutoText>
+            </SortableHead>
+            <SortableHead column="updated" sort={sort} hrefFor={sortHref} firstDirection="desc">
+              <AutoText>Last update</AutoText>
+            </SortableHead>
           </TableRow>
         </TableHeader>
         {shipments.length > 0 ? (
@@ -229,7 +243,9 @@ export function ShipmentListView({
                         {shipment.orderNumber}
                       </Link>
                     ) : (
-                      <span className="font-mono text-xs"><AutoText value={shipment.orderNumber} /></span>
+                      <span className="font-mono text-xs">
+                        <AutoText value={shipment.orderNumber} />
+                      </span>
                     )}
                   </TableCell>
                   <TableCell>{shipment.providerName || providerName(shipment.provider)}</TableCell>

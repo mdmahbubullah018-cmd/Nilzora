@@ -142,7 +142,10 @@ export function createSupabaseMediaKeyReferences(clients: SupabaseClients): Medi
     // One small read each decides whether the brand-banner and category-banner migrations ran.
     const missing = new Set<string>();
     for (const table of ['brands', 'categories']) {
-      const probe = await clients.admin.from(table as 'brands' | 'categories').select('banner_key').limit(1);
+      const probe = await clients.admin
+        .from(table as 'brands' | 'categories')
+        .select('banner_key')
+        .limit(1);
       if (probe.error === null) continue;
       if (probe.error.code !== '42703' && probe.error.code !== 'PGRST204') return null;
       missing.add(`${table}.banner_key`);

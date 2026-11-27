@@ -171,15 +171,23 @@ describe('product tags and size charts', () => {
     expect(
       sizeChartInputSchema.safeParse({ ...picture, columns: ['Size'], rows: [['M']] }).success,
     ).toBe(false);
-    expect(sizeChartInputSchema.safeParse({ ...picture, imageKey: 'https://x.test/a.png' }).success).toBe(false);
+    expect(
+      sizeChartInputSchema.safeParse({ ...picture, imageKey: 'https://x.test/a.png' }).success,
+    ).toBe(false);
     // A table chart cannot carry a picture.
     expect(
-      sizeChartInputSchema.safeParse({ columns: ['Size'], rows: [['M']], imageKey: 'library/abc' }).success,
+      sizeChartInputSchema.safeParse({ columns: ['Size'], rows: [['M']], imageKey: 'library/abc' })
+        .success,
     ).toBe(false);
   });
 
   it('numeric, shoe and custom sizes are just entries: nothing assumes S, M, L, XL', () => {
-    for (const sizes of [['28', '30', '32'], ['38', '39', '40', '41', '42', '43'], ['One Size'], ['Free']]) {
+    for (const sizes of [
+      ['28', '30', '32'],
+      ['38', '39', '40', '41', '42', '43'],
+      ['One Size'],
+      ['Free'],
+    ]) {
       const chart = {
         columns: ['Size', 'Length'],
         rows: sizes.map((size) => [size, '25']),

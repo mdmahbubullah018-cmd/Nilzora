@@ -84,7 +84,7 @@ function withTimeout<T>(promise: Promise<T>, ms: number): Promise<T> {
 }
 
 const KIND_LABEL = {
-  invalid: "That photo could not be read. Try another one.",
+  invalid: 'That photo could not be read. Try another one.',
   camera_unavailable: 'This browser cannot open the camera here. Choose a photo instead.',
   camera_slow: 'The camera did not start. Allow it when the browser asks, or choose a photo.',
   camera_denied: 'Camera access was blocked. Allow it in your browser settings, or choose a photo.',
@@ -144,7 +144,9 @@ export function VisualSearch({
   const [result, setResult] = useState<ImageSearchResponse | null>(null);
   const [thumbnail, setThumbnail] = useState<string | null>(initialThumbnail ?? null);
   const [source, setSource] = useState<{ productId?: string; imageId?: string } | null>(
-    initialProductId === undefined ? null : { productId: initialProductId, imageId: initialImageId },
+    initialProductId === undefined
+      ? null
+      : { productId: initialProductId, imageId: initialImageId },
   );
   const [error, setError] = useState<string | null>(null);
   const [retryable, setRetryable] = useState(false);
@@ -195,7 +197,11 @@ export function VisualSearch({
 
   /** Runs the search (or the similar search) and moves to the results phase. */
   const run = useCallback(
-    async (input: { blob?: Blob; productId?: string; imageId?: string }, nextSort = sort, nextPage = 1) => {
+    async (
+      input: { blob?: Blob; productId?: string; imageId?: string },
+      nextSort = sort,
+      nextPage = 1,
+    ) => {
       setPhase('searching');
       setError(null);
       setPage(nextPage);
@@ -203,7 +209,11 @@ export function VisualSearch({
         fail('offline');
         return;
       }
-      const params = new URLSearchParams({ sort: nextSort, page: String(nextPage), pageSize: String(PAGE_SIZE) });
+      const params = new URLSearchParams({
+        sort: nextSort,
+        page: String(nextPage),
+        pageSize: String(PAGE_SIZE),
+      });
       try {
         const response =
           input.blob !== undefined
@@ -214,7 +224,10 @@ export function VisualSearch({
             : await fetch(`/api/visual-search/similar?${params}`, {
                 method: 'POST',
                 headers: { 'content-type': 'application/json' },
-                body: JSON.stringify({ productId: input.productId, imageId: input.imageId ?? null }),
+                body: JSON.stringify({
+                  productId: input.productId,
+                  imageId: input.imageId ?? null,
+                }),
               });
         if (!response.ok) {
           const body = (await response.json().catch(() => ({}))) as {
@@ -223,7 +236,11 @@ export function VisualSearch({
           };
           const retryAfter = Number(response.headers.get('Retry-After') ?? '');
           setError(
-            messageFor(response.status, body.error, Number.isFinite(retryAfter) && retryAfter > 0 ? Math.ceil(retryAfter) : null),
+            messageFor(
+              response.status,
+              body.error,
+              Number.isFinite(retryAfter) && retryAfter > 0 ? Math.ceil(retryAfter) : null,
+            ),
           );
           setRetryable(response.status !== 400 && response.status !== 413);
           setPhase('choose');
@@ -236,7 +253,10 @@ export function VisualSearch({
         setSource(
           input.productId === undefined
             ? null
-            : { productId: input.productId, ...(input.imageId === undefined ? {} : { imageId: input.imageId }) },
+            : {
+                productId: input.productId,
+                ...(input.imageId === undefined ? {} : { imageId: input.imageId }),
+              },
         );
         setPhase('results');
       } catch {
@@ -373,7 +393,6 @@ export function VisualSearch({
       scanTimer.current = null;
     };
   }, [mode, phase, scanFrame]);
-
 
   const capture = useCallback(async () => {
     const video = videoRef.current;
@@ -535,7 +554,12 @@ export function VisualSearch({
       {phase === 'camera' ? (
         <section className="grid gap-3 overflow-hidden rounded-3xl border border-border bg-brand-navy p-3 sm:p-4">
           <div className="flex gap-2">
-            <ModeTab active={mode === 'scan'} onClick={() => setMode('scan')} icon={QrCode} disabled={!scanSupported}>
+            <ModeTab
+              active={mode === 'scan'}
+              onClick={() => setMode('scan')}
+              icon={QrCode}
+              disabled={!scanSupported}
+            >
               Scan
             </ModeTab>
             <ModeTab active={mode === 'photo'} onClick={() => setMode('photo')} icon={Camera}>
@@ -550,7 +574,10 @@ export function VisualSearch({
               aria-label="Camera preview"
               className="aspect-square w-full object-cover"
             />
-            <div aria-hidden="true" className="pointer-events-none absolute inset-0 grid place-items-center">
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute inset-0 grid place-items-center"
+            >
               <div className="relative size-2/3">
                 <span className="absolute top-0 left-0 size-7 rounded-tl-xl border-t-[3px] border-l-[3px] border-white/90" />
                 <span className="absolute top-0 right-0 size-7 rounded-tr-xl border-t-[3px] border-r-[3px] border-white/90" />
@@ -805,8 +832,8 @@ function CropStep({
       <div className="grid gap-1">
         <h2 className="text-base font-semibold">Crop to the product</h2>
         <p className="text-sm text-muted-foreground">
-          Drag the frame over the product, and zoom in until it fills it. A closer crop finds
-          better matches.
+          Drag the frame over the product, and zoom in until it fills it. A closer crop finds better
+          matches.
         </p>
       </div>
       <div
@@ -877,7 +904,11 @@ function CropStep({
           Reset
         </button>
         <div className="flex gap-2">
-          <button type="button" onClick={onCancel} className={cn(buttonClasses({ variant: 'secondary', size: 'md' }))}>
+          <button
+            type="button"
+            onClick={onCancel}
+            className={cn(buttonClasses({ variant: 'secondary', size: 'md' }))}
+          >
             Back
           </button>
           <button
@@ -887,7 +918,10 @@ function CropStep({
             className={cn(buttonClasses({ variant: 'primary', size: 'md' }))}
           >
             {busy ? (
-              <Loader2 aria-hidden="true" className="size-4 animate-spin motion-reduce:animate-none" />
+              <Loader2
+                aria-hidden="true"
+                className="size-4 animate-spin motion-reduce:animate-none"
+              />
             ) : (
               <Search aria-hidden="true" className="size-4" />
             )}
@@ -955,7 +989,12 @@ function Results({
             type="button"
             onClick={() => onSort('best_match')}
             aria-pressed={sort === 'best_match'}
-            className={cn(buttonClasses({ variant: sort === 'best_match' ? 'primary' : 'secondary', size: 'sm' }))}
+            className={cn(
+              buttonClasses({
+                variant: sort === 'best_match' ? 'primary' : 'secondary',
+                size: 'sm',
+              }),
+            )}
           >
             <Sparkles aria-hidden="true" className="size-4" /> Best match
           </button>
@@ -963,7 +1002,12 @@ function Results({
             type="button"
             onClick={() => onSort(priceAscending ? 'price_desc' : 'price_asc')}
             aria-pressed={sort !== 'best_match'}
-            className={cn(buttonClasses({ variant: sort !== 'best_match' ? 'primary' : 'secondary', size: 'sm' }))}
+            className={cn(
+              buttonClasses({
+                variant: sort !== 'best_match' ? 'primary' : 'secondary',
+                size: 'sm',
+              }),
+            )}
           >
             {priceAscending ? (
               <ArrowUpWideNarrow aria-hidden="true" className="size-4" />
@@ -991,7 +1035,10 @@ function Results({
           <div className="flex flex-wrap justify-center gap-2">
             {seeded ? (
               <>
-                <Link href="/search" className={cn(buttonClasses({ variant: 'primary', size: 'md' }))}>
+                <Link
+                  href="/search"
+                  className={cn(buttonClasses({ variant: 'primary', size: 'md' }))}
+                >
                   Browse all products
                 </Link>
                 <button
@@ -1034,7 +1081,10 @@ function Results({
             type="button"
             disabled={result.page <= 1}
             onClick={() => onPage(result.page - 1)}
-            className={cn(buttonClasses({ variant: 'secondary', size: 'sm' }), result.page <= 1 && 'opacity-50')}
+            className={cn(
+              buttonClasses({ variant: 'secondary', size: 'sm' }),
+              result.page <= 1 && 'opacity-50',
+            )}
           >
             Previous
           </button>

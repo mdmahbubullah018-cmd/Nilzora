@@ -38,7 +38,9 @@ function CategoryPromotion({
         <span className="sr-only"> for {category.name}</span>
       </Link>
     ) : (
-      <span className="text-sm text-muted-foreground"><AutoText>None</AutoText></span>
+      <span className="text-sm text-muted-foreground">
+        <AutoText>None</AutoText>
+      </span>
     );
   }
   const value =
@@ -90,7 +92,9 @@ export function CategoryListView({
   const subcategories = categories.filter((category) => category.parentId !== null).length;
   const newCategory = canManage ? (
     <Link href="/admin/categories/new" className={buttonClasses({ className: TOUCH })}>
-      <Plus aria-hidden="true" strokeWidth={1.75} /><AutoText>New category</AutoText></Link>
+      <Plus aria-hidden="true" strokeWidth={1.75} />
+      <AutoText>New category</AutoText>
+    </Link>
   ) : null;
 
   return (
@@ -102,9 +106,17 @@ export function CategoryListView({
         meta={
           categories.length > 0 ? (
             <>
-              <span><CountText count={categories.length - subcategories} one="category" many="categories" /></span>
+              <span>
+                <CountText
+                  count={categories.length - subcategories}
+                  one="category"
+                  many="categories"
+                />
+              </span>
               {subcategories > 0 ? (
-                <span><CountText count={subcategories} one="subcategory" many="subcategories" /></span>
+                <span>
+                  <CountText count={subcategories} one="subcategory" many="subcategories" />
+                </span>
               ) : null}
               {hidden > 0 ? <span>{formatCount(hidden)} hidden</span> : null}
             </>
@@ -112,20 +124,34 @@ export function CategoryListView({
         }
         actions={newCategory}
       />
-      <SuccessNotice><AutoText value={notice} /></SuccessNotice>
+      <SuccessNotice>
+        <AutoText value={notice} />
+      </SuccessNotice>
 
       <GlassTable label="Category list">
         <DataTable caption="Categories" dense>
           <TableHeader>
             <TableRow className="hover:bg-transparent">
-              <TableHead><AutoText>Category</AutoText></TableHead>
-              <TableHead className="text-right"><AutoText>Products</AutoText></TableHead>
-              <TableHead className="text-right"><AutoText>Order</AutoText></TableHead>
-              <TableHead><AutoText>Storefront</AutoText></TableHead>
-              <TableHead><AutoText>Promotion</AutoText></TableHead>
+              <TableHead>
+                <AutoText>Category</AutoText>
+              </TableHead>
+              <TableHead className="text-right">
+                <AutoText>Products</AutoText>
+              </TableHead>
+              <TableHead className="text-right">
+                <AutoText>Order</AutoText>
+              </TableHead>
+              <TableHead>
+                <AutoText>Storefront</AutoText>
+              </TableHead>
+              <TableHead>
+                <AutoText>Promotion</AutoText>
+              </TableHead>
               {canManage ? (
                 <TableHead>
-                  <span className="sr-only"><AutoText>Actions</AutoText></span>
+                  <span className="sr-only">
+                    <AutoText>Actions</AutoText>
+                  </span>
                 </TableHead>
               ) : null}
             </TableRow>
@@ -202,7 +228,11 @@ export function CategoryListView({
                       )}
                       {row.childCount > 0 ? (
                         <span className="block text-xs font-normal text-muted-foreground">
-                          <CountText count={row.childCount} one="subcategory" many="subcategories" />
+                          <CountText
+                            count={row.childCount}
+                            one="subcategory"
+                            many="subcategories"
+                          />
                         </span>
                       ) : null}
                     </TableCell>
@@ -225,11 +255,19 @@ export function CategoryListView({
                     <TableCell>
                       <div className="flex flex-wrap gap-1.5">
                         {category.isActive ? (
-                          <Chip tone="success" dot><AutoText>Shown</AutoText></Chip>
+                          <Chip tone="success" dot>
+                            <AutoText>Shown</AutoText>
+                          </Chip>
                         ) : (
-                          <Chip tone="neutral" dot><AutoText>Hidden</AutoText></Chip>
+                          <Chip tone="neutral" dot>
+                            <AutoText>Hidden</AutoText>
+                          </Chip>
                         )}
-                        {category.isFeatured ? <Chip tone="violet"><AutoText>Featured</AutoText></Chip> : null}
+                        {category.isFeatured ? (
+                          <Chip tone="violet">
+                            <AutoText>Featured</AutoText>
+                          </Chip>
+                        ) : null}
                       </div>
                     </TableCell>
                     <TableCell>
@@ -250,7 +288,10 @@ export function CategoryListView({
                               className: TOUCH,
                             })}
                           >
-                            Edit <span className="sr-only"><AutoText value={category.name} /></span>
+                            Edit{' '}
+                            <span className="sr-only">
+                              <AutoText value={category.name} />
+                            </span>
                           </Link>
                           {depth + 1 < MAX_CATEGORY_DEPTH ? (
                             <Link
@@ -261,8 +302,7 @@ export function CategoryListView({
                                 className: TOUCH,
                               })}
                             >
-                              Add subcategory{' '}
-                              <span className="sr-only">to {category.name}</span>
+                              Add subcategory <span className="sr-only">to {category.name}</span>
                             </Link>
                           ) : null}
                           <CategoryVisibilityForm csrf={csrf} category={category} />

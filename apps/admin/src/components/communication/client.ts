@@ -26,7 +26,8 @@ export async function apiGet<T>(query: string): Promise<ApiResult<T>> {
   try {
     const response = await fetch(`/api/support${query}`, { cache: 'no-store' });
     // 204 has no body, which is a successful answer for the operations that use it.
-    const payload: unknown = response.status === 204 ? null : await response.json().catch(() => null);
+    const payload: unknown =
+      response.status === 204 ? null : await response.json().catch(() => null);
     if (!response.ok) return failure(response.status, payload);
     return { ok: true, value: payload as T };
   } catch {
@@ -42,7 +43,8 @@ export async function apiPost<T>(body: unknown): Promise<ApiResult<T>> {
       body: JSON.stringify(body),
       cache: 'no-store',
     });
-    const payload: unknown = response.status === 204 ? null : await response.json().catch(() => null);
+    const payload: unknown =
+      response.status === 204 ? null : await response.json().catch(() => null);
     if (!response.ok) return failure(response.status, payload);
     return { ok: true, value: payload as T };
   } catch {

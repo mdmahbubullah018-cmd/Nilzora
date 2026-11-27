@@ -48,7 +48,11 @@ export function MediaLibraryView({ list, filters, canManage, csrf }: MediaLibrar
         icon={Images}
         title="Media library"
         description="Pictures the store reuses outside the catalog: the store logo and sharing image, SEO images and onboarding slides. Choose one from the picker beside the store logo, sharing image, SEO or onboarding field, or copy its key into a field that takes one."
-        meta={<span><CountText count={list.total} one="picture" /></span>}
+        meta={
+          <span>
+            <CountText count={list.total} one="picture" />
+          </span>
+        }
       />
 
       {canManage ? (
@@ -71,7 +75,11 @@ export function MediaLibraryView({ list, filters, canManage, csrf }: MediaLibrar
           label="Search the media library"
           resetHref={filters.q ? MEDIA_PATH : undefined}
         >
-          <SearchFilter label="Search" defaultValue={filters.q} placeholder="Description or file name" />
+          <SearchFilter
+            label="Search"
+            defaultValue={filters.q}
+            placeholder="Description or file name"
+          />
         </FilterBar>
         {filters.q ? (
           <FilterChips
@@ -93,9 +101,15 @@ export function MediaLibraryView({ list, filters, canManage, csrf }: MediaLibrar
             className="py-14"
           />
         ) : (
-          <ul aria-label="Library pictures" className="nz-stagger grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+          <ul
+            aria-label="Library pictures"
+            className="nz-stagger grid gap-4 sm:grid-cols-2 xl:grid-cols-3"
+          >
             {list.assets.map((asset) => (
-              <li key={asset.id} className="grid content-start gap-3 rounded-2xl border border-hairline bg-panel p-3">
+              <li
+                key={asset.id}
+                className="grid content-start gap-3 rounded-2xl border border-hairline bg-panel p-3"
+              >
                 <div className="aspect-4/3 overflow-hidden rounded-xl bg-neutral-soft">
                   {/* eslint-disable-next-line @next/next/no-img-element -- served from the media origin, unknown at build time */}
                   <img
@@ -109,14 +123,19 @@ export function MediaLibraryView({ list, filters, canManage, csrf }: MediaLibrar
                   />
                 </div>
                 <div className="grid gap-0.5">
-                  <p className="truncate text-sm font-medium text-foreground" title={asset.originalName ?? undefined}>
+                  <p
+                    className="truncate text-sm font-medium text-foreground"
+                    title={asset.originalName ?? undefined}
+                  >
                     {asset.originalName ?? 'Untitled picture'}
                   </p>
                   <p className="text-xs text-muted-foreground tabular-nums">
                     {asset.width} × {asset.height} px · {formatBytes(asset.bytes)} · added{' '}
                     <DateTimeText value={asset.createdAt} />
                   </p>
-                  <p className="truncate font-mono text-[11px] text-muted-foreground"><AutoText value={asset.key} /></p>
+                  <p className="truncate font-mono text-[11px] text-muted-foreground">
+                    <AutoText value={asset.key} />
+                  </p>
                 </div>
                 {canManage ? (
                   <MediaAssetControls asset={asset} csrf={csrf} />

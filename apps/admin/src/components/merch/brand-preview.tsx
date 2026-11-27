@@ -46,7 +46,9 @@ export function BrandPreview({
           >
             Open in the store
             <ExternalLink aria-hidden="true" className="size-3.5" />
-            <span className="sr-only"><AutoText>(opens in a new tab)</AutoText></span>
+            <span className="sr-only">
+              <AutoText>(opens in a new tab)</AutoText>
+            </span>
           </a>
         ) : null}
       </div>
@@ -65,11 +67,7 @@ export function BrandPreview({
           <span className="flex aspect-square justify-center overflow-hidden rounded-xl bg-surface p-3 ring-1 ring-border/60">
             {brand.logo ? (
               // eslint-disable-next-line @next/next/no-img-element -- served from the media origin, unknown at build time
-              <img
-                src={brand.logo.thumbUrl}
-                alt=""
-                className="size-full object-contain"
-              />
+              <img src={brand.logo.thumbUrl} alt="" className="size-full object-contain" />
             ) : (
               <span className="grid size-full place-items-center font-display text-2xl font-semibold text-info-ink">
                 {brandInitials(brand.name)}
@@ -95,11 +93,15 @@ export function BrandPreview({
                 <BrandLogo brand={brand} className="size-full bg-transparent ring-0" />
               </span>
               <div className="grid min-w-0 gap-1">
-                <span className="text-[10px] font-semibold tracking-wider text-muted-foreground uppercase"><AutoText>Brand</AutoText></span>
+                <span className="text-[10px] font-semibold tracking-wider text-muted-foreground uppercase">
+                  <AutoText>Brand</AutoText>
+                </span>
                 <span className="font-display text-base font-semibold wrap-break-word text-foreground">
                   {brand.name}
                 </span>
-                <span className="text-xs text-muted-foreground"><CountText count={brand.productCount} one="product" /></span>
+                <span className="text-xs text-muted-foreground">
+                  <CountText count={brand.productCount} one="product" />
+                </span>
               </div>
             </div>
             {brand.banner ? (

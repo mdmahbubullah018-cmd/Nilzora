@@ -94,9 +94,7 @@ describe('customer cart calls', () => {
   });
 
   it('clears the signed-in cart and answers the emptied cart', async () => {
-    const { client, sent } = setup(() =>
-      jsonResponse({ cart: { ...cart.cart, lines: [] } }),
-    );
+    const { client, sent } = setup(() => jsonResponse({ cart: { ...cart.cart, lines: [] } }));
     const result = await client.clearMyCart(TOKEN);
 
     expect(sent().method).toBe('POST');

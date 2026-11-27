@@ -88,7 +88,9 @@ export function DataTable({
         className,
       )}
     >
-      <TableCaption className={showCaption ? undefined : 'sr-only'}><AutoText value={caption} /></TableCaption>
+      <TableCaption className={showCaption ? undefined : 'sr-only'}>
+        <AutoText value={caption} />
+      </TableCaption>
       {empty ? parts.filter((part) => part !== empty) : children}
     </Table>
   );
@@ -176,9 +178,19 @@ function EmptyContent({
           <Icon aria-hidden="true" className="size-6" strokeWidth={1.6} />
         </span>
       ) : null}
-      <p className="text-sm font-semibold text-foreground"><AutoText value={title} /></p>
-      {description ? <p className="text-sm text-muted-foreground"><AutoText value={description} /></p> : null}
-      {action ? <div className="mt-1"><AutoText value={action} /></div> : null}
+      <p className="text-sm font-semibold text-foreground">
+        <AutoText value={title} />
+      </p>
+      {description ? (
+        <p className="text-sm text-muted-foreground">
+          <AutoText value={description} />
+        </p>
+      ) : null}
+      {action ? (
+        <div className="mt-1">
+          <AutoText value={action} />
+        </div>
+      ) : null}
     </div>
   );
 }

@@ -73,12 +73,20 @@ export function EmptyPanel({
         <Icon aria-hidden="true" className="size-6" strokeWidth={1.75} />
       </span>
       <div className="grid max-w-sm gap-1">
-        <Title className="text-sm font-semibold text-foreground"><AutoText value={title} /></Title>
+        <Title className="text-sm font-semibold text-foreground">
+          <AutoText value={title} />
+        </Title>
         {description ? (
-          <p className="text-sm leading-relaxed text-muted-foreground"><AutoText value={description} /></p>
+          <p className="text-sm leading-relaxed text-muted-foreground">
+            <AutoText value={description} />
+          </p>
         ) : null}
       </div>
-      {action ? <div className="mt-1 flex flex-wrap justify-center gap-2"><AutoText value={action} /></div> : null}
+      {action ? (
+        <div className="mt-1 flex flex-wrap justify-center gap-2">
+          <AutoText value={action} />
+        </div>
+      ) : null}
     </div>
   );
 }
@@ -130,7 +138,11 @@ export function GlassTable({ header, footer, label, className, children }: Glass
       <div className="nz-sticky-head lg:[&>div]:max-h-[min(72vh,52rem)] lg:[&>div]:overflow-y-auto">
         {children}
       </div>
-      {footer ? <div className="border-t border-hairline px-4 py-3 sm:px-5"><AutoText value={footer} /></div> : null}
+      {footer ? (
+        <div className="border-t border-hairline px-4 py-3 sm:px-5">
+          <AutoText value={footer} />
+        </div>
+      ) : null}
     </section>
   );
 }
@@ -151,9 +163,17 @@ export function TableHeading({
         <h2 className="font-display text-[0.98rem] font-semibold tracking-tight text-foreground">
           {title}
         </h2>
-        {description ? <p className="text-sm text-muted-foreground"><AutoText value={description} /></p> : null}
+        {description ? (
+          <p className="text-sm text-muted-foreground">
+            <AutoText value={description} />
+          </p>
+        ) : null}
       </div>
-      {actions ? <div className="flex shrink-0 flex-wrap items-center gap-2"><AutoText value={actions} /></div> : null}
+      {actions ? (
+        <div className="flex shrink-0 flex-wrap items-center gap-2">
+          <AutoText value={actions} />
+        </div>
+      ) : null}
     </div>
   );
 }

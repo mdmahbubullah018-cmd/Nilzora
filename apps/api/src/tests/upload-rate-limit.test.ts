@@ -88,9 +88,7 @@ describe('upload limiters', () => {
     const next = await call(limiters.total, refused);
     expect(next).not.toHaveBeenCalled();
     expect(refused.status).toHaveBeenCalledWith(429);
-    const answered = refused.json.mock.calls[0]?.[0] as
-      | { error?: { code?: string } }
-      | undefined;
+    const answered = refused.json.mock.calls[0]?.[0] as { error?: { code?: string } } | undefined;
     expect(answered?.error?.code).toBe('rate_limited');
   });
 

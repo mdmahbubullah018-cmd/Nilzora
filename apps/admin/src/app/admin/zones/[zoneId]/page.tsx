@@ -92,14 +92,20 @@ export default async function ZonePage({ params }: PageProps<'/admin/zones/[zone
         icon={Layers}
         eyebrow={
           zone.value.isActive ? (
-            <Chip tone="success" dot><AutoText>Shown in the store</AutoText></Chip>
+            <Chip tone="success" dot>
+              <AutoText>Shown in the store</AutoText>
+            </Chip>
           ) : (
-            <Chip tone="neutral" dot><AutoText>Hidden</AutoText></Chip>
+            <Chip tone="neutral" dot>
+              <AutoText>Hidden</AutoText>
+            </Chip>
           )
         }
         meta={
           <>
-            <span><CountText count={zone.value.productCount} one="product" /> in this zone</span>
+            <span>
+              <CountText count={zone.value.productCount} one="product" /> in this zone
+            </span>
             <span className="font-mono text-xs">/products?zone={zone.value.slug}</span>
           </>
         }

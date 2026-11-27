@@ -13,8 +13,8 @@ import { session } from '@/lib/session';
  * resolved) means "no popup", never a broken page.
  */
 export async function getPromoPopups(): Promise<PublicPopup[]> {
-  const read = await attempt(async () => (await session.publicApi().publicPopups('website')).popups).catch(
-    () => ({ kind: 'unavailable' }) as const,
-  );
+  const read = await attempt(
+    async () => (await session.publicApi().publicPopups('website')).popups,
+  ).catch(() => ({ kind: 'unavailable' }) as const);
   return read.kind === 'ok' ? read.value : [];
 }

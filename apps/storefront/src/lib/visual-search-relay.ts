@@ -16,5 +16,8 @@ export function visualSearchFailure(error: unknown): NextResponse {
       { status, headers: VISUAL_SEARCH_NO_STORE },
     );
   }
-  return NextResponse.json({ error: 'unavailable' }, { status: 503, headers: VISUAL_SEARCH_NO_STORE });
+  return NextResponse.json(
+    { error: 'unavailable' },
+    { status: 503, headers: VISUAL_SEARCH_NO_STORE },
+  );
 }

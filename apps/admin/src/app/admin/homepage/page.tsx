@@ -68,7 +68,11 @@ export default async function HomepagePage() {
           />
         ) : (
           <section className="nz-panel rounded-2xl border">
-            <ReadState failure={homepage.kind} retryHref={HOMEPAGE_PATH} permission="settings.manage" />
+            <ReadState
+              failure={homepage.kind}
+              retryHref={HOMEPAGE_PATH}
+              permission="settings.manage"
+            />
           </section>
         )}
       </div>

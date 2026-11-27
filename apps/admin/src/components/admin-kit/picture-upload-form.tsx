@@ -266,7 +266,7 @@ export function PictureUploadForm({
             // eslint-disable-next-line @next/next/no-img-element -- a local object URL of the picked file
             <img
               src={picked.url}
-              alt={tx("The picked picture")}
+              alt={tx('The picked picture')}
               className="size-20 shrink-0 rounded-lg border border-hairline bg-surface object-contain"
             />
           ) : (
@@ -278,7 +278,9 @@ export function PictureUploadForm({
             </span>
           )}
           <div className="grid min-w-0 flex-1 gap-0.5 text-sm">
-            <span className="truncate font-medium text-foreground"><AutoText value={picked.file.name} /></span>
+            <span className="truncate font-medium text-foreground">
+              <AutoText value={picked.file.name} />
+            </span>
             <span className="text-xs text-muted-foreground tabular-nums">
               {picked.width !== null && picked.height !== null
                 ? `${String(picked.width)} × ${String(picked.height)} px · `
@@ -303,7 +305,9 @@ export function PictureUploadForm({
               disabled={busy || original === null || fileError !== null}
               className="max-sm:min-h-11"
             >
-              <Crop aria-hidden="true" strokeWidth={1.75} /><AutoText>Crop or rotate</AutoText></Button>
+              <Crop aria-hidden="true" strokeWidth={1.75} />
+              <AutoText>Crop or rotate</AutoText>
+            </Button>
             <Button
               type="button"
               variant="ghost"
@@ -312,7 +316,9 @@ export function PictureUploadForm({
               disabled={busy}
               className="max-sm:min-h-11"
             >
-              <X aria-hidden="true" strokeWidth={1.75} /><AutoText>Remove</AutoText></Button>
+              <X aria-hidden="true" strokeWidth={1.75} />
+              <AutoText>Remove</AutoText>
+            </Button>
           </div>
         </div>
       ) : null}

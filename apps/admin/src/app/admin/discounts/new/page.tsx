@@ -74,11 +74,7 @@ export default async function NewCampaignPage({ searchParams }: PageProps<'/admi
           </Card>
         ) : (
           <Card>
-            <ReadState
-              failure={targets.kind}
-              retryHref={NEW_PATH}
-              permission="discounts.create"
-            />
+            <ReadState failure={targets.kind} retryHref={NEW_PATH} permission="discounts.create" />
           </Card>
         )}
       </div>

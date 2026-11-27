@@ -34,11 +34,21 @@ describe('hydration and persistence', () => {
   it('starts empty and not hydrated, then hydrates an empty cart when nothing is saved', async () => {
     const storage = createMemoryCartStorage();
     const store = createCartStore({ storage });
-    expect(store.getSnapshot()).toEqual({ items: [], count: 0, hydrated: false, selected: new Set() });
+    expect(store.getSnapshot()).toEqual({
+      items: [],
+      count: 0,
+      hydrated: false,
+      selected: new Set(),
+    });
 
     await store.hydrate();
 
-    expect(store.getSnapshot()).toEqual({ items: [], count: 0, hydrated: true, selected: new Set() });
+    expect(store.getSnapshot()).toEqual({
+      items: [],
+      count: 0,
+      hydrated: true,
+      selected: new Set(),
+    });
     expect(storage.setItem).not.toHaveBeenCalled();
   });
 
@@ -155,7 +165,12 @@ describe('tolerant loading', () => {
   ])('drops %s without crashing, and forgets it', async (_name, raw) => {
     const { storage, store } = await hydratedStore({ [CART_STORAGE_KEY]: raw });
 
-    expect(store.getSnapshot()).toEqual({ items: [], count: 0, hydrated: true, selected: new Set() });
+    expect(store.getSnapshot()).toEqual({
+      items: [],
+      count: 0,
+      hydrated: true,
+      selected: new Set(),
+    });
     await Promise.resolve();
     expect(storage.removeItem).toHaveBeenCalledWith(CART_STORAGE_KEY);
   });
@@ -329,7 +344,12 @@ describe('limits and merging', () => {
     store.remove(PRODUCT_A.toUpperCase());
     expect(store.getSnapshot().items).toEqual([{ productId: PRODUCT_B, quantity: 1 }]);
     store.clear();
-    expect(store.getSnapshot()).toEqual({ items: [], count: 0, hydrated: true, selected: new Set() });
+    expect(store.getSnapshot()).toEqual({
+      items: [],
+      count: 0,
+      hydrated: true,
+      selected: new Set(),
+    });
   });
 
   it('re-validates the result of update()', async () => {

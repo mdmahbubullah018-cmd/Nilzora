@@ -81,7 +81,9 @@ describe('ProductsToReview', () => {
     // One row is a day old, the other nine: only the second one is a reminder.
     expect(screen.getAllByText('Still waiting for your review')).toHaveLength(1);
     const reminded = screen.getByRole('link', { name: 'Fleece Hoodie' }).closest('li');
-    expect(within(reminded as HTMLElement).getByText('Still waiting for your review')).not.toBeNull();
+    expect(
+      within(reminded as HTMLElement).getByText('Still waiting for your review'),
+    ).not.toBeNull();
   });
 
   it('draws nothing at all when every product has been reviewed', () => {

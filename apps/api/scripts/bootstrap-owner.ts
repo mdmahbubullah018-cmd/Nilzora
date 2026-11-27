@@ -58,7 +58,10 @@ function resolveTarget(args: string[], databaseUrl: string | undefined): Target 
   const refFlag = args.indexOf('--project-ref');
   const ref = refFlag >= 0 ? args[refFlag + 1] : undefined;
   const expected = local ? 1 : 2;
-  if (args.length !== expected || (local ? false : refFlag !== 0 || !ref || !PROJECT_REF.test(ref))) {
+  if (
+    args.length !== expected ||
+    (local ? false : refFlag !== 0 || !ref || !PROJECT_REF.test(ref))
+  ) {
     throw new Refusal('Usage: bootstrap-owner --project-ref <20-character project ref> | --local');
   }
   if (!databaseUrl) throw new Refusal('DATABASE_URL is not set.');
@@ -69,20 +72,29 @@ function resolveTarget(args: string[], databaseUrl: string | undefined): Target 
   } catch {
     throw new Refusal('DATABASE_URL is not a valid connection string.');
   }
-  if (!/^postgres(ql)?:$/.test(url.protocol)) throw new Refusal('DATABASE_URL is not a postgres:// string.');
+  if (!/^postgres(ql)?:$/.test(url.protocol))
+    throw new Refusal('DATABASE_URL is not a postgres:// string.');
 
   if (local) {
-    if (!isLocalHost(url.hostname)) throw new Refusal('--local was given but DATABASE_URL is not a local database.');
-    return { connectionString: databaseUrl, description: `LOCAL database ${url.hostname}:${url.port || '5432'}` };
+    if (!isLocalHost(url.hostname))
+      throw new Refusal('--local was given but DATABASE_URL is not a local database.');
+    return {
+      connectionString: databaseUrl,
+      description: `LOCAL database ${url.hostname}:${url.port || '5432'}`,
+    };
   }
 
   // Hosted: the project must be named consistently by the flag, the connection user and SUPABASE_URL.
   if (isLocalHost(url.hostname) || url.port === '54322') {
-    throw new Refusal(`DATABASE_URL points at a local database, not project ${ref}. Nothing was changed.`);
+    throw new Refusal(
+      `DATABASE_URL points at a local database, not project ${ref}. Nothing was changed.`,
+    );
   }
   const userRef = /^postgres\.([a-z0-9]{20})$/.exec(decodeURIComponent(url.username))?.[1];
   if (userRef !== ref) {
-    throw new Refusal(`DATABASE_URL does not name project ${ref} (user postgres.${ref}). Nothing was changed.`);
+    throw new Refusal(
+      `DATABASE_URL does not name project ${ref} (user postgres.${ref}). Nothing was changed.`,
+    );
   }
   let apiHost = '';
   try {
@@ -95,7 +107,10 @@ function resolveTarget(args: string[], databaseUrl: string | undefined): Target 
   }
 
   // The pool verifies a hosted Supabase connection against Supabase's root CA (src/db/pool.ts).
-  return { connectionString: databaseUrl, description: `HOSTED Supabase project ${ref} (${url.hostname}), TLS verified` };
+  return {
+    connectionString: databaseUrl,
+    description: `HOSTED Supabase project ${ref} (${url.hostname}), TLS verified`,
+  };
 }
 
 interface Outcome {
@@ -105,7 +120,11 @@ interface Outcome {
 }
 
 /** One transaction: create or reuse the account, then grant the owner role. */
-async function bootstrap(connectionString: string, email: string, password: string): Promise<Outcome> {
+async function bootstrap(
+  connectionString: string,
+  email: string,
+  password: string,
+): Promise<Outcome> {
   const pool = createDatabasePool({ connectionString, max: 1, onError: () => undefined });
   try {
     return await withServiceRole(pool, async (client) => {
@@ -115,7 +134,9 @@ async function bootstrap(connectionString: string, email: string, password: stri
       if (owners.rows.length > 0) {
         const ours = owners.rows.length === 1 && owners.rows[0]?.email?.toLowerCase() === email;
         if (!ours) throw new Refusal('A different owner already exists. Nothing was changed.');
-        const found = await client.query<{ id: string }>('select id from public.login_lookup($1)', [email]);
+        const found = await client.query<{ id: string }>('select id from public.login_lookup($1)', [
+          email,
+        ]);
         return { accountId: found.rows[0]?.id ?? '', created: false, alreadyOwner: true };
       }
 
@@ -158,7 +179,8 @@ function sanitized(error: unknown): string {
   const name = typeof e?.name === 'string' ? e.name : 'Error';
   const hints: Record<string, string> = {
     SELF_SIGNED_CERT_IN_CHAIN: 'the server certificate is not trusted: see src/db/supabase-ca.ts',
-    UNABLE_TO_VERIFY_LEAF_SIGNATURE: 'the server certificate is not trusted: see src/db/supabase-ca.ts',
+    UNABLE_TO_VERIFY_LEAF_SIGNATURE:
+      'the server certificate is not trusted: see src/db/supabase-ca.ts',
     ENOTFOUND: 'the database host name did not resolve',
     ECONNREFUSED: 'the connection was refused',
     ETIMEDOUT: 'the connection timed out',
@@ -194,8 +216,12 @@ async function main(): Promise<number> {
   say(`Owner account: ${email.data}`);
   try {
     const outcome = await bootstrap(target.connectionString, email.data, password);
-    if (outcome.alreadyOwner) say(`This account is already the owner (${outcome.accountId}). Nothing was changed.`);
-    else say(`${outcome.created ? 'Account created and ' : 'Existing verified account '}granted the owner role (${outcome.accountId}).`);
+    if (outcome.alreadyOwner)
+      say(`This account is already the owner (${outcome.accountId}). Nothing was changed.`);
+    else
+      say(
+        `${outcome.created ? 'Account created and ' : 'Existing verified account '}granted the owner role (${outcome.accountId}).`,
+      );
     return 0;
   } catch (error) {
     if (error instanceof Refusal) return fail(error.message);

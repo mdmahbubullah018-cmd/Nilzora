@@ -114,12 +114,7 @@ export function adminDiscountsRouter(deps: AdminRouteDependencies): Router {
       const identity = currentIdentity(res);
       const { body } = requestInput<typeof saveSchemas>(res);
       try {
-        const campaign = await discounts.save(
-          identity.accessToken,
-          identity.userId,
-          null,
-          body,
-        );
+        const campaign = await discounts.save(identity.accessToken, identity.userId, null, body);
         const response: AdminCampaignResponse = { campaign };
         res.status(201).json(adminCampaignResponseSchema.parse(response));
       } catch (error) {
@@ -186,9 +181,15 @@ export function adminDiscountsRouter(deps: AdminRouteDependencies): Router {
       const identity = currentIdentity(res);
       const { params } = requestInput<typeof idSchemas>(res);
       try {
-        const campaign = await discounts.get(identity.accessToken, identity.userId, params.campaignId);
+        const campaign = await discounts.get(
+          identity.accessToken,
+          identity.userId,
+          params.campaignId,
+        );
         if (!campaign) {
-          res.status(404).json({ error: { code: 'campaign_not_found', message: 'Campaign not found' } });
+          res
+            .status(404)
+            .json({ error: { code: 'campaign_not_found', message: 'Campaign not found' } });
           return;
         }
         const response: AdminCampaignResponse = { campaign };

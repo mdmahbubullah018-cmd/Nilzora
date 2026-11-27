@@ -187,9 +187,11 @@ describe('RefreshableScrollView', () => {
     for (const sentence of Object.values(REFRESH_LABELS)) {
       expect(screen.queryByText(sentence, { includeHiddenElements: true })).toBeNull();
     }
-    expect(screen.queryByText(/Refreshing|Updated|Release to refresh/u, {
-      includeHiddenElements: true,
-    })).toBeNull();
+    expect(
+      screen.queryByText(/Refreshing|Updated|Release to refresh/u, {
+        includeHiddenElements: true,
+      }),
+    ).toBeNull();
     await advance(1500);
   });
 

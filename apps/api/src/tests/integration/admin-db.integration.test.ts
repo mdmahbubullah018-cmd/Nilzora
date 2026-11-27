@@ -161,12 +161,7 @@ describe('admin catalog over the direct connection', () => {
     });
 
     // The store owner publishing explicitly approves content no review has seen.
-    const published = await catalog.setProductStatus(
-      NO_TOKEN,
-      owner,
-      createdProduct.id,
-      'active',
-    );
+    const published = await catalog.setProductStatus(NO_TOKEN, owner, createdProduct.id, 'active');
     expect(published).toMatchObject({ status: 'active', moderationStatus: 'approved' });
 
     // An admin who holds products.publish still follows the review workflow, and the

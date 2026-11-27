@@ -1,4 +1,10 @@
-import type { Brand, CatalogSort, Category, ProductFacets, ProductListResponse } from '@nilzora/contracts';
+import type {
+  Brand,
+  CatalogSort,
+  Category,
+  ProductFacets,
+  ProductListResponse,
+} from '@nilzora/contracts';
 import type { Route } from 'next';
 import type { ReactNode } from 'react';
 import { hasActiveFilters, listingHref, type ListingFilters } from '@/lib/catalog-query';

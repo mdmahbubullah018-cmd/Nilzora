@@ -35,7 +35,8 @@ describe('createPictureUploads', () => {
   it('stores both WebP variants under the base key the caller chose', async () => {
     const objects = createMemoryObjectStore();
     const uploads = createPictureUploads({ objects, publicBaseUrl: 'https://media.example.com' });
-    const base = 'products/11111111-1111-4111-8111-111111111111/22222222-2222-4222-8222-222222222222';
+    const base =
+      'products/11111111-1111-4111-8111-111111111111/22222222-2222-4222-8222-222222222222';
 
     const stored = await uploads.storePictureAtBaseKey(await makeImage(), fakeResponse(), base);
 

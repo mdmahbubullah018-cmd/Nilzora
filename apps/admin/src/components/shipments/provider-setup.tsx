@@ -88,7 +88,9 @@ export function CredentialRow({
           </Field>
           <SubmitButton size="sm" variant="outline" pendingLabel="Saving…">
             {`${isSet ? 'Replace' : 'Save'} `}
-            <span className="sr-only"><AutoText value={label} /></span>
+            <span className="sr-only">
+              <AutoText value={label} />
+            </span>
           </SubmitButton>
         </form>
         {stored ? (
@@ -102,8 +104,10 @@ export function CredentialRow({
               </>
             }
             title={`Clear the stored ${inSentence(label)}?`}
-            description={tx("Calls that need it stop working and the courier loses its live verification until it is set again.")}
-            confirmLabel={tx("Clear credential")}
+            description={tx(
+              'Calls that need it stop working and the courier loses its live verification until it is set again.',
+            )}
+            confirmLabel={tx('Clear credential')}
             hiddenFields={{ provider, field }}
             error={clearState.status === 'error' ? clearState.message : undefined}
           />
@@ -134,8 +138,10 @@ export function BaseUrlForm({
       <div className="flex flex-wrap items-end gap-2">
         <Field
           id={`base-url-${provider}`}
-          label={tx("API base URL")}
-          hint={tx("An https address on the courier’s own domain (the API allow-lists each courier’s hosts). Empty uses the server default.")}
+          label={tx('API base URL')}
+          hint={tx(
+            'An https address on the courier’s own domain (the API allow-lists each courier’s hosts). Empty uses the server default.',
+          )}
           error={state.fieldErrors?.apiBaseUrl}
           className="min-w-0 flex-1"
         >
@@ -153,7 +159,9 @@ export function BaseUrlForm({
             />
           )}
         </Field>
-        <SubmitButton size="sm" variant="outline" pendingLabel="Saving…"><AutoText>Save URL</AutoText></SubmitButton>
+        <SubmitButton size="sm" variant="outline" pendingLabel="Saving…">
+          <AutoText>Save URL</AutoText>
+        </SubmitButton>
       </div>
       {state.status === 'error' && state.fieldErrors?.apiBaseUrl ? null : (
         <ActionFeedback state={state} inline />
@@ -201,8 +209,8 @@ export function LiveVerificationControls({
               </>
             }
             title={`Remove ${provider.displayName}’s live verification?`}
-            description={tx("Real bookings stop going to this courier until it is verified again.")}
-            confirmLabel={tx("Remove verification")}
+            description={tx('Real bookings stop going to this courier until it is verified again.')}
+            confirmLabel={tx('Remove verification')}
             hiddenFields={{ provider: provider.provider, verified: 'false' }}
             error={state.status === 'error' ? state.message : undefined}
           />
@@ -223,8 +231,10 @@ export function LiveVerificationControls({
           triggerVariant="primary"
           tone="primary"
           title={`Verify ${provider.displayName} for live use?`}
-          description={tx("You confirm the adapter, credentials and address were checked against the courier’s live account. Real parcels can then be booked with it.")}
-          confirmLabel={tx("Verify for live use")}
+          description={tx(
+            'You confirm the adapter, credentials and address were checked against the courier’s live account. Real parcels can then be booked with it.',
+          )}
+          confirmLabel={tx('Verify for live use')}
           hiddenFields={{ provider: provider.provider, verified: 'true' }}
           error={
             state.status === 'error' && !state.fieldErrors?.confirmation ? state.message : undefined
@@ -233,7 +243,9 @@ export function LiveVerificationControls({
       ) : (
         <div className="grid gap-1">
           <Button type="button" size="sm" className="w-fit" disabled>
-            <BadgeCheck aria-hidden="true" /><AutoText>Verify for live use</AutoText></Button>
+            <BadgeCheck aria-hidden="true" />
+            <AutoText>Verify for live use</AutoText>
+          </Button>
           <p className="text-xs text-muted-foreground">
             Available once the adapter is verified, the credentials are complete, the API address is
             valid and a live connection check has passed.

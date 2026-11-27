@@ -1,5 +1,10 @@
 import { describe, expect, it } from 'vitest';
-import { EmailUnavailableError, emailDiagnosticOf, mailOptions, smtpSettings } from '../auth/sender';
+import {
+  EmailUnavailableError,
+  emailDiagnosticOf,
+  mailOptions,
+  smtpSettings,
+} from '../auth/sender';
 
 /*
  * The safe diagnosis of a refused SMTP send.
@@ -43,9 +48,9 @@ describe('emailDiagnosticOf', () => {
 
   it('does not call a refused message a connection failure', () => {
     // A refused recipient or sender is a reply the server gave, not a socket that never opened.
-    expect(emailDiagnosticOf(nodemailerError({ code: 'EENVELOPE', responseCode: 550 }))).toStrictEqual(
-      { code: 'EENVELOPE', responseCode: 550 },
-    );
+    expect(
+      emailDiagnosticOf(nodemailerError({ code: 'EENVELOPE', responseCode: 550 })),
+    ).toStrictEqual({ code: 'EENVELOPE', responseCode: 550 });
   });
 
   it('answers with nothing rather than guessing when the error is not an SMTP one', () => {
@@ -105,9 +110,9 @@ describe('smtpSettings', () => {
   });
 
   it('falls back to the local catcher port for an unusable one', () => {
-    expect(
-      smtpSettings({ SMTP_HOST: 'h', EMAIL_FROM: 'f', SMTP_PORT: 'not-a-port' })?.port,
-    ).toBe(1025);
+    expect(smtpSettings({ SMTP_HOST: 'h', EMAIL_FROM: 'f', SMTP_PORT: 'not-a-port' })?.port).toBe(
+      1025,
+    );
   });
 });
 
@@ -122,9 +127,7 @@ describe('mailOptions', () => {
   };
 
   it('sends the sender the settings name', () => {
-    expect(
-      mailOptions(settings, { to: 'a@example.test', subject: 'S', text: 'T' }),
-    ).toStrictEqual({
+    expect(mailOptions(settings, { to: 'a@example.test', subject: 'S', text: 'T' })).toStrictEqual({
       from: settings.from,
       to: 'a@example.test',
       subject: 'S',

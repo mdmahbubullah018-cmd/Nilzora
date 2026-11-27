@@ -1,10 +1,6 @@
 import { resolve } from 'node:path';
 import sharp from 'sharp';
-import {
-  ImageEmbeddingError,
-  normaliseVector,
-  type ImageEmbeddingProvider,
-} from './provider';
+import { ImageEmbeddingError, normaliseVector, type ImageEmbeddingProvider } from './provider';
 
 /*
  * The self-hosted CLIP image encoder

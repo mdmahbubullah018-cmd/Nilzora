@@ -34,7 +34,9 @@ function Outcome({ state }: { state: ActionState }) {
   if (state.status === 'idle' || !state.message) return null;
   return (
     <Alert tone={state.status === 'success' ? 'success' : 'danger'}>
-      <span aria-live="polite"><AutoText value={state.message} /></span>
+      <span aria-live="polite">
+        <AutoText value={state.message} />
+      </span>
     </Alert>
   );
 }
@@ -60,7 +62,11 @@ function Check({
       />
       <span className="grid gap-0.5">
         {label}
-        {hint ? <span className="text-xs font-normal text-muted-foreground"><AutoText value={hint} /></span> : null}
+        {hint ? (
+          <span className="text-xs font-normal text-muted-foreground">
+            <AutoText value={hint} />
+          </span>
+        ) : null}
       </span>
     </label>
   );
@@ -85,10 +91,12 @@ export function ZoneForm({ zone, csrf }: { zone?: AdminShoppingZoneDetail; csrf:
       <div className="grid items-start gap-4 sm:grid-cols-2">
         <Field
           id={`${id}-name`}
-          label={tx("Name")}
+          label={tx('Name')}
           error={errors.name}
           required
-          hint={tx("What shoppers read on the tile: Men's, Women's, Kids, or any collection you invent.")}
+          hint={tx(
+            "What shoppers read on the tile: Men's, Women's, Kids, or any collection you invent.",
+          )}
         >
           {(control) => (
             <Input
@@ -101,7 +109,7 @@ export function ZoneForm({ zone, csrf }: { zone?: AdminShoppingZoneDetail; csrf:
         </Field>
         <Field
           id={`${id}-slug`}
-          label={tx("Address")}
+          label={tx('Address')}
           error={errors.slug}
           hint={
             zone
@@ -124,9 +132,9 @@ export function ZoneForm({ zone, csrf }: { zone?: AdminShoppingZoneDetail; csrf:
       <div className="grid items-start gap-4 sm:grid-cols-[minmax(0,12rem)_minmax(0,8rem)]">
         <Field
           id={`${id}-audience`}
-          label={tx("Audience")}
+          label={tx('Audience')}
           error={errors.audience}
-          hint={tx("Optional. A label for staff, not shown in the store.")}
+          hint={tx('Optional. A label for staff, not shown in the store.')}
         >
           {(control) => (
             <>
@@ -149,9 +157,9 @@ export function ZoneForm({ zone, csrf }: { zone?: AdminShoppingZoneDetail; csrf:
         </Field>
         <Field
           id={`${id}-order`}
-          label={tx("Display order")}
+          label={tx('Display order')}
           error={errors.displayOrder}
-          hint={tx("Lower first.")}
+          hint={tx('Lower first.')}
         >
           {(control) => (
             <Input
@@ -170,9 +178,11 @@ export function ZoneForm({ zone, csrf }: { zone?: AdminShoppingZoneDetail; csrf:
       </div>
       <Field
         id={`${id}-description`}
-        label={tx("Description")}
+        label={tx('Description')}
         error={errors.description}
-        hint={tx("Optional. One line under the name, in the store and the app. Up to 300 characters.")}
+        hint={tx(
+          'Optional. One line under the name, in the store and the app. Up to 300 characters.',
+        )}
       >
         {(control) => (
           <Textarea
@@ -187,9 +197,9 @@ export function ZoneForm({ zone, csrf }: { zone?: AdminShoppingZoneDetail; csrf:
       <div className="grid items-start gap-4 sm:grid-cols-2">
         <Field
           id={`${id}-seo-title`}
-          label={tx("Search title")}
+          label={tx('Search title')}
           error={errors.seoTitle}
-          hint={tx("Optional. Up to 70 characters.")}
+          hint={tx('Optional. Up to 70 characters.')}
         >
           {(control) => (
             <Input
@@ -202,9 +212,9 @@ export function ZoneForm({ zone, csrf }: { zone?: AdminShoppingZoneDetail; csrf:
         </Field>
         <Field
           id={`${id}-seo-description`}
-          label={tx("Search description")}
+          label={tx('Search description')}
           error={errors.seoDescription}
-          hint={tx("Optional. Up to 160 characters.")}
+          hint={tx('Optional. Up to 160 characters.')}
         >
           {(control) => (
             <Input
@@ -218,8 +228,10 @@ export function ZoneForm({ zone, csrf }: { zone?: AdminShoppingZoneDetail; csrf:
       </div>
       <Check
         name="isActive"
-        label={tx("Show in the store and the app")}
-        hint={tx("A hidden zone takes no products out of general browsing; it only stops being offered.")}
+        label={tx('Show in the store and the app')}
+        hint={tx(
+          'A hidden zone takes no products out of general browsing; it only stops being offered.',
+        )}
         defaultChecked={zone?.isActive ?? true}
       />
       <div className="flex justify-end">
@@ -280,9 +292,11 @@ export function ZoneBannerForm({ zone, csrf }: { zone: AdminShoppingZoneDetail; 
           </Field>
           <Field
             id={`${id}-alt`}
-            label={tx("Picture description (for screen readers)")}
+            label={tx('Picture description (for screen readers)')}
             error={state.fieldErrors?.bannerAlt}
-            hint={tx("Not shown on the page. Needed when the picture carries the message, for example “Two cotton sarees in blue and gold”.")}
+            hint={tx(
+              'Not shown on the page. Needed when the picture carries the message, for example “Two cotton sarees in blue and gold”.',
+            )}
           >
             {(control) => (
               <Input
@@ -319,7 +333,9 @@ export function ZoneBannerForm({ zone, csrf }: { zone: AdminShoppingZoneDetail; 
               loading={removePending}
               className="max-sm:min-h-11"
             >
-              <Trash2 aria-hidden="true" className="size-4" strokeWidth={1.75} /><AutoText>Remove the picture</AutoText></Button>
+              <Trash2 aria-hidden="true" className="size-4" strokeWidth={1.75} />
+              <AutoText>Remove the picture</AutoText>
+            </Button>
           </form>
         ) : null}
       </div>
@@ -361,7 +377,9 @@ export function ZoneMobileBannerForm({
     <div className="grid gap-5">
       <div className="grid content-start gap-2">
         <ZoneAppCardPreview zone={zone} />
-        <p className="text-xs text-muted-foreground"><AutoText value={status} /></p>
+        <p className="text-xs text-muted-foreground">
+          <AutoText value={status} />
+        </p>
       </div>
       <form action={action} className="grid gap-4">
         <CsrfField csrf={csrf} />
@@ -409,7 +427,9 @@ export function ZoneMobileBannerForm({
           <input type="hidden" name="zoneId" value={zone.id} />
           <Outcome state={removeState} />
           <Button type="submit" variant="ghost" loading={removePending} className="max-sm:min-h-11">
-            <Trash2 aria-hidden="true" className="size-4" strokeWidth={1.75} /><AutoText>Remove the app artwork</AutoText></Button>
+            <Trash2 aria-hidden="true" className="size-4" strokeWidth={1.75} />
+            <AutoText>Remove the app artwork</AutoText>
+          </Button>
         </form>
       ) : null}
     </div>
@@ -456,7 +476,9 @@ export function DeleteZoneForm({ zone, csrf }: { zone: AdminShoppingZoneDetail; 
     <div className="grid gap-2">
       {state.status === 'error' && state.message ? (
         <Alert tone="danger">
-          <span aria-live="polite"><AutoText value={state.message} /></span>
+          <span aria-live="polite">
+            <AutoText value={state.message} />
+          </span>
         </Alert>
       ) : null}
       <ConfirmForm
@@ -470,8 +492,10 @@ export function DeleteZoneForm({ zone, csrf }: { zone: AdminShoppingZoneDetail; 
         }
         triggerVariant="ghost"
         title={`Delete the ${zone.name} zone?`}
-        description={tx("Shoppers stop seeing it in the collection rail. Its products stay in the catalogue and in general browsing. This cannot be undone.")}
-        confirmLabel={tx("Yes, delete it")}
+        description={tx(
+          'Shoppers stop seeing it in the collection rail. Its products stay in the catalogue and in general browsing. This cannot be undone.',
+        )}
+        confirmLabel={tx('Yes, delete it')}
         tone="danger"
         hiddenFields={{ zoneId: zone.id }}
         className="max-sm:[&>summary]:min-h-11"

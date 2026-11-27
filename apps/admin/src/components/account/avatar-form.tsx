@@ -35,11 +35,13 @@ export function AvatarForm({
             // eslint-disable-next-line @next/next/no-img-element -- from the media origin, not known to the build
             <img
               src={avatarUrl}
-              alt={tx("Your current profile picture")}
+              alt={tx('Your current profile picture')}
               className="size-full object-cover"
             />
           ) : (
-            <span aria-hidden="true"><AutoText value={initialsOf(name)} /></span>
+            <span aria-hidden="true">
+              <AutoText value={initialsOf(name)} />
+            </span>
           )}
         </span>
         <p className="text-sm text-muted-foreground">

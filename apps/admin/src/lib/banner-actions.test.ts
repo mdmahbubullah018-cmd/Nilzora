@@ -94,7 +94,10 @@ describe('uploadBannerMobileImageAction', () => {
     const cases: FormData[] = [
       form({ bannerId: 'nope', image: file(PNG) }),
       form({ bannerId: BANNER }),
-      form({ bannerId: BANNER, image: file(new Array<number>(PRODUCT_IMAGE_MAX_BYTES + 1).fill(7)) }),
+      form({
+        bannerId: BANNER,
+        image: file(new Array<number>(PRODUCT_IMAGE_MAX_BYTES + 1).fill(7)),
+      }),
       form({ bannerId: BANNER, image: file([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]) }),
     ];
     for (const data of cases) {
@@ -106,21 +109,28 @@ describe('uploadBannerMobileImageAction', () => {
 
   it('shows a fixed message for a refusal and never the API text', async () => {
     api.adminUploadBannerMobileImage.mockRejectedValue(refusal(403, 'forbidden'));
-    const state = await uploadBannerMobileImageAction(IDLE, form({ bannerId: BANNER, image: file(PNG) }));
+    const state = await uploadBannerMobileImageAction(
+      IDLE,
+      form({ bannerId: BANNER, image: file(PNG) }),
+    );
     expect(state.status).toBe('error');
     expect(JSON.stringify(state)).not.toContain(API_TEXT);
     expect(revalidatePath).not.toHaveBeenCalled();
 
     api.adminUploadBannerMobileImage.mockRejectedValue(refusal(503, 'media_unavailable'));
-    const off = await uploadBannerMobileImageAction(IDLE, form({ bannerId: BANNER, image: file(PNG) }));
+    const off = await uploadBannerMobileImageAction(
+      IDLE,
+      form({ bannerId: BANNER, image: file(PNG) }),
+    );
     expect(off.message).toContain('media storage is off');
   });
 
   it('reaches no API with an untrusted form and sends a signed-out visitor to sign in', async () => {
     act.outcome = 'untrusted';
-    expect((await uploadBannerMobileImageAction(IDLE, form({ bannerId: BANNER, image: file(PNG) }))).status).toBe(
-      'error',
-    );
+    expect(
+      (await uploadBannerMobileImageAction(IDLE, form({ bannerId: BANNER, image: file(PNG) })))
+        .status,
+    ).toBe('error');
     expect(api.adminUploadBannerMobileImage).not.toHaveBeenCalled();
 
     act.outcome = 'signed_out';
@@ -139,7 +149,9 @@ describe('removeBannerMobileImageAction', () => {
   });
 
   it('needs a valid banner id and a refusal shows a fixed message', async () => {
-    expect((await removeBannerMobileImageAction(IDLE, form({ bannerId: 'x' }))).status).toBe('error');
+    expect((await removeBannerMobileImageAction(IDLE, form({ bannerId: 'x' }))).status).toBe(
+      'error',
+    );
     expect(api.adminRemoveBannerMobileImage).not.toHaveBeenCalled();
 
     api.adminRemoveBannerMobileImage.mockRejectedValue(refusal(403, 'forbidden'));
@@ -156,7 +168,13 @@ describe('reorderBannersAction', () => {
   it('sends the whole placement in its new order', async () => {
     const state = await reorderBannersAction(
       IDLE,
-      form({ bannerId: B, direction: 'earlier', placement: 'home_hero', categoryId: '', order: ORDER }),
+      form({
+        bannerId: B,
+        direction: 'earlier',
+        placement: 'home_hero',
+        categoryId: '',
+        order: ORDER,
+      }),
     );
     expect(state).toEqual({ status: 'success', message: 'Order saved.' });
     expect(api.adminReorderBanners).toHaveBeenLastCalledWith('access-token', {
@@ -170,7 +188,13 @@ describe('reorderBannersAction', () => {
   it('keeps a category strip in its category', async () => {
     await reorderBannersAction(
       IDLE,
-      form({ bannerId: B, direction: 'later', placement: 'category', categoryId: CATEGORY, order: ORDER }),
+      form({
+        bannerId: B,
+        direction: 'later',
+        placement: 'category',
+        categoryId: CATEGORY,
+        order: ORDER,
+      }),
     );
     expect(api.adminReorderBanners).toHaveBeenLastCalledWith('access-token', {
       placement: 'category',
@@ -181,26 +205,42 @@ describe('reorderBannersAction', () => {
 
   it('refuses a move past either end, an id outside the order, a placement/category mismatch and bad ids', async () => {
     const base = { placement: 'home_hero', categoryId: '', order: ORDER };
-    expect(await reorderBannersAction(IDLE, form({ ...base, bannerId: A, direction: 'earlier' }))).toEqual({
-      status: 'error',
-      message: STALE,
-    });
-    expect(await reorderBannersAction(IDLE, form({ ...base, bannerId: C, direction: 'later' }))).toEqual({
+    expect(
+      await reorderBannersAction(IDLE, form({ ...base, bannerId: A, direction: 'earlier' })),
+    ).toEqual({
       status: 'error',
       message: STALE,
     });
     expect(
-      await reorderBannersAction(IDLE, form({ ...base, bannerId: B, direction: 'later', order: `${A},${C}` })),
+      await reorderBannersAction(IDLE, form({ ...base, bannerId: C, direction: 'later' })),
+    ).toEqual({
+      status: 'error',
+      message: STALE,
+    });
+    expect(
+      await reorderBannersAction(
+        IDLE,
+        form({ ...base, bannerId: B, direction: 'later', order: `${A},${C}` }),
+      ),
     ).toEqual({ status: 'error', message: STALE });
     // A hero banner cannot carry a category; a category strip needs one.
     expect(
-      await reorderBannersAction(IDLE, form({ ...base, bannerId: B, direction: 'later', categoryId: CATEGORY })),
+      await reorderBannersAction(
+        IDLE,
+        form({ ...base, bannerId: B, direction: 'later', categoryId: CATEGORY }),
+      ),
     ).toEqual({ status: 'error', message: STALE });
     expect(
-      await reorderBannersAction(IDLE, form({ ...base, bannerId: B, direction: 'later', placement: 'category' })),
+      await reorderBannersAction(
+        IDLE,
+        form({ ...base, bannerId: B, direction: 'later', placement: 'category' }),
+      ),
     ).toEqual({ status: 'error', message: STALE });
     expect(
-      await reorderBannersAction(IDLE, form({ ...base, bannerId: B, direction: 'later', placement: 'sidebar' })),
+      await reorderBannersAction(
+        IDLE,
+        form({ ...base, bannerId: B, direction: 'later', placement: 'sidebar' }),
+      ),
     ).toEqual({ status: 'error', message: STALE });
 
     for (const bad of [
@@ -216,7 +256,13 @@ describe('reorderBannersAction', () => {
   });
 
   it('answers a refused order with a fixed message and an untrusted form with no call', async () => {
-    const fields = { bannerId: B, direction: 'later', placement: 'home_hero', categoryId: '', order: ORDER };
+    const fields = {
+      bannerId: B,
+      direction: 'later',
+      placement: 'home_hero',
+      categoryId: '',
+      order: ORDER,
+    };
     api.adminReorderBanners.mockRejectedValue(refusal(400, 'bad_request'));
     const refused = await reorderBannersAction(IDLE, form(fields));
     expect(refused).toEqual({ status: 'error', message: STALE });

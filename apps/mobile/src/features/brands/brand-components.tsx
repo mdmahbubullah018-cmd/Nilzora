@@ -42,9 +42,7 @@ export function BrandMark({
     <View
       style={[
         band ? styles.markBand : bare ? styles.markBare : styles.mark,
-        band
-          ? null
-          : { width: size, height: size, borderRadius: bare ? 0 : size * 0.3 },
+        band ? null : { width: size, height: size, borderRadius: bare ? 0 : size * 0.3 },
       ]}
       accessible={false}
     >

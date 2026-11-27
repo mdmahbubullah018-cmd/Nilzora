@@ -80,7 +80,9 @@ export function CategoryPicker({
                 className="max-sm:h-11"
               >
                 {index === 0 ? (
-                  <option value="" disabled><AutoText>Choose a category</AutoText></option>
+                  <option value="" disabled>
+                    <AutoText>Choose a category</AutoText>
+                  </option>
                 ) : (
                   <option value="">
                     {parent ? `No subcategory (stay in ${parent.name})` : 'No subcategory'}

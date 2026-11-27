@@ -63,7 +63,9 @@ export default async function EditCampaignPage({
           description="Changing a live campaign reprices its products the moment it is saved."
           actions={
             <Link href={path} className={buttonClasses({ variant: 'ghost', size: 'sm' })}>
-              <ArrowLeft aria-hidden="true" /><AutoText>Back to the campaign</AutoText></Link>
+              <ArrowLeft aria-hidden="true" />
+              <AutoText>Back to the campaign</AutoText>
+            </Link>
           }
         />
 
@@ -73,7 +75,9 @@ export default async function EditCampaignPage({
               title="Campaign not found"
               description="It does not exist, or another account archived it away."
               action={
-                <Link href="/admin/discounts" className={buttonClasses({ variant: 'outline' })}><AutoText>All campaigns</AutoText></Link>
+                <Link href="/admin/discounts" className={buttonClasses({ variant: 'outline' })}>
+                  <AutoText>All campaigns</AutoText>
+                </Link>
               }
             />
           </Card>

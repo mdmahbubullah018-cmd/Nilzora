@@ -85,7 +85,10 @@ describe('Redis client over a fake server', () => {
     const port = await serve(() => {
       // Accept the connection and stay silent.
     });
-    const client = createRedisClient(endpoint(port), { commandTimeoutMs: 150, retryDelayMs: 60_000 });
+    const client = createRedisClient(endpoint(port), {
+      commandTimeoutMs: 150,
+      retryDelayMs: 60_000,
+    });
 
     await expect(client.get('slow')).rejects.toBeInstanceOf(RedisUnavailableError);
     await expect(client.isAvailable()).resolves.toBe(false);
@@ -94,7 +97,10 @@ describe('Redis client over a fake server', () => {
 
   it('reports a failed connection instead of hanging', async () => {
     // Nothing listens on this port.
-    const client = createRedisClient(endpoint(65_533), { commandTimeoutMs: 200, retryDelayMs: 60_000 });
+    const client = createRedisClient(endpoint(65_533), {
+      commandTimeoutMs: 200,
+      retryDelayMs: 60_000,
+    });
 
     await expect(client.get('x')).rejects.toBeInstanceOf(RedisUnavailableError);
     await expect(client.isAvailable()).resolves.toBe(false);

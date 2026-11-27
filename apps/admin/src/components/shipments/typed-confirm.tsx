@@ -40,7 +40,11 @@ export function TypedConfirmForm({
         id={id}
         label={
           <>
-            Type <span className="font-mono font-semibold"><AutoText value={phrase} /></span> to confirm
+            Type{' '}
+            <span className="font-mono font-semibold">
+              <AutoText value={phrase} />
+            </span>{' '}
+            to confirm
           </>
         }
         error={phraseError}

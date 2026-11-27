@@ -34,7 +34,7 @@ export function SectionHeader({
             <Text style={styles.stepText}>{step}</Text>
           </View>
         )}
-        <Text accessibilityRole="header" style={styles.title} >
+        <Text accessibilityRole="header" style={styles.title}>
           {title}
         </Text>
       </View>

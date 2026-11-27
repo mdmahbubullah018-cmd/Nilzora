@@ -196,7 +196,14 @@ export function parseReportRange(
       return finish(preset, from, to, label, compare, lang);
     }
     if (legacy === 90) {
-      return finish('custom', shiftDay(today, -89), today, text('Last 90 days', lang), compare, lang);
+      return finish(
+        'custom',
+        shiftDay(today, -89),
+        today,
+        text('Last 90 days', lang),
+        compare,
+        lang,
+      );
     }
   }
 

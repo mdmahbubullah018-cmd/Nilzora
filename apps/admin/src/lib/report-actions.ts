@@ -49,7 +49,10 @@ export async function createExportAction(
   }
   const filters = { from: page.range.from, to: page.range.to, ...page.filters };
   if (reportFilterIssues(kind, filters).length > 0) {
-    return { status: 'error', message: 'Some filters do not apply to this report. Reload the page.' };
+    return {
+      status: 'error',
+      message: 'Some filters do not apply to this report. Reload the page.',
+    };
   }
   const parsed = createExportRequestSchema.safeParse({ kind, format, filters });
   if (!parsed.success) {
@@ -59,16 +62,20 @@ export async function createExportAction(
     };
   }
 
-  const result = await adminAct(formData, (api, token) => api.adminCreateExport(token, parsed.data), {
-    returnTo: '/admin/reports',
-    label: 'report export',
-    messages: {
-      forbidden: `Exporting ${REPORT_DEFINITIONS[kind].title.toLowerCase()} needs a permission your account does not have.`,
-      exports_unavailable:
-        'Background exports are not available right now. Smaller reports can still be downloaded directly.',
-      rate_limited: 'You already have several exports waiting. Wait for one to finish.',
+  const result = await adminAct(
+    formData,
+    (api, token) => api.adminCreateExport(token, parsed.data),
+    {
+      returnTo: '/admin/reports',
+      label: 'report export',
+      messages: {
+        forbidden: `Exporting ${REPORT_DEFINITIONS[kind].title.toLowerCase()} needs a permission your account does not have.`,
+        exports_unavailable:
+          'Background exports are not available right now. Smaller reports can still be downloaded directly.',
+        rate_limited: 'You already have several exports waiting. Wait for one to finish.',
+      },
     },
-  });
+  );
   if (!result.ok) return result.state;
 
   revalidatePath('/admin/reports');

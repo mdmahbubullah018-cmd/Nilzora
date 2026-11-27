@@ -80,9 +80,13 @@ function ChangeLine({ change }: { change: KpiChange }) {
           )}
         >
           <span aria-hidden="true">—</span>
-          <span className="sr-only"><AutoText>No comparison</AutoText></span>
+          <span className="sr-only">
+            <AutoText>No comparison</AutoText>
+          </span>
         </span>
-        <span><ComparisonText comparison={comparison} /></span>
+        <span>
+          <ComparisonText comparison={comparison} />
+        </span>
       </p>
     );
   }
@@ -105,7 +109,9 @@ function ChangeLine({ change }: { change: KpiChange }) {
         </span>
         {direction === 'flat' ? null : formatPercent(Math.abs(ratio))}
       </span>
-      <span><AutoText value={comparison} /></span>
+      <span>
+        <AutoText value={comparison} />
+      </span>
     </p>
   );
 }
@@ -133,7 +139,9 @@ export function KpiCard({
     <>
       <div className="flex items-start justify-between gap-3">
         <div className="grid min-w-0 gap-1.5">
-          <p className="text-sm font-medium text-muted-foreground"><AutoText value={label} /></p>
+          <p className="text-sm font-medium text-muted-foreground">
+            <AutoText value={label} />
+          </p>
           <p className="nz-figure font-display text-[1.75rem] leading-none font-semibold tracking-tight text-foreground">
             {animate ? <CountUp value={animate.value} kind={animate.kind} /> : value}
           </p>
@@ -151,7 +159,11 @@ export function KpiCard({
       {change || footnote ? (
         <div className="grid gap-1">
           {change ? <ChangeLine change={change} /> : null}
-          {footnote ? <p className="text-xs text-muted-foreground"><AutoText value={footnote} /></p> : null}
+          {footnote ? (
+            <p className="text-xs text-muted-foreground">
+              <AutoText value={footnote} />
+            </p>
+          ) : null}
         </div>
       ) : null}
     </>

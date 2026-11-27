@@ -6,11 +6,7 @@ import type { SupabaseClients } from '../../supabase/clients';
 import { toAdminStoreError } from '../admin/errors';
 import { colorView, rpcProductColors, type SummaryColor } from '../catalog/colors';
 import { stockView } from '../catalog/store';
-import {
-  StoreUnavailableError,
-  isoTimestamp,
-  type DatabaseFailure,
-} from '../commerce/errors';
+import { StoreUnavailableError, isoTimestamp, type DatabaseFailure } from '../commerce/errors';
 import { variantKeys } from '../media/images';
 
 /*
@@ -154,11 +150,7 @@ function wishlistStoreOver(
     },
     async add(accessToken, userId, productId) {
       const rpc = rpcFor(accessToken, userId);
-      return withColors(
-        rpc,
-        await rpc('wishlist_add', { p_product_id: productId }),
-        mediaBaseUrl,
-      );
+      return withColors(rpc, await rpc('wishlist_add', { p_product_id: productId }), mediaBaseUrl);
     },
     async remove(accessToken, userId, productId) {
       const rpc = rpcFor(accessToken, userId);
@@ -170,11 +162,7 @@ function wishlistStoreOver(
     },
     async merge(accessToken, userId, slugs) {
       const rpc = rpcFor(accessToken, userId);
-      return withColors(
-        rpc,
-        await rpc('wishlist_merge', { p_slugs: [...slugs] }),
-        mediaBaseUrl,
-      );
+      return withColors(rpc, await rpc('wishlist_merge', { p_slugs: [...slugs] }), mediaBaseUrl);
     },
   };
 }

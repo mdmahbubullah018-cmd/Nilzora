@@ -28,7 +28,13 @@ import { AutoText } from '@/components/i18n/translate';
 export const ANALYTICS_PATH = '/admin/analytics' as const;
 
 /** Every figure of the range, bucket by bucket: the data behind the charts as a table. */
-function BreakdownSection({ overview, range }: { overview: AnalyticsOverview; range: ReportRange }) {
+function BreakdownSection({
+  overview,
+  range,
+}: {
+  overview: AnalyticsOverview;
+  range: ReportRange;
+}) {
   const size = bucketSizeFor(range.days);
   const buckets = bucketOverview(overview, size);
   const compared = overview.previousRange !== null;
@@ -40,32 +46,57 @@ function BreakdownSection({ overview, range }: { overview: AnalyticsOverview; ra
       flush
     >
       <div className="nz-scroll max-h-128 overflow-y-auto">
-        <DataTable caption={`Revenue and orders by ${BUCKET_NOUN[size].toLowerCase()}`} className="nz-sticky-head">
+        <DataTable
+          caption={`Revenue and orders by ${BUCKET_NOUN[size].toLowerCase()}`}
+          className="nz-sticky-head"
+        >
           <TableHeader>
             <TableRow>
               <TableHead>{BUCKET_NOUN[size]}</TableHead>
-              <TableHead className="text-right"><AutoText>Revenue</AutoText></TableHead>
-              <TableHead className="text-right"><AutoText>Orders</AutoText></TableHead>
-              <TableHead className="text-right"><AutoText>Average order</AutoText></TableHead>
-              <TableHead className="text-right"><AutoText>New customers</AutoText></TableHead>
-              {compared ? <TableHead className="text-right"><AutoText>Previous revenue</AutoText></TableHead> : null}
+              <TableHead className="text-right">
+                <AutoText>Revenue</AutoText>
+              </TableHead>
+              <TableHead className="text-right">
+                <AutoText>Orders</AutoText>
+              </TableHead>
+              <TableHead className="text-right">
+                <AutoText>Average order</AutoText>
+              </TableHead>
+              <TableHead className="text-right">
+                <AutoText>New customers</AutoText>
+              </TableHead>
+              {compared ? (
+                <TableHead className="text-right">
+                  <AutoText>Previous revenue</AutoText>
+                </TableHead>
+              ) : null}
             </TableRow>
           </TableHeader>
           <TableBody>
             {[...buckets].reverse().map((bucket) => (
               <TableRow key={bucket.key}>
-                <TableCell className="font-medium text-foreground"><AutoText value={bucket.detail} /></TableCell>
-                <TableCell className="text-right tabular-nums"><AutoText value={formatMoney(bucket.revenueMinor)} /></TableCell>
-                <TableCell className="text-right tabular-nums"><AutoText value={formatCount(bucket.orderCount)} /></TableCell>
+                <TableCell className="font-medium text-foreground">
+                  <AutoText value={bucket.detail} />
+                </TableCell>
+                <TableCell className="text-right tabular-nums">
+                  <AutoText value={formatMoney(bucket.revenueMinor)} />
+                </TableCell>
+                <TableCell className="text-right tabular-nums">
+                  <AutoText value={formatCount(bucket.orderCount)} />
+                </TableCell>
                 <TableCell className="text-right tabular-nums">
                   {bucket.orderCount > 0
                     ? formatMoney(Math.round(bucket.revenueMinor / bucket.orderCount))
                     : '—'}
                 </TableCell>
-                <TableCell className="text-right tabular-nums"><AutoText value={formatCount(bucket.newCustomers)} /></TableCell>
+                <TableCell className="text-right tabular-nums">
+                  <AutoText value={formatCount(bucket.newCustomers)} />
+                </TableCell>
                 {compared ? (
                   <TableCell className="text-right text-muted-foreground tabular-nums">
-                    {bucket.previousRevenueMinor === null ? '—' : formatMoney(bucket.previousRevenueMinor)}
+                    {bucket.previousRevenueMinor === null
+                      ? '—'
+                      : formatMoney(bucket.previousRevenueMinor)}
                   </TableCell>
                 ) : null}
               </TableRow>

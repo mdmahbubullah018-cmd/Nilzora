@@ -53,9 +53,7 @@ const returnDetail: ReturnDetail = {
       lineTotalMinor: 125_000,
     },
   ],
-  history: [
-    { fromStatus: null, toStatus: 'requested', actorKind: 'customer', note: null, at: AT },
-  ],
+  history: [{ fromStatus: null, toStatus: 'requested', actorKind: 'customer', note: null, at: AT }],
 };
 
 const refundDetail: RefundDetail = {
@@ -80,7 +78,11 @@ const refundDetail: RefundDetail = {
     paymentStatus: 'collected',
     placedAt: AT,
   },
-  customer: { id: 'c0000000-0000-4000-8000-000000000001', name: 'Rahim Uddin', phone: '+8801712345678' },
+  customer: {
+    id: 'c0000000-0000-4000-8000-000000000001',
+    name: 'Rahim Uddin',
+    phone: '+8801712345678',
+  },
   history: [
     { fromStatus: null, toStatus: 'requested', note: null, at: AT },
     { fromStatus: 'requested', toStatus: 'approved', note: null, at: AT },
@@ -139,7 +141,9 @@ describe('after-sales reads', () => {
 
 describe('after-sales writes', () => {
   it('sends a return decision with its note', async () => {
-    const { client, sent } = setup(() => jsonResponse({ return: { ...returnDetail, status: 'approved' } }));
+    const { client, sent } = setup(() =>
+      jsonResponse({ return: { ...returnDetail, status: 'approved' } }),
+    );
 
     const result = await client.adminDecideReturn(TOKEN, RETURN_ID, {
       status: 'approved',
@@ -153,7 +157,9 @@ describe('after-sales writes', () => {
   });
 
   it('restocks only with the note it was given', async () => {
-    const { client, sent } = setup(() => jsonResponse({ return: { ...returnDetail, status: 'completed' } }));
+    const { client, sent } = setup(() =>
+      jsonResponse({ return: { ...returnDetail, status: 'completed' } }),
+    );
 
     await client.adminRestockReturn(TOKEN, RETURN_ID, 'Back in the stockroom');
 
@@ -183,7 +189,9 @@ describe('after-sales writes', () => {
 
   it('completes a refund with the payout reference', async () => {
     const { client, sent } = setup(() =>
-      jsonResponse({ refund: { ...refundDetail, status: 'completed', reference: 'CASH-2026-11-001' } }),
+      jsonResponse({
+        refund: { ...refundDetail, status: 'completed', reference: 'CASH-2026-11-001' },
+      }),
     );
 
     const result = await client.adminCompleteRefund(TOKEN, REFUND_ID, {

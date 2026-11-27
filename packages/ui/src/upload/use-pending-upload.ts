@@ -39,7 +39,8 @@ export interface PendingUpload<Value> {
 }
 
 const LOST = 'The connection was lost before Nilzora confirmed the upload. Try again.';
-const LOST_BEFORE_SENT = 'The connection was lost while the file was being sent. Nothing was saved.';
+const LOST_BEFORE_SENT =
+  'The connection was lost while the file was being sent. Nothing was saved.';
 
 /** The message a refusal carries, without trusting anything else in the body. */
 function refusalMessage(body: unknown, status: number): string {
@@ -98,7 +99,13 @@ export function usePendingUpload<Value>({
     const controller = new AbortController();
     running.current = controller;
     const target = request(file);
-    setState({ phase: 'transferring', fileName: file.name, loaded: 0, total: file.size, percent: 0 });
+    setState({
+      phase: 'transferring',
+      fileName: file.name,
+      loaded: 0,
+      total: file.size,
+      percent: 0,
+    });
 
     const transfer = sendBodyWithProgress({
       url: target.url,

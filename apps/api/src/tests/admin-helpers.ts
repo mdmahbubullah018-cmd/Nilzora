@@ -89,7 +89,10 @@ export function adminSetup(
     shipped: admin.addOrder(users.customer.id, products.lamp, { status: 'shipped' }),
     delivered: admin.addOrder(users.customer.id, products.lamp, { status: 'delivered' }),
   };
-  admin.exports.documents.set(orders.pending.orderNumber, sampleDocument(orders.pending.orderNumber));
+  admin.exports.documents.set(
+    orders.pending.orderNumber,
+    sampleDocument(orders.pending.orderNumber),
+  );
 
   const tokens = Object.fromEntries(
     (Object.keys(ACCOUNTS) as Who[]).map((who) => [who, identity.tokenFor(users[who])]),

@@ -67,7 +67,10 @@ describe('createExportAction', () => {
   });
 
   it('refuses an unknown report or format without calling the API', async () => {
-    for (const fields of [{ ...ORDERS, kind: 'passwords' }, { ...ORDERS, format: 'exe' }]) {
+    for (const fields of [
+      { ...ORDERS, kind: 'passwords' },
+      { ...ORDERS, format: 'exe' },
+    ]) {
       const result = await createExportAction(IDLE, form(fields));
       expect(result.status).toBe('error');
     }
@@ -77,7 +80,10 @@ describe('createExportAction', () => {
   it('refuses a report the account may not open, whatever the form says', async () => {
     state.permissions = ['products.read'];
     const result = await createExportAction(IDLE, form(ORDERS));
-    expect(result).toMatchObject({ status: 'error', message: 'Your account cannot export this report.' });
+    expect(result).toMatchObject({
+      status: 'error',
+      message: 'Your account cannot export this report.',
+    });
     expect(api.adminCreateExport).not.toHaveBeenCalled();
   });
 
@@ -96,7 +102,10 @@ describe('createExportAction', () => {
   });
 
   it('drops filters the report does not accept instead of forwarding them', async () => {
-    await createExportAction(IDLE, form({ ...ORDERS, brandId: '0f8fad5b-d9cb-469f-a165-70867728950e', status: 'bogus' }));
+    await createExportAction(
+      IDLE,
+      form({ ...ORDERS, brandId: '0f8fad5b-d9cb-469f-a165-70867728950e', status: 'bogus' }),
+    );
     expect(api.adminCreateExport).toHaveBeenCalledWith('access-token', {
       kind: 'orders',
       format: 'csv',

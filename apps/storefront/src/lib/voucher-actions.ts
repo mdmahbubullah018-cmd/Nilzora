@@ -46,7 +46,8 @@ export async function collectVoucherAction(formData: FormData): Promise<CollectA
     return { ok: true, voucher: outcome.value };
   } catch (error) {
     if (error instanceof ApiError) {
-      if (error.status === 401) return { ok: false, signedOut: true, message: 'Sign in to collect vouchers.' };
+      if (error.status === 401)
+        return { ok: false, signedOut: true, message: 'Sign in to collect vouchers.' };
       const known = MESSAGES[error.code];
       if (known) return { ok: false, message: known };
     }

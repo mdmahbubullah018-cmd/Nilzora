@@ -147,12 +147,24 @@ export function RefundListView({
         <DataTable caption="Refunds" dense>
           <TableHeader>
             <TableRow className="hover:bg-transparent">
-              <TableHead><AutoText>Order</AutoText></TableHead>
-              <TableHead><AutoText>Customer</AutoText></TableHead>
-              <TableHead className="text-right"><AutoText>Amount</AutoText></TableHead>
-              <TableHead><AutoText>Method</AutoText></TableHead>
-              <TableHead><AutoText>Status</AutoText></TableHead>
-              <TableHead><AutoText>Requested</AutoText></TableHead>
+              <TableHead>
+                <AutoText>Order</AutoText>
+              </TableHead>
+              <TableHead>
+                <AutoText>Customer</AutoText>
+              </TableHead>
+              <TableHead className="text-right">
+                <AutoText>Amount</AutoText>
+              </TableHead>
+              <TableHead>
+                <AutoText>Method</AutoText>
+              </TableHead>
+              <TableHead>
+                <AutoText>Status</AutoText>
+              </TableHead>
+              <TableHead>
+                <AutoText>Requested</AutoText>
+              </TableHead>
             </TableRow>
           </TableHeader>
           {refunds.length > 0 ? (
@@ -171,7 +183,9 @@ export function RefundListView({
                   <TableCell className="text-right font-semibold text-foreground tabular-nums">
                     {formatMoney(refund.amountMinor)}
                   </TableCell>
-                  <TableCell><AutoText value={refundMethodLabel(refund.method)} /></TableCell>
+                  <TableCell>
+                    <AutoText value={refundMethodLabel(refund.method)} />
+                  </TableCell>
                   <TableCell>
                     <RefundStatusChip status={refund.status} />
                   </TableCell>
@@ -270,7 +284,9 @@ export function RefundDetailView({
               }))}
             />
           ) : (
-            <p className="text-sm text-muted-foreground"><AutoText>No history has been recorded yet.</AutoText></p>
+            <p className="text-sm text-muted-foreground">
+              <AutoText>No history has been recorded yet.</AutoText>
+            </p>
           )}
         </SectionCard>
       </div>
@@ -283,7 +299,11 @@ export function RefundDetailView({
         {canApprove ? (
           <RefundSteps refundId={refund.id} status={refund.status} csrf={csrf} />
         ) : (
-          <ViewOnly><AutoText>Deciding and paying out refunds needs the “Approve refunds” permission.</AutoText></ViewOnly>
+          <ViewOnly>
+            <AutoText>
+              Deciding and paying out refunds needs the “Approve refunds” permission.
+            </AutoText>
+          </ViewOnly>
         )}
       </SectionCard>
     </div>

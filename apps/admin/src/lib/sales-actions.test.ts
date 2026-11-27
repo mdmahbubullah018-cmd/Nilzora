@@ -99,7 +99,10 @@ describe('return actions answer with a state', () => {
   });
 
   it('asks for a reason before rejecting, keeping what was typed', async () => {
-    const state = await decideReturnAction(IDLE, form({ returnId: RETURN, status: 'rejected', note: '' }));
+    const state = await decideReturnAction(
+      IDLE,
+      form({ returnId: RETURN, status: 'rejected', note: '' }),
+    );
     expect(state.status).toBe('error');
     expect(state.fieldErrors?.note).toMatch(/reason/);
     expect(api.adminDecideReturn).not.toHaveBeenCalled();
@@ -111,32 +114,47 @@ describe('return actions answer with a state', () => {
     expect(closed).toMatchObject({ status: 'error', message: 'This return has already moved on.' });
 
     api.adminDecideReturn.mockRejectedValue(refusal(403, 'forbidden'));
-    const forbidden = await decideReturnAction(IDLE, form({ returnId: RETURN, status: 'approved' }));
+    const forbidden = await decideReturnAction(
+      IDLE,
+      form({ returnId: RETURN, status: 'approved' }),
+    );
     expect(forbidden.message).toBe('Your account does not have permission for this action.');
     expect(JSON.stringify([closed, forbidden])).not.toContain(API_TEXT);
   });
 
   it('refuses a tampered id or decision, and an untrusted form, before the API', async () => {
-    expect((await decideReturnAction(IDLE, form({ returnId: '../x', status: 'approved' }))).message).toMatch(
-      /out of date/,
-    );
-    expect((await decideReturnAction(IDLE, form({ returnId: RETURN, status: 'teleport' }))).message).toMatch(
-      /out of date/,
-    );
+    expect(
+      (await decideReturnAction(IDLE, form({ returnId: '../x', status: 'approved' }))).message,
+    ).toMatch(/out of date/);
+    expect(
+      (await decideReturnAction(IDLE, form({ returnId: RETURN, status: 'teleport' }))).message,
+    ).toMatch(/out of date/);
     act.outcome = 'untrusted';
-    const untrusted = await decideReturnAction(IDLE, form({ returnId: RETURN, status: 'approved' }));
+    const untrusted = await decideReturnAction(
+      IDLE,
+      form({ returnId: RETURN, status: 'approved' }),
+    );
     expect(untrusted.status).toBe('error');
     expect(api.adminDecideReturn).not.toHaveBeenCalled();
   });
 
   it('restocks and says so, with its own permission message and a warning for an unknown outcome', async () => {
-    const done = await restockReturnAction(IDLE, form({ returnId: RETURN, note: 'back on the shelf' }));
+    const done = await restockReturnAction(
+      IDLE,
+      form({ returnId: RETURN, note: 'back on the shelf' }),
+    );
     expect(done).toEqual({ status: 'success', message: 'The returned units are back in stock.' });
-    expect(api.adminRestockReturn).toHaveBeenCalledWith('access-token', RETURN, 'back on the shelf');
+    expect(api.adminRestockReturn).toHaveBeenCalledWith(
+      'access-token',
+      RETURN,
+      'back on the shelf',
+    );
     expect(revalidatePath).toHaveBeenCalledWith('/admin/inventory');
 
     api.adminRestockReturn.mockRejectedValue(refusal(403, 'forbidden'));
-    expect((await restockReturnAction(IDLE, form({ returnId: RETURN }))).message).toMatch(/Adjust stock/);
+    expect((await restockReturnAction(IDLE, form({ returnId: RETURN }))).message).toMatch(
+      /Adjust stock/,
+    );
 
     api.adminRestockReturn.mockRejectedValue(refusal(503, 'service_unavailable'));
     expect((await restockReturnAction(IDLE, form({ returnId: RETURN }))).message).toMatch(
@@ -147,12 +165,18 @@ describe('return actions answer with a state', () => {
 
 describe('refund actions answer with a state', () => {
   it('approves, and rejects only with a reason', async () => {
-    const approved = await decideRefundAction(IDLE, form({ refundId: REFUND, decision: 'approve' }));
+    const approved = await decideRefundAction(
+      IDLE,
+      form({ refundId: REFUND, decision: 'approve' }),
+    );
     expect(approved.status).toBe('success');
     expect(approved.message).toMatch(/Refund approved/);
     expect(api.adminDecideRefund).toHaveBeenCalledWith('access-token', REFUND, { approve: true });
 
-    const noReason = await decideRefundAction(IDLE, form({ refundId: REFUND, decision: 'reject', note: 'no' }));
+    const noReason = await decideRefundAction(
+      IDLE,
+      form({ refundId: REFUND, decision: 'reject', note: 'no' }),
+    );
     expect(noReason.fieldErrors?.note).toMatch(/5 to 300/);
     expect(api.adminDecideRefund).toHaveBeenCalledTimes(1);
 
@@ -186,7 +210,10 @@ describe('refund actions answer with a state', () => {
       IDLE,
       form({ refundId: REFUND, reference: 'TXN-1234', note: 'bKash' }),
     );
-    expect(done).toEqual({ status: 'success', message: 'Payout recorded. The refund is paid out.' });
+    expect(done).toEqual({
+      status: 'success',
+      message: 'Payout recorded. The refund is paid out.',
+    });
     expect(api.adminCompleteRefund).toHaveBeenCalledWith('access-token', REFUND, {
       reference: 'TXN-1234',
       note: 'bKash',
@@ -195,12 +222,18 @@ describe('refund actions answer with a state', () => {
 
   it('keeps the typed reference after a refusal, and warns when the outcome is unknown', async () => {
     api.adminCompleteRefund.mockRejectedValue(refusal(409, 'refund_not_completable'));
-    const refused = await completeRefundAction(IDLE, form({ refundId: REFUND, reference: 'TXN-1234' }));
+    const refused = await completeRefundAction(
+      IDLE,
+      form({ refundId: REFUND, reference: 'TXN-1234' }),
+    );
     expect(refused.message).toBe('Approve the refund before recording the payout.');
     expect(refused.values?.reference).toBe('TXN-1234');
 
     api.adminCompleteRefund.mockRejectedValue(refusal(503, 'service_unavailable'));
-    const unknown = await completeRefundAction(IDLE, form({ refundId: REFUND, reference: 'TXN-1234' }));
+    const unknown = await completeRefundAction(
+      IDLE,
+      form({ refundId: REFUND, reference: 'TXN-1234' }),
+    );
     expect(unknown.message).toMatch(/Reload the page and check/);
   });
 
@@ -210,7 +243,10 @@ describe('refund actions answer with a state', () => {
     expect(api.adminCancelRefund).not.toHaveBeenCalled();
 
     expect(
-      await cancelRefundAction(IDLE, form({ refundId: REFUND, note: 'Customer changed their mind' })),
+      await cancelRefundAction(
+        IDLE,
+        form({ refundId: REFUND, note: 'Customer changed their mind' }),
+      ),
     ).toEqual({ status: 'success', message: 'Refund cancelled.' });
     expect(api.adminCancelRefund).toHaveBeenCalledWith(
       'access-token',
@@ -220,9 +256,9 @@ describe('refund actions answer with a state', () => {
   });
 
   it('answers a bad id and an untrusted form without reaching the API', async () => {
-    expect((await cancelRefundAction(IDLE, form({ refundId: 'nope', note: 'a reason' }))).message).toMatch(
-      /out of date/,
-    );
+    expect(
+      (await cancelRefundAction(IDLE, form({ refundId: 'nope', note: 'a reason' }))).message,
+    ).toMatch(/out of date/);
     act.outcome = 'untrusted';
     await decideRefundAction(IDLE, form({ refundId: REFUND, decision: 'approve' }));
     await completeRefundAction(IDLE, form({ refundId: REFUND, reference: 'TXN-1234' }));
@@ -233,8 +269,15 @@ describe('refund actions answer with a state', () => {
   });
 
   it('marks the fields of a refund request that cannot be sent', async () => {
-    const state = await requestRefundAction(IDLE, form({ orderNumber: '', amount: '', reason: '' }));
-    expect(Object.keys(state.fieldErrors ?? {}).sort()).toEqual(['amount', 'orderNumber', 'reason']);
+    const state = await requestRefundAction(
+      IDLE,
+      form({ orderNumber: '', amount: '', reason: '' }),
+    );
+    expect(Object.keys(state.fieldErrors ?? {}).sort()).toEqual([
+      'amount',
+      'orderNumber',
+      'reason',
+    ]);
     expect(api.adminRequestRefund).not.toHaveBeenCalled();
   });
 });
@@ -293,7 +336,10 @@ describe('coupon actions', () => {
 
   it('no longer swallows a refusal of the switch', async () => {
     api.adminSetCouponActive.mockRejectedValue(refusal(403, 'forbidden'));
-    const forbidden = await setCouponActiveAction(IDLE, form({ couponId: COUPON, isActive: 'false' }));
+    const forbidden = await setCouponActiveAction(
+      IDLE,
+      form({ couponId: COUPON, isActive: 'false' }),
+    );
     expect(forbidden).toEqual({ status: 'error', message: 'Your account cannot manage coupons.' });
 
     api.adminSetCouponActive.mockRejectedValue(refusal(404, 'not_found'));
@@ -307,16 +353,16 @@ describe('coupon actions', () => {
   });
 
   it('refuses a tampered id or value, and an untrusted form, before the API', async () => {
-    expect((await setCouponActiveAction(IDLE, form({ couponId: 'x', isActive: 'true' }))).message).toMatch(
-      /out of date/,
-    );
-    expect((await setCouponActiveAction(IDLE, form({ couponId: COUPON, isActive: 'maybe' }))).message).toMatch(
-      /out of date/,
-    );
+    expect(
+      (await setCouponActiveAction(IDLE, form({ couponId: 'x', isActive: 'true' }))).message,
+    ).toMatch(/out of date/);
+    expect(
+      (await setCouponActiveAction(IDLE, form({ couponId: COUPON, isActive: 'maybe' }))).message,
+    ).toMatch(/out of date/);
     act.outcome = 'untrusted';
-    expect((await setCouponActiveAction(IDLE, form({ couponId: COUPON, isActive: 'true' }))).status).toBe(
-      'error',
-    );
+    expect(
+      (await setCouponActiveAction(IDLE, form({ couponId: COUPON, isActive: 'true' }))).status,
+    ).toBe('error');
     expect(api.adminSetCouponActive).not.toHaveBeenCalled();
   });
 });
@@ -336,7 +382,10 @@ describe('recordCodCollectionAction return path', () => {
   it('goes back to the COD collections list it was started from, and nowhere else', async () => {
     await expect(
       redirectOf(
-        recordCodCollectionAction(IDLE, form({ ...base, returnTo: '/admin/cod-collections?q=NZ1&page=2' })),
+        recordCodCollectionAction(
+          IDLE,
+          form({ ...base, returnTo: '/admin/cod-collections?q=NZ1&page=2' }),
+        ),
       ),
     ).resolves.toBe('/admin/cod-collections?q=NZ1&page=2&notice=cash_collected');
 

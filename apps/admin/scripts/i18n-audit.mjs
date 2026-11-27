@@ -52,7 +52,10 @@ function walk(dir) {
 
 const TEXT_PROPS =
   'title|description|label|hint|placeholder|legend|aria-label|empty|actionLabel|actionAccessibilityLabel|subject|confirmLabel|detail|heading|subtitle|message|text';
-const propPattern = new RegExp(`\\b(?:${TEXT_PROPS})=(?:"([^"{}]{3,400})"|\\{'([^'{}]{3,400})'\\})`, 'g');
+const propPattern = new RegExp(
+  `\\b(?:${TEXT_PROPS})=(?:"([^"{}]{3,400})"|\\{'([^'{}]{3,400})'\\})`,
+  'g',
+);
 const wiredPropPattern = new RegExp(
   `\\b(?:${TEXT_PROPS})=\\{(?:tx|t)\\((?:"([^"{}]{2,400})"|'([^'{}]{2,400})')\\)\\}`,
   'g',
@@ -122,7 +125,9 @@ for (const row of rows) {
     existing.wired = existing.wired || row.wired;
   } else unique.set(row.text, { ...row });
 }
-const all = [...unique.values()].sort((a, b) => Number(a.translated) - Number(b.translated) || a.text.localeCompare(b.text));
+const all = [...unique.values()].sort(
+  (a, b) => Number(a.translated) - Number(b.translated) || a.text.localeCompare(b.text),
+);
 const translated = all.filter((row) => row.translated);
 const missing = all.filter((row) => !row.translated);
 
@@ -136,7 +141,9 @@ for (const row of all) {
 }
 
 if (process.argv.includes('--json')) {
-  console.log(JSON.stringify({ total: all.length, translated: translated.length, missing }, null, 2));
+  console.log(
+    JSON.stringify({ total: all.length, translated: translated.length, missing }, null, 2),
+  );
 } else if (process.argv.some((arg) => arg.startsWith('--missing-out='))) {
   const outDir = process.argv
     .find((arg) => arg.startsWith('--missing-out='))
@@ -169,7 +176,9 @@ if (process.argv.includes('--json')) {
   );
 } else {
   console.log(`Admin interface strings found: ${String(all.length)}`);
-  console.log(`Sayable in Bangla:               ${String(translated.length)} (${((translated.length / all.length) * 100).toFixed(1)}%)`);
+  console.log(
+    `Sayable in Bangla:               ${String(translated.length)} (${((translated.length / all.length) * 100).toFixed(1)}%)`,
+  );
   console.log(`Still English only:              ${String(missing.length)}`);
   const wired = all.filter((row) => row.wired);
   console.log(
@@ -194,7 +203,9 @@ if (process.argv.includes('--json')) {
   }
   console.log('\nBy area:');
   for (const [area, bucket] of [...byArea.entries()].sort((a, b) => b[1].total - a[1].total)) {
-    console.log(`  ${area.padEnd(42)} ${String(bucket.done).padStart(4)} / ${String(bucket.total).padStart(4)}`);
+    console.log(
+      `  ${area.padEnd(42)} ${String(bucket.done).padStart(4)} / ${String(bucket.total).padStart(4)}`,
+    );
   }
   console.log('\nNext 40 strings to translate:');
   for (const row of missing.slice(0, 40)) console.log(`  ${row.text}  —  ${row.file}`);

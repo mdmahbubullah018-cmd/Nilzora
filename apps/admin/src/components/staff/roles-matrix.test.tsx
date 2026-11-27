@@ -16,7 +16,11 @@ const api = vi.hoisted(() => ({ adminListRoles: vi.fn() }));
 
 vi.mock('@/lib/access', () => ({
   workspaceGate: () =>
-    Promise.resolve({ access: 'allowed', user: gate.user, csrf: { name: 'csrf_token', token: 't' } }),
+    Promise.resolve({
+      access: 'allowed',
+      user: gate.user,
+      csrf: { name: 'csrf_token', token: 't' },
+    }),
 }));
 vi.mock('@/lib/session', () => ({
   session: {

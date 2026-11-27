@@ -105,25 +105,22 @@ export function BangladeshMap({
     [districts, metric],
   );
 
-  const zoomBy = useCallback(
-    (factor: number) => {
-      setView((current) => {
-        const k = Math.min(MAX_ZOOM, Math.max(1, current.k * factor));
-        if (k === 1) return HOME;
-        return { ...current, k };
-      });
-    },
-    [],
-  );
+  const zoomBy = useCallback((factor: number) => {
+    setView((current) => {
+      const k = Math.min(MAX_ZOOM, Math.max(1, current.k * factor));
+      if (k === 1) return HOME;
+      return { ...current, k };
+    });
+  }, []);
 
   const zoomTo = useCallback((shape: MapShape, k = 3.2) => {
     const next = Math.min(MAX_ZOOM, Math.max(1, k));
     setView({ k: next, x: shape.cx * (1 - next), y: shape.cy * (1 - next) });
   }, []);
 
-  const hoveredRow = hovered === null ? null : rows.get(hovered) ?? null;
+  const hoveredRow = hovered === null ? null : (rows.get(hovered) ?? null);
   const hoveredShape =
-    hovered === null ? null : geometry?.districts.find((shape) => shape.name === hovered) ?? null;
+    hovered === null ? null : (geometry?.districts.find((shape) => shape.name === hovered) ?? null);
 
   /** Pointer position inside the map, so the tooltip is placed without reading the DOM in render. */
   const placeTip = useCallback((event: React.PointerEvent<SVGPathElement>) => {
@@ -291,7 +288,8 @@ export function BangladeshMap({
               const fill = mapFill(level);
               const selected = selectedDistrict === shape.name;
               const isHovered = hovered === shape.name;
-              const dimmed = selectedDivision !== null && row !== undefined && row.division !== selectedDivision;
+              const dimmed =
+                selectedDivision !== null && row !== undefined && row.division !== selectedDivision;
               return (
                 <path
                   key={shape.name}
@@ -358,9 +356,25 @@ export function BangladeshMap({
         ) : null}
 
         <div className="absolute right-2 top-2 flex flex-col gap-1">
-          <MapButton label={tx("Zoom in")} onClick={() => { zoomBy(1.35); }} />
-          <MapButton label={tx("Zoom out")} onClick={() => { zoomBy(1 / 1.35); }} />
-          <MapButton label={tx("Fit Bangladesh")} onClick={() => { setView(HOME); }} wide />
+          <MapButton
+            label={tx('Zoom in')}
+            onClick={() => {
+              zoomBy(1.35);
+            }}
+          />
+          <MapButton
+            label={tx('Zoom out')}
+            onClick={() => {
+              zoomBy(1 / 1.35);
+            }}
+          />
+          <MapButton
+            label={tx('Fit Bangladesh')}
+            onClick={() => {
+              setView(HOME);
+            }}
+            wide
+          />
         </div>
 
         <p className="pointer-events-none absolute bottom-1 left-2 text-[10px] text-muted-foreground">
@@ -426,7 +440,9 @@ function MapTooltip({
         bottom: flipY ? tip.h - tip.y + 12 : undefined,
       }}
     >
-      <p className="font-semibold text-foreground"><AutoText value={district.district} /></p>
+      <p className="font-semibold text-foreground">
+        <AutoText value={district.district} />
+      </p>
       {bengali !== null ? (
         <p className="text-[11px] text-muted-foreground" lang="bn">
           {bengali}
@@ -434,10 +450,10 @@ function MapTooltip({
       ) : null}
       <p className="text-[11px] text-muted-foreground">{district.division} division</p>
       <dl className="mt-1.5 grid gap-0.5 tabular-nums">
-        <Row label={tx("Orders")} value={formatCount(district.orderCount)} />
-        <Row label={tx("Delivered")} value={formatCount(district.deliveredCount)} />
-        <Row label={tx("Revenue")} value={formatMoney(district.revenueMinor)} />
-        <Row label={tx("Share")} value={shareText(share)} />
+        <Row label={tx('Orders')} value={formatCount(district.orderCount)} />
+        <Row label={tx('Delivered')} value={formatCount(district.deliveredCount)} />
+        <Row label={tx('Revenue')} value={formatMoney(district.revenueMinor)} />
+        <Row label={tx('Share')} value={shareText(share)} />
       </dl>
       <p className="mt-1.5 text-[10px] text-muted-foreground">
         {metric === 'orders'
@@ -454,8 +470,12 @@ function MapTooltip({
 function Row({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex items-baseline justify-between gap-2">
-      <dt className="text-muted-foreground"><AutoText value={label} /></dt>
-      <dd className="font-medium text-foreground"><AutoText value={value} /></dd>
+      <dt className="text-muted-foreground">
+        <AutoText value={label} />
+      </dt>
+      <dd className="font-medium text-foreground">
+        <AutoText value={value} />
+      </dd>
     </div>
   );
 }

@@ -56,7 +56,9 @@ export function OrderShipmentPanelView({
   if (!context.bookable && context.shipments.length === 0) {
     return (
       <SectionCard title="Shipment" icon={Truck} titleAs="h2">
-        <p className="text-sm text-muted-foreground"><AutoText value={reason} /></p>
+        <p className="text-sm text-muted-foreground">
+          <AutoText value={reason} />
+        </p>
       </SectionCard>
     );
   }
@@ -88,7 +90,11 @@ export function OrderShipmentPanelView({
               : PROVIDER_OPTIONS
           }
         />
-        {reason ? <p className="text-sm text-muted-foreground"><AutoText value={reason} /></p> : null}
+        {reason ? (
+          <p className="text-sm text-muted-foreground">
+            <AutoText value={reason} />
+          </p>
+        ) : null}
         <ShipmentSummaryList
           shipments={context.shipments}
           canOpen={canOpen}
@@ -148,7 +154,12 @@ export function OrderShipmentPanel({
   if (data.kind === 'hidden') return null;
   if (data.kind === 'unavailable') {
     return (
-      <p className="text-sm text-muted-foreground"><AutoText>Courier shipments for this order could not be loaded just now. Reload the page to try again.</AutoText></p>
+      <p className="text-sm text-muted-foreground">
+        <AutoText>
+          Courier shipments for this order could not be loaded just now. Reload the page to try
+          again.
+        </AutoText>
+      </p>
     );
   }
   return (

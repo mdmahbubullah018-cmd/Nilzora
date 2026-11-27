@@ -84,7 +84,14 @@ describe.skipIf(!enabled)('Redis cache against a real server', () => {
   it('unavailable Redis falls back to the loader instead of failing the request', async () => {
     // A port nothing listens on: the connection attempt fails fast.
     const unreachable = createRedisClient(
-      { tls: false, host: '127.0.0.1', port: 6399, username: undefined, password: undefined, database: 0 },
+      {
+        tls: false,
+        host: '127.0.0.1',
+        port: 6399,
+        username: undefined,
+        password: undefined,
+        database: 0,
+      },
       { commandTimeoutMs: 500, retryDelayMs: 60_000 },
     );
     const cache = createCatalogCache(unreachable, { ttlSeconds: 5 });
@@ -101,5 +108,3 @@ describe.skipIf(!enabled)('Redis cache against a real server', () => {
 function parse(value: unknown): string[] | null {
   return Array.isArray(value) && value.every((item) => typeof item === 'string') ? value : null;
 }
-
-

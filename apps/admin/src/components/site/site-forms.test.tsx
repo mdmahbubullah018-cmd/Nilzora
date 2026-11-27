@@ -1,5 +1,9 @@
 // @vitest-environment jsdom
-import type { PublicStoreProfile, SeoOverviewRow, StaffNotificationListResponse } from '@nilzora/contracts';
+import type {
+  PublicStoreProfile,
+  SeoOverviewRow,
+  StaffNotificationListResponse,
+} from '@nilzora/contracts';
 import { cleanup, fireEvent, render, screen, waitFor, within } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { InboxView } from './inbox-views';
@@ -68,7 +72,9 @@ describe('SeoEditorForm', () => {
     expect(within(preview).getByText('https://nilzora.com/products/brass-table-lamp')).toBeTruthy();
     expect(within(preview).getByText('No search description yet.')).toBeTruthy();
 
-    fireEvent.change(screen.getByLabelText('Search title'), { target: { value: 'Warm brass lamp' } });
+    fireEvent.change(screen.getByLabelText('Search title'), {
+      target: { value: 'Warm brass lamp' },
+    });
     fireEvent.change(screen.getByLabelText('Search description'), {
       target: { value: 'Hand finished.' },
     });
@@ -80,7 +86,11 @@ describe('SeoEditorForm', () => {
 
   it('previews a category at its storefront path', () => {
     render(
-      <SeoEditorForm entry={entry({ kind: 'category', slug: 'home', name: 'Home' })} canEdit csrf={csrf} />,
+      <SeoEditorForm
+        entry={entry({ kind: 'category', slug: 'home', name: 'Home' })}
+        canEdit
+        csrf={csrf}
+      />,
     );
     expect(
       within(screen.getByTestId('seo-preview')).getByText('https://nilzora.com/categories/home'),
@@ -96,7 +106,9 @@ describe('SeoEditorForm', () => {
     fireEvent.change(screen.getByLabelText('Search title'), { target: { value: 'x'.repeat(75) } });
     fireEvent.click(screen.getByRole('button', { name: 'Save metadata' }));
 
-    expect(await screen.findByText(/Use a path on this site that starts with a single \//)).toBeTruthy();
+    expect(
+      await screen.findByText(/Use a path on this site that starts with a single \//),
+    ).toBeTruthy();
     expect(screen.getByText(/Keep the search title under 70 characters/)).toBeTruthy();
     expect(screen.getByText('75/70')).toBeTruthy();
     expect(actions.saveSeo).not.toHaveBeenCalled();
@@ -148,7 +160,13 @@ describe('SeoOverviewView', () => {
       <SeoOverviewView
         entries={[
           entry({ seoTitle: null }),
-          entry({ kind: 'category', id: '1d000000-0000-4000-8000-000000000002', name: 'Home', slug: 'home', seoTitle: null }),
+          entry({
+            kind: 'category',
+            id: '1d000000-0000-4000-8000-000000000002',
+            name: 'Home',
+            slug: 'home',
+            seoTitle: null,
+          }),
         ]}
         q=""
       />,
@@ -221,9 +239,7 @@ describe('StoreProfileForm', () => {
       'https://www.tiktok.com/@nilzora',
     );
     // A payload that carried the fields: nothing is held back from an empty one.
-    expect(
-      document.querySelector<HTMLInputElement>('input[name="absentFields"]')?.value,
-    ).toBe('');
+    expect(document.querySelector<HTMLInputElement>('input[name="absentFields"]')?.value).toBe('');
   });
 
   it('names the newer fields an older payload did not carry, so an empty form keeps them', () => {
@@ -246,7 +262,9 @@ describe('StoreProfileForm', () => {
   it('checks the WhatsApp number and store links with the contract’s rules before sending', async () => {
     render(<StoreProfileForm profile={profile} csrf={csrf} />);
 
-    fireEvent.change(screen.getByLabelText('WhatsApp number'), { target: { value: '01712345678' } });
+    fireEvent.change(screen.getByLabelText('WhatsApp number'), {
+      target: { value: '01712345678' },
+    });
     fireEvent.change(screen.getByLabelText('Google Play listing'), {
       target: { value: 'https://example.com/app' },
     });
@@ -257,7 +275,9 @@ describe('StoreProfileForm', () => {
     fireEvent.blur(screen.getByLabelText('Google Play listing'));
     fireEvent.blur(screen.getByLabelText('App Store listing'));
 
-    expect(await screen.findByText('Use a Bangladeshi mobile number such as +8801712345678')).toBeTruthy();
+    expect(
+      await screen.findByText('Use a Bangladeshi mobile number such as +8801712345678'),
+    ).toBeTruthy();
     expect(screen.getByText(/Use the Google Play address/)).toBeTruthy();
     // A correct App Store link raises nothing.
     expect(screen.queryByText(/Use the App Store address/)).toBeNull();
@@ -271,7 +291,9 @@ describe('StoreProfileForm', () => {
     actions.saveProfile.mockResolvedValue({ status: 'success', message: 'Store profile saved.' });
     render(<StoreProfileForm profile={profile} csrf={csrf} />);
 
-    fireEvent.change(screen.getByLabelText('Tagline'), { target: { value: 'Everyday essentials.' } });
+    fireEvent.change(screen.getByLabelText('Tagline'), {
+      target: { value: 'Everyday essentials.' },
+    });
     expect(screen.getByText('Unsaved changes')).toBeTruthy();
     expect(screen.getByText('20/160')).toBeTruthy();
     fireEvent.click(screen.getByRole('button', { name: 'Save store profile' }));
@@ -332,7 +354,10 @@ describe('InboxView', () => {
   });
 
   it('confirms mark-all, and shows its failure', async () => {
-    actions.markAll.mockResolvedValue({ status: 'success', message: 'Everything is marked as read.' });
+    actions.markAll.mockResolvedValue({
+      status: 'success',
+      message: 'Everything is marked as read.',
+    });
     render(<InboxView inbox={inbox} csrf={csrf} />);
     fireEvent.click(screen.getByRole('button', { name: 'Mark all read' }));
     expect(await screen.findByText('Everything is marked as read.')).toBeTruthy();

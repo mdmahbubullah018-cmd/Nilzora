@@ -33,7 +33,9 @@ describe('readableReportKinds', () => {
   it('opens the page only when some report is open', () => {
     expect(canOpenReports(['coupons.update'])).toBe(true);
     expect(canOpenReports(['admin_workspace.access'])).toBe(false);
-    expect(REPORT_PERMISSIONS.every((permission: Permission) => permission.includes('.'))).toBe(true);
+    expect(REPORT_PERMISSIONS.every((permission: Permission) => permission.includes('.'))).toBe(
+      true,
+    );
   });
 });
 
@@ -52,14 +54,26 @@ describe('parseReportPage', () => {
   });
 
   it('falls back to a permitted report when the kind is unknown or not permitted', () => {
-    expect(parseReportPage({ kind: 'nonsense' }, ['orders', 'customers'], NOW)?.kind).toBe('orders');
-    expect(parseReportPage({ kind: 'audit_logs' }, ['orders', 'customers'], NOW)?.kind).toBe('orders');
-    expect(parseReportPage({ kind: 'customers' }, ['orders', 'customers'], NOW)?.kind).toBe('customers');
+    expect(parseReportPage({ kind: 'nonsense' }, ['orders', 'customers'], NOW)?.kind).toBe(
+      'orders',
+    );
+    expect(parseReportPage({ kind: 'audit_logs' }, ['orders', 'customers'], NOW)?.kind).toBe(
+      'orders',
+    );
+    expect(parseReportPage({ kind: 'customers' }, ['orders', 'customers'], NOW)?.kind).toBe(
+      'customers',
+    );
   });
 
   it('keeps the filters a report accepts and drops the rest', () => {
     const page = parseReportPage(
-      { kind: 'orders', status: 'delivered', paymentStatus: 'pending', q: '  NZ1  ', categoryId: CATEGORY },
+      {
+        kind: 'orders',
+        status: 'delivered',
+        paymentStatus: 'pending',
+        q: '  NZ1  ',
+        categoryId: CATEGORY,
+      },
       all,
       NOW,
     );
@@ -69,8 +83,12 @@ describe('parseReportPage', () => {
 
   it('refuses a status the report does not know, a malformed id and an over-long search', () => {
     expect(parseReportPage({ kind: 'orders', status: 'bogus' }, all, NOW)?.filters).toEqual({});
-    expect(parseReportPage({ kind: 'products', categoryId: 'not-a-uuid' }, all, NOW)?.filters).toEqual({});
-    expect(parseReportPage({ kind: 'products', q: 'x'.repeat(101) }, all, NOW)?.filters).toEqual({});
+    expect(
+      parseReportPage({ kind: 'products', categoryId: 'not-a-uuid' }, all, NOW)?.filters,
+    ).toEqual({});
+    expect(parseReportPage({ kind: 'products', q: 'x'.repeat(101) }, all, NOW)?.filters).toEqual(
+      {},
+    );
     expect(parseReportPage({ kind: 'products', categoryId: CATEGORY }, all, NOW)?.filters).toEqual({
       categoryId: CATEGORY,
     });
@@ -78,7 +96,9 @@ describe('parseReportPage', () => {
 
   it('ignores repeated parameters instead of guessing between them', () => {
     expect(parseReportPage({ kind: ['orders', 'customers'] }, all, NOW)?.kind).toBe('sales');
-    expect(parseReportPage({ kind: 'orders', status: ['delivered', 'pending'] }, all, NOW)?.filters).toEqual({});
+    expect(
+      parseReportPage({ kind: 'orders', status: ['delivered', 'pending'] }, all, NOW)?.filters,
+    ).toEqual({});
   });
 
   it('reads a custom range and the too-large flag', () => {

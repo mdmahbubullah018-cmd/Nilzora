@@ -69,10 +69,7 @@ export default function RootLayout() {
             name="product/[slug]"
             options={{ ...stackHeader, ...cartHeaderButton, title: 'Product' }}
           />
-          <Stack.Screen
-            name="visual-search"
-            options={{ headerShown: false }}
-          />
+          <Stack.Screen name="visual-search" options={{ headerShown: false }} />
           <Stack.Screen
             name="brands/index"
             options={{ ...stackHeader, ...cartHeaderButton, title: 'Brands' }}

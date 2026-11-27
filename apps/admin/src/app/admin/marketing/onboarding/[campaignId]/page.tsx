@@ -97,11 +97,15 @@ export default async function OnboardingCampaignPage({ params, searchParams }: P
               <Link
                 href={`/admin/marketing/onboarding/${campaign.id}/preview`}
                 className={buttonClasses({ variant: 'outline', size: 'sm' })}
-              ><AutoText>Preview</AutoText></Link>
+              >
+                <AutoText>Preview</AutoText>
+              </Link>
               <Link
                 href="/admin/marketing/onboarding"
                 className={buttonClasses({ variant: 'ghost', size: 'sm' })}
-              ><AutoText>Back to onboarding</AutoText></Link>
+              >
+                <AutoText>Back to onboarding</AutoText>
+              </Link>
             </div>
           }
         />

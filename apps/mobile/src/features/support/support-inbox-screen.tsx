@@ -123,7 +123,7 @@ export function SupportInboxScreen() {
       title="Support"
       edges={['bottom']}
       onRefresh={onRefresh}
-     
+
       testID="support-inbox"
     >
       {question === null ? <NewConversationCard /> : <ProductQuestionCard question={question} />}

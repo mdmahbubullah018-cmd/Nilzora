@@ -132,7 +132,11 @@ export function OrderSelectionProvider({
     };
   }, [selected, pageOrders, notice, selectMany, deselectMany]);
 
-  return <SelectionContext.Provider value={value}><AutoText value={children} /></SelectionContext.Provider>;
+  return (
+    <SelectionContext.Provider value={value}>
+      <AutoText value={children} />
+    </SelectionContext.Provider>
+  );
 }
 
 const CHECKBOX =
@@ -189,7 +193,7 @@ export function SelectPageCheckbox() {
         ref={ref}
         type="checkbox"
         className={CHECKBOX}
-        aria-label={tx("Select every order on this page")}
+        aria-label={tx('Select every order on this page')}
         aria-checked={some ? 'mixed' : all}
         checked={all}
         onChange={() => {

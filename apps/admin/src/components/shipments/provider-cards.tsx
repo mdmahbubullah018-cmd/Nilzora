@@ -56,11 +56,17 @@ export function ReadinessChecklist({ provider }: { provider: CourierProvider }) 
   return (
     <div className="grid gap-3">
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <h3 className="text-sm font-semibold text-foreground"><AutoText>Live readiness</AutoText></h3>
+        <h3 className="text-sm font-semibold text-foreground">
+          <AutoText>Live readiness</AutoText>
+        </h3>
         {readiness.ready ? (
-          <Chip tone="success" dot><AutoText>Ready for live bookings</AutoText></Chip>
+          <Chip tone="success" dot>
+            <AutoText>Ready for live bookings</AutoText>
+          </Chip>
         ) : (
-          <Chip tone="neutral" dot><AutoText>Not ready for live bookings</AutoText></Chip>
+          <Chip tone="neutral" dot>
+            <AutoText>Not ready for live bookings</AutoText>
+          </Chip>
         )}
       </div>
       <ul aria-label={`Live readiness of ${provider.displayName}`} className="grid gap-1.5">
@@ -86,10 +92,14 @@ export function ReadinessChecklist({ provider }: { provider: CourierProvider }) 
       </ul>
       {readiness.blockers.length > 0 ? (
         <div className="grid gap-1 rounded-xl border border-warning-line bg-warning-soft/40 p-3 text-sm">
-          <p className="font-semibold text-warning-ink"><AutoText>Still missing</AutoText></p>
+          <p className="font-semibold text-warning-ink">
+            <AutoText>Still missing</AutoText>
+          </p>
           <ul className="list-disc pl-5 text-body">
             {readiness.blockers.map((blocker) => (
-              <li key={blocker}><AutoText value={blocker} /></li>
+              <li key={blocker}>
+                <AutoText value={blocker} />
+              </li>
             ))}
           </ul>
         </div>
@@ -135,20 +145,28 @@ export function ProviderCard({
         {provider.blockedReason ? (
           <div className="grid gap-1 rounded-xl border border-hairline bg-surface-muted/50 p-3 text-sm">
             <p className="flex items-center gap-2 font-semibold text-foreground">
-              <ShieldCheck aria-hidden="true" className="size-4 text-muted-foreground" /><AutoText>Real calls are blocked</AutoText></p>
-            <p className="text-body"><AutoText value={provider.blockedReason} /></p>
+              <ShieldCheck aria-hidden="true" className="size-4 text-muted-foreground" />
+              <AutoText>Real calls are blocked</AutoText>
+            </p>
+            <p className="text-body">
+              <AutoText value={provider.blockedReason} />
+            </p>
           </div>
         ) : null}
 
         <section aria-label={`${provider.displayName} credentials`} className="grid gap-2">
           <h3 className="flex items-center gap-2 text-sm font-semibold text-foreground">
-            <KeyRound aria-hidden="true" className="size-4 text-muted-foreground" /><AutoText>Credentials</AutoText></h3>
+            <KeyRound aria-hidden="true" className="size-4 text-muted-foreground" />
+            <AutoText>Credentials</AutoText>
+          </h3>
           <p className="text-xs text-muted-foreground">
             Write-only: values are stored encrypted on the server and never shown again. Saving or
             clearing one removes the courier’s live verification.
           </p>
           {provider.credentialFields.length === 0 ? (
-            <p className="text-sm text-muted-foreground"><AutoText>This courier needs no credentials.</AutoText></p>
+            <p className="text-sm text-muted-foreground">
+              <AutoText>This courier needs no credentials.</AutoText>
+            </p>
           ) : (
             <ul className="grid gap-2">
               {provider.credentialFields.map((field) => {
@@ -167,8 +185,12 @@ export function ProviderCard({
                     key={field}
                     className="flex flex-wrap items-center justify-between gap-2 rounded-xl border border-hairline px-3 py-2 text-sm"
                   >
-                    <span className="font-medium text-foreground"><AutoText value={credentialLabel(field)} /></span>
-                    <span className="text-xs text-muted-foreground"><AutoText value={status.text} /></span>
+                    <span className="font-medium text-foreground">
+                      <AutoText value={credentialLabel(field)} />
+                    </span>
+                    <span className="text-xs text-muted-foreground">
+                      <AutoText value={status.text} />
+                    </span>
                   </li>
                 );
               })}
@@ -177,7 +199,9 @@ export function ProviderCard({
         </section>
 
         <section aria-label={`${provider.displayName} connection`} className="grid gap-3">
-          <h3 className="text-sm font-semibold text-foreground"><AutoText>Connection</AutoText></h3>
+          <h3 className="text-sm font-semibold text-foreground">
+            <AutoText>Connection</AutoText>
+          </h3>
           {canConfigure ? (
             <BaseUrlForm
               provider={provider.provider}
@@ -202,13 +226,16 @@ export function ProviderCard({
             </div>
           ) : provider.liveVerifiedAt ? (
             <p className="text-sm text-success-ink">
-              Verified for live use <DateTimeText value={provider.liveVerifiedAt} style="datetime" />
+              Verified for live use{' '}
+              <DateTimeText value={provider.liveVerifiedAt} style="datetime" />
             </p>
           ) : null}
         </section>
 
         <div className="grid gap-2">
-          <h3 className="text-sm font-semibold text-foreground"><AutoText>What Nilzora can do</AutoText></h3>
+          <h3 className="text-sm font-semibold text-foreground">
+            <AutoText>What Nilzora can do</AutoText>
+          </h3>
           <CapabilityMatrix provider={provider} />
         </div>
 
@@ -239,7 +266,10 @@ export function ProviderCard({
                       <ul className="grid gap-0.5">
                         {settings.map(([key, value]) => (
                           <li key={key}>
-                            <span className="font-mono text-xs"><AutoText value={key} /></span>: {String(value)}
+                            <span className="font-mono text-xs">
+                              <AutoText value={key} />
+                            </span>
+                            : {String(value)}
                           </li>
                         ))}
                       </ul>
@@ -278,10 +308,14 @@ export function ProvidersView({
           href={OPERATIONS_PATHS.settings}
           className={cn(buttonClasses({ variant: 'outline', size: 'sm' }), 'w-fit')}
         >
-          <ListChecks aria-hidden="true" /><AutoText>Courier settings</AutoText></Link>
+          <ListChecks aria-hidden="true" />
+          <AutoText>Courier settings</AutoText>
+        </Link>
       </div>
       {config.providers.length === 0 ? (
-        <p className="text-sm text-muted-foreground"><AutoText>No couriers are set up yet.</AutoText></p>
+        <p className="text-sm text-muted-foreground">
+          <AutoText>No couriers are set up yet.</AutoText>
+        </p>
       ) : (
         <div className="grid gap-6 xl:grid-cols-2">
           {config.providers.map((provider) => (

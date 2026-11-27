@@ -172,11 +172,7 @@ export function HeaderShell({
               variant="header"
               className="mr-2 hidden min-w-0 flex-1 xl:block"
             />
-            <Link
-              href="/search"
-              aria-label="Search"
-              className={cn(headerIconButton, 'xl:hidden')}
-            >
+            <Link href="/search" aria-label="Search" className={cn(headerIconButton, 'xl:hidden')}>
               {/* Same colour logic as the cart glyph: primary once the bar is solid, otherwise
                   the header's own foreground (white over the banner, ink on the phone bar). */}
               <Search

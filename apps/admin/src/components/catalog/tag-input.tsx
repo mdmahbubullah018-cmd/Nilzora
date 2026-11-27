@@ -34,14 +34,7 @@ function split(text: string): string[] {
  * the tags travel as one comma-separated field. Without JavaScript it is a plain text
  * field taking the same comma-separated list.
  */
-export function TagInput({
-  id,
-  name = 'tags',
-  form,
-  initial,
-  onChange,
-  ...aria
-}: TagInputProps) {
+export function TagInput({ id, name = 'tags', form, initial, onChange, ...aria }: TagInputProps) {
   const tx = useTx();
   const interactive = useInteractive();
   const [tags, setTags] = useState<string[]>(() => [...new Set(split(initial))]);
@@ -114,7 +107,7 @@ export function TagInput({
     <div className="grid gap-1.5">
       <input type="hidden" name={name} form={form} value={tags.join(', ')} />
       <div className="flex flex-wrap items-center gap-1.5 rounded-xl border border-input-border bg-surface p-1.5 focus-within:border-primary focus-within:outline-2 focus-within:outline-ring">
-        <ul aria-label={tx("Tags")} className="contents">
+        <ul aria-label={tx('Tags')} className="contents">
           {tags.map((tag) => (
             <li
               key={tag}

@@ -35,13 +35,19 @@ export function TestChip() {
     <Chip
       tone="offer"
       title="Test shipment from the mock courier: no real parcel, left out of totals"
-    ><AutoText>Test</AutoText></Chip>
+    >
+      <AutoText>Test</AutoText>
+    </Chip>
   );
 }
 
 /** Where a price comes from: Live quote, Courier estimate, Internal Estimate or No price. */
 export function QuoteKindChip({ kind }: { kind: CourierQuoteKind }) {
-  return <Chip tone={QUOTE_KIND_TONE[kind]}><AutoText value={quoteKindLabel(kind)} /></Chip>;
+  return (
+    <Chip tone={QUOTE_KIND_TONE[kind]}>
+      <AutoText value={quoteKindLabel(kind)} />
+    </Chip>
+  );
 }
 
 export function CodPositionChip({ status }: { status: CodPositionStatus }) {
@@ -55,7 +61,11 @@ export function CodPositionChip({ status }: { status: CodPositionStatus }) {
 
 export function CapabilityChip({ state }: { state: CourierCapabilityState }) {
   const style = CAPABILITY_STATE[state];
-  return <Chip tone={style.tone}><AutoText value={style.label} /></Chip>;
+  return (
+    <Chip tone={style.tone}>
+      <AutoText value={style.label} />
+    </Chip>
+  );
 }
 
 /** How the server talks to couriers, said plainly: off, test mode or live. */
@@ -86,7 +96,9 @@ export function CourierModeBanner({
       {settingsHref ? (
         <>
           {' '}
-          <Link href={settingsHref} className="font-semibold underline underline-offset-4"><AutoText>Courier settings</AutoText></Link>
+          <Link href={settingsHref} className="font-semibold underline underline-offset-4">
+            <AutoText>Courier settings</AutoText>
+          </Link>
         </>
       ) : null}
     </Alert>

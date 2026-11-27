@@ -51,13 +51,18 @@ describe('POST /api/support', () => {
       POST(post({ op: 'assignee', id: CONVERSATION, assigneeId: null })),
     ]);
     expect(answers.map((response) => response.status)).toEqual([201, 201, 200, 200, 200]);
-    expect(gateway.sendMessage).toHaveBeenCalledWith(CONVERSATION, { clientMessageId: CLIENT, body: 'On it' });
+    expect(gateway.sendMessage).toHaveBeenCalledWith(CONVERSATION, {
+      clientMessageId: CLIENT,
+      body: 'On it',
+    });
     expect(gateway.addNote).toHaveBeenCalledWith(CONVERSATION, 'Called the courier');
     expect(gateway.setStatus).toHaveBeenCalledWith(CONVERSATION, 'resolved');
   });
 
   it('still refuses a field the operation does not take', async () => {
-    const response = await POST(post({ op: 'note', id: CONVERSATION, body: 'x', authorId: CLIENT }));
+    const response = await POST(
+      post({ op: 'note', id: CONVERSATION, body: 'x', authorId: CLIENT }),
+    );
     expect(response.status).toBe(400);
     expect(gateway.addNote).not.toHaveBeenCalled();
   });
@@ -65,7 +70,9 @@ describe('POST /api/support', () => {
   it('answers a write with no content as a bodiless 204', async () => {
     gateway.pinMessage.mockResolvedValue({ ok: true, value: undefined });
     gateway.setAutomationRuleActive.mockResolvedValue({ ok: true, value: undefined });
-    const pinned = await POST(post({ op: 'pin', conversationId: CONVERSATION, messageId: MESSAGE }));
+    const pinned = await POST(
+      post({ op: 'pin', conversationId: CONVERSATION, messageId: MESSAGE }),
+    );
     const toggled = await POST(post({ op: 'automation-toggle', ruleId: MESSAGE, isActive: false }));
     expect(pinned.status).toBe(204);
     expect(toggled.status).toBe(204);
@@ -77,11 +84,18 @@ describe('GET /api/support?op=queue', () => {
   it('passes the queue filters through to the gateway', async () => {
     gateway.queue.mockResolvedValue({ ok: true, value: { conversations: [] } });
     const response = await GET(
-      new Request('http://localhost:3001/api/support?op=queue&scope=mine&sort=oldest&priority=urgent&q=refund'),
+      new Request(
+        'http://localhost:3001/api/support?op=queue&scope=mine&sort=oldest&priority=urgent&q=refund',
+      ),
     );
     expect(response.status).toBe(200);
     expect(gateway.queue).toHaveBeenCalledWith(
-      expect.objectContaining({ scope: 'mine', sort: 'oldest', priority: 'urgent', search: 'refund' }),
+      expect.objectContaining({
+        scope: 'mine',
+        sort: 'oldest',
+        priority: 'urgent',
+        search: 'refund',
+      }),
     );
   });
 });

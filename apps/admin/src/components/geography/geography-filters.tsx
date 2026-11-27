@@ -63,7 +63,9 @@ export function GeographyFilters({ selection, geography, today }: GeographyFilte
     >
       <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
         <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-muted-foreground">
-          <SlidersHorizontal className="size-3.5" aria-hidden="true" /><AutoText>Dates</AutoText></span>
+          <SlidersHorizontal className="size-3.5" aria-hidden="true" />
+          <AutoText>Dates</AutoText>
+        </span>
         <div role="group" aria-label="Date range" className="flex flex-wrap gap-1">
           {GEOGRAPHY_PRESETS.filter((entry) => entry.preset !== 'custom').map((entry) => (
             <Link
@@ -80,12 +82,16 @@ export function GeographyFilters({ selection, geography, today }: GeographyFilte
             </Link>
           ))}
         </div>
-        <span className="text-xs text-muted-foreground"><AutoText value={rangeLabel(selection.range, today)} /></span>
+        <span className="text-xs text-muted-foreground">
+          <AutoText value={rangeLabel(selection.range, today)} />
+        </span>
       </div>
 
       <div className="flex flex-wrap items-center gap-2">
         <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-muted-foreground">
-          <Filter className="size-3.5" aria-hidden="true" /><AutoText>Shade by</AutoText></span>
+          <Filter className="size-3.5" aria-hidden="true" />
+          <AutoText>Shade by</AutoText>
+        </span>
         <div role="group" aria-label="Metric" className="flex flex-wrap gap-1">
           {METRIC_OPTIONS.map((option) => (
             <Link
@@ -147,7 +153,9 @@ export function GeographyFilters({ selection, geography, today }: GeographyFilte
         </Field>
         <Field label="Division">
           <select name="division" defaultValue={selection.division ?? ''} className={SELECT}>
-            <option value=""><AutoText>All divisions</AutoText></option>
+            <option value="">
+              <AutoText>All divisions</AutoText>
+            </option>
             {geography.divisions.map((division) => (
               <option key={division.division} value={division.division}>
                 {division.division}
@@ -157,7 +165,9 @@ export function GeographyFilters({ selection, geography, today }: GeographyFilte
         </Field>
         <Field label="District">
           <select name="district" defaultValue={selection.district ?? ''} className={SELECT}>
-            <option value=""><AutoText>All districts</AutoText></option>
+            <option value="">
+              <AutoText>All districts</AutoText>
+            </option>
             {selection.division !== null
               ? districtsInDivision.map((row) => (
                   <option key={row.district} value={row.district}>
@@ -177,7 +187,9 @@ export function GeographyFilters({ selection, geography, today }: GeographyFilte
         </Field>
         <Field label="Status">
           <select name="status" defaultValue={selection.status ?? ''} className={SELECT}>
-            <option value=""><AutoText>Every status</AutoText></option>
+            <option value="">
+              <AutoText>Every status</AutoText>
+            </option>
             {ORDER_STATUSES.map((status) => (
               <option key={status} value={status}>
                 {STATUS_LABEL[status]}
@@ -185,12 +197,16 @@ export function GeographyFilters({ selection, geography, today }: GeographyFilte
             ))}
           </select>
         </Field>
-        <Button type="submit" size="sm"><AutoText>Apply</AutoText></Button>
+        <Button type="submit" size="sm">
+          <AutoText>Apply</AutoText>
+        </Button>
       </form>
 
       {narrowed || selection.focus !== null ? (
         <div className="flex flex-wrap items-center gap-1.5">
-          <span className="text-xs text-muted-foreground"><AutoText>Showing</AutoText></span>
+          <span className="text-xs text-muted-foreground">
+            <AutoText>Showing</AutoText>
+          </span>
           {selection.division !== null ? (
             <Chip
               label={`Division: ${selection.division}`}
@@ -210,19 +226,26 @@ export function GeographyFilters({ selection, geography, today }: GeographyFilte
             />
           ) : null}
           {selection.focus !== null ? (
-            <Chip label={`Focus: ${selection.focus.name}`} href={geographyHref(selection, { focus: null })} />
+            <Chip
+              label={`Focus: ${selection.focus.name}`}
+              href={geographyHref(selection, { focus: null })}
+            />
           ) : null}
           {narrowed ? (
             <Link
               href={clearHref}
               className="ml-1 inline-flex items-center gap-1 rounded-lg px-2 py-1 text-xs font-medium text-link hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-action"
             >
-              <X className="size-3" aria-hidden="true" /><AutoText>Clear filters</AutoText></Link>
+              <X className="size-3" aria-hidden="true" />
+              <AutoText>Clear filters</AutoText>
+            </Link>
           ) : null}
         </div>
       ) : (
         <p className="inline-flex items-center gap-1.5 text-xs text-muted-foreground">
-          <Check className="size-3.5" aria-hidden="true" /><AutoText>No filters: every division and district is included.</AutoText></p>
+          <Check className="size-3.5" aria-hidden="true" />
+          <AutoText>No filters: every division and district is included.</AutoText>
+        </p>
       )}
     </section>
   );
@@ -234,7 +257,9 @@ const SELECT =
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <label className="grid gap-1">
-      <span className="text-[11px] font-medium text-muted-foreground"><AutoText value={label} /></span>
+      <span className="text-[11px] font-medium text-muted-foreground">
+        <AutoText value={label} />
+      </span>
       {children}
     </label>
   );

@@ -23,7 +23,6 @@ jest.mock('expo-router', () => jest.requireActual<object>('@/test-utils/expo-rou
  * only ever come from the store's published profile.
  */
 
-
 function infoApi(profile: PublicStoreProfile | null = fakeStoreProfile()): FakeApiClient {
   const api = createFakeApiClient();
   if (profile === null) {

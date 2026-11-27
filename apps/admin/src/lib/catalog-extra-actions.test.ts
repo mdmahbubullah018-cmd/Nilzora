@@ -61,7 +61,11 @@ beforeEach(() => {
 
 describe('checkSlugAction', () => {
   it('asks the API about the address, leaving out the item being edited', async () => {
-    api.adminSlugAvailability.mockResolvedValue({ available: true, reason: null, suggestion: null });
+    api.adminSlugAvailability.mockResolvedValue({
+      available: true,
+      reason: null,
+      suggestion: null,
+    });
     await expect(
       checkSlugAction(form({ kind: 'product', slug: 'desk-lamp', excludeId: ID })),
     ).resolves.toEqual({ state: 'available' });

@@ -48,8 +48,13 @@ const actions = vi.hoisted(() => ({
   uploadMobile: vi.fn(),
   removeMobile: vi.fn(),
 }));
-const read = vi.hoisted((): { outcome: 'ok' | 'signed_out' | 'unavailable' } => ({ outcome: 'ok' }));
-const gate = vi.hoisted((): { user: unknown; csrf: unknown } => ({ user: undefined, csrf: undefined }));
+const read = vi.hoisted((): { outcome: 'ok' | 'signed_out' | 'unavailable' } => ({
+  outcome: 'ok',
+}));
+const gate = vi.hoisted((): { user: unknown; csrf: unknown } => ({
+  user: undefined,
+  csrf: undefined,
+}));
 
 vi.mock('@/lib/session', () => ({
   session: {
@@ -130,19 +135,19 @@ function link(n: number, overrides: Partial<MenuItem> = {}): MenuItem {
   };
 }
 
-function sections(overrides: Partial<Record<HomepageSectionKey, Partial<AdminHomepageSection>>> = {}) {
-  return HOMEPAGE_SECTION_KEYS.map(
-    (key, index): AdminHomepageSection => ({
-      key,
-      title: null,
-      itemLimit: null,
-      config: {},
-      isEnabled: true,
-      sortOrder: index + 1,
-      updatedAt: AT,
-      ...overrides[key],
-    }),
-  );
+function sections(
+  overrides: Partial<Record<HomepageSectionKey, Partial<AdminHomepageSection>>> = {},
+) {
+  return HOMEPAGE_SECTION_KEYS.map((key, index): AdminHomepageSection => ({
+    key,
+    title: null,
+    itemLimit: null,
+    config: {},
+    isEnabled: true,
+    sortOrder: index + 1,
+    updatedAt: AT,
+    ...overrides[key],
+  }));
 }
 
 function banner(n: number, overrides: Partial<AdminBanner> = {}): AdminBanner {
@@ -195,7 +200,9 @@ describe('Pages list', () => {
     // Four pages were never written; the storefront keeps its built-in text for them.
     expect(within(table).getAllByText('Not written yet')).toHaveLength(4);
     expect(within(table).getByText('/help/faq')).toBeTruthy();
-    expect(screen.getByRole('link', { name: 'Edit About us' }).getAttribute('href')).toBe('/admin/pages/about');
+    expect(screen.getByRole('link', { name: 'Edit About us' }).getAttribute('href')).toBe(
+      '/admin/pages/about',
+    );
   });
 
   it('refuses an account without settings.manage before reading anything', async () => {
@@ -218,7 +225,10 @@ describe('Pages list', () => {
 });
 
 describe('Page editor', () => {
-  const params = (slug: string) => ({ params: Promise.resolve({ slug }), searchParams: searchParams() });
+  const params = (slug: string) => ({
+    params: Promise.resolve({ slug }),
+    searchParams: searchParams(),
+  });
 
   it('opens a saved page with its text', async () => {
     api.adminListSitePages.mockResolvedValue({ pages: [sitePage()] });
@@ -262,7 +272,9 @@ describe('SitePageForm', () => {
     fireEvent.click(screen.getByRole('checkbox', { name: /^Published/ }));
     fireEvent.click(screen.getByRole('button', { name: 'Save page' }));
 
-    expect(screen.getByText('A published page needs text. Write it, or save it as a draft.')).toBeTruthy();
+    expect(
+      screen.getByText('A published page needs text. Write it, or save it as a draft.'),
+    ).toBeTruthy();
     expect(actions.savePage).not.toHaveBeenCalled();
   });
 
@@ -283,7 +295,10 @@ describe('SitePageForm', () => {
   });
 
   it('shows a refusal instead of staying silent', async () => {
-    actions.savePage.mockResolvedValue({ status: 'error', message: 'Changing the storefront needs permission.' });
+    actions.savePage.mockResolvedValue({
+      status: 'error',
+      message: 'Changing the storefront needs permission.',
+    });
     render(<SitePageForm page={sitePage()} csrf={csrf} />);
     fireEvent.click(screen.getByRole('button', { name: 'Save page' }));
     expect(await screen.findByText('Changing the storefront needs permission.')).toBeTruthy();
@@ -301,21 +316,36 @@ describe('Menus page', () => {
       items: [
         link(2),
         link(1),
-        link(3, { menu: 'footer_help', label: 'Delivery', href: '/help/shipping', isActive: false }),
+        link(3, {
+          menu: 'footer_help',
+          label: 'Delivery',
+          href: '/help/shipping',
+          isActive: false,
+        }),
       ],
     });
     render(<>{await MenusPage()}</>);
 
     expect(screen.getByRole('heading', { level: 1 }).textContent).toBe('Menus');
     const header = screen.getByRole('list', { name: 'Header menu links' });
-    expect(within(header).getAllByRole('listitem').map((item) => item.textContent)).toEqual([
-      expect.stringContaining('Link 1'),
-      expect.stringContaining('Link 2'),
-    ]);
+    expect(
+      within(header)
+        .getAllByRole('listitem')
+        .map((item) => item.textContent),
+    ).toEqual([expect.stringContaining('Link 1'), expect.stringContaining('Link 2')]);
     // The first cannot move earlier and the last cannot move later.
-    expect(screen.getByRole('button', { name: 'Move Link 1 earlier' })).toHaveProperty('disabled', true);
-    expect(screen.getByRole('button', { name: 'Move Link 2 later' })).toHaveProperty('disabled', true);
-    expect(screen.getByRole('button', { name: 'Move Link 1 later' })).toHaveProperty('disabled', false);
+    expect(screen.getByRole('button', { name: 'Move Link 1 earlier' })).toHaveProperty(
+      'disabled',
+      true,
+    );
+    expect(screen.getByRole('button', { name: 'Move Link 2 later' })).toHaveProperty(
+      'disabled',
+      true,
+    );
+    expect(screen.getByRole('button', { name: 'Move Link 1 later' })).toHaveProperty(
+      'disabled',
+      false,
+    );
     // A hidden link says so; an empty menu says the built-in one stays.
     expect(screen.getByText('Hidden')).toBeTruthy();
     expect(screen.getAllByText('No links yet')).toHaveLength(1);
@@ -338,7 +368,10 @@ describe('Menus page', () => {
 
 describe('MenusView', () => {
   it('sends a move with the order the page was rendered with', async () => {
-    actions.moveMenu.mockResolvedValue({ status: 'error', message: 'The menu changed since this page loaded.' });
+    actions.moveMenu.mockResolvedValue({
+      status: 'error',
+      message: 'The menu changed since this page loaded.',
+    });
     render(<MenusView items={[link(1), link(2), link(3)]} csrf={csrf} />);
 
     fireEvent.click(screen.getByRole('button', { name: 'Move Link 2 earlier' }));
@@ -358,10 +391,14 @@ describe('MenusView', () => {
     fireEvent.click(within(header).getByText(/Add a link/));
 
     fireEvent.change(within(header).getByLabelText(/^Label/), { target: { value: 'Sale' } });
-    fireEvent.change(within(header).getByLabelText(/^Link/), { target: { value: 'javascript:alert(1)' } });
+    fireEvent.change(within(header).getByLabelText(/^Link/), {
+      target: { value: 'javascript:alert(1)' },
+    });
     fireEvent.click(within(header).getByRole('button', { name: 'Add link' }));
 
-    expect(await within(header).findByText('Use a store path such as /products, or an https address.')).toBeTruthy();
+    expect(
+      await within(header).findByText('Use a store path such as /products, or an https address.'),
+    ).toBeTruthy();
     expect(actions.saveMenu).not.toHaveBeenCalled();
   });
 
@@ -394,14 +431,25 @@ describe('MenusView', () => {
 describe('Homepage page', () => {
   it('shows the sections in the saved order, with the category and brand lists for the product rows', async () => {
     api.adminGetHomepage.mockResolvedValue({
-      sections: sections({ featured: { sortOrder: 0, title: 'Our picks', itemLimit: 8, config: { categorySlug: 'eid' } } }),
+      sections: sections({
+        featured: {
+          sortOrder: 0,
+          title: 'Our picks',
+          itemLimit: 8,
+          config: { categorySlug: 'eid' },
+        },
+      }),
     });
-    api.adminListCategories.mockResolvedValue({ categories: [{ id: id(1), slug: 'eid', name: 'Eid' }] });
+    api.adminListCategories.mockResolvedValue({
+      categories: [{ id: id(1), slug: 'eid', name: 'Eid' }],
+    });
     api.adminListBrands.mockResolvedValue({ brands: [{ id: id(2), slug: 'acme', name: 'Acme' }] });
     render(<>{await HomepagePage()}</>);
 
     const list = screen.getByRole('list', { name: 'Homepage sections' });
-    const headings = within(list).getAllByRole('heading', { level: 2 }).map((heading) => heading.textContent);
+    const headings = within(list)
+      .getAllByRole('heading', { level: 2 })
+      .map((heading) => heading.textContent);
     expect(headings[0]).toContain('Featured products');
     expect(headings).toHaveLength(7);
     expect(screen.getAllByLabelText('Heading')[0]).toHaveProperty('value', 'Our picks');
@@ -429,7 +477,9 @@ describe('Homepage page', () => {
 
 describe('HomepageEditor', () => {
   const render7 = (overrides: Parameters<typeof sections>[0] = {}) =>
-    render(<HomepageEditor sections={sections(overrides)} categories={[]} brands={[]} csrf={csrf} />);
+    render(
+      <HomepageEditor sections={sections(overrides)} categories={[]} brands={[]} csrf={csrf} />,
+    );
 
   it('moves a section, shows it as unsaved and sends every section with its position', async () => {
     actions.saveHomepage.mockResolvedValue({ status: 'success', message: 'Homepage saved.' });
@@ -478,7 +528,10 @@ describe('HomepageEditor', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Move Hero banner later' }));
     fireEvent.click(screen.getByRole('button', { name: 'Discard' }));
     expect(screen.queryByText('Unsaved changes')).toBeNull();
-    expect(screen.getByRole('button', { name: 'Move Hero banner earlier' })).toHaveProperty('disabled', true);
+    expect(screen.getByRole('button', { name: 'Move Hero banner earlier' })).toHaveProperty(
+      'disabled',
+      true,
+    );
   });
 });
 
@@ -499,15 +552,21 @@ describe('Banners page', () => {
     api.adminListCategories.mockResolvedValue({ categories: [] });
     const { container } = render(<>{await BannersPage()}</>);
 
-    const sectionTitles = screen.getAllByRole('heading', { level: 2 }).map((heading) => heading.textContent);
+    const sectionTitles = screen
+      .getAllByRole('heading', { level: 2 })
+      .map((heading) => heading.textContent);
     expect(sectionTitles).toEqual(
       expect.arrayContaining(['Homepage hero', 'Category strip: eid-sale']),
     );
     const hero = screen.getByRole('region', { name: 'Homepage hero' });
-    const titles = Array.from(hero.querySelectorAll('summary span.truncate')).map((node) => node.textContent);
+    const titles = Array.from(hero.querySelectorAll('summary span.truncate')).map(
+      (node) => node.textContent,
+    );
     expect(titles).toEqual(['First hero', 'Second hero']);
     // Each banner carries the order of its own group for the move buttons.
-    const orders = Array.from(hero.querySelectorAll('input[name="order"]')).map((input) => (input as HTMLInputElement).value);
+    const orders = Array.from(hero.querySelectorAll('input[name="order"]')).map(
+      (input) => (input as HTMLInputElement).value,
+    );
     expect(orders).toEqual([`${id(101)},${id(102)}`, `${id(101)},${id(102)}`]);
     expect(container.textContent).toContain('Position 1');
   });
@@ -538,19 +597,53 @@ describe('MoveBannerForm', () => {
   it('cannot move the first banner earlier or the last later', () => {
     const first = banner(1);
     const { rerender } = render(
-      <MoveBannerForm banner={first} order={`${first.id},${id(102)}`} index={0} count={2} csrf={csrf} />,
+      <MoveBannerForm
+        banner={first}
+        order={`${first.id},${id(102)}`}
+        index={0}
+        count={2}
+        csrf={csrf}
+      />,
     );
-    expect(screen.getByRole('button', { name: 'Move Banner 1 earlier' })).toHaveProperty('disabled', true);
-    expect(screen.getByRole('button', { name: 'Move Banner 1 later' })).toHaveProperty('disabled', false);
+    expect(screen.getByRole('button', { name: 'Move Banner 1 earlier' })).toHaveProperty(
+      'disabled',
+      true,
+    );
+    expect(screen.getByRole('button', { name: 'Move Banner 1 later' })).toHaveProperty(
+      'disabled',
+      false,
+    );
 
-    rerender(<MoveBannerForm banner={first} order={`${id(102)},${first.id}`} index={1} count={2} csrf={csrf} />);
-    expect(screen.getByRole('button', { name: 'Move Banner 1 later' })).toHaveProperty('disabled', true);
+    rerender(
+      <MoveBannerForm
+        banner={first}
+        order={`${id(102)},${first.id}`}
+        index={1}
+        count={2}
+        csrf={csrf}
+      />,
+    );
+    expect(screen.getByRole('button', { name: 'Move Banner 1 later' })).toHaveProperty(
+      'disabled',
+      true,
+    );
   });
 
   it('sends the banner, its placement, its category and the rendered order', async () => {
-    actions.reorderBanners.mockResolvedValue({ status: 'error', message: 'The banners changed since this page loaded.' });
+    actions.reorderBanners.mockResolvedValue({
+      status: 'error',
+      message: 'The banners changed since this page loaded.',
+    });
     const strip = banner(2, { placement: 'category', categoryId: id(9), categorySlug: 'eid-sale' });
-    render(<MoveBannerForm banner={strip} order={`${id(101)},${strip.id}`} index={1} count={2} csrf={csrf} />);
+    render(
+      <MoveBannerForm
+        banner={strip}
+        order={`${id(101)},${strip.id}`}
+        index={1}
+        count={2}
+        csrf={csrf}
+      />,
+    );
 
     fireEvent.click(screen.getByRole('button', { name: 'Move Banner 2 earlier' }));
 
@@ -574,9 +667,15 @@ describe('BannerMobileImageForm', () => {
   });
 
   it('shows the current picture and removes it by banner id', async () => {
-    actions.removeMobile.mockResolvedValue({ status: 'success', message: 'Small-screen picture removed.' });
+    actions.removeMobile.mockResolvedValue({
+      status: 'success',
+      message: 'Small-screen picture removed.',
+    });
     const withPicture = banner(1, {
-      mobileImage: { url: 'https://media.example/b.webp', thumbUrl: 'https://media.example/b-thumb.webp' },
+      mobileImage: {
+        url: 'https://media.example/b.webp',
+        thumbUrl: 'https://media.example/b-thumb.webp',
+      },
     });
     render(<BannerMobileImageForm banner={withPicture} csrf={csrf} />);
 
@@ -585,6 +684,8 @@ describe('BannerMobileImageForm', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Remove small-screen picture' }));
 
     expect(await screen.findByText('Small-screen picture removed.')).toBeTruthy();
-    expect((actions.removeMobile.mock.calls[0]?.[1] as FormData).get('bannerId')).toBe(withPicture.id);
+    expect((actions.removeMobile.mock.calls[0]?.[1] as FormData).get('bannerId')).toBe(
+      withPicture.id,
+    );
   });
 });

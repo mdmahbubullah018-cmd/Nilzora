@@ -24,7 +24,12 @@ const checkoutSchemas = { body: checkoutStartRequestSchema };
 const sessionSchemas = { params: z.object({ sessionId: uuidSchema }) };
 const convertedSchemas = { params: sessionSchemas.params, body: checkoutConvertedRequestSchema };
 const recoveryTokenSchemas = {
-  params: z.object({ token: z.string().trim().regex(/^[0-9a-f]{64}$/i, 'A recovery token is 64 hex characters') }),
+  params: z.object({
+    token: z
+      .string()
+      .trim()
+      .regex(/^[0-9a-f]{64}$/i, 'A recovery token is 64 hex characters'),
+  }),
 };
 
 export interface CartRouteDependencies extends AuthDependencies {
@@ -46,15 +51,20 @@ export function cartRoutes(deps: CartRouteDependencies): Router {
    * preview answers with a count, a value and an expiry — never a name, a phone or a product.
    * Restoring needs a session and is refused unless the caller owns that checkout.
    */
-  router.get('/checkout/recovery/:token', noStore, validate(recoveryTokenSchemas), async (_req, res) => {
-    const { params } = requestInput<typeof recoveryTokenSchemas>(res);
-    try {
-      const preview = await carts.previewRecovery(params.token);
-      res.json(preview);
-    } catch (error) {
-      sendCommerceFailure(res, error);
-    }
-  });
+  router.get(
+    '/checkout/recovery/:token',
+    noStore,
+    validate(recoveryTokenSchemas),
+    async (_req, res) => {
+      const { params } = requestInput<typeof recoveryTokenSchemas>(res);
+      try {
+        const preview = await carts.previewRecovery(params.token);
+        res.json(preview);
+      } catch (error) {
+        sendCommerceFailure(res, error);
+      }
+    },
+  );
 
   router.post(
     '/checkout/recovery/:token/restore',
@@ -65,7 +75,11 @@ export function cartRoutes(deps: CartRouteDependencies): Router {
       const identity = currentIdentity(res);
       const { params } = requestInput<typeof recoveryTokenSchemas>(res);
       try {
-        const result = await carts.restoreRecovery(identity.accessToken, identity.userId, params.token);
+        const result = await carts.restoreRecovery(
+          identity.accessToken,
+          identity.userId,
+          params.token,
+        );
         res.json(result);
       } catch (error) {
         sendCommerceFailure(res, error);
@@ -99,22 +113,16 @@ export function cartRoutes(deps: CartRouteDependencies): Router {
     }
   });
 
-  router.post(
-    '/me/cart/merge',
-    noStore,
-    requireUser,
-    validate(guestSchemas),
-    async (_req, res) => {
-      const identity = currentIdentity(res);
-      const { body } = requestInput<typeof guestSchemas>(res);
-      try {
-        const cart = await carts.mergeGuestCart(identity.accessToken, identity.userId, body.token);
-        res.json(cartResponseSchema.parse(cart));
-      } catch (error) {
-        sendCommerceFailure(res, error);
-      }
-    },
-  );
+  router.post('/me/cart/merge', noStore, requireUser, validate(guestSchemas), async (_req, res) => {
+    const identity = currentIdentity(res);
+    const { body } = requestInput<typeof guestSchemas>(res);
+    try {
+      const cart = await carts.mergeGuestCart(identity.accessToken, identity.userId, body.token);
+      res.json(cartResponseSchema.parse(cart));
+    } catch (error) {
+      sendCommerceFailure(res, error);
+    }
+  });
 
   /**
    * Creates the guest cart for a handle the browser or device chose, or returns it if it

@@ -35,7 +35,11 @@ const email = createEmailSender({
 });
 if (!email) throw new Error('the SMTP sender could not be created');
 
-const auth = createAuthService({ pool, email, codeSecret: `real-smtp-pepper-${run}-0123456789abcdef` });
+const auth = createAuthService({
+  pool,
+  email,
+  codeSecret: `real-smtp-pepper-${run}-0123456789abcdef`,
+});
 const config = testConfig({ RATE_LIMIT_MAX: '10000', AUTH_RATE_LIMIT_MAX: '10000' });
 const app = createApp({
   config,
@@ -145,9 +149,7 @@ describe('the account journey with real SMTP delivery', () => {
     expect((await inbox(to)).filter((item) => item.Subject === 'Welcome to Nilzora')).toHaveLength(
       1,
     );
-    const welcome = await message(
-      (await arrived(to, 'Welcome to Nilzora'))[0]?.ID ?? '',
-    );
+    const welcome = await message((await arrived(to, 'Welcome to Nilzora'))[0]?.ID ?? '');
     expect(welcome.Text).toContain('Hi Nadia,');
 
     // Forgot password → code by email → new password; the old one stops working.

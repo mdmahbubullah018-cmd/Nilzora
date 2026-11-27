@@ -17,7 +17,13 @@ export interface SparklineProps {
 }
 
 /** A small trend line without axes, scaled to its own range; it draws itself in once. */
-export function Sparkline({ values, tone = 'primary', label, area = true, className }: SparklineProps) {
+export function Sparkline({
+  values,
+  tone = 'primary',
+  label,
+  area = true,
+  className,
+}: SparklineProps) {
   const gradientId = useChartId('nz-spark');
   const clipId = useChartId('nz-spark-reveal');
   if (values.length < 2) return null;

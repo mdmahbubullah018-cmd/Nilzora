@@ -64,7 +64,9 @@ beforeEach(() => {
   session.outcome = 'ok';
   for (const fn of Object.values(api)) fn.mockReset();
   api.adminDownloadReport.mockResolvedValue(file());
-  api.adminOrderInvoice.mockResolvedValue(file({ contentType: 'application/pdf', fileName: 'invoice-NZ100042.pdf' }));
+  api.adminOrderInvoice.mockResolvedValue(
+    file({ contentType: 'application/pdf', fileName: 'invoice-NZ100042.pdf' }),
+  );
   api.adminOrderPackingSlip.mockResolvedValue(
     file({ contentType: 'application/pdf', fileName: 'packing-slip-NZ100042.pdf' }),
   );
@@ -97,7 +99,9 @@ describe('GET /api/reports/:kind', () => {
   });
 
   it('makes a file name from the API’s own only when it is safe', async () => {
-    api.adminDownloadReport.mockResolvedValue(file({ fileName: 'orders "../x"\r\nSet-Cookie: a=b.csv' }));
+    api.adminDownloadReport.mockResolvedValue(
+      file({ fileName: 'orders "../x"\r\nSet-Cookie: a=b.csv' }),
+    );
     const response = await downloadReport(request(REPORT), reportContext('orders'));
 
     const disposition = response.headers.get('content-disposition') ?? '';
@@ -132,7 +136,10 @@ describe('GET /api/reports/:kind', () => {
   it.each([
     ['no dates', '/api/reports/orders?format=csv'],
     ['an unknown format', '/api/reports/orders?format=exe&from=2026-01-01&to=2026-01-31'],
-    ['a range that ends before it starts', '/api/reports/orders?format=csv&from=2026-02-01&to=2026-01-01'],
+    [
+      'a range that ends before it starts',
+      '/api/reports/orders?format=csv&from=2026-02-01&to=2026-01-01',
+    ],
     ['a range longer than a year', '/api/reports/orders?format=csv&from=2024-01-01&to=2026-01-31'],
   ])('answers 400 for %s, without calling the API', async (_name, path) => {
     const response = await downloadReport(request(path), reportContext('orders'));

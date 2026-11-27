@@ -41,12 +41,18 @@ function ZoneSummary({ zone }: { zone: AdminShoppingZone }) {
             : ''}
         </p>
         {zone.description ? (
-          <p className="line-clamp-2 text-sm text-muted-foreground"><AutoText value={zone.description} /></p>
+          <p className="line-clamp-2 text-sm text-muted-foreground">
+            <AutoText value={zone.description} />
+          </p>
         ) : null}
         <p className="flex flex-wrap items-center gap-1.5 text-xs text-muted-foreground">
           <ExternalLink aria-hidden="true" className="size-3.5 shrink-0" strokeWidth={1.75} />
           <span className="truncate">/products?zone={zone.slug}</span>
-          {zone.audience ? <Chip tone="violet"><AutoText value={zone.audience} /></Chip> : null}
+          {zone.audience ? (
+            <Chip tone="violet">
+              <AutoText value={zone.audience} />
+            </Chip>
+          ) : null}
           <span>Position {zone.displayOrder}</span>
         </p>
       </div>
@@ -54,7 +60,9 @@ function ZoneSummary({ zone }: { zone: AdminShoppingZone }) {
         href={`/admin/zones/${zone.id}` as Route}
         className="inline-flex h-9 w-fit items-center gap-1.5 rounded-xl px-3 text-xs font-semibold text-link ring-1 ring-hairline hover:bg-info-soft max-sm:h-11"
       >
-        <Pencil aria-hidden="true" className="size-3.5" strokeWidth={1.75} /><AutoText>Open zone</AutoText></Link>
+        <Pencil aria-hidden="true" className="size-3.5" strokeWidth={1.75} />
+        <AutoText>Open zone</AutoText>
+      </Link>
     </div>
   );
 }
@@ -110,7 +118,13 @@ export function ZonesView({
         icon={Layers}
         title="Shopping zones"
         description="Collections beside the category tree: Men's, Women's, Kids, or anything you invent. A product appears in a zone when it is pinned to it; otherwise it follows its category. A product in no zone stays in general browsing."
-        meta={totalZones > 0 ? <span><CountText count={totalZones} one="zone" /></span> : undefined}
+        meta={
+          totalZones > 0 ? (
+            <span>
+              <CountText count={totalZones} one="zone" />
+            </span>
+          ) : undefined
+        }
       />
 
       {zones.length > 0 ? <ZoneStorefrontPreview zones={zones} /> : null}
@@ -125,8 +139,12 @@ export function ZonesView({
           <details className="group" open={totalZones === 0}>
             <summary className="inline-flex min-h-9 cursor-pointer list-none items-center gap-1.5 rounded-xl bg-primary-action px-4 text-sm font-semibold text-primary-action-foreground max-sm:min-h-11 [&::-webkit-details-marker]:hidden">
               <Plus aria-hidden="true" className="size-4" strokeWidth={1.75} />
-              <span className="group-open:hidden"><AutoText>Create zone</AutoText></span>
-              <span className="hidden group-open:inline"><AutoText>Close</AutoText></span>
+              <span className="group-open:hidden">
+                <AutoText>Create zone</AutoText>
+              </span>
+              <span className="hidden group-open:inline">
+                <AutoText>Close</AutoText>
+              </span>
             </summary>
             <div className="mt-5">
               <ZoneForm csrf={csrf} />
@@ -175,7 +193,9 @@ export function ZonesView({
               <Link
                 href={ZONES_PATH}
                 className="text-sm font-medium text-link underline-offset-4 hover:underline"
-              ><AutoText>Clear filters</AutoText></Link>
+              >
+                <AutoText>Clear filters</AutoText>
+              </Link>
             }
           />
         ) : zones.length === 0 ? (

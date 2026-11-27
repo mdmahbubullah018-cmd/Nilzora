@@ -73,9 +73,9 @@ describe('BannerForm', () => {
       target: { value: 'Up to 40% off' },
     });
 
-    expect(screen.getByRole('img', { name: /Preview of the banner being edited/ }).textContent).toContain(
-      'Eid sale',
-    );
+    expect(
+      screen.getByRole('img', { name: /Preview of the banner being edited/ }).textContent,
+    ).toContain('Eid sale');
     expect(
       preview.querySelector('[class*="bg-white/4"]') ??
         screen

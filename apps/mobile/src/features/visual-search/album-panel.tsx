@@ -195,7 +195,13 @@ export function AlbumPanel({
           showsHorizontalScrollIndicator={false}
         >
           {items.map((uri) => (
-            <Thumb key={uri} uri={uri} size={STRIP_SIZE} at={() => timeOf(uri)} onPress={() => onPick(uri)} />
+            <Thumb
+              key={uri}
+              uri={uri}
+              size={STRIP_SIZE}
+              at={() => timeOf(uri)}
+              onPress={() => onPick(uri)}
+            />
           ))}
         </ScrollView>
       )}
@@ -203,15 +209,7 @@ export function AlbumPanel({
   );
 }
 
-function Tab({
-  label,
-  active,
-  onPress,
-}: {
-  label: string;
-  active: boolean;
-  onPress: () => void;
-}) {
+function Tab({ label, active, onPress }: { label: string; active: boolean; onPress: () => void }) {
   return (
     <Pressable
       accessibilityRole="tab"
@@ -279,12 +277,20 @@ const styles = StyleSheet.create({
     borderRadius: theme.radii.full,
   },
   tabActive: { backgroundColor: theme.brand.primary },
-  tabLabel: { color: theme.colors.mutedForeground, fontSize: 13, fontWeight: theme.fontWeights.semibold },
+  tabLabel: {
+    color: theme.colors.mutedForeground,
+    fontSize: 13,
+    fontWeight: theme.fontWeights.semibold,
+  },
   tabLabelActive: { color: theme.brand.onSolid },
   tabSpacer: { flex: 1 },
   clear: { color: theme.colors.primary, fontSize: 13, fontWeight: theme.fontWeights.semibold },
   openGallery: { padding: theme.spacing[1] },
-  strip: { gap: theme.spacing[2], paddingHorizontal: theme.spacing[4], paddingBottom: theme.spacing[4] },
+  strip: {
+    gap: theme.spacing[2],
+    paddingHorizontal: theme.spacing[4],
+    paddingBottom: theme.spacing[4],
+  },
   grid: {
     flexDirection: 'row',
     flexWrap: 'wrap',

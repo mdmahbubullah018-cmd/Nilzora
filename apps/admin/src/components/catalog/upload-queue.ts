@@ -156,8 +156,12 @@ export function useUploadQueue({
 
   const sendOne = useCallback(
     async (item: QueueItem): Promise<boolean> => {
-      const { fields: base, fileFields: extra, endpoint: url, createRequest: create } =
-        options.current;
+      const {
+        fields: base,
+        fileFields: extra,
+        endpoint: url,
+        createRequest: create,
+      } = options.current;
       const body = new FormData();
       for (const [name, value] of Object.entries(base())) body.set(name, value);
       for (const [name, value] of Object.entries(extra?.(item) ?? {})) body.set(name, value);

@@ -11,7 +11,12 @@ import { saveImageSearchSettingsAction } from '@/lib/image-search-actions';
 function SaveButton() {
   const { pending } = useFormStatus();
   return (
-    <Button type="submit" variant="outline" loading={pending} className="rounded-xl max-sm:min-h-11">
+    <Button
+      type="submit"
+      variant="outline"
+      loading={pending}
+      className="rounded-xl max-sm:min-h-11"
+    >
       {pending ? null : <Save aria-hidden="true" strokeWidth={1.75} />}
       Save settings
     </Button>
@@ -45,16 +50,15 @@ export function ImageSearchSettingsForm({
           type="checkbox"
           name="enabled"
           defaultChecked={
-            state.values?.enabled === 'on' ||
-            (state.values?.enabled === undefined && enabled)
+            state.values?.enabled === 'on' || (state.values?.enabled === undefined && enabled)
           }
           className="mt-0.5 size-4 accent-primary-action"
         />
         <span className="grid gap-0.5">
           <span className="text-sm font-semibold">Image search is available to customers</span>
           <span className="text-xs text-muted-foreground">
-            Switching it off hides the camera from the website and answers the app with
-            &quot;not available&quot;. Nothing is deleted, and switching it back on restores it.
+            Switching it off hides the camera from the website and answers the app with &quot;not
+            available&quot;. Nothing is deleted, and switching it back on restores it.
           </span>
         </span>
       </label>

@@ -111,7 +111,9 @@ export function ReturnCourierView({
               <h3
                 id={`portal-pickup-${returnId}`}
                 className="font-display text-sm font-semibold text-foreground"
-              ><AutoText>Book the pickup in the courier portal, then record it here</AutoText></h3>
+              >
+                <AutoText>Book the pickup in the courier portal, then record it here</AutoText>
+              </h3>
               <p className="text-sm text-muted-foreground">
                 {off
                   ? 'Courier connections are switched off on this server.'
@@ -166,7 +168,9 @@ export function ReturnCourierView({
             label="Shipments of this return"
           />
         ) : (
-          <p className="text-sm text-muted-foreground"><AutoText>No courier shipments for this return yet.</AutoText></p>
+          <p className="text-sm text-muted-foreground">
+            <AutoText>No courier shipments for this return yet.</AutoText>
+          </p>
         )}
       </div>
     </SectionCard>
@@ -234,7 +238,9 @@ export function ReturnCourierSection({
   if (data.kind === 'hidden') return null;
   if (data.kind === 'unavailable') {
     return (
-      <p className="text-sm text-muted-foreground"><AutoText>Courier shipments for this return could not be loaded just now.</AutoText></p>
+      <p className="text-sm text-muted-foreground">
+        <AutoText>Courier shipments for this return could not be loaded just now.</AutoText>
+      </p>
     );
   }
   return (

@@ -3,7 +3,8 @@ import { describe, expect, it } from 'vitest';
 import { connectionSettings } from '../db/pool';
 import { SUPABASE_ROOT_CA, SUPABASE_ROOT_CA_SHA256 } from '../db/supabase-ca';
 
-const POOLER = 'postgresql://postgres.abcdefghijklmnopqrst:pw%40x@aws-0-ap-southeast-2.pooler.supabase.com:6543/postgres';
+const POOLER =
+  'postgresql://postgres.abcdefghijklmnopqrst:pw%40x@aws-0-ap-southeast-2.pooler.supabase.com:6543/postgres';
 const VERIFIED = { ca: SUPABASE_ROOT_CA, rejectUnauthorized: true };
 
 describe('Supabase root CA', () => {
@@ -29,7 +30,13 @@ describe('database connection settings', () => {
   });
 
   it('cannot be weakened from the URL', () => {
-    for (const weak of ['sslmode=disable', 'sslmode=no-verify', 'sslmode=prefer', 'sslrootcert=system', 'uselibpqcompat=true&sslmode=require']) {
+    for (const weak of [
+      'sslmode=disable',
+      'sslmode=no-verify',
+      'sslmode=prefer',
+      'sslrootcert=system',
+      'uselibpqcompat=true&sslmode=require',
+    ]) {
       const settings = connectionSettings(`${POOLER}?${weak}`);
       expect(settings.ssl).toEqual(VERIFIED);
       expect(settings.connectionString).not.toMatch(/ssl|uselibpqcompat/);

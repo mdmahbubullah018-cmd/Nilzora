@@ -10,7 +10,10 @@ import {
 } from '../features/visual-search/search-history';
 
 const AT = 1_764_000_000_000;
-const entry = (index: number, uri = `file:///cache/photo-${String(index)}.jpg`): ImageHistoryEntry => ({
+const entry = (
+  index: number,
+  uri = `file:///cache/photo-${String(index)}.jpg`,
+): ImageHistoryEntry => ({
   uri,
   at: AT + index,
 });
@@ -73,7 +76,9 @@ describe('searched-photo store', () => {
     store.clear();
     await store.flush();
     expect(store.getEntries()).toEqual([]);
-    expect(parseStoredHistory((await storage.getItem(IMAGE_HISTORY_STORAGE_KEY)) ?? '')).toEqual([]);
+    expect(parseStoredHistory((await storage.getItem(IMAGE_HISTORY_STORAGE_KEY)) ?? '')).toEqual(
+      [],
+    );
   });
 
   it('keeps a search made before the saved list was read', async () => {

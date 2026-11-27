@@ -1,14 +1,6 @@
 import { CameraView, useCameraPermissions, type BarcodeScanningResult } from 'expo-camera';
 import * as MediaLibrary from 'expo-media-library/legacy';
-import {
-  Images,
-  QrCode,
-  RefreshCcw,
-  ScanLine,
-  X,
-  Zap,
-  ZapOff,
-} from 'lucide-react-native';
+import { Images, QrCode, RefreshCcw, ScanLine, X, Zap, ZapOff } from 'lucide-react-native';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { ActivityIndicator, Alert, Image, Pressable, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -189,7 +181,11 @@ export function CameraStage({
 
       <SafeAreaView edges={['top']} style={styles.topBarWrap}>
         <View style={styles.topBar}>
-          <IconBubble icon={<X size={22} color={theme.brand.onSolid} />} label="Close" onPress={onClose} />
+          <IconBubble
+            icon={<X size={22} color={theme.brand.onSolid} />}
+            label="Close"
+            onPress={onClose}
+          />
           <View style={styles.spacer} />
           <IconBubble
             icon={
@@ -207,7 +203,13 @@ export function CameraStage({
             }}
           />
           <IconBubble
-            icon={torch ? <Zap size={20} color={theme.brand.onSolid} /> : <ZapOff size={20} color={theme.brand.onSolid} />}
+            icon={
+              torch ? (
+                <Zap size={20} color={theme.brand.onSolid} />
+              ) : (
+                <ZapOff size={20} color={theme.brand.onSolid} />
+              )
+            }
             label={torch ? 'Turn the light off' : 'Turn the light on'}
             active={torch}
             onPress={() => setTorch((current) => !current)}
@@ -379,10 +381,34 @@ const styles = StyleSheet.create({
   reticle: { width: '72%', aspectRatio: 1, maxWidth: 320, maxHeight: 320 },
   reticleScan: { aspectRatio: 1.15, maxWidth: 300 },
   corner: { position: 'absolute', width: 28, height: 28, borderColor: 'rgba(255,255,255,0.9)' },
-  cornerTopLeft: { left: 0, top: 0, borderLeftWidth: 3, borderTopWidth: 3, borderTopLeftRadius: 14 },
-  cornerTopRight: { right: 0, top: 0, borderRightWidth: 3, borderTopWidth: 3, borderTopRightRadius: 14 },
-  cornerBottomLeft: { left: 0, bottom: 0, borderLeftWidth: 3, borderBottomWidth: 3, borderBottomLeftRadius: 14 },
-  cornerBottomRight: { right: 0, bottom: 0, borderRightWidth: 3, borderBottomWidth: 3, borderBottomRightRadius: 14 },
+  cornerTopLeft: {
+    left: 0,
+    top: 0,
+    borderLeftWidth: 3,
+    borderTopWidth: 3,
+    borderTopLeftRadius: 14,
+  },
+  cornerTopRight: {
+    right: 0,
+    top: 0,
+    borderRightWidth: 3,
+    borderTopWidth: 3,
+    borderTopRightRadius: 14,
+  },
+  cornerBottomLeft: {
+    left: 0,
+    bottom: 0,
+    borderLeftWidth: 3,
+    borderBottomWidth: 3,
+    borderBottomLeftRadius: 14,
+  },
+  cornerBottomRight: {
+    right: 0,
+    bottom: 0,
+    borderRightWidth: 3,
+    borderBottomWidth: 3,
+    borderBottomRightRadius: 14,
+  },
   hint: {
     color: 'rgba(255,255,255,0.92)',
     fontSize: 13,

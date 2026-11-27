@@ -190,7 +190,15 @@ interface IntroSlideProps {
   reduceMotion: boolean;
 }
 
-function IntroSlide({ step, copy, slideIndex, width, scrollX, active, reduceMotion }: IntroSlideProps) {
+function IntroSlide({
+  step,
+  copy,
+  slideIndex,
+  width,
+  scrollX,
+  active,
+  reduceMotion,
+}: IntroSlideProps) {
   // 0 -> 1 each time this step becomes the current one: the demo first, then the headline,
   // then the copy, a beat apart.
   const [enter] = useState(() => new Animated.Value(slideIndex === 0 ? 0 : 1));
@@ -236,12 +244,7 @@ function IntroSlide({ step, copy, slideIndex, width, scrollX, active, reduceMoti
     <View testID={`brand-intro-slide-${String(slideIndex)}`} style={[styles.slide, { width }]}>
       <View style={styles.demoArea}>
         <Animated.View style={[styles.demoFrame, reveal(0.1)]}>
-          <StepDemo
-            step={step.id}
-            copy={copy}
-            active={active}
-            reduceMotion={reduceMotion}
-          />
+          <StepDemo step={step.id} copy={copy} active={active} reduceMotion={reduceMotion} />
         </Animated.View>
       </View>
       <View style={styles.copy}>

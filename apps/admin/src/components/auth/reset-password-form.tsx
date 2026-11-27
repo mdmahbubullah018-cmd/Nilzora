@@ -37,10 +37,14 @@ export function ResetPasswordForm({ csrf, email }: ResetPasswordFormProps) {
       ) : null}
 
       <p className="text-sm text-muted-foreground">
-        Enter the six-digit code we sent to <span className="font-medium"><AutoText value={email} /></span>.
+        Enter the six-digit code we sent to{' '}
+        <span className="font-medium">
+          <AutoText value={email} />
+        </span>
+        .
       </p>
 
-      <Field id="reset-code" label={tx("Reset code")} error={errors.code} required>
+      <Field id="reset-code" label={tx('Reset code')} error={errors.code} required>
         {(control) => (
           <Input
             {...control}
@@ -56,8 +60,8 @@ export function ResetPasswordForm({ csrf, email }: ResetPasswordFormProps) {
 
       <Field
         id="reset-password"
-        label={tx("New password")}
-        hint={tx("At least 8 characters, with letters and numbers.")}
+        label={tx('New password')}
+        hint={tx('At least 8 characters, with letters and numbers.')}
         error={errors.password}
         required
       >
@@ -72,7 +76,9 @@ export function ResetPasswordForm({ csrf, email }: ResetPasswordFormProps) {
         )}
       </Field>
 
-      <Button type="submit" size="lg" loading={pending} className="w-full"><AutoText>Set new password</AutoText></Button>
+      <Button type="submit" size="lg" loading={pending} className="w-full">
+        <AutoText>Set new password</AutoText>
+      </Button>
     </form>
   );
 }

@@ -109,7 +109,10 @@ function Panel({
   className?: string;
 }) {
   return (
-    <section aria-label={title} className={cn('nz-panel-strong flex min-w-0 flex-col rounded-2xl border', className)}>
+    <section
+      aria-label={title}
+      className={cn('nz-panel-strong flex min-w-0 flex-col rounded-2xl border', className)}
+    >
       <div className="flex flex-wrap items-center justify-between gap-2 border-b border-border px-4 py-3 sm:px-5">
         <h3 className="flex items-center gap-2 font-display text-sm font-semibold text-foreground">
           <Icon aria-hidden className="size-4 text-info-ink" />
@@ -117,7 +120,9 @@ function Panel({
         </h3>
         {actions}
       </div>
-      <div className="grid gap-3 p-4 sm:p-5"><AutoText value={children} /></div>
+      <div className="grid gap-3 p-4 sm:p-5">
+        <AutoText value={children} />
+      </div>
     </section>
   );
 }
@@ -125,7 +130,13 @@ function Panel({
 function Notice({ notice }: { notice: { tone: 'success' | 'danger'; text: string } | null }) {
   if (notice === null) return null;
   return (
-    <p role="status" className={cn('text-xs font-medium', notice.tone === 'success' ? 'text-success-ink' : 'text-danger-ink')}>
+    <p
+      role="status"
+      className={cn(
+        'text-xs font-medium',
+        notice.tone === 'success' ? 'text-success-ink' : 'text-danger-ink',
+      )}
+    >
       {notice.text}
     </p>
   );
@@ -172,7 +183,10 @@ export function TemplatesPanel({
 
   if (state === 'loading') {
     return (
-      <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_minmax(0,26rem)]" aria-label={tx("Loading the message library")}>
+      <div
+        className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_minmax(0,26rem)]"
+        aria-label={tx('Loading the message library')}
+      >
         <div className="nz-panel nz-shimmer h-80 rounded-2xl border" />
         <div className="nz-panel nz-shimmer h-80 rounded-2xl border" />
       </div>
@@ -180,16 +194,28 @@ export function TemplatesPanel({
   }
   if (state === 'denied' || state === 'error') {
     return (
-      <div role="alert" className="nz-panel grid justify-items-center gap-3 rounded-2xl border p-8 text-center text-sm">
-        <CircleAlert aria-hidden className={cn('size-5', state === 'denied' ? 'text-warning-ink' : 'text-danger-ink')} />
+      <div
+        role="alert"
+        className="nz-panel grid justify-items-center gap-3 rounded-2xl border p-8 text-center text-sm"
+      >
+        <CircleAlert
+          aria-hidden
+          className={cn('size-5', state === 'denied' ? 'text-warning-ink' : 'text-danger-ink')}
+        />
         <p className="max-w-md text-foreground">
           {state === 'denied'
             ? 'The message library is not available to this account.'
             : (error ?? 'The library could not be loaded.')}
         </p>
         {state === 'error' ? (
-          <button type="button" onClick={() => setReload((value) => value + 1)} className={quietButton}>
-            <RefreshCw aria-hidden className="size-3.5" /><AutoText>Try again</AutoText></button>
+          <button
+            type="button"
+            onClick={() => setReload((value) => value + 1)}
+            className={quietButton}
+          >
+            <RefreshCw aria-hidden className="size-3.5" />
+            <AutoText>Try again</AutoText>
+          </button>
         ) : null}
       </div>
     );
@@ -204,7 +230,11 @@ export function TemplatesPanel({
         onChanged={() => setReload((value) => value + 1)}
       />
       <div className="grid gap-4">
-        <SavedReplies replies={replies} canShare={canManage} onChanged={() => setReload((value) => value + 1)} />
+        <SavedReplies
+          replies={replies}
+          canShare={canManage}
+          onChanged={() => setReload((value) => value + 1)}
+        />
         <TagLibrary tags={tags} onChanged={() => setReload((value) => value + 1)} />
       </div>
     </div>
@@ -287,7 +317,11 @@ function TemplateLibrary({
   const archive = async (template: ChatTemplate) => {
     if (!window.confirm(`Archive “${template.name}”? Agents will no longer be offered it.`)) return;
     const result = await apiPost<null>({ op: 'template-archive', id: template.id });
-    setNotice(result.ok ? { tone: 'success', text: 'Template archived.' } : { tone: 'danger', text: result.message });
+    setNotice(
+      result.ok
+        ? { tone: 'success', text: 'Template archived.' }
+        : { tone: 'danger', text: result.message },
+    );
     if (result.ok) onChanged();
   };
 
@@ -307,12 +341,14 @@ function TemplateLibrary({
 
   return (
     <Panel
-      title={tx("Approved templates")}
+      title={tx('Approved templates')}
       icon={LibraryBig}
       actions={
         canManage ? (
           <button type="button" onClick={() => setDraft({ ...BLANK })} className={quietButton}>
-            <Plus aria-hidden className="size-3.5" /><AutoText>New template</AutoText></button>
+            <Plus aria-hidden className="size-3.5" />
+            <AutoText>New template</AutoText>
+          </button>
         ) : null
       }
     >
@@ -324,7 +360,9 @@ function TemplateLibrary({
             void save();
           }}
         >
-          <p className="text-sm font-semibold text-foreground">{draft.id === undefined ? 'New template' : 'Edit template'}</p>
+          <p className="text-sm font-semibold text-foreground">
+            {draft.id === undefined ? 'New template' : 'Edit template'}
+          </p>
           <label className="grid gap-1 text-xs font-medium text-muted-foreground">
             Name
             <input
@@ -340,7 +378,9 @@ function TemplateLibrary({
               Category
               <select
                 value={draft.category}
-                onChange={(event) => setDraft({ ...draft, category: event.target.value as Draft['category'] })}
+                onChange={(event) =>
+                  setDraft({ ...draft, category: event.target.value as Draft['category'] })
+                }
                 className={cn(field, 'h-9')}
               >
                 {CHAT_TEMPLATE_CATEGORIES.map((value) => (
@@ -354,7 +394,9 @@ function TemplateLibrary({
               Language
               <select
                 value={draft.locale}
-                onChange={(event) => setDraft({ ...draft, locale: event.target.value as Draft['locale'] })}
+                onChange={(event) =>
+                  setDraft({ ...draft, locale: event.target.value as Draft['locale'] })
+                }
                 className={cn(field, 'h-9')}
               >
                 {CHAT_TEMPLATE_LOCALES.map((value) => (
@@ -378,7 +420,9 @@ function TemplateLibrary({
             />
           </label>
           <div className="grid gap-1.5">
-            <p className="text-[11px] font-medium text-muted-foreground"><AutoText>Insert a value at the cursor</AutoText></p>
+            <p className="text-[11px] font-medium text-muted-foreground">
+              <AutoText>Insert a value at the cursor</AutoText>
+            </p>
             <div className="flex flex-wrap gap-1">
               {CHAT_TEMPLATE_VARIABLES.map((variable) => (
                 <button
@@ -407,13 +451,23 @@ function TemplateLibrary({
               checked={draft.isActive}
               onChange={(event) => setDraft({ ...draft, isActive: event.target.checked })}
               className="size-4 accent-primary"
-            /><AutoText>Offer it to the team</AutoText></label>
+            />
+            <AutoText>Offer it to the team</AutoText>
+          </label>
           <div className="flex gap-2">
             <button type="submit" disabled={busy} className={primaryButton}>
-              {busy ? <LoaderCircle aria-hidden className="size-4 motion-safe:animate-spin" /> : null}
+              {busy ? (
+                <LoaderCircle aria-hidden className="size-4 motion-safe:animate-spin" />
+              ) : null}
               Save template
             </button>
-            <button type="button" onClick={() => setDraft(null)} className={cn(quietButton, 'h-9 px-4 text-sm')}><AutoText>Cancel</AutoText></button>
+            <button
+              type="button"
+              onClick={() => setDraft(null)}
+              className={cn(quietButton, 'h-9 px-4 text-sm')}
+            >
+              <AutoText>Cancel</AutoText>
+            </button>
           </div>
         </form>
       )}
@@ -422,23 +476,30 @@ function TemplateLibrary({
 
       <div className="flex flex-wrap gap-2">
         <label className="relative min-w-48 flex-1">
-          <span className="sr-only"><AutoText>Search templates</AutoText></span>
-          <Search aria-hidden className="pointer-events-none absolute top-1/2 left-2.5 size-4 -translate-y-1/2 text-muted-foreground" />
+          <span className="sr-only">
+            <AutoText>Search templates</AutoText>
+          </span>
+          <Search
+            aria-hidden
+            className="pointer-events-none absolute top-1/2 left-2.5 size-4 -translate-y-1/2 text-muted-foreground"
+          />
           <input
             type="search"
             value={query}
             onChange={(event) => setQuery(event.target.value)}
-            placeholder={tx("Search templates")}
+            placeholder={tx('Search templates')}
             className={cn(field, 'h-9 pl-8')}
           />
         </label>
         <select
-          aria-label={tx("Category")}
+          aria-label={tx('Category')}
           value={category}
           onChange={(event) => setCategory(event.target.value as ChatTemplate['category'] | '')}
           className={cn(field, 'h-9 w-auto')}
         >
-          <option value=""><AutoText>Every category</AutoText></option>
+          <option value="">
+            <AutoText>Every category</AutoText>
+          </option>
           {CHAT_TEMPLATE_CATEGORIES.map((value) => (
             <option key={value} value={value}>
               {CATEGORY_LABEL[value]}
@@ -448,7 +509,12 @@ function TemplateLibrary({
       </div>
 
       {conversationId === null ? (
-        <p className="text-[11px] text-muted-foreground"><AutoText>Open a conversation in the Inbox to preview a template with that customer’s real details.</AutoText></p>
+        <p className="text-[11px] text-muted-foreground">
+          <AutoText>
+            Open a conversation in the Inbox to preview a template with that customer’s real
+            details.
+          </AutoText>
+        </p>
       ) : null}
 
       {visible.length === 0 ? (
@@ -464,26 +530,52 @@ function TemplateLibrary({
           {visible.map((template) => (
             <li key={template.id} className="grid gap-2 rounded-xl border border-border p-3.5">
               <div className="flex flex-wrap items-center gap-1.5">
-                <span className="mr-1 text-sm font-semibold text-foreground"><AutoText value={template.name} /></span>
-                <Chip tone="primary" className="h-5 px-2 text-[10px]">{CATEGORY_LABEL[template.category]}</Chip>
-                <Chip tone="neutral" className="h-5 px-2 text-[10px]">{LOCALE_LABEL[template.locale]}</Chip>
-                {template.isActive ? null : <Chip tone="warning" className="h-5 px-2 text-[10px]"><AutoText>Archived</AutoText></Chip>}
-                <span className="ml-auto text-[11px] text-muted-foreground">Used {template.usageCount}×</span>
+                <span className="mr-1 text-sm font-semibold text-foreground">
+                  <AutoText value={template.name} />
+                </span>
+                <Chip tone="primary" className="h-5 px-2 text-[10px]">
+                  {CATEGORY_LABEL[template.category]}
+                </Chip>
+                <Chip tone="neutral" className="h-5 px-2 text-[10px]">
+                  {LOCALE_LABEL[template.locale]}
+                </Chip>
+                {template.isActive ? null : (
+                  <Chip tone="warning" className="h-5 px-2 text-[10px]">
+                    <AutoText>Archived</AutoText>
+                  </Chip>
+                )}
+                <span className="ml-auto text-[11px] text-muted-foreground">
+                  Used {template.usageCount}×
+                </span>
               </div>
-              <p className="text-sm whitespace-pre-wrap text-body"><AutoText value={template.body} /></p>
+              <p className="text-sm whitespace-pre-wrap text-body">
+                <AutoText value={template.body} />
+              </p>
               {template.description === null ? null : (
-                <p className="text-[11px] text-muted-foreground"><AutoText value={template.description} /></p>
+                <p className="text-[11px] text-muted-foreground">
+                  <AutoText value={template.description} />
+                </p>
               )}
               {preview?.id === template.id ? (
                 <div className="rounded-lg border border-success-line bg-success-soft/50 px-3 py-2">
-                  <p className="text-[11px] font-semibold text-success-ink"><AutoText>The customer would read</AutoText></p>
-                  <p className="mt-0.5 text-sm whitespace-pre-wrap text-foreground"><AutoText value={preview.body} /></p>
+                  <p className="text-[11px] font-semibold text-success-ink">
+                    <AutoText>The customer would read</AutoText>
+                  </p>
+                  <p className="mt-0.5 text-sm whitespace-pre-wrap text-foreground">
+                    <AutoText value={preview.body} />
+                  </p>
                 </div>
               ) : null}
               <div className="flex flex-wrap gap-1.5">
                 {conversationId === null ? null : (
-                  <button type="button" onClick={() => void showPreview(template)} className={quietButton}>
-                    <Eye aria-hidden className="size-3.5" /><AutoText>Preview</AutoText></button>
+                  <button
+                    type="button"
+                    onClick={() => void showPreview(template)}
+                    className={quietButton}
+                  >
+                    <Eye aria-hidden className="size-3.5" />
+                    <AutoText>Preview</AutoText>
+                  </button>
                 )}
                 {canManage ? (
                   <>
@@ -503,10 +595,18 @@ function TemplateLibrary({
                       }}
                       className={quietButton}
                     >
-                      <Pencil aria-hidden className="size-3.5" /><AutoText>Edit</AutoText></button>
+                      <Pencil aria-hidden className="size-3.5" />
+                      <AutoText>Edit</AutoText>
+                    </button>
                     {template.isActive ? (
-                      <button type="button" onClick={() => void archive(template)} className={quietButton}>
-                        <Archive aria-hidden className="size-3.5" /><AutoText>Archive</AutoText></button>
+                      <button
+                        type="button"
+                        onClick={() => void archive(template)}
+                        className={quietButton}
+                      >
+                        <Archive aria-hidden className="size-3.5" />
+                        <AutoText>Archive</AutoText>
+                      </button>
                     ) : null}
                   </>
                 ) : null}
@@ -570,22 +670,30 @@ function SavedReplies({
   const remove = async (reply: ChatSavedReply) => {
     if (!window.confirm(`Delete the saved reply “${reply.title}”?`)) return;
     const result = await apiPost<null>({ op: 'saved-reply-delete', id: reply.id });
-    setNotice(result.ok ? { tone: 'success', text: 'Saved reply deleted.' } : { tone: 'danger', text: result.message });
+    setNotice(
+      result.ok
+        ? { tone: 'success', text: 'Saved reply deleted.' }
+        : { tone: 'danger', text: result.message },
+    );
     if (result.ok) onChanged();
   };
 
   return (
     <Panel
-      title={tx("Saved replies")}
+      title={tx('Saved replies')}
       icon={Zap}
       actions={
         draft === null ? (
           <button
             type="button"
-            onClick={() => setDraft({ id: undefined, visibility: 'personal', title: '', shortcut: '', body: '' })}
+            onClick={() =>
+              setDraft({ id: undefined, visibility: 'personal', title: '', shortcut: '', body: '' })
+            }
             className={quietButton}
           >
-            <Plus aria-hidden className="size-3.5" /><AutoText>Add</AutoText></button>
+            <Plus aria-hidden className="size-3.5" />
+            <AutoText>Add</AutoText>
+          </button>
         ) : null
       }
     >
@@ -615,7 +723,7 @@ function SavedReplies({
                 onChange={(event) => setDraft({ ...draft, shortcut: event.target.value })}
                 placeholder="/refund"
                 pattern="^/[a-z0-9_-]{1,24}$"
-                title={tx("A slash and up to 24 lowercase letters, digits, dashes or underscores")}
+                title={tx('A slash and up to 24 lowercase letters, digits, dashes or underscores')}
                 className={cn(field, 'h-9')}
               />
             </label>
@@ -640,20 +748,30 @@ function SavedReplies({
                   setDraft({ ...draft, visibility: event.target.checked ? 'shared' : 'personal' })
                 }
                 className="size-4 accent-primary"
-              /><AutoText>Share with the whole team</AutoText></label>
+              />
+              <AutoText>Share with the whole team</AutoText>
+            </label>
           ) : null}
           <div className="flex gap-2">
             <button type="submit" disabled={busy} className={cn(primaryButton, 'h-8 px-3 text-xs')}>
-              {busy ? <LoaderCircle aria-hidden className="size-3.5 motion-safe:animate-spin" /> : null}
+              {busy ? (
+                <LoaderCircle aria-hidden className="size-3.5 motion-safe:animate-spin" />
+              ) : null}
               Save
             </button>
-            <button type="button" onClick={() => setDraft(null)} className={quietButton}><AutoText>Cancel</AutoText></button>
+            <button type="button" onClick={() => setDraft(null)} className={quietButton}>
+              <AutoText>Cancel</AutoText>
+            </button>
           </div>
         </form>
       )}
       <Notice notice={notice} />
       {replies.length === 0 ? (
-        <p className="text-sm text-muted-foreground"><AutoText>No saved replies yet. Save wording you type often and insert it from the reply box.</AutoText></p>
+        <p className="text-sm text-muted-foreground">
+          <AutoText>
+            No saved replies yet. Save wording you type often and insert it from the reply box.
+          </AutoText>
+        </p>
       ) : (
         <ul className="grid gap-2">
           {replies.map((reply) => {
@@ -661,15 +779,24 @@ function SavedReplies({
             return (
               <li key={reply.id} className="grid gap-1 rounded-xl border border-border p-3">
                 <div className="flex items-center gap-1.5">
-                  <span className="min-w-0 flex-1 truncate text-sm font-semibold text-foreground"><AutoText value={reply.title} /></span>
+                  <span className="min-w-0 flex-1 truncate text-sm font-semibold text-foreground">
+                    <AutoText value={reply.title} />
+                  </span>
                   {reply.shortcut === null ? null : (
-                    <code className="rounded bg-surface-muted px-1.5 py-0.5 text-[11px] text-foreground">{reply.shortcut}</code>
+                    <code className="rounded bg-surface-muted px-1.5 py-0.5 text-[11px] text-foreground">
+                      {reply.shortcut}
+                    </code>
                   )}
-                  <Chip tone={reply.visibility === 'shared' ? 'violet' : 'neutral'} className="h-5 px-2 text-[10px]">
+                  <Chip
+                    tone={reply.visibility === 'shared' ? 'violet' : 'neutral'}
+                    className="h-5 px-2 text-[10px]"
+                  >
                     {reply.visibility === 'shared' ? 'Shared' : 'Mine'}
                   </Chip>
                 </div>
-                <p className="line-clamp-3 text-xs whitespace-pre-wrap text-muted-foreground"><AutoText value={reply.body} /></p>
+                <p className="line-clamp-3 text-xs whitespace-pre-wrap text-muted-foreground">
+                  <AutoText value={reply.body} />
+                </p>
                 {editable ? (
                   <div className="mt-1 flex gap-1.5">
                     <button
@@ -685,13 +812,17 @@ function SavedReplies({
                       }
                       className={cn(quietButton, 'h-7')}
                     >
-                      <Pencil aria-hidden className="size-3" /><AutoText>Edit</AutoText></button>
+                      <Pencil aria-hidden className="size-3" />
+                      <AutoText>Edit</AutoText>
+                    </button>
                     <button
                       type="button"
                       onClick={() => void remove(reply)}
                       className={cn(quietButton, 'h-7 text-danger-ink hover:bg-danger-soft')}
                     >
-                      <Trash2 aria-hidden className="size-3" /><AutoText>Delete</AutoText></button>
+                      <Trash2 aria-hidden className="size-3" />
+                      <AutoText>Delete</AutoText>
+                    </button>
                   </div>
                 ) : null}
               </li>
@@ -707,7 +838,13 @@ function SavedReplies({
 // Tags
 // ---------------------------------------------------------------------------
 
-function TagLibrary({ tags, onChanged }: { tags: readonly ChatTag[] | null; onChanged: () => void }) {
+function TagLibrary({
+  tags,
+  onChanged,
+}: {
+  tags: readonly ChatTag[] | null;
+  onChanged: () => void;
+}) {
   const tx = useTx();
   const [label, setLabel] = useState('');
   const [busy, setBusy] = useState(false);
@@ -727,7 +864,11 @@ function TagLibrary({ tags, onChanged }: { tags: readonly ChatTag[] | null; onCh
     setBusy(true);
     const result = await apiPost<null>({ op: 'tag-save', slug, label: label.trim() });
     setBusy(false);
-    setNotice(result.ok ? { tone: 'success', text: 'Tag created.' } : { tone: 'danger', text: result.message });
+    setNotice(
+      result.ok
+        ? { tone: 'success', text: 'Tag created.' }
+        : { tone: 'danger', text: result.message },
+    );
     if (result.ok) {
       setLabel('');
       onChanged();
@@ -735,9 +876,11 @@ function TagLibrary({ tags, onChanged }: { tags: readonly ChatTag[] | null; onCh
   };
 
   return (
-    <Panel title={tx("Tags")} icon={Tag}>
+    <Panel title={tx('Tags')} icon={Tag}>
       {tags === null ? (
-        <p className="text-sm text-muted-foreground"><AutoText>Tags are not available to this account.</AutoText></p>
+        <p className="text-sm text-muted-foreground">
+          <AutoText>Tags are not available to this account.</AutoText>
+        </p>
       ) : (
         <>
           {tags.length === 0 ? (
@@ -750,7 +893,9 @@ function TagLibrary({ tags, onChanged }: { tags: readonly ChatTag[] | null; onCh
                 <li key={tag.id} title={tag.description ?? undefined}>
                   <Chip tone={tag.isActive ? 'violet' : 'neutral'} className="h-6">
                     {tag.label}
-                    <span className="font-normal opacity-70"><AutoText value={tag.conversationCount} /></span>
+                    <span className="font-normal opacity-70">
+                      <AutoText value={tag.conversationCount} />
+                    </span>
                   </Chip>
                 </li>
               ))}
@@ -764,17 +909,23 @@ function TagLibrary({ tags, onChanged }: { tags: readonly ChatTag[] | null; onCh
             }}
           >
             <label className="min-w-0 flex-1">
-              <span className="sr-only"><AutoText>New tag</AutoText></span>
+              <span className="sr-only">
+                <AutoText>New tag</AutoText>
+              </span>
               <input
                 value={label}
                 onChange={(event) => setLabel(event.target.value)}
                 maxLength={40}
-                placeholder={tx("New tag, e.g. Delivery delay")}
+                placeholder={tx('New tag, e.g. Delivery delay')}
                 className={cn(field, 'h-8 text-xs')}
               />
             </label>
             <button type="submit" disabled={busy || label.trim() === ''} className={quietButton}>
-              {busy ? <LoaderCircle aria-hidden className="size-3.5 motion-safe:animate-spin" /> : <Plus aria-hidden className="size-3.5" />}
+              {busy ? (
+                <LoaderCircle aria-hidden className="size-3.5 motion-safe:animate-spin" />
+              ) : (
+                <Plus aria-hidden className="size-3.5" />
+              )}
               Create
             </button>
           </form>

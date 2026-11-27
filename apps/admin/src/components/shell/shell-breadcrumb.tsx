@@ -53,7 +53,7 @@ export function ShellBreadcrumb({ workspace, trail: given }: ShellBreadcrumbProp
 
   const lastIndex = crumbs.length - 1;
   return (
-    <nav aria-label={tx("Breadcrumb")} className="min-w-0">
+    <nav aria-label={tx('Breadcrumb')} className="min-w-0">
       <ol className="flex min-w-0 items-center gap-1.5 text-sm">
         {crumbs.map((crumb, index) => {
           const current = index === lastIndex;
@@ -72,7 +72,9 @@ export function ShellBreadcrumb({ workspace, trail: given }: ShellBreadcrumbProp
                   {crumb.label}
                 </Link>
               ) : (
-                <span className="truncate text-muted-foreground"><AutoText value={crumb.label} /></span>
+                <span className="truncate text-muted-foreground">
+                  <AutoText value={crumb.label} />
+                </span>
               )}
               {current ? null : (
                 <ChevronRight

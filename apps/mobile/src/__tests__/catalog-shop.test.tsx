@@ -347,9 +347,7 @@ describe('ShopScreen sorting', () => {
 
     expect(router.setParams).toHaveBeenCalledWith({ sort: 'price_asc' });
     expect(screen.queryByRole('radio', { name: 'Newest' })).not.toBeOnTheScreen();
-    expect(
-      screen.getByRole('button', { name: 'Sort: Price: low to high' }),
-    ).toBeOnTheScreen();
+    expect(screen.getByRole('button', { name: 'Sort: Price: low to high' })).toBeOnTheScreen();
     await waitFor(() => {
       expect(api.listProducts).toHaveBeenLastCalledWith(
         { sort: 'price_asc', pageSize: 24, page: 1 },

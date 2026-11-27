@@ -3,7 +3,12 @@ import { ScrollText } from 'lucide-react';
 import type { Metadata } from 'next';
 import { Suspense } from 'react';
 import { AccessGate } from '@/components/access/access-gate';
-import { DateFilter, FilterBar, SearchFilter, SelectFilter } from '@/components/admin-kit/filter-bar';
+import {
+  DateFilter,
+  FilterBar,
+  SearchFilter,
+  SelectFilter,
+} from '@/components/admin-kit/filter-bar';
 import { ExportMenu } from '@/components/admin-kit/export-menu';
 import { PageToolbar } from '@/components/admin-kit/page-toolbar';
 import { TableSkeleton } from '@/components/admin-kit/skeletons';

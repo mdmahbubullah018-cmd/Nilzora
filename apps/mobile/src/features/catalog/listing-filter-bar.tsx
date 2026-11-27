@@ -152,9 +152,7 @@ export function ListingFilterBar({
 
   /** Keeps a chosen value even when the current result no longer offers it, so it can be undone. */
   function toggled(choice: readonly string[], slug: string): string[] {
-    return choice.includes(slug)
-      ? choice.filter((entry) => entry !== slug)
-      : [...choice, slug];
+    return choice.includes(slug) ? choice.filter((entry) => entry !== slug) : [...choice, slug];
   }
 
   return (
@@ -290,8 +288,8 @@ export function ListingFilterBar({
         }
       >
         <Text style={styles.priceHelp}>
-          Prices in taka, for the selling price shown on each product. Leave a box empty for an
-          open range.
+          Prices in taka, for the selling price shown on each product. Leave a box empty for an open
+          range.
         </Text>
         <View style={styles.priceRow}>
           <View style={styles.priceField}>
@@ -448,9 +446,7 @@ function ChoiceRow({
       android_ripple={{ color: theme.colors.surfaceMuted }}
       style={({ pressed }) => [styles.option, pressed ? styles.optionPressed : null]}
     >
-      {swatchHex === null ? null : (
-        <View style={[styles.swatch, { backgroundColor: swatchHex }]} />
-      )}
+      {swatchHex === null ? null : <View style={[styles.swatch, { backgroundColor: swatchHex }]} />}
       <Text style={[styles.optionValue, checked ? styles.optionValueChecked : null]}>{label}</Text>
       <Text style={styles.optionCount}>{count}</Text>
       {checked ? (

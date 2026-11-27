@@ -124,7 +124,10 @@ export function WishlistProvider({ children, initialItems, csrf }: WishlistProvi
         // A guest's list is this browser's: no request, and it survives a restart.
         const next = wasSaved
           ? guestEntries.filter((entry) => entry.id !== product.id)
-          : [{ id: product.id, slug: product.slug, savedAt: new Date().toISOString() }, ...guestEntries];
+          : [
+              { id: product.id, slug: product.slug, savedAt: new Date().toISOString() },
+              ...guestEntries,
+            ];
         writeGuestWishlist(next);
         inFlight.current.delete(product.id);
         setPending((current) => current.filter((id) => id !== product.id));

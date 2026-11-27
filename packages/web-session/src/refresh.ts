@@ -99,4 +99,3 @@ export function accessTokenNeedsRefresh(
   const expiry = expiresAt ?? accessTokenExpiry(accessToken);
   return expiry === undefined || expiry - REFRESH_MARGIN_SECONDS <= nowMs / 1000;
 }
-

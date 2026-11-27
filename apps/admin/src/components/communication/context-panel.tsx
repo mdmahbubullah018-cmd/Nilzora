@@ -73,8 +73,13 @@ export function ContextPanel({
   const tx = useTx();
   if (detail === null) {
     return (
-      <aside aria-label={tx("Customer details")} className={cn('nz-panel-strong rounded-2xl border p-4', className)}>
-        <p className="text-sm text-muted-foreground"><AutoText>Open a conversation to see who it is with.</AutoText></p>
+      <aside
+        aria-label={tx('Customer details')}
+        className={cn('nz-panel-strong rounded-2xl border p-4', className)}
+      >
+        <p className="text-sm text-muted-foreground">
+          <AutoText>Open a conversation to see who it is with.</AutoText>
+        </p>
       </aside>
     );
   }
@@ -83,19 +88,26 @@ export function ContextPanel({
   const firstResponse =
     conversation.firstResponseAt === null || conversation.firstResponseAt === undefined
       ? null
-      : (new Date(conversation.firstResponseAt).getTime() - new Date(conversation.createdAt).getTime()) / 1000;
+      : (new Date(conversation.firstResponseAt).getTime() -
+          new Date(conversation.createdAt).getTime()) /
+        1000;
 
   return (
     <aside
-      aria-label={tx("Customer details")}
-      className={cn('nz-panel-strong nz-scroll flex min-h-0 flex-col overflow-y-auto rounded-2xl border', className)}
+      aria-label={tx('Customer details')}
+      className={cn(
+        'nz-panel-strong nz-scroll flex min-h-0 flex-col overflow-y-auto rounded-2xl border',
+        className,
+      )}
     >
       <div className="flex items-center justify-between border-b border-border/70 bg-surface/55 px-4 py-2.5 backdrop-blur-[2px] xl:hidden">
-        <p className="font-display text-sm font-semibold text-foreground"><AutoText>Details</AutoText></p>
+        <p className="font-display text-sm font-semibold text-foreground">
+          <AutoText>Details</AutoText>
+        </p>
         <button
           type="button"
           onClick={onClose}
-          aria-label={tx("Close details")}
+          aria-label={tx('Close details')}
           className={chatIconButton}
         >
           <X aria-hidden className="size-4" />
@@ -103,7 +115,7 @@ export function ContextPanel({
       </div>
 
       {customer === null ? null : (
-        <Section title={tx("Customer")} icon={UserRound}>
+        <Section title={tx('Customer')} icon={UserRound}>
           <div className="flex items-center gap-3">
             <span
               aria-hidden
@@ -128,14 +140,17 @@ export function ContextPanel({
           </div>
           <dl className="mt-3 grid gap-1.5 text-xs">
             {customer.email === null ? null : (
-              <Fact icon={Mail} label={tx("Email")}>
-                <a href={`mailto:${customer.email}`} className="break-all text-foreground hover:underline">
+              <Fact icon={Mail} label={tx('Email')}>
+                <a
+                  href={`mailto:${customer.email}`}
+                  className="break-all text-foreground hover:underline"
+                >
                   {customer.email}
                 </a>
               </Fact>
             )}
             {customer.phone === null ? null : (
-              <Fact icon={Phone} label={tx("Phone")}>
+              <Fact icon={Phone} label={tx('Phone')}>
                 <a href={`tel:${customer.phone}`} className="text-foreground hover:underline">
                   {customer.phone}
                 </a>
@@ -146,7 +161,7 @@ export function ContextPanel({
       )}
 
       {order === null ? null : (
-        <Section title={tx("Order")} icon={Package}>
+        <Section title={tx('Order')} icon={Package}>
           <div className="flex items-center justify-between gap-2">
             {permissions.has('orders.read') ? (
               <Link
@@ -157,7 +172,9 @@ export function ContextPanel({
                 <ExternalLink aria-hidden className="size-3" />
               </Link>
             ) : (
-              <span className="font-mono text-sm font-semibold text-foreground"><AutoText value={order.number} /></span>
+              <span className="font-mono text-sm font-semibold text-foreground">
+                <AutoText value={order.number} />
+              </span>
             )}
             <span className="text-sm font-semibold text-foreground tabular-nums">
               {formatMoney(order.totalMinor)}
@@ -167,12 +184,16 @@ export function ContextPanel({
             <Chip tone={statusTone(ORDER_STATUS, order.status)} className="h-5 px-2 text-[10px]">
               {statusLabel(ORDER_STATUS, order.status)}
             </Chip>
-            <Chip tone={statusTone(PAYMENT_STATUS, order.paymentStatus)} className="h-5 px-2 text-[10px]">
+            <Chip
+              tone={statusTone(PAYMENT_STATUS, order.paymentStatus)}
+              className="h-5 px-2 text-[10px]"
+            >
               {statusLabel(PAYMENT_STATUS, order.paymentStatus)}
             </Chip>
           </div>
           <p className="mt-2 text-xs text-muted-foreground">
-            {order.itemCount} item{order.itemCount === 1 ? '' : 's'} · placed {fullTime(order.placedAt)}
+            {order.itemCount} item{order.itemCount === 1 ? '' : 's'} · placed{' '}
+            {fullTime(order.placedAt)}
           </p>
           {/* What the parcel actually holds, with the picture kept with the line, so an agent
               knows which of several products the customer means without opening the order. */}
@@ -194,8 +215,7 @@ export function ContextPanel({
                       {line.name}
                     </span>
                     <span className="block truncate text-[11px] text-muted-foreground">
-                      {line.variantLabel === null ? '' : `${line.variantLabel} · `}
-                      × {line.quantity}
+                      {line.variantLabel === null ? '' : `${line.variantLabel} · `}× {line.quantity}
                     </span>
                   </span>
                 </li>
@@ -206,7 +226,7 @@ export function ContextPanel({
       )}
 
       {product === null ? null : (
-        <Section title={tx("Product")} icon={ShoppingBag}>
+        <Section title={tx('Product')} icon={ShoppingBag}>
           <div className="flex items-start gap-2">
             <ProductTile image={product.image} size="md" />
             <div className="min-w-0 flex-1">
@@ -219,10 +239,14 @@ export function ContextPanel({
                   <ExternalLink aria-hidden className="size-3" />
                 </Link>
               ) : (
-                <p className="text-sm font-semibold text-foreground"><AutoText value={product.name} /></p>
+                <p className="text-sm font-semibold text-foreground">
+                  <AutoText value={product.name} />
+                </p>
               )}
               {product.variantLabel === null ? null : (
-                <p className="text-xs font-medium text-body"><AutoText value={product.variantLabel} /></p>
+                <p className="text-xs font-medium text-body">
+                  <AutoText value={product.variantLabel} />
+                </p>
               )}
               <p className="mt-1 text-xs text-muted-foreground">
                 {formatMoney(product.priceMinor)} · {product.status}
@@ -241,44 +265,71 @@ export function ContextPanel({
         />
       ) : null}
 
-      <Section title={tx("Conversation")} icon={Users}>
+      <Section title={tx('Conversation')} icon={Users}>
         <dl className="grid grid-cols-[auto_minmax(0,1fr)] gap-x-3 gap-y-1.5 text-xs">
-          <dt className="text-muted-foreground"><AutoText>Opened</AutoText></dt>
-          <dd className="text-foreground"><AutoText value={fullTime(conversation.createdAt)} /></dd>
-          <dt className="text-muted-foreground"><AutoText>First reply</AutoText></dt>
+          <dt className="text-muted-foreground">
+            <AutoText>Opened</AutoText>
+          </dt>
+          <dd className="text-foreground">
+            <AutoText value={fullTime(conversation.createdAt)} />
+          </dd>
+          <dt className="text-muted-foreground">
+            <AutoText>First reply</AutoText>
+          </dt>
           <dd className="text-foreground">
             {firstResponse === null ? 'Not yet answered' : `after ${duration(firstResponse)}`}
           </dd>
           {conversation.lastCustomerMessageAt ? (
             <>
-              <dt className="text-muted-foreground"><AutoText>Customer wrote</AutoText></dt>
-              <dd className="text-foreground"><AutoText value={fullTime(conversation.lastCustomerMessageAt)} /></dd>
+              <dt className="text-muted-foreground">
+                <AutoText>Customer wrote</AutoText>
+              </dt>
+              <dd className="text-foreground">
+                <AutoText value={fullTime(conversation.lastCustomerMessageAt)} />
+              </dd>
             </>
           ) : null}
           {conversation.resolvedAt === null ? null : (
             <>
-              <dt className="text-muted-foreground"><AutoText>Resolved</AutoText></dt>
-              <dd className="text-foreground"><AutoText value={fullTime(conversation.resolvedAt)} /></dd>
+              <dt className="text-muted-foreground">
+                <AutoText>Resolved</AutoText>
+              </dt>
+              <dd className="text-foreground">
+                <AutoText value={fullTime(conversation.resolvedAt)} />
+              </dd>
             </>
           )}
           {conversation.escalatedAt ? (
             <>
-              <dt className="text-muted-foreground"><AutoText>Escalated</AutoText></dt>
-              <dd className="text-danger-ink"><AutoText value={fullTime(conversation.escalatedAt)} /></dd>
+              <dt className="text-muted-foreground">
+                <AutoText>Escalated</AutoText>
+              </dt>
+              <dd className="text-danger-ink">
+                <AutoText value={fullTime(conversation.escalatedAt)} />
+              </dd>
             </>
           ) : null}
           {conversation.automationPaused ? (
             <>
-              <dt className="text-muted-foreground"><AutoText>Automation</AutoText></dt>
-              <dd className="text-foreground"><AutoText>Paused for this thread</AutoText></dd>
+              <dt className="text-muted-foreground">
+                <AutoText>Automation</AutoText>
+              </dt>
+              <dd className="text-foreground">
+                <AutoText>Paused for this thread</AutoText>
+              </dd>
             </>
           ) : null}
-          <dt className="text-muted-foreground"><AutoText>Rating</AutoText></dt>
+          <dt className="text-muted-foreground">
+            <AutoText>Rating</AutoText>
+          </dt>
           <dd className="text-foreground">
             {conversation.csatRating === null || conversation.csatRating === undefined ? (
               'Not rated'
             ) : (
-              <span className="inline-flex items-center gap-0.5" aria-label={`${String(conversation.csatRating)} out of 5`}>
+              <span
+                className="inline-flex items-center gap-0.5"
+                aria-label={`${String(conversation.csatRating)} out of 5`}
+              >
                 {[1, 2, 3, 4, 5].map((star) => (
                   <Star
                     key={star}
@@ -312,7 +363,7 @@ export function ContextPanel({
       </Section>
 
       {feedback.length === 0 ? null : (
-        <Section title={tx("Reply feedback")} icon={ThumbsUp}>
+        <Section title={tx('Reply feedback')} icon={ThumbsUp}>
           <ul className="grid gap-2">
             {feedback.map((entry) => (
               <li key={entry.id} className="text-xs">
@@ -374,14 +425,26 @@ function Section({
   );
 }
 
-function Fact({ icon: Icon, label, children }: { icon: typeof Mail; label: string; children: ReactNode }) {
+function Fact({
+  icon: Icon,
+  label,
+  children,
+}: {
+  icon: typeof Mail;
+  label: string;
+  children: ReactNode;
+}) {
   return (
     <div className="flex items-start gap-2">
       <dt className="mt-0.5">
         <Icon aria-hidden className="size-3.5 text-muted-foreground" />
-        <span className="sr-only"><AutoText value={label} /></span>
+        <span className="sr-only">
+          <AutoText value={label} />
+        </span>
       </dt>
-      <dd className="min-w-0"><AutoText value={children} /></dd>
+      <dd className="min-w-0">
+        <AutoText value={children} />
+      </dd>
     </div>
   );
 }
@@ -403,9 +466,11 @@ function TagsSection({
   const choices = (available ?? []).filter((tag) => tag.isActive || appliedIds.has(tag.id));
 
   return (
-    <Section title={tx("Tags")} icon={Tag}>
+    <Section title={tx('Tags')} icon={Tag}>
       {applied.length === 0 ? (
-        <p className="text-xs text-muted-foreground"><AutoText>No tags on this conversation.</AutoText></p>
+        <p className="text-xs text-muted-foreground">
+          <AutoText>No tags on this conversation.</AutoText>
+        </p>
       ) : (
         <ul className="flex flex-wrap gap-1.5">
           {applied.map((tag) => (
@@ -418,10 +483,14 @@ function TagsSection({
         </ul>
       )}
       {available === null ? null : choices.length === 0 ? (
-        <p className="mt-2 text-[11px] text-muted-foreground"><AutoText>No tags exist yet. Create them under Messages.</AutoText></p>
+        <p className="mt-2 text-[11px] text-muted-foreground">
+          <AutoText>No tags exist yet. Create them under Messages.</AutoText>
+        </p>
       ) : editing ? (
         <fieldset className="mt-2.5 grid gap-1" disabled={busy}>
-          <legend className="sr-only"><AutoText>Tags on this conversation</AutoText></legend>
+          <legend className="sr-only">
+            <AutoText>Tags on this conversation</AutoText>
+          </legend>
           {choices.map((tag) => (
             <label key={tag.id} className="flex items-center gap-2 text-xs text-foreground">
               <input
@@ -440,18 +509,24 @@ function TagsSection({
               onClick={(event) => {
                 const form = event.currentTarget.closest('fieldset');
                 const ids = [
-                  ...(form?.querySelectorAll<HTMLInputElement>('input[name="conversation-tag"]:checked') ?? []),
+                  ...(form?.querySelectorAll<HTMLInputElement>(
+                    'input[name="conversation-tag"]:checked',
+                  ) ?? []),
                 ].map((input) => input.value);
                 onSave(ids);
                 setEditing(false);
               }}
               className="inline-flex h-7 items-center rounded-lg bg-primary-action px-2.5 text-xs font-semibold text-primary-action-foreground hover:bg-primary-action-hover"
-            ><AutoText>Save tags</AutoText></button>
+            >
+              <AutoText>Save tags</AutoText>
+            </button>
             <button
               type="button"
               onClick={() => setEditing(false)}
               className="inline-flex h-7 items-center rounded-lg border border-border px-2.5 text-xs font-medium text-foreground hover:bg-surface-muted"
-            ><AutoText>Cancel</AutoText></button>
+            >
+              <AutoText>Cancel</AutoText>
+            </button>
           </div>
         </fieldset>
       ) : (

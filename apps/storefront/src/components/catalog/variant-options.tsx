@@ -123,7 +123,7 @@ export function VariantOptions({
                         // the chosen one is marked with a navy edge and ring, not a bigger dot.
                         // The pseudo-element below keeps the 44px touch target around it.
                         'relative grid size-8 place-items-center rounded-full border transition-all',
-                        'after:absolute after:-inset-1.5 after:content-[\'\']',
+                        "after:absolute after:-inset-1.5 after:content-['']",
                         isSelected
                           ? 'border-brand-navy ring-1 ring-brand-navy/40 ring-offset-1 ring-offset-surface'
                           : 'border-border-strong hover:border-brand-navy',

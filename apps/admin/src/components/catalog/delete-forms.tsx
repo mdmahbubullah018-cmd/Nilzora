@@ -30,12 +30,17 @@ export function DeleteProductForm({
       trigger={
         <>
           <Trash2 aria-hidden="true" strokeWidth={1.75} />
-          Delete product <span className="sr-only"><AutoText value={name} /></span>
+          Delete product{' '}
+          <span className="sr-only">
+            <AutoText value={name} />
+          </span>
         </>
       }
       title={`Delete “${name}” for good?`}
-      description={tx("Its pictures, videos, variants and stock history are removed too. A product that has ever been ordered cannot be deleted: archive it instead. This cannot be undone.")}
-      confirmLabel={tx("Delete product")}
+      description={tx(
+        'Its pictures, videos, variants and stock history are removed too. A product that has ever been ordered cannot be deleted: archive it instead. This cannot be undone.',
+      )}
+      confirmLabel={tx('Delete product')}
       hiddenFields={{ productId }}
       error={state.status === 'error' ? state.message : undefined}
     />
@@ -63,12 +68,17 @@ export function DeleteCategoryForm({
       trigger={
         <>
           <Trash2 aria-hidden="true" strokeWidth={1.75} />
-          Delete category <span className="sr-only"><AutoText value={name} /></span>
+          Delete category{' '}
+          <span className="sr-only">
+            <AutoText value={name} />
+          </span>
         </>
       }
       title={`Delete the category “${name}”?`}
-      description={tx("Its page disappears from the store. A category that still has products or subcategories cannot be deleted. This cannot be undone.")}
-      confirmLabel={tx("Delete category")}
+      description={tx(
+        'Its page disappears from the store. A category that still has products or subcategories cannot be deleted. This cannot be undone.',
+      )}
+      confirmLabel={tx('Delete category')}
       hiddenFields={{ categoryId }}
       error={state.status === 'error' ? state.message : undefined}
     />

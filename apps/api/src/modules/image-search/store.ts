@@ -113,7 +113,12 @@ export interface ImageSearchStore {
   takeJob(): Promise<string | null>;
   activeJob(): Promise<string | null>;
   queueAll(): Promise<number>;
-  nearest(vector: string, model: string, dimensions: number, limit: number): Promise<NearestMatch[]>;
+  nearest(
+    vector: string,
+    model: string,
+    dimensions: number,
+    limit: number,
+  ): Promise<NearestMatch[]>;
   /**
    * The vector already stored for one of a product's pictures: what "Find similar" searches
    * with, so an image the store already holds is never downloaded and embedded again.
@@ -490,7 +495,8 @@ export function createPostgresImageSearchStore(pool: Pool): ImageSearchStore {
           createdAt: iso((row.created_at as Date | string | undefined) ?? null),
           imageHash: textOrNull(row.image_hash),
           model: textOrNull(row.model),
-          threshold: row.threshold === null || row.threshold === undefined ? null : number(row.threshold),
+          threshold:
+            row.threshold === null || row.threshold === undefined ? null : number(row.threshold),
           resultCount: number(row.result_count),
           topProductIds: Array.isArray(row.top_product_ids)
             ? (row.top_product_ids as string[])
@@ -499,7 +505,10 @@ export function createPostgresImageSearchStore(pool: Pool): ImageSearchStore {
           clickedProductName: textOrNull(row.clicked_product_name),
           outcome: text(row.outcome) as ImageSearchActivityRow['outcome'],
           client: textOrNull(row.client),
-          durationMs: row.duration_ms === null || row.duration_ms === undefined ? null : number(row.duration_ms),
+          durationMs:
+            row.duration_ms === null || row.duration_ms === undefined
+              ? null
+              : number(row.duration_ms),
         })),
       };
     },

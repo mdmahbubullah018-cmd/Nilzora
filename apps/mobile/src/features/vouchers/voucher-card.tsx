@@ -24,7 +24,9 @@ export function voucherDiscount(voucher: Pick<Voucher, 'kind' | 'value'>): strin
 
 export function voucherConditions(voucher: Voucher): string {
   const parts = [
-    voucher.minOrderMinor > 0 ? `Min. spend ${formatMoney(voucher.minOrderMinor)}` : 'No minimum spend',
+    voucher.minOrderMinor > 0
+      ? `Min. spend ${formatMoney(voucher.minOrderMinor)}`
+      : 'No minimum spend',
   ];
   if (voucher.kind === 'percent' && voucher.maxDiscountMinor !== null) {
     parts.push(`up to ${formatMoney(voucher.maxDiscountMinor)} off`);
@@ -35,16 +37,21 @@ export function voucherConditions(voucher: Voucher): string {
 export function voucherEligibility(voucher: Voucher): string {
   if (voucher.scope === 'categories') {
     const names = voucher.categories.map((category) => category.name);
-    return names.length > 0 ? `On ${names.slice(0, 2).join(', ')}${names.length > 2 ? ' and more' : ''}` : 'On selected categories';
+    return names.length > 0
+      ? `On ${names.slice(0, 2).join(', ')}${names.length > 2 ? ' and more' : ''}`
+      : 'On selected categories';
   }
   if (voucher.scope === 'products') {
-    return voucher.products.length === 1 ? `On ${voucher.products[0]?.name ?? 'one product'}` : 'On selected products';
+    return voucher.products.length === 1
+      ? `On ${voucher.products[0]?.name ?? 'one product'}`
+      : 'On selected products';
   }
   return 'On everything in the store';
 }
 
 function validity(voucher: Voucher): string {
-  if (voucher.state === 'upcoming' && voucher.startsAt) return `Starts ${DATE.format(new Date(voucher.startsAt))}`;
+  if (voucher.state === 'upcoming' && voucher.startsAt)
+    return `Starts ${DATE.format(new Date(voucher.startsAt))}`;
   if (!voucher.endsAt) return 'No expiry date';
   const date = DATE.format(new Date(voucher.endsAt));
   return voucher.state === 'expired' ? `Expired ${date}` : `Valid until ${date}`;
@@ -58,7 +65,8 @@ const STATE_LABEL: Partial<Record<Voucher['state'], string>> = {
 };
 
 export function VoucherTicket({ voucher, action }: { voucher: Voucher; action: ReactNode }) {
-  const faded = voucher.state === 'expired' || voucher.state === 'used' || voucher.state === 'fully_collected';
+  const faded =
+    voucher.state === 'expired' || voucher.state === 'used' || voucher.state === 'fully_collected';
   return (
     <View
       accessible={false}
@@ -135,7 +143,13 @@ const styles = StyleSheet.create({
     borderStyle: 'dashed',
   },
   stubEyebrow: { color: '#E0F2FE', fontSize: 10, fontWeight: '600', letterSpacing: 1.8 },
-  stubValue: { color: '#FFFFFF', fontSize: 24, lineHeight: 28, fontWeight: '800', letterSpacing: -0.5 },
+  stubValue: {
+    color: '#FFFFFF',
+    fontSize: 24,
+    lineHeight: 28,
+    fontWeight: '800',
+    letterSpacing: -0.5,
+  },
   stubOff: { color: '#FFFFFF', fontSize: 11, fontWeight: '600', letterSpacing: 1.4 },
   notch: {
     position: 'absolute',
@@ -147,7 +161,12 @@ const styles = StyleSheet.create({
   },
   notchTop: { top: -10 },
   notchBottom: { bottom: -10 },
-  body: { flex: 1, padding: theme.spacing[4], gap: theme.spacing[2], justifyContent: 'space-between' },
+  body: {
+    flex: 1,
+    padding: theme.spacing[4],
+    gap: theme.spacing[2],
+    justifyContent: 'space-between',
+  },
   titleRow: { flexDirection: 'row', alignItems: 'flex-start', gap: theme.spacing[2] },
   title: {
     flex: 1,
@@ -170,6 +189,11 @@ const styles = StyleSheet.create({
   line: { flexDirection: 'row', alignItems: 'center', gap: 6 },
   shrink: { flexShrink: 1 },
   small: { color: theme.colors.mutedForeground, fontSize: 12, flexShrink: 1 },
-  footer: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: theme.spacing[2] },
+  footer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: theme.spacing[2],
+  },
   usedText: { color: theme.colors.mutedForeground, fontSize: 13, fontWeight: '700' },
 });

@@ -55,9 +55,7 @@ export default async function CheckoutsPage({ searchParams }: PageParams) {
   // the other, so the list still renders when the metrics cannot be answered.
   const [result, metricsResult] = await Promise.all([
     adminRead((api, token) => api.adminListCheckouts(token, query)),
-    adminRead((api, token) =>
-      api.adminCheckoutMetrics(token, { from: query.from, to: query.to }),
-    ),
+    adminRead((api, token) => api.adminCheckoutMetrics(token, { from: query.from, to: query.to })),
   ]);
   if (result.kind === 'signed_out') redirect(signInPath(CHECKOUTS_PATH));
 
@@ -87,11 +85,7 @@ export default async function CheckoutsPage({ searchParams }: PageParams) {
           />
         ) : (
           <section className="nz-panel rounded-2xl border">
-            <ReadState
-              failure={result.kind}
-              retryHref={CHECKOUTS_PATH}
-              permission="orders.read"
-            />
+            <ReadState failure={result.kind} retryHref={CHECKOUTS_PATH} permission="orders.read" />
           </section>
         )}
       </div>

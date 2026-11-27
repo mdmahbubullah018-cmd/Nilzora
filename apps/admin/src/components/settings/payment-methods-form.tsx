@@ -19,13 +19,7 @@ import { AutoText } from '@/components/i18n/translate';
 
 const IDLE: ActionState = { status: 'idle' };
 
-export function PaymentMethodsForm({
-  codEnabled,
-  csrf,
-}: {
-  codEnabled: boolean;
-  csrf: CsrfInput;
-}) {
+export function PaymentMethodsForm({ codEnabled, csrf }: { codEnabled: boolean; csrf: CsrfInput }) {
   const [state, action, pending] = useActionState(saveCodAvailabilityAction, IDLE);
   const [enabled, setEnabled] = useState(codEnabled);
 
@@ -52,7 +46,9 @@ export function PaymentMethodsForm({
             <span className="grid gap-1">
               <span className="flex flex-wrap items-center gap-2">
                 <Banknote aria-hidden="true" className="size-4 text-primary" strokeWidth={1.75} />
-                <span className="font-semibold text-foreground"><AutoText>Cash on Delivery</AutoText></span>
+                <span className="font-semibold text-foreground">
+                  <AutoText>Cash on Delivery</AutoText>
+                </span>
                 <span
                   className={cn(
                     'rounded-full px-2 py-0.5 text-[11px] font-semibold',
@@ -65,8 +61,8 @@ export function PaymentMethodsForm({
                 </span>
               </span>
               <span id="cod-note" className="text-sm text-muted-foreground">
-                Customers pay the courier when the parcel arrives. Turning this off closes
-                checkout: the order function refuses a cash order until it is on again.
+                Customers pay the courier when the parcel arrives. Turning this off closes checkout:
+                the order function refuses a cash order until it is on again.
               </span>
             </span>
           </label>
@@ -84,12 +80,16 @@ export function PaymentMethodsForm({
             </span>
             <span className="grid gap-1">
               <span className="flex flex-wrap items-center gap-2">
-                <span className="font-semibold text-foreground"><AutoText value={method.label} /></span>
-                <span className="rounded-full bg-brand-violet/12 px-2 py-0.5 text-[11px] font-semibold text-brand-violet"><AutoText>Coming soon</AutoText></span>
+                <span className="font-semibold text-foreground">
+                  <AutoText value={method.label} />
+                </span>
+                <span className="rounded-full bg-brand-violet/12 px-2 py-0.5 text-[11px] font-semibold text-brand-violet">
+                  <AutoText>Coming soon</AutoText>
+                </span>
               </span>
               <span className="text-sm text-muted-foreground">
-                {method.description} There is no switch for it until the payment integration
-                exists, so it can never be switched on by accident.
+                {method.description} There is no switch for it until the payment integration exists,
+                so it can never be switched on by accident.
               </span>
             </span>
           </li>
@@ -98,12 +98,16 @@ export function PaymentMethodsForm({
 
       {state.status !== 'idle' && state.message ? (
         <Alert tone={state.status === 'success' ? 'success' : 'danger'}>
-          <span aria-live="polite"><AutoText value={state.message} /></span>
+          <span aria-live="polite">
+            <AutoText value={state.message} />
+          </span>
         </Alert>
       ) : null}
 
       <div className="flex justify-end">
-        <Button type="submit" loading={pending} disabled={pending}><AutoText>Save payment methods</AutoText></Button>
+        <Button type="submit" loading={pending} disabled={pending}>
+          <AutoText>Save payment methods</AutoText>
+        </Button>
       </div>
     </form>
   );

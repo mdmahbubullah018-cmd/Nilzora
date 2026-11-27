@@ -46,7 +46,9 @@ interface NotificationRow {
   total_count?: number | string;
 }
 
-function over(rpcFor: (accessToken: string | null, userId: string | null) => Rpc): CustomerNotificationStore {
+function over(
+  rpcFor: (accessToken: string | null, userId: string | null) => Rpc,
+): CustomerNotificationStore {
   return {
     async list(accessToken, userId, query, page) {
       const rows = await rpcFor(accessToken, userId)<NotificationRow[]>(
@@ -74,12 +76,17 @@ function over(rpcFor: (accessToken: string | null, userId: string | null) => Rpc
     },
 
     async unreadCount(accessToken, userId) {
-      const count = await rpcFor(accessToken, userId)<unknown>('customer_unread_notification_count', {});
+      const count = await rpcFor(accessToken, userId)<unknown>(
+        'customer_unread_notification_count',
+        {},
+      );
       return Number(count ?? 0);
     },
 
     async markRead(accessToken, userId, notificationId) {
-      await rpcFor(accessToken, userId)('mark_customer_notification_read', { p_id: notificationId });
+      await rpcFor(accessToken, userId)('mark_customer_notification_read', {
+        p_id: notificationId,
+      });
     },
 
     async remove(accessToken, userId, ids) {
@@ -97,7 +104,10 @@ function over(rpcFor: (accessToken: string | null, userId: string | null) => Rpc
     },
 
     async markAllRead(accessToken, userId) {
-      const count = await rpcFor(accessToken, userId)<unknown>('mark_all_customer_notifications_read', {});
+      const count = await rpcFor(accessToken, userId)<unknown>(
+        'mark_all_customer_notifications_read',
+        {},
+      );
       return Number(count ?? 0);
     },
   };

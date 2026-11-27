@@ -9,9 +9,7 @@ import type { NilzoraSupabaseClient } from '../../supabase/clients';
  * types were generated (or overloaded). Callers still validate every answer with a contract
  * schema, and pass the same arguments the function declares.
  */
-export function untypedRpc(
-  client: NilzoraSupabaseClient,
-): (
+export function untypedRpc(client: NilzoraSupabaseClient): (
   name: string,
   args?: Record<string, unknown>,
 ) => Promise<{

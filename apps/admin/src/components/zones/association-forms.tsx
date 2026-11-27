@@ -66,9 +66,7 @@ export function SelectionForm({
   }, [rows, chosen, onlyChosen, needle]);
 
   const toggle = (rowId: string, on: boolean) => {
-    setChosen((current) =>
-      on ? [...current, rowId] : current.filter((value) => value !== rowId),
-    );
+    setChosen((current) => (on ? [...current, rowId] : current.filter((value) => value !== rowId)));
   };
 
   return (
@@ -77,7 +75,9 @@ export function SelectionForm({
       <input type="hidden" name="zoneId" value={zoneId} />
       {state.status !== 'idle' && state.message ? (
         <Alert tone={state.status === 'success' ? 'success' : 'danger'}>
-          <span aria-live="polite"><AutoText value={state.message} /></span>
+          <span aria-live="polite">
+            <AutoText value={state.message} />
+          </span>
         </Alert>
       ) : null}
       <div className="flex flex-wrap items-end gap-3">
@@ -100,14 +100,19 @@ export function SelectionForm({
             checked={onlyChosen}
             onChange={(event) => setOnlyChosen(event.currentTarget.checked)}
             className="size-5 accent-primary-action"
-          /><AutoText>Only what is attached</AutoText></label>
+          />
+          <AutoText>Only what is attached</AutoText>
+        </label>
       </div>
       <p aria-live="polite" className="text-xs text-muted-foreground">
         {rows.length === 0
           ? emptyLabel
           : `${String(chosen.length)} of ${String(rows.length)} attached · showing ${String(visible.length)}`}
       </p>
-      <ul role="list" className="max-h-96 divide-y divide-hairline overflow-y-auto rounded-xl ring-1 ring-hairline">
+      <ul
+        role="list"
+        className="max-h-96 divide-y divide-hairline overflow-y-auto rounded-xl ring-1 ring-hairline"
+      >
         {rows.map((row) => {
           const on = chosen.includes(row.id);
           const shown = visible.includes(row);
@@ -123,10 +128,16 @@ export function SelectionForm({
                   className="mt-0.5 size-5 accent-primary-action"
                 />
                 <span className="grid min-w-0 gap-0.5">
-                  <span className="truncate text-sm font-medium text-foreground"><AutoText value={row.title} /></span>
-                  <span className="truncate text-xs text-muted-foreground"><AutoText value={row.detail} /></span>
+                  <span className="truncate text-sm font-medium text-foreground">
+                    <AutoText value={row.title} />
+                  </span>
+                  <span className="truncate text-xs text-muted-foreground">
+                    <AutoText value={row.detail} />
+                  </span>
                   {row.note ? (
-                    <span className="text-xs font-medium text-moderator"><AutoText value={row.note} /></span>
+                    <span className="text-xs font-medium text-moderator">
+                      <AutoText value={row.note} />
+                    </span>
                   ) : null}
                 </span>
               </label>

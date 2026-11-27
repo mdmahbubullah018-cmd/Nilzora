@@ -89,7 +89,11 @@ export function shipmentTimelineItems(events: readonly ShipmentEvent[]): Timelin
 }
 
 function Money({ value }: { value: number }) {
-  return <span className="tabular-nums"><AutoText value={formatMoney(value)} /></span>;
+  return (
+    <span className="tabular-nums">
+      <AutoText value={formatMoney(value)} />
+    </span>
+  );
 }
 
 export interface ShipmentDetailViewProps {
@@ -127,8 +131,11 @@ export function ShipmentDetailView({
       {shipment.bookingUncertain ? (
         <Alert tone="danger" title="Booking not confirmed">
           {courier} did not answer this booking clearly, so Nilzora does not know whether a parcel
-          exists. Look for <span className="font-mono"><AutoText value={shipment.merchantRef} /></span> in the{' '}
-          {courier} portal, then resolve it below. It is never retried automatically.
+          exists. Look for{' '}
+          <span className="font-mono">
+            <AutoText value={shipment.merchantRef} />
+          </span>{' '}
+          in the {courier} portal, then resolve it below. It is never retried automatically.
         </Alert>
       ) : null}
       {shipment.bookingError && shipment.status === 'booking_failed' ? (
@@ -159,7 +166,9 @@ export function ShipmentDetailView({
                       {shipment.orderNumber}
                     </Link>
                   ) : (
-                    <span className="font-mono"><AutoText value={shipment.orderNumber} /></span>
+                    <span className="font-mono">
+                      <AutoText value={shipment.orderNumber} />
+                    </span>
                   ),
                 },
                 {
@@ -169,7 +178,9 @@ export function ShipmentDetailView({
                       <Link
                         href={`/admin/returns/${shipment.returnRequestId}` as Route}
                         className="text-link underline-offset-4 hover:underline"
-                      ><AutoText>Open the return</AutoText></Link>
+                      >
+                        <AutoText>Open the return</AutoText>
+                      </Link>
                     ) : null,
                 },
                 {
@@ -178,17 +189,25 @@ export function ShipmentDetailView({
                     <Link
                       href={shipmentHref(shipment.parentShipmentId)}
                       className="text-link underline-offset-4 hover:underline"
-                    ><AutoText>Open the original shipment</AutoText></Link>
+                    >
+                      <AutoText>Open the original shipment</AutoText>
+                    </Link>
                   ) : null,
                 },
                 {
                   label: 'Nilzora reference',
-                  value: <span className="font-mono"><AutoText value={shipment.merchantRef} /></span>,
+                  value: (
+                    <span className="font-mono">
+                      <AutoText value={shipment.merchantRef} />
+                    </span>
+                  ),
                 },
                 {
                   label: 'Consignment id',
                   value: shipment.consignmentId ? (
-                    <span className="font-mono"><AutoText value={shipment.consignmentId} /></span>
+                    <span className="font-mono">
+                      <AutoText value={shipment.consignmentId} />
+                    </span>
                   ) : null,
                 },
                 {
@@ -205,7 +224,9 @@ export function ShipmentDetailView({
                         <span className="sr-only"> (opens the courier’s tracking page)</span>
                       </a>
                     ) : (
-                      <span className="font-mono"><AutoText value={shipment.trackingCode} /></span>
+                      <span className="font-mono">
+                        <AutoText value={shipment.trackingCode} />
+                      </span>
                     )
                   ) : null,
                 },
@@ -287,7 +308,9 @@ export function ShipmentDetailView({
             {events.length > 0 ? (
               <Timeline label="Shipment timeline" items={shipmentTimelineItems(events)} />
             ) : (
-              <p className="text-sm text-muted-foreground"><AutoText>No courier events yet.</AutoText></p>
+              <p className="text-sm text-muted-foreground">
+                <AutoText>No courier events yet.</AutoText>
+              </p>
             )}
           </SectionCard>
         </div>
@@ -332,7 +355,9 @@ export function ShipmentDetailView({
                     ] as const
                   ).map(([label, value]) => (
                     <div key={label} className="contents">
-                      <dt className="text-muted-foreground"><AutoText value={label} /></dt>
+                      <dt className="text-muted-foreground">
+                        <AutoText value={label} />
+                      </dt>
                       <dd
                         className={
                           label === 'Difference' && value !== 0
@@ -360,7 +385,9 @@ export function ShipmentDetailView({
                       <CodAdjustmentForm shipmentId={shipment.id} csrf={csrf} />
                     </ActionDisclosure>
                     <div className="grid gap-2 border-t border-hairline pt-3">
-                      <p className="text-xs font-medium text-muted-foreground"><AutoText>Reconciliation</AutoText></p>
+                      <p className="text-xs font-medium text-muted-foreground">
+                        <AutoText>Reconciliation</AutoText>
+                      </p>
                       <CodStateForm
                         shipmentId={shipment.id}
                         csrf={csrf}
@@ -381,11 +408,21 @@ export function ShipmentDetailView({
           <DataTable caption="COD ledger" dense>
             <TableHeader>
               <TableRow className="hover:bg-transparent">
-                <TableHead><AutoText>Entry</AutoText></TableHead>
-                <TableHead className="text-right"><AutoText>Amount</AutoText></TableHead>
-                <TableHead><AutoText>Reference</AutoText></TableHead>
-                <TableHead><AutoText>Note</AutoText></TableHead>
-                <TableHead><AutoText>Recorded</AutoText></TableHead>
+                <TableHead>
+                  <AutoText>Entry</AutoText>
+                </TableHead>
+                <TableHead className="text-right">
+                  <AutoText>Amount</AutoText>
+                </TableHead>
+                <TableHead>
+                  <AutoText>Reference</AutoText>
+                </TableHead>
+                <TableHead>
+                  <AutoText>Note</AutoText>
+                </TableHead>
+                <TableHead>
+                  <AutoText>Recorded</AutoText>
+                </TableHead>
               </TableRow>
             </TableHeader>
             {ledger.length > 0 ? (
@@ -489,7 +526,9 @@ export function ShipmentSteps({
         <Link
           href={auditHref}
           className="w-fit text-xs font-medium text-link underline-offset-4 hover:underline"
-        ><AutoText>See this shipment in the audit log</AutoText></Link>
+        >
+          <AutoText>See this shipment in the audit log</AutoText>
+        </Link>
       ) : null}
     </div>
   );

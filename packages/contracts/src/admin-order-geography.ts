@@ -34,7 +34,9 @@ const count = z.number().int().min(0);
 const share = z.number().min(0).max(1).nullable();
 
 function daysBetween(from: string, to: string): number {
-  return Math.round((Date.parse(`${to}T00:00:00Z`) - Date.parse(`${from}T00:00:00Z`)) / 86_400_000) + 1;
+  return (
+    Math.round((Date.parse(`${to}T00:00:00Z`) - Date.parse(`${from}T00:00:00Z`)) / 86_400_000) + 1
+  );
 }
 
 /**

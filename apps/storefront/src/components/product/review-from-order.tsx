@@ -36,7 +36,10 @@ export function ReviewFromOrder({
 
   if (submitted) {
     return (
-      <p role="status" className="inline-flex items-center gap-1.5 text-xs font-medium text-green-700">
+      <p
+        role="status"
+        className="inline-flex items-center gap-1.5 text-xs font-medium text-green-700"
+      >
         <CircleCheck aria-hidden="true" className="size-3.5" />
         {STATUS_WORDS.pending}
       </p>

@@ -345,7 +345,6 @@ export const productFacetsResponseSchema = z.object({ facets: productFacetsSchem
  */
 export const productFacetsQuerySchema = z.object(catalogFilterShape);
 
-
 export type SizeFacet = z.infer<typeof sizeFacetSchema>;
 export type ColorFacet = z.infer<typeof colorFacetSchema>;
 export type ProductFacets = z.infer<typeof productFacetsSchema>;

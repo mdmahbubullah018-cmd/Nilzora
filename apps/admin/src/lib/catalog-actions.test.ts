@@ -447,14 +447,18 @@ describe('updateProductAction with several sections (the one-form product page)'
       // Tags are normalised and de-duplicated by the contract.
       tags: ['summer sale', 'eid-2026'],
       // A short row is padded to the width of the chart.
-      sizeChart: { columns: ['Size', 'Chest (cm)'], rows: [['M', '96'], ['L', '']] },
+      sizeChart: {
+        columns: ['Size', 'Chest (cm)'],
+        rows: [
+          ['M', '96'],
+          ['L', ''],
+        ],
+      },
     });
   });
 
   it('keeps the tags and size chart when the form does not show them, and clears an emptied chart', async () => {
-    await redirectOf(
-      updateProductAction(idle, editForm({ maxOrderQuantity: '3' }, ['ordering'])),
-    );
+    await redirectOf(updateProductAction(idle, editForm({ maxOrderQuantity: '3' }, ['ordering'])));
     expect(api.adminUpdateProduct.mock.calls[0]?.[2]).not.toHaveProperty('tags');
     expect(api.adminUpdateProduct.mock.calls[0]?.[2]).not.toHaveProperty('sizeChart');
 
@@ -463,7 +467,12 @@ describe('updateProductAction with several sections (the one-form product page)'
       updateProductAction(
         idle,
         editForm(
-          { name: 'Cotton panjabi', slug: 'cotton-panjabi', categoryId: CATEGORY_ID, sizeChart: '' },
+          {
+            name: 'Cotton panjabi',
+            slug: 'cotton-panjabi',
+            categoryId: CATEGORY_ID,
+            sizeChart: '',
+          },
           ['content'],
         ),
       ),
@@ -493,7 +502,10 @@ describe('updateProductAction with several sections (the one-form product page)'
   });
 
   it('refuses a section named twice or an unknown one among known ones', async () => {
-    for (const sections of [['pricing', 'pricing'], ['pricing', 'status']]) {
+    for (const sections of [
+      ['pricing', 'pricing'],
+      ['pricing', 'status'],
+    ]) {
       const state = await updateProductAction(idle, editForm({ price: '1' }, sections));
       expect(state.message).toMatch(/out of date/);
     }
@@ -504,10 +516,7 @@ describe('updateProductAction with several sections (the one-form product page)'
 describe('createProductAction with tags and a size chart', () => {
   it('sends them when the form shows them', async () => {
     await redirectOf(
-      createProductAction(
-        idle,
-        form({ ...CREATE_FIELDS, tags: 'new in', sizeChart: 'Size\nM' }),
-      ),
+      createProductAction(idle, form({ ...CREATE_FIELDS, tags: 'new in', sizeChart: 'Size\nM' })),
     );
     expect(api.adminCreateProduct.mock.calls[0]?.[1]).toMatchObject({
       tags: ['new in'],
@@ -744,7 +753,9 @@ describe('category actions', () => {
     api.adminListCategories.mockResolvedValue({
       categories: [{ ...category, parentId: PARENT_ID, isFeatured: true }],
     });
-    await redirectOf(setCategoryActiveAction(idle, form({ categoryId: CATEGORY_ID, active: 'false' })));
+    await redirectOf(
+      setCategoryActiveAction(idle, form({ categoryId: CATEGORY_ID, active: 'false' })),
+    );
     // The PUT replaces every field: leaving these out would move it to the top level.
     expect(api.adminUpdateCategory.mock.calls[0]?.[2]).toMatchObject({
       parentId: PARENT_ID,

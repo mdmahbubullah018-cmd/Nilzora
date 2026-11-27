@@ -94,7 +94,9 @@ export function parseReportPage(
 }
 
 /** The API query for a page query: the range plus the filters that are set. */
-export function reportQueryOf(query: ReportPageQuery): { from: string; to: string } & ReportFilterValues {
+export function reportQueryOf(
+  query: ReportPageQuery,
+): { from: string; to: string } & ReportFilterValues {
   return { from: query.range.from, to: query.range.to, ...query.filters };
 }
 

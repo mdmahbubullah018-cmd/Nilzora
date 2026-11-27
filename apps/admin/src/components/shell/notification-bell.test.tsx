@@ -10,9 +10,7 @@ interface Fake {
   calls: unknown[][];
 }
 
-const read = vi.hoisted(
-  (): Fake => ({ outcome: 'ok', unread: 0, notifications: [], calls: [] }),
-);
+const read = vi.hoisted((): Fake => ({ outcome: 'ok', unread: 0, notifications: [], calls: [] }));
 
 vi.mock('@/lib/session', () => ({
   session: {

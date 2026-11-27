@@ -74,10 +74,7 @@ function inboxOver(rpcFor: (accessToken: string | null, userId: string | null) =
     },
 
     async unreadCount(accessToken, userId) {
-      const count = await rpcFor(accessToken, userId)<unknown>(
-        'my_unread_notification_count',
-        {},
-      );
+      const count = await rpcFor(accessToken, userId)<unknown>('my_unread_notification_count', {});
       return Number(count ?? 0);
     },
 

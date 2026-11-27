@@ -383,9 +383,9 @@ describe('the staff inbox', () => {
     expect((await setup.call('get', '/staff/notifications/unread-count', 'customer')).status).toBe(
       403,
     );
-    expect((await setup.call('post', `/staff/notifications/${id}/read`, 'customer', {})).status).toBe(
-      403,
-    );
+    expect(
+      (await setup.call('post', `/staff/notifications/${id}/read`, 'customer', {})).status,
+    ).toBe(403);
     expect((await setup.call('post', '/staff/notifications/read-all', 'customer', {})).status).toBe(
       403,
     );
@@ -432,7 +432,11 @@ describe('customer insight', () => {
     const asCustomer = await setup.call('get', '/admin/insights/customers', 'customer');
     expect(asCustomer.status).toBe(403);
 
-    const asStaff = await setup.call('get', '/admin/insights/customers?segment=repeat&q=rahima', 'staff');
+    const asStaff = await setup.call(
+      'get',
+      '/admin/insights/customers?segment=repeat&q=rahima',
+      'staff',
+    );
     expect(asStaff.status).toBe(200);
     const list = customerInsightListResponseSchema.parse(asStaff.body);
     expect(list.customers[0]).toMatchObject({ spendMinor: 125_000, segments: ['repeat'] });

@@ -51,7 +51,9 @@ export function CouponTargetingFields({
 
   return (
     <fieldset className="grid gap-5 rounded-2xl border border-hairline p-4 sm:p-5">
-      <legend className="px-1 text-sm font-semibold text-foreground"><AutoText>Voucher and eligibility</AutoText></legend>
+      <legend className="px-1 text-sm font-semibold text-foreground">
+        <AutoText>Voucher and eligibility</AutoText>
+      </legend>
       <input type="hidden" name="targetingLoaded" value="1" />
 
       <label className="flex items-start gap-3 rounded-xl border border-hairline bg-info-soft/40 p-3">
@@ -79,8 +81,8 @@ export function CouponTargetingFields({
         <div className="grid gap-4 sm:grid-cols-2">
           <Field
             id="voucher-title"
-            label={tx("Voucher title")}
-            hint={tx("What the Voucher Center shows, e.g. “Eid special: 10% off shoes”.")}
+            label={tx('Voucher title')}
+            hint={tx('What the Voucher Center shows, e.g. “Eid special: 10% off shoes”.')}
             error={errors?.title}
           >
             {(control) => (
@@ -94,8 +96,8 @@ export function CouponTargetingFields({
           </Field>
           <Field
             id="voucher-collect-limit"
-            label={tx("Collection limit")}
-            hint={tx("How many customers may collect it. Empty means no limit.")}
+            label={tx('Collection limit')}
+            hint={tx('How many customers may collect it. Empty means no limit.')}
             error={errors?.collectLimit}
           >
             {(control) => (
@@ -115,7 +117,7 @@ export function CouponTargetingFields({
       ) : null}
 
       <div className="grid gap-4 sm:grid-cols-2">
-        <Field id="coupon-scope" label={tx("Applies to")} error={errors?.scope}>
+        <Field id="coupon-scope" label={tx('Applies to')} error={errors?.scope}>
           {(control) => (
             <NativeSelect
               {...control}
@@ -125,16 +127,22 @@ export function CouponTargetingFields({
                 setScope(event.target.value as Scope);
               }}
             >
-              <option value="storewide"><AutoText>Everything in the store</AutoText></option>
-              <option value="categories"><AutoText>Selected categories</AutoText></option>
-              <option value="products"><AutoText>Selected products</AutoText></option>
+              <option value="storewide">
+                <AutoText>Everything in the store</AutoText>
+              </option>
+              <option value="categories">
+                <AutoText>Selected categories</AutoText>
+              </option>
+              <option value="products">
+                <AutoText>Selected products</AutoText>
+              </option>
             </NativeSelect>
           )}
         </Field>
         <Field
           id="coupon-audience"
-          label={tx("Customers")}
-          hint={tx("New customers have no orders yet (cancelled orders do not count).")}
+          label={tx('Customers')}
+          hint={tx('New customers have no orders yet (cancelled orders do not count).')}
           error={errors?.audience}
         >
           {(control) => (
@@ -146,10 +154,18 @@ export function CouponTargetingFields({
                 setAudience(event.target.value as Audience);
               }}
             >
-              <option value="all"><AutoText>Everyone</AutoText></option>
-              <option value="new_customers"><AutoText>New customers only</AutoText></option>
-              <option value="returning_customers"><AutoText>Returning customers only</AutoText></option>
-              <option value="selected_customers"><AutoText>Chosen customers only</AutoText></option>
+              <option value="all">
+                <AutoText>Everyone</AutoText>
+              </option>
+              <option value="new_customers">
+                <AutoText>New customers only</AutoText>
+              </option>
+              <option value="returning_customers">
+                <AutoText>Returning customers only</AutoText>
+              </option>
+              <option value="selected_customers">
+                <AutoText>Chosen customers only</AutoText>
+              </option>
             </NativeSelect>
           )}
         </Field>
@@ -157,7 +173,9 @@ export function CouponTargetingFields({
 
       {audience === 'selected_customers' ? (
         <div className="grid gap-2">
-          <p className="text-sm font-medium text-foreground"><AutoText>Customers who can use it</AutoText></p>
+          <p className="text-sm font-medium text-foreground">
+            <AutoText>Customers who can use it</AutoText>
+          </p>
           <CustomerPicker
             selected={targeting?.customers ?? []}
             csrf={csrf}
@@ -169,7 +187,9 @@ export function CouponTargetingFields({
 
       {scope === 'categories' ? (
         <div className="grid gap-2">
-          <p className="text-sm font-medium text-foreground"><AutoText>Categories</AutoText></p>
+          <p className="text-sm font-medium text-foreground">
+            <AutoText>Categories</AutoText>
+          </p>
           <p className="text-xs text-muted-foreground">
             A chosen category also covers its subcategories. The minimum spend and the discount
             count only these items.
@@ -181,14 +201,18 @@ export function CouponTargetingFields({
             emptyLabel="No categories exist yet."
           />
           {errors?.categoryIds ? (
-            <p className="text-sm text-danger-ink"><AutoText value={errors.categoryIds} /></p>
+            <p className="text-sm text-danger-ink">
+              <AutoText value={errors.categoryIds} />
+            </p>
           ) : null}
         </div>
       ) : null}
 
       {scope === 'products' ? (
         <div className="grid gap-2">
-          <p className="text-sm font-medium text-foreground"><AutoText>Products</AutoText></p>
+          <p className="text-sm font-medium text-foreground">
+            <AutoText>Products</AutoText>
+          </p>
           <p className="text-xs text-muted-foreground">
             The minimum spend and the discount count only these products.
             {targets.productsTruncated
@@ -197,7 +221,9 @@ export function CouponTargetingFields({
           </p>
           <ProductPicker options={targets.products} selected={targeting?.productIds ?? []} />
           {errors?.productIds ? (
-            <p className="text-sm text-danger-ink"><AutoText value={errors.productIds} /></p>
+            <p className="text-sm text-danger-ink">
+              <AutoText value={errors.productIds} />
+            </p>
           ) : null}
         </div>
       ) : null}

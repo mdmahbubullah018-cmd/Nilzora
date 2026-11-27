@@ -115,11 +115,15 @@ export async function removeCategoryBannerAction(
 ): Promise<ActionState> {
   const id = categoryId(formData);
   if (id === undefined) return PAGE_EXPIRED;
-  const result = await adminAct(formData, (api, token) => api.adminRemoveCategoryBanner(token, id), {
-    returnTo: categoryPath(id),
-    label: 'category banner removal',
-    messages: MESSAGES,
-  });
+  const result = await adminAct(
+    formData,
+    (api, token) => api.adminRemoveCategoryBanner(token, id),
+    {
+      returnTo: categoryPath(id),
+      label: 'category banner removal',
+      messages: MESSAGES,
+    },
+  );
   if (!result.ok) return result.state;
   refresh(id);
   return { status: 'success', message: 'Banner removed.' };

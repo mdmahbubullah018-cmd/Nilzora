@@ -207,8 +207,20 @@ describe('the colour preview on a card', () => {
     catalog_products: () => ({ data: [productRow], error: null }),
     catalog_product_colors: () => ({
       data: [
-        { product_id: productRow.id, value: 'Black', value_slug: 'black', swatch_hex: '#0F172A', position: 0 },
-        { product_id: productRow.id, value: 'Navy', value_slug: 'navy', swatch_hex: '#1E3A8A', position: 2 },
+        {
+          product_id: productRow.id,
+          value: 'Black',
+          value_slug: 'black',
+          swatch_hex: '#0F172A',
+          position: 0,
+        },
+        {
+          product_id: productRow.id,
+          value: 'Navy',
+          value_slug: 'navy',
+          swatch_hex: '#1E3A8A',
+          position: 2,
+        },
       ],
       error: null,
     }),
@@ -239,7 +251,13 @@ describe('the colour preview on a card', () => {
         catalog_products: () => ({ data: [productRow], error: null }),
         catalog_product_colors: () => ({
           data: [
-            { product_id: productRow.id, value: 'Black', value_slug: 'black', swatch_hex: '#0F172A', position: 0 },
+            {
+              product_id: productRow.id,
+              value: 'Black',
+              value_slug: 'black',
+              swatch_hex: '#0F172A',
+              position: 0,
+            },
           ],
           error: null,
         }),

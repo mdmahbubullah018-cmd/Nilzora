@@ -11,7 +11,13 @@ import type {
 import { uuidSchema } from '@nilzora/validation';
 import { revalidatePath } from 'next/cache';
 import type { Route } from 'next';
-import { adminAct, formText, invalid, takaToMinor, type ActionState } from '@/components/admin-kit/act';
+import {
+  adminAct,
+  formText,
+  invalid,
+  takaToMinor,
+  type ActionState,
+} from '@/components/admin-kit/act';
 import type { FormState } from '@nilzora/web-session';
 
 /*
@@ -151,21 +157,23 @@ export async function saveCampaignAction(
   const body = {
     name: formText(formData, 'name').trim(),
     customerTitle: formText(formData, 'customerTitle').trim(),
-    internalNotes: formText(formData, 'internalNotes').trim() === ''
-      ? null
-      : formText(formData, 'internalNotes').trim(),
+    internalNotes:
+      formText(formData, 'internalNotes').trim() === ''
+        ? null
+        : formText(formData, 'internalNotes').trim(),
     scope,
     discountKind,
     discountValue: value ?? 1,
     // A fixed discount has no cap; the API refuses one, so it is never sent.
-    maxDiscountMinor: discountKind === 'percent' ? capMinor ?? null : null,
+    maxDiscountMinor: discountKind === 'percent' ? (capMinor ?? null) : null,
     startsAt: startsAt ?? null,
     endsAt: endsAt ?? null,
     priority: priority ?? 0,
     isVisible: formData.get('isVisible') === 'on',
-    bannerImageKey: formText(formData, 'bannerImageKey').trim() === ''
-      ? null
-      : formText(formData, 'bannerImageKey').trim(),
+    bannerImageKey:
+      formText(formData, 'bannerImageKey').trim() === ''
+        ? null
+        : formText(formData, 'bannerImageKey').trim(),
     couponPolicy,
     categoryIds: scope === 'categories' ? categoryIds : [],
     brandIds: scope === 'brands' ? brandIds : [],
@@ -180,7 +188,9 @@ export async function saveCampaignAction(
         ? api.adminCreateCampaign(token, body)
         : api.adminUpdateCampaign(token, campaignId, body),
     {
-      returnTo: (editing ? `/admin/discounts/${String(campaignId)}` : '/admin/discounts/new') as Route,
+      returnTo: (editing
+        ? `/admin/discounts/${String(campaignId)}`
+        : '/admin/discounts/new') as Route,
       label: 'campaign save',
       messages: CAMPAIGN_MESSAGES,
     },

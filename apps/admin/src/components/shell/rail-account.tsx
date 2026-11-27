@@ -22,7 +22,9 @@ export function RailAccount({ identity, profileHref }: RailAccountProps) {
         <span className="truncate text-sm font-medium text-sidebar-foreground">
           {identity.name}
         </span>
-        <span className="truncate text-xs text-sidebar-muted"><AutoText value={identity.role} /></span>
+        <span className="truncate text-xs text-sidebar-muted">
+          <AutoText value={identity.role} />
+        </span>
       </span>
     </>
   );
@@ -38,6 +40,8 @@ export function RailAccount({ identity, profileHref }: RailAccountProps) {
       {body}
     </Link>
   ) : (
-    <div className={classes}><AutoText value={body} /></div>
+    <div className={classes}>
+      <AutoText value={body} />
+    </div>
   );
 }

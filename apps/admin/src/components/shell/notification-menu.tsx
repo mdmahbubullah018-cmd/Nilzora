@@ -58,7 +58,9 @@ export function NotificationMenu({ count, items, available }: NotificationMenuPr
 
       <div className="nz-glass absolute top-full right-0 z-40 mt-2 grid w-88 max-w-[calc(100vw-2rem)] overflow-hidden rounded-2xl border">
         <div className="flex items-center justify-between gap-3 border-b border-border px-4 py-3">
-          <p className="text-sm font-semibold text-foreground"><AutoText>Notifications</AutoText></p>
+          <p className="text-sm font-semibold text-foreground">
+            <AutoText>Notifications</AutoText>
+          </p>
           {count > 0 ? (
             <span className="rounded-full bg-info-soft px-2 py-0.5 text-xs font-semibold text-info-ink">
               {count} unread
@@ -106,7 +108,9 @@ export function NotificationMenu({ count, items, available }: NotificationMenuPr
                       {item.unread ? (
                         <>
                           <span aria-hidden="true" className="size-1.5 rounded-full bg-primary" />
-                          <span className="sr-only"><AutoText>Unread</AutoText></span>
+                          <span className="sr-only">
+                            <AutoText>Unread</AutoText>
+                          </span>
                         </>
                       ) : null}
                     </span>
@@ -114,7 +118,9 @@ export function NotificationMenu({ count, items, available }: NotificationMenuPr
                       {item.title}
                     </span>
                     {item.body ? (
-                      <span className="line-clamp-2 text-xs text-muted-foreground"><AutoText value={item.body} /></span>
+                      <span className="line-clamp-2 text-xs text-muted-foreground">
+                        <AutoText value={item.body} />
+                      </span>
                     ) : null}
                     <span className="text-[11px] text-muted-foreground">
                       <RelativeTimeText value={item.createdAt} />
@@ -133,7 +139,9 @@ export function NotificationMenu({ count, items, available }: NotificationMenuPr
                       {content}
                     </Link>
                   ) : (
-                    <div className="flex gap-3 px-4 py-3"><AutoText value={content} /></div>
+                    <div className="flex gap-3 px-4 py-3">
+                      <AutoText value={content} />
+                    </div>
                   )}
                 </li>
               );
@@ -145,7 +153,9 @@ export function NotificationMenu({ count, items, available }: NotificationMenuPr
           href={INBOX}
           onClick={close}
           className="border-t border-border px-4 py-2.5 text-center text-sm font-semibold text-link transition-colors hover:bg-surface-muted"
-        ><AutoText>Open the inbox</AutoText></Link>
+        >
+          <AutoText>Open the inbox</AutoText>
+        </Link>
       </div>
     </details>
   );

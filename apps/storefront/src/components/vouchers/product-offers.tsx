@@ -274,10 +274,7 @@ export function ProductOffers({
       <div aria-hidden="true" className="h-2 bg-[#F1F5F9]" />
 
       <div className="flex items-center justify-between gap-2">
-        <h2
-          id="product-vouchers"
-          className="text-[14px] leading-5 font-medium text-brand-navy"
-        >
+        <h2 id="product-vouchers" className="text-[14px] leading-5 font-medium text-brand-navy">
           <button
             type="button"
             onClick={() => setListOpen(true)}
@@ -386,7 +383,9 @@ export function ProductOffers({
                       voucher={voucher}
                       collected={collected}
                       pending={pendingId === voucher.id}
-                      href={signedIn && csrf !== null ? undefined : signInHref(returnTo, voucher.id)}
+                      href={
+                        signedIn && csrf !== null ? undefined : signInHref(returnTo, voucher.id)
+                      }
                       onCollect={() => {
                         void collect(voucher);
                       }}
@@ -486,7 +485,10 @@ function VoucherActionPill({
       <Link
         href={href}
         aria-label="Collect voucher"
-        className={cn(base, 'bg-primary-action text-primary-action-foreground hover:bg-primary-action-hover')}
+        className={cn(
+          base,
+          'bg-primary-action text-primary-action-foreground hover:bg-primary-action-hover',
+        )}
       >
         Collect
       </Link>

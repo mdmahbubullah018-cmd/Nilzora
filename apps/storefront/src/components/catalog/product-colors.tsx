@@ -43,7 +43,10 @@ export function ProductColors({
         />
       ))}
       {rest > 0 ? (
-        <span aria-hidden="true" className="text-[0.6875rem] font-semibold leading-none text-muted-foreground">
+        <span
+          aria-hidden="true"
+          className="text-[0.6875rem] font-semibold leading-none text-muted-foreground"
+        >
           +{rest}
         </span>
       ) : null}

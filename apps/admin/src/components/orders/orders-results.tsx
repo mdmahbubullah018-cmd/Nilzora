@@ -84,7 +84,9 @@ export function OrderShipmentCell({
       </span>
       {shipment.isMock ? <TestChip /> : null}
       {shipment.bookingUncertain ? (
-        <Chip tone="warning" title="The courier did not answer this booking clearly"><AutoText>Check portal</AutoText></Chip>
+        <Chip tone="warning" title="The courier did not answer this booking clearly">
+          <AutoText>Check portal</AutoText>
+        </Chip>
       ) : null}
     </div>
   );
@@ -227,14 +229,32 @@ export function OrdersTable({
                 <SelectPageCheckbox />
               </TableHead>
             ) : null}
-            <TableHead><AutoText>Order</AutoText></TableHead>
-            <TableHead><AutoText>Items</AutoText></TableHead>
-            <TableHead><AutoText>Customer</AutoText></TableHead>
-            <TableHead className="hidden 2xl:table-cell"><AutoText>Zone</AutoText></TableHead>
-            <TableHead><AutoText>Status</AutoText></TableHead>
-            <TableHead><AutoText>Payment</AutoText></TableHead>
-            {showCourier ? <TableHead><AutoText>Courier</AutoText></TableHead> : null}
-            <TableHead className="text-right"><AutoText>Total</AutoText></TableHead>
+            <TableHead>
+              <AutoText>Order</AutoText>
+            </TableHead>
+            <TableHead>
+              <AutoText>Items</AutoText>
+            </TableHead>
+            <TableHead>
+              <AutoText>Customer</AutoText>
+            </TableHead>
+            <TableHead className="hidden 2xl:table-cell">
+              <AutoText>Zone</AutoText>
+            </TableHead>
+            <TableHead>
+              <AutoText>Status</AutoText>
+            </TableHead>
+            <TableHead>
+              <AutoText>Payment</AutoText>
+            </TableHead>
+            {showCourier ? (
+              <TableHead>
+                <AutoText>Courier</AutoText>
+              </TableHead>
+            ) : null}
+            <TableHead className="text-right">
+              <AutoText>Total</AutoText>
+            </TableHead>
           </TableRow>
         </TableHeader>
         {data.orders.length > 0 ? (
@@ -293,7 +313,9 @@ export function OrdersTable({
                     {order.shipment ? (
                       <OrderShipmentCell shipment={order.shipment} />
                     ) : (
-                      <span className="text-xs text-muted-foreground"><AutoText>Not booked</AutoText></span>
+                      <span className="text-xs text-muted-foreground">
+                        <AutoText>Not booked</AutoText>
+                      </span>
                     )}
                   </TableCell>
                 ) : null}
@@ -323,7 +345,9 @@ export function OrdersTable({
                 <Link
                   href={ORDERS_PATH}
                   className="text-sm font-medium text-link underline-offset-4 hover:underline"
-                ><AutoText>Clear filters</AutoText></Link>
+                >
+                  <AutoText>Clear filters</AutoText>
+                </Link>
               ) : undefined
             }
           />

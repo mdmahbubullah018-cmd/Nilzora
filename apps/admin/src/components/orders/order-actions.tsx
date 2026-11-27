@@ -75,7 +75,11 @@ export function OrderStatusActions({
             hiddenFields={{ orderNumber, status: step }}
             error={stepError(step)}
           >
-            <Field id={`note-${step}`} label={tx("Note for the order history")} hint={tx("Optional")}>
+            <Field
+              id={`note-${step}`}
+              label={tx('Note for the order history')}
+              hint={tx('Optional')}
+            >
               {(control) => (
                 <Textarea
                   {...control}
@@ -102,15 +106,17 @@ export function OrderStatusActions({
               </>
             }
             title={`Cancel order ${orderNumber}?`}
-            description={tx("Its stock returns to inventory and the customer sees it as cancelled. This cannot be undone.")}
-            confirmLabel={tx("Yes, cancel the order")}
+            description={tx(
+              'Its stock returns to inventory and the customer sees it as cancelled. This cannot be undone.',
+            )}
+            confirmLabel={tx('Yes, cancel the order')}
             hiddenFields={{ orderNumber, status: 'cancelled' }}
             error={cancelError}
           >
             <Field
               id="cancel-reason"
-              label={tx("Reason")}
-              hint={tx("5 to 300 characters. Recorded in the order history.")}
+              label={tx('Reason')}
+              hint={tx('5 to 300 characters. Recorded in the order history.')}
               error={cancelFieldError}
               required
             >
@@ -176,8 +182,7 @@ export function CodCollectionAction({
             <Banknote aria-hidden="true" strokeWidth={1.75} />
             {compact ? (
               <>
-                Record cash{' '}
-                <span className="sr-only">for {orderNumber}</span>
+                Record cash <span className="sr-only">for {orderNumber}</span>
               </>
             ) : (
               'Record cash collected'
@@ -188,22 +193,26 @@ export function CodCollectionAction({
         tone="primary"
         dialogClassName="sm:max-w-md"
         title={`Record the cash for ${orderNumber}?`}
-        description={tx("Enter the amount the courier handed over. It must match the order total, and this cannot be undone.")}
-        confirmLabel={tx("Record collection")}
+        description={tx(
+          'Enter the amount the courier handed over. It must match the order total, and this cannot be undone.',
+        )}
+        confirmLabel={tx('Record collection')}
         hiddenFields={returnTo ? { orderNumber, returnTo } : { orderNumber }}
         error={state.status === 'error' ? state.message : undefined}
       >
         <div className="grid gap-3">
           <div className="flex items-baseline justify-between gap-3 rounded-lg border border-border/80 bg-surface-muted/60 px-3 py-2">
-            <span className="text-sm text-muted-foreground"><AutoText>Order total</AutoText></span>
+            <span className="text-sm text-muted-foreground">
+              <AutoText>Order total</AutoText>
+            </span>
             <span className="font-display text-lg font-semibold text-foreground tabular-nums">
               {formatMoney(totalMinor)}
             </span>
           </div>
           <Field
             id={`collected-amount-${orderNumber}`}
-            label={tx("Amount received (৳)")}
-            hint={tx("In taka, exactly as counted.")}
+            label={tx('Amount received (৳)')}
+            hint={tx('In taka, exactly as counted.')}
             error={state.fieldErrors?.amount}
             required
           >

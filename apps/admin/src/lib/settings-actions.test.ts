@@ -80,7 +80,10 @@ describe('saveStoreRulesAction', () => {
   });
 
   it('leaves empty thresholds out so the API keeps them', async () => {
-    await saveStoreRulesAction(IDLE, form({ ...FIELDS, repeatOrderThreshold: '', highSpend: '', inactiveDays: '' }));
+    await saveStoreRulesAction(
+      IDLE,
+      form({ ...FIELDS, repeatOrderThreshold: '', highSpend: '', inactiveDays: '' }),
+    );
     expect(api.adminSaveStoreSettings).toHaveBeenCalledWith('access-token', {
       returnWindowDays: 14,
       cartInactivityMinutes: 720,
@@ -88,7 +91,10 @@ describe('saveStoreRulesAction', () => {
   });
 
   it('ignores fields the contract does not name, such as a smuggled sales target or role', async () => {
-    await saveStoreRulesAction(IDLE, form({ ...FIELDS, monthlySalesTargetMinor: '1', role: 'super_admin' }));
+    await saveStoreRulesAction(
+      IDLE,
+      form({ ...FIELDS, monthlySalesTargetMinor: '1', role: 'super_admin' }),
+    );
     const body = api.adminSaveStoreSettings.mock.calls[0]?.[1] as Record<string, unknown>;
     expect(Object.keys(body).sort()).toEqual([
       'cartInactivityMinutes',
@@ -124,7 +130,9 @@ describe('saveStoreRulesAction', () => {
     expect(JSON.stringify(forbidden)).not.toContain(API_TEXT);
     if (forbidden.status === 'error') expect(forbidden.values?.returnWindowDays).toBe('14');
 
-    api.adminSaveStoreSettings.mockRejectedValue(new ApiError(400, 'bad_request', API_TEXT, 'req-2'));
+    api.adminSaveStoreSettings.mockRejectedValue(
+      new ApiError(400, 'bad_request', API_TEXT, 'req-2'),
+    );
     const refused = await saveStoreRulesAction(IDLE, form(FIELDS));
     expect(refused.status).toBe('error');
     expect(JSON.stringify(refused)).not.toContain(API_TEXT);
@@ -139,6 +147,8 @@ describe('saveStoreRulesAction', () => {
     act.outcome = 'signed_out';
     const error = await saveStoreRulesAction(IDLE, form(FIELDS)).catch((e: unknown) => e);
     expect(error).toBeInstanceOf(RedirectSignal);
-    expect((error as RedirectSignal).url).toBe(`/login?next=${encodeURIComponent('/admin/settings')}`);
+    expect((error as RedirectSignal).url).toBe(
+      `/login?next=${encodeURIComponent('/admin/settings')}`,
+    );
   });
 });

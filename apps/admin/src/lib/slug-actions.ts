@@ -31,9 +31,10 @@ export async function checkSlugAction(formData: FormData): Promise<SlugCheck> {
     slug: text(formData, 'slug'),
     excludeId: text(formData, 'excludeId'),
   });
-  if (!query.success) return query.error.issues.some((issue) => issue.path[0] === 'slug')
-    ? { state: 'invalid' }
-    : UNKNOWN;
+  if (!query.success)
+    return query.error.issues.some((issue) => issue.path[0] === 'slug')
+      ? { state: 'invalid' }
+      : UNKNOWN;
 
   let outcome;
   try {

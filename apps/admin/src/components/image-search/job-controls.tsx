@@ -88,7 +88,10 @@ export function ImageSearchJobControls({ csrf, busy, failedCount }: ImageSearchJ
       <ActionFeedback state={state} />
       {busy ? (
         <p className="flex items-center gap-2 text-xs text-muted-foreground" role="status">
-          <RefreshCw aria-hidden="true" className="size-3.5 animate-spin motion-reduce:animate-none" />
+          <RefreshCw
+            aria-hidden="true"
+            className="size-3.5 animate-spin motion-reduce:animate-none"
+          />
           A job is running. This page refreshes every few seconds; you can leave it and come back.
         </p>
       ) : null}

@@ -215,7 +215,11 @@ function BasicInfoSection({
               savedSlug={product.slug}
             />
             {product.moderationStatus === 'not_submitted' ? null : (
-              <ViewOnly><AutoText>Changing the content clears its review: it must be submitted and approved again.</AutoText></ViewOnly>
+              <ViewOnly>
+                <AutoText>
+                  Changing the content clears its review: it must be submitted and approved again.
+                </AutoText>
+              </ViewOnly>
             )}
           </>
         ) : (
@@ -237,14 +241,18 @@ function BasicInfoSection({
                 {
                   label: 'Description',
                   value: product.description ? (
-                    <span className="whitespace-pre-line"><AutoText value={product.description} /></span>
+                    <span className="whitespace-pre-line">
+                      <AutoText value={product.description} />
+                    </span>
                   ) : null,
                   wide: true,
                 },
               ]}
             />
             {!abilities.edit ? (
-              <ViewOnly><AutoText value={NO_EDIT} /></ViewOnly>
+              <ViewOnly>
+                <AutoText value={NO_EDIT} />
+              </ViewOnly>
             ) : lock === null && categories === null ? (
               <ViewOnly>
                 The categories could not be loaded, so the content cannot be edited right now.
@@ -292,7 +300,11 @@ function MediaSection({
           <ProductVideos productId={product.id} videos={videos} csrf={csrf} editable={editable} />
         ) : null}
         {!abilities.edit ? (
-          <ViewOnly><AutoText>Your account can view products but not change their images or videos.</AutoText></ViewOnly>
+          <ViewOnly>
+            <AutoText>
+              Your account can view products but not change their images or videos.
+            </AutoText>
+          </ViewOnly>
         ) : null}
       </div>
     </SectionCard>
@@ -330,7 +342,9 @@ function PricingSection({
               },
             ]}
           />
-          <ViewOnly><AutoText value={note} /></ViewOnly>
+          <ViewOnly>
+            <AutoText value={note} />
+          </ViewOnly>
         </div>
       )}
     </SectionCard>
@@ -355,14 +369,24 @@ function VariantStockList({
     <div className="grid gap-3">
       <div className="nz-scroll overflow-x-auto rounded-xl border border-hairline">
         <table className="w-full text-sm">
-          <caption className="sr-only"><AutoText>Stock per variant</AutoText></caption>
+          <caption className="sr-only">
+            <AutoText>Stock per variant</AutoText>
+          </caption>
           <thead className="bg-neutral-soft text-left text-xs text-muted-foreground">
             <tr>
-              <th scope="col" className="px-3 py-2 font-medium"><AutoText>Variant</AutoText></th>
-              <th scope="col" className="px-3 py-2 font-medium"><AutoText>SKU</AutoText></th>
-              <th scope="col" className="px-3 py-2 text-right font-medium"><AutoText>Stock</AutoText></th>
               <th scope="col" className="px-3 py-2 font-medium">
-                <span className="sr-only"><AutoText>State</AutoText></span>
+                <AutoText>Variant</AutoText>
+              </th>
+              <th scope="col" className="px-3 py-2 font-medium">
+                <AutoText>SKU</AutoText>
+              </th>
+              <th scope="col" className="px-3 py-2 text-right font-medium">
+                <AutoText>Stock</AutoText>
+              </th>
+              <th scope="col" className="px-3 py-2 font-medium">
+                <span className="sr-only">
+                  <AutoText>State</AutoText>
+                </span>
               </th>
             </tr>
           </thead>
@@ -382,7 +406,9 @@ function VariantStockList({
                   {variant.isActive ? (
                     <StockBadge quantity={variant.stockQuantity} />
                   ) : (
-                    <Chip tone="neutral"><AutoText>Hidden</AutoText></Chip>
+                    <Chip tone="neutral">
+                      <AutoText>Hidden</AutoText>
+                    </Chip>
                   )}
                 </td>
               </tr>
@@ -390,7 +416,11 @@ function VariantStockList({
           </tbody>
         </table>
       </div>
-      <p className="text-xs text-muted-foreground"><AutoText>The product total counts variants on sale only. Hidden variants keep their stock.</AutoText></p>
+      <p className="text-xs text-muted-foreground">
+        <AutoText>
+          The product total counts variants on sale only. Hidden variants keep their stock.
+        </AutoText>
+      </p>
       <Link
         href={`/admin/products/${product.id}/variants` as Route}
         className={buttonClasses({ variant: 'outline', className: `w-fit rounded-xl ${TOUCH}` })}
@@ -435,7 +465,9 @@ function InventorySection({
             size: 'sm',
             className: `text-link ${TOUCH}`,
           })}
-        ><AutoText>Full ledger</AutoText></Link>
+        >
+          <AutoText>Full ledger</AutoText>
+        </Link>
       }
     >
       <div className="grid gap-6">
@@ -443,7 +475,16 @@ function InventorySection({
           <div className="grid content-start gap-3">
             <DetailList
               columns={1}
-              items={[{ label: 'SKU', value: <span className="font-mono"><AutoText value={product.sku} /></span> }]}
+              items={[
+                {
+                  label: 'SKU',
+                  value: (
+                    <span className="font-mono">
+                      <AutoText value={product.sku} />
+                    </span>
+                  ),
+                },
+              ]}
             />
             <StockMeter quantity={product.stockQuantity} />
           </div>
@@ -480,11 +521,15 @@ function InventorySection({
               stockQuantity={product.stockQuantity}
             />
           ) : (
-            <ViewOnly><AutoText>Your account cannot adjust stock.</AutoText></ViewOnly>
+            <ViewOnly>
+              <AutoText>Your account cannot adjust stock.</AutoText>
+            </ViewOnly>
           )}
         </div>
         <div className="grid gap-3 border-t border-hairline pt-5">
-          <h3 className="text-sm font-semibold text-foreground"><AutoText>Recent movements</AutoText></h3>
+          <h3 className="text-sm font-semibold text-foreground">
+            <AutoText>Recent movements</AutoText>
+          </h3>
           {movements.kind === 'ok' ? (
             movements.value.movements.length > 0 ? (
               <>
@@ -499,7 +544,9 @@ function InventorySection({
                 ) : null}
               </>
             ) : (
-              <p className="text-sm text-muted-foreground"><AutoText>No stock movements yet.</AutoText></p>
+              <p className="text-sm text-muted-foreground">
+                <AutoText>No stock movements yet.</AutoText>
+              </p>
             )
           ) : (
             <ReadState failure={movements.kind} compact />
@@ -514,12 +561,18 @@ function InventorySection({
 function SizeChartTable({ product }: { product: AdminProductDetail }) {
   const chart = product.sizeChart;
   if (!chart || chart.columns.length === 0) {
-    return <p className="text-sm text-muted-foreground"><AutoText>This product has no size chart.</AutoText></p>;
+    return (
+      <p className="text-sm text-muted-foreground">
+        <AutoText>This product has no size chart.</AutoText>
+      </p>
+    );
   }
   return (
     <div className="nz-scroll overflow-x-auto rounded-xl border border-hairline">
       <table className="w-full text-sm">
-        <caption className="sr-only"><AutoText>Size chart</AutoText></caption>
+        <caption className="sr-only">
+          <AutoText>Size chart</AutoText>
+        </caption>
         <thead className="bg-neutral-soft">
           <tr>
             {chart.columns.map((column, index) => (
@@ -617,7 +670,9 @@ function MerchandisingSection({
                   ]),
             ]}
           />
-          <ViewOnly><AutoText value={note} /></ViewOnly>
+          <ViewOnly>
+            <AutoText value={note} />
+          </ViewOnly>
         </div>
       )}
     </SectionCard>
@@ -663,9 +718,15 @@ function PublishingSection({
       <div className="grid gap-4">
         <div className="flex flex-wrap items-center gap-2">
           <ProductStatusBadge status={status} />
-          {product.category.isActive ? null : <Chip tone="warning"><AutoText>Category hidden</AutoText></Chip>}
+          {product.category.isActive ? null : (
+            <Chip tone="warning">
+              <AutoText>Category hidden</AutoText>
+            </Chip>
+          )}
         </div>
-        <p className="text-sm text-body"><AutoText value={explanation} /></p>
+        <p className="text-sm text-body">
+          <AutoText value={explanation} />
+        </p>
         {ownerOverride ? (
           <Alert tone="warning">
             Publishing now approves this content yourself: no moderator will review it. Edit it
@@ -691,7 +752,9 @@ function PublishingSection({
             ) : null}
           </div>
         ) : (
-          <ViewOnly><AutoText>Your account cannot publish, unpublish or archive products.</AutoText></ViewOnly>
+          <ViewOnly>
+            <AutoText>Your account cannot publish, unpublish or archive products.</AutoText>
+          </ViewOnly>
         )}
       </div>
     </SectionCard>
@@ -750,7 +813,9 @@ function ReviewSection({
               size: 'sm',
               className: `text-link ${TOUCH}`,
             })}
-          ><AutoText>Open review</AutoText></Link>
+          >
+            <AutoText>Open review</AutoText>
+          </Link>
         ) : undefined
       }
     >
@@ -761,10 +826,16 @@ function ReviewSection({
             tone={review.status === 'rejected' ? 'danger' : 'warning'}
             title={review.status === 'rejected' ? 'Rejected by the moderator' : 'Changes requested'}
           >
-            <span className="whitespace-pre-line"><AutoText value={review.note} /></span>
+            <span className="whitespace-pre-line">
+              <AutoText value={review.note} />
+            </span>
           </Alert>
         ) : null}
-        {hint ? <p className="text-sm text-body"><AutoText value={hint} /></p> : null}
+        {hint ? (
+          <p className="text-sm text-body">
+            <AutoText value={hint} />
+          </p>
+        ) : null}
         {review ? (
           <DetailList
             columns={2}
@@ -792,7 +863,9 @@ function ReviewSection({
             ]}
           />
         ) : (
-          <p className="text-sm text-muted-foreground"><AutoText>This product has never been reviewed.</AutoText></p>
+          <p className="text-sm text-muted-foreground">
+            <AutoText>This product has never been reviewed.</AutoText>
+          </p>
         )}
         {abilities.edit ? (
           submittable || withdrawable ? (
@@ -802,7 +875,9 @@ function ReviewSection({
             </div>
           ) : null
         ) : (
-          <ViewOnly><AutoText>Your account cannot submit or withdraw reviews.</AutoText></ViewOnly>
+          <ViewOnly>
+            <AutoText>Your account cannot submit or withdraw reviews.</AutoText>
+          </ViewOnly>
         )}
       </div>
     </SectionCard>
@@ -828,9 +903,17 @@ function VariantsSection({
     >
       <div className="grid gap-4">
         {variants === null ? (
-          <p className="text-sm text-muted-foreground"><AutoText>The variants could not be loaded right now. Open the variants page to see them.</AutoText></p>
+          <p className="text-sm text-muted-foreground">
+            <AutoText>
+              The variants could not be loaded right now. Open the variants page to see them.
+            </AutoText>
+          </p>
         ) : variants.length === 0 ? (
-          <p className="text-sm text-muted-foreground"><AutoText>No variants: the product sells as a single item at its own price and stock.</AutoText></p>
+          <p className="text-sm text-muted-foreground">
+            <AutoText>
+              No variants: the product sells as a single item at its own price and stock.
+            </AutoText>
+          </p>
         ) : (
           <DetailList
             columns={2}
@@ -872,7 +955,11 @@ function SeoSection({
         {seo ? (
           <SeoSnippet product={product} seo={seo} />
         ) : seo === undefined ? (
-          <p className="text-sm text-muted-foreground"><AutoText>The search metadata could not be read right now. Open the editor to see it.</AutoText></p>
+          <p className="text-sm text-muted-foreground">
+            <AutoText>
+              The search metadata could not be read right now. Open the editor to see it.
+            </AutoText>
+          </p>
         ) : null}
         <Link
           href={productSeoPath(product.id)}
@@ -990,19 +1077,15 @@ export function ProductDetailView({
   ];
   const saved = savedProductValues(product);
   return (
-    <ProductForm
-      mode="edit"
-      productId={product.id}
-      sections={sections}
-      saved={saved}
-      csrf={csrf}
-    >
+    <ProductForm mode="edit" productId={product.id} sections={sections} saved={saved} csrf={csrf}>
       <PageToolbar
         back={{ href: '/admin/products', label: 'Products' }}
         title={
           <span className="flex items-center gap-3">
             <ProductTile categorySlug={product.category.slug} image={product.image} size="md" />
-            <span className="min-w-0"><AutoText value={product.name} /></span>
+            <span className="min-w-0">
+              <AutoText value={product.name} />
+            </span>
           </span>
         }
         eyebrow={
@@ -1014,14 +1097,22 @@ export function ProductDetailView({
         }
         meta={
           <>
-            <span className="font-mono text-xs"><AutoText value={product.sku} /></span>
-            <span><AutoText value={product.category.name} /></span>
-            <span>Updated <DateTimeText value={product.updatedAt} style="datetime" /></span>
+            <span className="font-mono text-xs">
+              <AutoText value={product.sku} />
+            </span>
+            <span>
+              <AutoText value={product.category.name} />
+            </span>
+            <span>
+              Updated <DateTimeText value={product.updatedAt} style="datetime" />
+            </span>
           </>
         }
         actions={<ProductShare product={product} />}
       />
-      <SuccessNotice><AutoText value={notice} /></SuccessNotice>
+      <SuccessNotice>
+        <AutoText value={notice} />
+      </SuccessNotice>
       <ProductSectionNav sections={nav} />
 
       <div className="grid gap-6 lg:grid-cols-3 lg:items-start">
@@ -1097,21 +1188,21 @@ export function ProductDetailView({
             />
           </Anchored>
           <div id={PRODUCT_ANCHORS.variants} className="min-w-0 scroll-mt-24">
-          {variants === undefined ? (
-            <SectionCard title="Variants" icon={Shapes}>
-              <Link
-                href={`/admin/products/${product.id}/variants` as Route}
-                className={buttonClasses({
-                  variant: 'outline',
-                  className: `w-full rounded-xl ${TOUCH}`,
-                })}
-              >
-                {abilities.edit ? 'Manage variants' : 'View variants'}
-              </Link>
-            </SectionCard>
-          ) : (
-            <VariantsSection product={product} variants={variants} canEdit={abilities.edit} />
-          )}
+            {variants === undefined ? (
+              <SectionCard title="Variants" icon={Shapes}>
+                <Link
+                  href={`/admin/products/${product.id}/variants` as Route}
+                  className={buttonClasses({
+                    variant: 'outline',
+                    className: `w-full rounded-xl ${TOUCH}`,
+                  })}
+                >
+                  {abilities.edit ? 'Manage variants' : 'View variants'}
+                </Link>
+              </SectionCard>
+            ) : (
+              <VariantsSection product={product} variants={variants} canEdit={abilities.edit} />
+            )}
           </div>
           <Anchored id="seo">
             <SeoSection product={product} canEdit={abilities.edit} seo={seo} />

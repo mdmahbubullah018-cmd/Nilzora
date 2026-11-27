@@ -54,13 +54,13 @@ export function Funnel({
   const first = stages[0];
   const last = stages.at(-1);
   const overall =
-    showConversion && first && last && stages.length > 2
-      ? shareOf(last.value, first.value)
-      : null;
+    showConversion && first && last && stages.length > 2 ? shareOf(last.value, first.value) : null;
 
   return (
     <figure className={cn('grid gap-3', className)}>
-      <figcaption className="sr-only"><AutoText value={title} /></figcaption>
+      <figcaption className="sr-only">
+        <AutoText value={title} />
+      </figcaption>
       <ol className="grid">
         {stages.map((stage, index) => {
           const step = steps[index];
@@ -74,7 +74,9 @@ export function Funnel({
                     {step?.conversion == null ? (
                       <>
                         <span aria-hidden="true">—</span>
-                        <span className="sr-only"><AutoText>No conversion</AutoText></span>
+                        <span className="sr-only">
+                          <AutoText>No conversion</AutoText>
+                        </span>
                       </>
                     ) : (
                       formatPercent(step.conversion)
@@ -96,16 +98,23 @@ export function Funnel({
               ) : null}
               <div className="flex items-baseline justify-between gap-3 text-sm">
                 <span className="min-w-0">
-                  <span className="block truncate font-medium text-foreground"><AutoText value={stage.label} /></span>
+                  <span className="block truncate font-medium text-foreground">
+                    <AutoText value={stage.label} />
+                  </span>
                   {stage.hint ? (
-                    <span className="block truncate text-xs text-muted-foreground"><AutoText value={stage.hint} /></span>
+                    <span className="block truncate text-xs text-muted-foreground">
+                      <AutoText value={stage.hint} />
+                    </span>
                   ) : null}
                 </span>
                 <span className="nz-figure shrink-0 font-semibold text-foreground">
                   {formatValue(stage.value)}
                 </span>
               </div>
-              <span aria-hidden="true" className="block h-2.5 overflow-hidden rounded-full bg-chart-track">
+              <span
+                aria-hidden="true"
+                className="block h-2.5 overflow-hidden rounded-full bg-chart-track"
+              >
                 <span
                   className={cn('nz-grow-x block h-full rounded-full', CHART_TONES[tone].swatch)}
                   style={{
@@ -120,10 +129,14 @@ export function Funnel({
         })}
       </ol>
       {empty ? (
-        <p className="text-xs text-muted-foreground"><AutoText value={emptyMessage} /></p>
+        <p className="text-xs text-muted-foreground">
+          <AutoText value={emptyMessage} />
+        </p>
       ) : overall !== null && first && last ? (
         <p className="border-t border-hairline pt-3 text-xs text-muted-foreground">
-          <span className="nz-figure font-semibold text-foreground"><AutoText value={formatPercent(overall)} /></span>{' '}
+          <span className="nz-figure font-semibold text-foreground">
+            <AutoText value={formatPercent(overall)} />
+          </span>{' '}
           overall, from {first.label.toLowerCase()} to {last.label.toLowerCase()}
         </p>
       ) : null}

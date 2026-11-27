@@ -15,13 +15,7 @@ import { moneyMinorSchema } from './catalog';
  *   - everything is integer poisha.
  */
 
-export const CUSTOMER_SEGMENTS = [
-  'new',
-  'repeat',
-  'high_spender',
-  'inactive',
-  'active',
-] as const;
+export const CUSTOMER_SEGMENTS = ['new', 'repeat', 'high_spender', 'inactive', 'active'] as const;
 export type CustomerSegment = (typeof CUSTOMER_SEGMENTS)[number];
 export const customerSegmentSchema = z.enum(CUSTOMER_SEGMENTS);
 

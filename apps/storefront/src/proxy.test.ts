@@ -44,15 +44,10 @@ describe('proxy matcher', () => {
     expect(matches(path)).toBe(true);
   });
 
-  it.each([
-    '/',
-    '/products',
-    '/categories',
-    '/categories/fashion',
-    '/search',
-    '/cart',
-    '/brands',
-  ])('leaves %s alone, so it never sets session cookies', (path) => {
-    expect(matches(path)).toBe(false);
-  });
+  it.each(['/', '/products', '/categories', '/categories/fashion', '/search', '/cart', '/brands'])(
+    'leaves %s alone, so it never sets session cookies',
+    (path) => {
+      expect(matches(path)).toBe(false);
+    },
+  );
 });

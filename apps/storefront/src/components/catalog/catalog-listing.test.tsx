@@ -344,8 +344,9 @@ describe('ListingToolbar', () => {
       );
 
     expect(hiddenNames()).toContain('size');
-    const sizeChip = [...container.querySelectorAll<HTMLButtonElement>('button[aria-haspopup="dialog"]')]
-      .find((chip) => (chip.textContent ?? '').startsWith('M'));
+    const sizeChip = [
+      ...container.querySelectorAll<HTMLButtonElement>('button[aria-haspopup="dialog"]'),
+    ].find((chip) => (chip.textContent ?? '').startsWith('M'));
     expect(sizeChip).toBeDefined();
     fireEvent.click(sizeChip as HTMLButtonElement);
     // The panel's checkboxes are now the only source of `size`, so unticking M really removes it.
@@ -356,9 +357,7 @@ describe('ListingToolbar', () => {
     expect(priceRangeLabel({ inStock: false })).toBeNull();
     expect(priceRangeLabel({ inStock: false, minTaka: 500 })).toBe('From ৳500');
     expect(priceRangeLabel({ inStock: false, maxTaka: 1_500 })).toBe('Up to ৳1,500');
-    expect(priceRangeLabel({ inStock: false, minTaka: 500, maxTaka: 1_500 })).toBe(
-      '৳500 – ৳1,500',
-    );
+    expect(priceRangeLabel({ inStock: false, minTaka: 500, maxTaka: 1_500 })).toBe('৳500 – ৳1,500');
   });
 });
 
@@ -428,11 +427,14 @@ describe('categories', () => {
 
     // The subcategory pill shows its real cover, small enough never to rival the card above it.
     const nav = screen.getByRole('navigation', { name: `Subcategories of ${first.name}` });
-    const picture = within(nav).getByRole('link', { name: /Child one/ }).querySelector('img');
+    const picture = within(nav)
+      .getByRole('link', { name: /Child one/ })
+      .querySelector('img');
     expect(picture?.getAttribute('src')).toBe(child.image.thumbUrl);
   });
 
-  it('marks the listing on screen in the category links', () => {    const { unmount } = render(<CategoryNav categories={categories} current="fashion" />);
+  it('marks the listing on screen in the category links', () => {
+    const { unmount } = render(<CategoryNav categories={categories} current="fashion" />);
     const nav = screen.getByRole('navigation', { name: 'Categories' });
     expect(within(nav).getByRole('link', { name: 'Fashion' }).getAttribute('aria-current')).toBe(
       'page',

@@ -244,7 +244,12 @@ function WishlistRowView({
             onPress={quickAdd.press}
             style={styles.addButton}
           >
-            <ShoppingCart size={18} color={theme.colors.primary} strokeWidth={1.9} accessible={false} />
+            <ShoppingCart
+              size={18}
+              color={theme.colors.primary}
+              strokeWidth={1.9}
+              accessible={false}
+            />
           </PressableScale>
         ) : null}
         <IconButton

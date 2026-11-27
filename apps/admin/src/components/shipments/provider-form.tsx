@@ -51,7 +51,9 @@ export function ProviderForm({ provider, csrf }: { provider: CourierProvider; cs
           className="mt-0.5 size-5 accent-primary-action"
         />
         <span className="grid gap-0.5">
-          <span className="font-semibold text-foreground"><AutoText>Enabled for real bookings</AutoText></span>
+          <span className="font-semibold text-foreground">
+            <AutoText>Enabled for real bookings</AutoText>
+          </span>
           <span className="text-xs text-muted-foreground">
             Test-mode bookings do not need this. Real calls also need verified API documentation and
             server credentials.
@@ -60,7 +62,9 @@ export function ProviderForm({ provider, csrf }: { provider: CourierProvider; cs
       </label>
 
       <fieldset className="grid gap-2">
-        <legend className="mb-1 text-sm font-medium text-foreground"><AutoText>Settings</AutoText></legend>
+        <legend className="mb-1 text-sm font-medium text-foreground">
+          <AutoText>Settings</AutoText>
+        </legend>
         <p className="text-xs text-muted-foreground">
           Non-secret values only, such as a store id. Credentials are set on the server, never here;
           names that look like credentials are refused.
@@ -74,7 +78,9 @@ export function ProviderForm({ provider, csrf }: { provider: CourierProvider; cs
               <label
                 htmlFor={id(`key-${String(row.id)}`)}
                 className="text-xs text-muted-foreground"
-              ><AutoText>Name</AutoText></label>
+              >
+                <AutoText>Name</AutoText>
+              </label>
               <Input
                 id={id(`key-${String(row.id)}`)}
                 name="settingKey"
@@ -91,7 +97,9 @@ export function ProviderForm({ provider, csrf }: { provider: CourierProvider; cs
               <label
                 htmlFor={id(`value-${String(row.id)}`)}
                 className="text-xs text-muted-foreground"
-              ><AutoText>Value</AutoText></label>
+              >
+                <AutoText>Value</AutoText>
+              </label>
               <Input
                 id={id(`value-${String(row.id)}`)}
                 name="settingValue"
@@ -125,7 +133,9 @@ export function ProviderForm({ provider, csrf }: { provider: CourierProvider; cs
             setNextId(nextId + 1);
           }}
         >
-          <Plus aria-hidden="true" /><AutoText>Add a setting</AutoText></Button>
+          <Plus aria-hidden="true" />
+          <AutoText>Add a setting</AutoText>
+        </Button>
         {state.fieldErrors?.settings ? (
           <p role="alert" className="text-xs font-medium text-danger-ink">
             {state.fieldErrors.settings}
@@ -136,8 +146,8 @@ export function ProviderForm({ provider, csrf }: { provider: CourierProvider; cs
       <div className="grid gap-3 sm:grid-cols-2">
         <Field
           id={id('cod-fee')}
-          label={tx("COD fee (%)")}
-          hint={tx("Of the cash collected, for internal estimates. Empty: unknown.")}
+          label={tx('COD fee (%)')}
+          hint={tx('Of the cash collected, for internal estimates. Empty: unknown.')}
           error={state.fieldErrors?.codFee}
         >
           {(control) => (
@@ -156,8 +166,8 @@ export function ProviderForm({ provider, csrf }: { provider: CourierProvider; cs
         </Field>
         <Field
           id={id('return-charge')}
-          label={tx("Return charge (৳)")}
-          hint={tx("What the courier charges for a returned parcel. Empty: unknown.")}
+          label={tx('Return charge (৳)')}
+          hint={tx('What the courier charges for a returned parcel. Empty: unknown.')}
           error={state.fieldErrors?.returnCharge}
         >
           {(control) => (
@@ -193,7 +203,9 @@ export function CheckConnectionForm({ provider, csrf }: { provider: string; csrf
       <CsrfField csrf={csrf} />
       <input type="hidden" name="provider" value={provider} />
       <SubmitButton variant="outline" size="sm" className="w-fit" pendingLabel="Checking…">
-        <Plug aria-hidden="true" /><AutoText>Check connection</AutoText></SubmitButton>
+        <Plug aria-hidden="true" />
+        <AutoText>Check connection</AutoText>
+      </SubmitButton>
       <ActionFeedback state={state} inline />
     </form>
   );

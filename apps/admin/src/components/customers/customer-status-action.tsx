@@ -43,15 +43,17 @@ export function CustomerStatusAction({
             </>
           }
           title={`Suspend ${name}?`}
-          description={tx("They are signed out on their next request and cannot sign in or place orders until reactivated. Their orders are kept.")}
-          confirmLabel={tx("Yes, suspend")}
+          description={tx(
+            'They are signed out on their next request and cannot sign in or place orders until reactivated. Their orders are kept.',
+          )}
+          confirmLabel={tx('Yes, suspend')}
           hiddenFields={{ customerId, status: 'suspended' }}
           error={error}
         >
           <Field
             id="suspend-reason"
-            label={tx("Reason")}
-            hint={tx("5 to 300 characters. Recorded in the audit log.")}
+            label={tx('Reason')}
+            hint={tx('5 to 300 characters. Recorded in the audit log.')}
             error={state.fieldErrors?.reason}
             required
           >
@@ -82,8 +84,8 @@ export function CustomerStatusAction({
           triggerVariant="primary"
           tone="primary"
           title={`Reactivate ${name}?`}
-          description={tx("They can sign in and place orders again.")}
-          confirmLabel={tx("Yes, reactivate")}
+          description={tx('They can sign in and place orders again.')}
+          confirmLabel={tx('Yes, reactivate')}
           hiddenFields={{ customerId, status: 'active' }}
           error={error}
         />

@@ -59,7 +59,11 @@ export function ProductVideos({
         </h3>
       </div>
       {videos.length === 0 ? (
-        <p className="text-sm text-muted-foreground"><AutoText>No videos yet. A short clip (MP4 or WebM, up to 40 MB) shows the product in use.</AutoText></p>
+        <p className="text-sm text-muted-foreground">
+          <AutoText>
+            No videos yet. A short clip (MP4 or WebM, up to 40 MB) shows the product in use.
+          </AutoText>
+        </p>
       ) : (
         <ul className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
           {videos.map((video, index) => (
@@ -115,7 +119,9 @@ function VideoCard({
       />
       <div className="flex items-start justify-between gap-2">
         <div className="min-w-0">
-          <p className="truncate text-sm font-medium text-foreground"><AutoText value={label} /></p>
+          <p className="truncate text-sm font-medium text-foreground">
+            <AutoText value={label} />
+          </p>
           <p className="text-xs text-muted-foreground">
             {video.contentType === 'video/mp4' ? 'MP4' : 'WebM'} · {formatBytes(video.bytes)}
           </p>
@@ -154,9 +160,11 @@ function VideoCard({
                 </>
               }
               triggerVariant="ghost"
-              title={tx("Remove this video?")}
-              description={tx("Shoppers will no longer see it, and the file is deleted from storage. This cannot be undone.")}
-              confirmLabel={tx("Remove video")}
+              title={tx('Remove this video?')}
+              description={tx(
+                'Shoppers will no longer see it, and the file is deleted from storage. This cannot be undone.',
+              )}
+              confirmLabel={tx('Remove video')}
               hiddenFields={{ productId, videoId: video.id }}
               error={deleteState.status === 'error' ? deleteState.message : undefined}
             />
@@ -230,7 +238,9 @@ function VideoUploader({ productId, csrf }: { productId: string; csrf: CsrfInput
           <label
             className="text-sm font-medium text-foreground"
             htmlFor={`video-file-${productId}`}
-          ><AutoText>Video file</AutoText></label>
+          >
+            <AutoText>Video file</AutoText>
+          </label>
           <input
             ref={fileRef}
             id={`video-file-${productId}`}
@@ -239,7 +249,9 @@ function VideoUploader({ productId, csrf }: { productId: string; csrf: CsrfInput
             disabled={busy}
             className="text-sm file:mr-3 file:rounded-lg file:border-0 file:bg-surface-muted file:px-3 file:py-2 file:text-sm file:font-medium"
           />
-          <p className="text-xs text-muted-foreground"><AutoText>MP4 or WebM, up to 40 MB.</AutoText></p>
+          <p className="text-xs text-muted-foreground">
+            <AutoText>MP4 or WebM, up to 40 MB.</AutoText>
+          </p>
         </div>
         <div className="grid gap-1.5">
           <label
@@ -256,7 +268,7 @@ function VideoUploader({ productId, csrf }: { productId: string; csrf: CsrfInput
             onChange={(event) => {
               setTitle(event.target.value);
             }}
-            placeholder={tx("e.g. The jacket in daylight")}
+            placeholder={tx('e.g. The jacket in daylight')}
           />
         </div>
       </div>

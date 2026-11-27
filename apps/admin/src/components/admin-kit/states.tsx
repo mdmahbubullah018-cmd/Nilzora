@@ -59,12 +59,20 @@ function StateFrame({
         <Icon aria-hidden="true" className="size-6" strokeWidth={1.6} />
       </span>
       <div className="grid max-w-md gap-1">
-        <Title className="text-sm font-semibold text-foreground"><AutoText value={title} /></Title>
+        <Title className="text-sm font-semibold text-foreground">
+          <AutoText value={title} />
+        </Title>
         {description ? (
-          <p className="text-sm leading-relaxed text-muted-foreground"><AutoText value={description} /></p>
+          <p className="text-sm leading-relaxed text-muted-foreground">
+            <AutoText value={description} />
+          </p>
         ) : null}
       </div>
-      {action ? <div className="mt-1 flex flex-wrap justify-center gap-2"><AutoText value={action} /></div> : null}
+      {action ? (
+        <div className="mt-1 flex flex-wrap justify-center gap-2">
+          <AutoText value={action} />
+        </div>
+      ) : null}
     </div>
   );
 }
@@ -101,7 +109,9 @@ export function UnavailableState({
   ...props
 }: UnavailableStateProps) {
   const retry = retryHref ? (
-    <a href={retryHref} className={buttonClasses({ variant: 'outline', size: 'sm' })}><AutoText>Try again</AutoText></a>
+    <a href={retryHref} className={buttonClasses({ variant: 'outline', size: 'sm' })}>
+      <AutoText>Try again</AutoText>
+    </a>
   ) : undefined;
   return (
     <StateFrame
@@ -168,7 +178,9 @@ export function RateLimitedState({
   ...props
 }: RateLimitedStateProps) {
   const retry = retryHref ? (
-    <a href={retryHref} className={buttonClasses({ variant: 'outline', size: 'sm' })}><AutoText>Try again</AutoText></a>
+    <a href={retryHref} className={buttonClasses({ variant: 'outline', size: 'sm' })}>
+      <AutoText>Try again</AutoText>
+    </a>
   ) : undefined;
   return (
     <StateFrame
@@ -226,7 +238,9 @@ export function ReadState({
           description="Some of the options in the address are not valid. Clear them and try again."
           action={
             resetHref ? (
-              <a href={resetHref} className={buttonClasses({ variant: 'outline', size: 'sm' })}><AutoText>Clear filters</AutoText></a>
+              <a href={resetHref} className={buttonClasses({ variant: 'outline', size: 'sm' })}>
+                <AutoText>Clear filters</AutoText>
+              </a>
             ) : undefined
           }
           {...shared}

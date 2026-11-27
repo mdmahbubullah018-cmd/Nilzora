@@ -47,7 +47,7 @@ export function InviteForm({ roles, csrf }: { roles: readonly InvitableRole[]; c
     <form ref={form} action={action} className="grid gap-4">
       <CsrfField csrf={csrf} />
       <ActionFeedback state={state} />
-      <Field id="invite-email" label={tx("Email address")} error={errors.email} required>
+      <Field id="invite-email" label={tx('Email address')} error={errors.email} required>
         {(control) => (
           <Input
             {...control}
@@ -63,7 +63,7 @@ export function InviteForm({ roles, csrf }: { roles: readonly InvitableRole[]; c
           />
         )}
       </Field>
-      <Field id="invite-name" label={tx("Full name")} hint={tx("Optional")} error={errors.fullName}>
+      <Field id="invite-name" label={tx('Full name')} hint={tx('Optional')} error={errors.fullName}>
         {(control) => (
           <Input
             {...control}
@@ -77,8 +77,8 @@ export function InviteForm({ roles, csrf }: { roles: readonly InvitableRole[]; c
       </Field>
       <Field
         id="invite-role"
-        label={tx("Role")}
-        hint={tx("You can adjust their permissions after they join.")}
+        label={tx('Role')}
+        hint={tx('You can adjust their permissions after they join.')}
         error={errors.role}
         required
       >
@@ -98,7 +98,9 @@ export function InviteForm({ roles, csrf }: { roles: readonly InvitableRole[]; c
         )}
       </Field>
       <div>
-        <SubmitButton><AutoText>Send invitation</AutoText></SubmitButton>
+        <SubmitButton>
+          <AutoText>Send invitation</AutoText>
+        </SubmitButton>
       </div>
     </form>
   );
@@ -133,11 +135,11 @@ export function RoleChange({ userId, name, currentRole, roles, csrf }: RoleChang
         tone="primary"
         title={`Change ${name}’s role?`}
         description={`They are ${roleLabel(currentRole)} now. The new role’s default permissions apply at once; their overrides are kept unless they become a customer.`}
-        confirmLabel={tx("Change role")}
+        confirmLabel={tx('Change role')}
         hiddenFields={{ userId }}
         error={state.status === 'error' ? state.message : undefined}
       >
-        <Field id={`role-${userId}`} label={tx("New role")} required>
+        <Field id={`role-${userId}`} label={tx('New role')} required>
           {(control) => (
             <NativeSelect {...control} name="role" defaultValue={roles[0]}>
               {roles.map((role) => (
@@ -251,8 +253,10 @@ export function ResendInvitationForm({
       }
       tone="primary"
       title={`Send a new invitation to ${email}?`}
-      description={tx("They get a new one-time link to choose a password. The link in the earlier email stops working.")}
-      confirmLabel={tx("Send new invitation")}
+      description={tx(
+        'They get a new one-time link to choose a password. The link in the earlier email stops working.',
+      )}
+      confirmLabel={tx('Send new invitation')}
       hiddenFields={{ userId }}
       error={state.status === 'error' ? state.message : undefined}
     />

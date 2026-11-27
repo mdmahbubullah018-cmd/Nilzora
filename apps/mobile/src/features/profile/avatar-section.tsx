@@ -29,12 +29,7 @@ export interface AvatarSectionProps {
   manager: SessionManager;
 }
 
-export function AvatarSection({
-  name,
-  currentUrl,
-  googleUrl = null,
-  manager,
-}: AvatarSectionProps) {
+export function AvatarSection({ name, currentUrl, googleUrl = null, manager }: AvatarSectionProps) {
   const run = useAuthorizedApi();
   const upload = useNativeUpload();
   const [chosen, setChosen] = useState<PickedImage | null>(null);

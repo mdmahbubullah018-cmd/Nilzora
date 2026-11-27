@@ -108,9 +108,9 @@ describe('AddToCartFormView', () => {
       />,
     );
 
-    const status = screen.getAllByRole('status').find((element) =>
-      element.textContent?.includes('Added to your cart.'),
-    );
+    const status = screen
+      .getAllByRole('status')
+      .find((element) => element.textContent?.includes('Added to your cart.'));
     expect(status).toBeDefined();
     expect(
       within(status as HTMLElement)
@@ -177,9 +177,9 @@ describe('AddToCartForm', () => {
       fireEvent.click(screen.getByRole('button', { name: 'Add to cart' }));
 
       await waitFor(() =>
-        expect(
-          screen.getAllByRole('status').some((el) => el.textContent?.includes('Added')),
-        ).toBe(true),
+        expect(screen.getAllByRole('status').some((el) => el.textContent?.includes('Added'))).toBe(
+          true,
+        ),
       );
       expect(action).toHaveBeenCalledTimes(1);
       const formData = action.mock.calls[0]?.[1];

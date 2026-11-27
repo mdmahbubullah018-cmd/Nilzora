@@ -170,7 +170,9 @@ export function BulkStatusDialog({
       footer={
         step.kind === 'choose' ? (
           <>
-            <Button variant="ghost" onClick={close}><AutoText>Cancel</AutoText></Button>
+            <Button variant="ghost" onClick={close}>
+              <AutoText>Cancel</AutoText>
+            </Button>
             <Button
               variant={cancelling ? 'danger' : 'primary'}
               disabled={!target || eligible.length === 0}
@@ -183,7 +185,9 @@ export function BulkStatusDialog({
           </>
         ) : step.kind === 'confirm' ? (
           <>
-            <Button variant="ghost" disabled={sending} onClick={() => setStep({ kind: 'choose' })}><AutoText>Back</AutoText></Button>
+            <Button variant="ghost" disabled={sending} onClick={() => setStep({ kind: 'choose' })}>
+              <AutoText>Back</AutoText>
+            </Button>
             <Button
               variant={cancelling ? 'danger' : 'primary'}
               loading={sending}
@@ -200,10 +204,12 @@ export function BulkStatusDialog({
       }
     >
       {step.kind === 'loading' ? (
-        <p role="status" className="text-sm text-muted-foreground"><AutoText>Reading the selected orders’ current statuses…</AutoText></p>
+        <p role="status" className="text-sm text-muted-foreground">
+          <AutoText>Reading the selected orders’ current statuses…</AutoText>
+        </p>
       ) : step.kind === 'load_failed' ? (
         <div className="grid gap-3">
-          <Alert tone="danger" title={tx("The orders could not be read")}>
+          <Alert tone="danger" title={tx('The orders could not be read')}>
             {step.message}
           </Alert>
           <Button
@@ -213,14 +219,18 @@ export function BulkStatusDialog({
               setStep({ kind: 'loading' });
               setAttempt((n) => n + 1);
             }}
-          ><AutoText>Try again</AutoText></Button>
+          >
+            <AutoText>Try again</AutoText>
+          </Button>
         </div>
       ) : step.kind === 'choose' ? (
         <div className="grid gap-4">
           {targets.length === 0 ? (
-            <Alert tone="info" title={tx("No status changes available")}><AutoText>Your account cannot change order statuses.</AutoText></Alert>
+            <Alert tone="info" title={tx('No status changes available')}>
+              <AutoText>Your account cannot change order statuses.</AutoText>
+            </Alert>
           ) : (
-            <Field id={`${ids}-target`} label={tx("Change to")}>
+            <Field id={`${ids}-target`} label={tx('Change to')}>
               {(control) => (
                 <NativeSelect
                   {...control}
@@ -230,7 +240,9 @@ export function BulkStatusDialog({
                     setNoteError(null);
                   }}
                 >
-                  <option value=""><AutoText>Choose a status</AutoText></option>
+                  <option value="">
+                    <AutoText>Choose a status</AutoText>
+                  </option>
                   {targets.map((status) => (
                     <option key={status} value={status}>
                       {BULK_TARGET_LABEL[status]}
@@ -244,8 +256,11 @@ export function BulkStatusDialog({
           {target ? (
             <>
               <p className="text-sm text-foreground" aria-live="polite">
-                <strong><CountText count={eligible.length} one="order" /></strong> of {selection.length} selected
-                will change to {BULK_TARGET_LABEL[target].toLowerCase()}.
+                <strong>
+                  <CountText count={eligible.length} one="order" />
+                </strong>{' '}
+                of {selection.length} selected will change to{' '}
+                {BULK_TARGET_LABEL[target].toLowerCase()}.
                 {rows.length - eligible.length > 0
                   ? ` ${plural(rows.length - eligible.length, 'order')} cannot and will be left as ${rows.length - eligible.length === 1 ? 'it is' : 'they are'}.`
                   : ''}
@@ -281,18 +296,21 @@ export function BulkStatusDialog({
             Exactly these <CountText count={eligible.length} one="order" /> will be sent:
           </p>
           <ul
-            aria-label={tx("Orders that will change")}
+            aria-label={tx('Orders that will change')}
             className="flex max-h-40 flex-wrap gap-1.5 overflow-y-auto"
           >
             {eligible.map((orderNumber) => (
               <li key={orderNumber} className="font-mono text-xs">
-                <Chip tone="primary"><AutoText value={orderNumber} /></Chip>
+                <Chip tone="primary">
+                  <AutoText value={orderNumber} />
+                </Chip>
               </li>
             ))}
           </ul>
           {rows.length > eligible.length ? (
             <p className="text-xs text-muted-foreground">
-              <CountText count={rows.length - eligible.length} one="other selected order" /> will not be sent.
+              <CountText count={rows.length - eligible.length} one="other selected order" /> will
+              not be sent.
             </p>
           ) : null}
           {cancelling ? (
@@ -317,25 +335,37 @@ function PreviewTable({ rows }: { rows: readonly StatusPreviewRow[] }) {
   return (
     <div className="max-h-72 overflow-y-auto rounded-xl border border-hairline">
       <table className="w-full text-sm">
-        <caption className="sr-only"><AutoText>Which selected orders will change</AutoText></caption>
+        <caption className="sr-only">
+          <AutoText>Which selected orders will change</AutoText>
+        </caption>
         <thead className="sticky top-0 bg-surface-muted text-left text-xs text-muted-foreground">
           <tr>
-            <th scope="col" className="px-3 py-2 font-medium"><AutoText>Order</AutoText></th>
-            <th scope="col" className="px-3 py-2 font-medium"><AutoText>Now</AutoText></th>
-            <th scope="col" className="px-3 py-2 font-medium"><AutoText>Result</AutoText></th>
+            <th scope="col" className="px-3 py-2 font-medium">
+              <AutoText>Order</AutoText>
+            </th>
+            <th scope="col" className="px-3 py-2 font-medium">
+              <AutoText>Now</AutoText>
+            </th>
+            <th scope="col" className="px-3 py-2 font-medium">
+              <AutoText>Result</AutoText>
+            </th>
           </tr>
         </thead>
         <tbody className="divide-y divide-hairline">
           {rows.map((row) => (
             <tr key={row.orderNumber}>
-              <td className="px-3 py-2 font-mono text-xs"><AutoText value={row.orderNumber} /></td>
+              <td className="px-3 py-2 font-mono text-xs">
+                <AutoText value={row.orderNumber} />
+              </td>
               <td className="px-3 py-2">
                 {row.current ? <OrderStatusBadge status={row.current} /> : '—'}
               </td>
               <td className="px-3 py-2">
                 {row.eligible ? (
                   <span className="inline-flex items-center gap-1.5 text-success-ink">
-                    <CircleCheck aria-hidden="true" className="size-4" /><AutoText>Will change</AutoText></span>
+                    <CircleCheck aria-hidden="true" className="size-4" />
+                    <AutoText>Will change</AutoText>
+                  </span>
                 ) : (
                   <span className="inline-flex items-center gap-1.5 text-muted-foreground">
                     <CircleX aria-hidden="true" className="size-4 shrink-0" />
@@ -357,7 +387,9 @@ export function StatusResults({ response }: { response: BulkOrderStatusResponse 
   return (
     <div className="grid gap-3">
       <p role="status" className="text-sm text-foreground">
-        <strong><CountText count={response.succeeded} one="order" /> changed</strong>
+        <strong>
+          <CountText count={response.succeeded} one="order" /> changed
+        </strong>
         {response.failed > 0 ? (
           <>
             {' · '}
@@ -368,7 +400,7 @@ export function StatusResults({ response }: { response: BulkOrderStatusResponse 
           '.'
         )}
       </p>
-      <ul aria-label={tx("Result for each order")} className="grid max-h-72 gap-1 overflow-y-auto">
+      <ul aria-label={tx('Result for each order')} className="grid max-h-72 gap-1 overflow-y-auto">
         {response.results.map((row) => (
           <li
             key={row.orderNumber}

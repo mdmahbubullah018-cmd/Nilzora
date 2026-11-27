@@ -41,12 +41,13 @@ jest.mock('react-native-webview', () => {
   const React = jest.requireActual<typeof import('react')>('react');
   const { View } = jest.requireActual<typeof import('react-native')>('react-native');
   /* eslint-enable @typescript-eslint/consistent-type-imports */
-  const MockWebView = React.forwardRef<{ postMessage: (data: string) => void }, { testID?: string }>(
-    (props, ref) => {
-      React.useImperativeHandle(ref, () => ({ postMessage: mockPostMessage }));
-      return React.createElement(View, props);
-    },
-  );
+  const MockWebView = React.forwardRef<
+    { postMessage: (data: string) => void },
+    { testID?: string }
+  >((props, ref) => {
+    React.useImperativeHandle(ref, () => ({ postMessage: mockPostMessage }));
+    return React.createElement(View, props);
+  });
   MockWebView.displayName = 'MockWebView';
   return { WebView: MockWebView };
 });

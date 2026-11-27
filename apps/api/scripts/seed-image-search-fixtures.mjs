@@ -59,7 +59,13 @@ const R2 = {
   bucket: process.env.R2_BUCKET,
 };
 
-if (!process.env.DATABASE_URL || !R2.accountId || !R2.accessKeyId || !R2.secretAccessKey || !R2.bucket) {
+if (
+  !process.env.DATABASE_URL ||
+  !R2.accountId ||
+  !R2.accessKeyId ||
+  !R2.secretAccessKey ||
+  !R2.bucket
+) {
   console.error('DATABASE_URL and the R2_* settings are required (run with the API .env files).');
   process.exit(1);
 }
@@ -70,7 +76,9 @@ const s3 = new S3Client({
   credentials: { accessKeyId: R2.accessKeyId, secretAccessKey: R2.secretAccessKey },
 });
 
-const listed = await s3.send(new ListObjectsV2Command({ Bucket: R2.bucket, Prefix: 'products/', MaxKeys: 1000 }));
+const listed = await s3.send(
+  new ListObjectsV2Command({ Bucket: R2.bucket, Prefix: 'products/', MaxKeys: 1000 }),
+);
 const imagesByProduct = new Map();
 for (const object of listed.Contents ?? []) {
   const match = /^products\/([0-9a-f-]{36})\/([0-9a-f-]{36})\/full\.webp$/.exec(object.Key ?? '');
@@ -97,7 +105,9 @@ try {
   }
 
   for (const [productId, fixture] of Object.entries(FIXTURES)) {
-    const list = (imagesByProduct.get(productId) ?? []).sort((a, b) => a.imageId.localeCompare(b.imageId));
+    const list = (imagesByProduct.get(productId) ?? []).sort((a, b) =>
+      a.imageId.localeCompare(b.imageId),
+    );
     if (list.length === 0) continue;
 
     const product = await client.query(
@@ -160,7 +170,9 @@ try {
     }
   }
 
-  process.stdout.write(`image search fixtures: ${created} product(s) created, ${images} image(s) attached.\n`);
+  process.stdout.write(
+    `image search fixtures: ${created} product(s) created, ${images} image(s) attached.\n`,
+  );
 } finally {
   await client.end();
 }

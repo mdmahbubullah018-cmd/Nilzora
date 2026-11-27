@@ -99,7 +99,9 @@ export function CountUp({ value, kind, durationMs = 700, className }: CountUpPro
       <span aria-hidden="true" className="col-start-1 row-start-1">
         {frame === null ? final : formatCountUp(frame, kind)}
       </span>
-      <span className="sr-only"><AutoText value={final} /></span>
+      <span className="sr-only">
+        <AutoText value={final} />
+      </span>
     </span>
   );
 }

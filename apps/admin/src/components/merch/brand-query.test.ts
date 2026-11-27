@@ -29,7 +29,10 @@ const brands = [
 
 describe('brand filters', () => {
   it('reads the address and falls back on anything unknown', () => {
-    expect(parseBrandFilters({ q: '  star ', view: 'hidden' })).toEqual({ q: 'star', view: 'hidden' });
+    expect(parseBrandFilters({ q: '  star ', view: 'hidden' })).toEqual({
+      q: 'star',
+      view: 'hidden',
+    });
     expect(parseBrandFilters({ view: 'everything' })).toEqual({ q: '', view: 'all' });
     expect(parseBrandFilters({ q: ['a', 'b'] }).q).toBe('a');
     expect(parseBrandFilters({ q: 'x'.repeat(300) }).q).toHaveLength(100);

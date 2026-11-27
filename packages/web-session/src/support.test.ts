@@ -95,7 +95,13 @@ function setup(overrides: Partial<Record<keyof SupportSession, unknown>> = {}) {
     deleteChatAutomationRule: vi.fn(() => Promise.resolve(undefined)),
     listChatAutomationRuns: vi.fn(() => Promise.resolve({ runs: [], totalCount: 0 })),
     previewChatAutomationRule: vi.fn(() =>
-      Promise.resolve({ ruleId: RULE, conversationId: CONVERSATION, wouldRun: true, actions: [], reasons: [] }),
+      Promise.resolve({
+        ruleId: RULE,
+        conversationId: CONVERSATION,
+        wouldRun: true,
+        actions: [],
+        reasons: [],
+      }),
     ),
   };
 
@@ -104,12 +110,10 @@ function setup(overrides: Partial<Record<keyof SupportSession, unknown>> = {}) {
     const value = await call(api as never, TOKEN);
     return { kind: 'ok', value };
   });
-  const read = vi.fn(
-    async (call: SessionCall<unknown>): Promise<unknown> => {
-      const value = await call(api as never, TOKEN);
-      return { kind: 'ok', value };
-    },
-  );
+  const read = vi.fn(async (call: SessionCall<unknown>): Promise<unknown> => {
+    const value = await call(api as never, TOKEN);
+    return { kind: 'ok', value };
+  });
 
   const session: SupportSession = {
     csrfToken: () => Promise.resolve('csrf-value'),

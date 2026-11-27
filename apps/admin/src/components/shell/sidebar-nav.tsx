@@ -152,7 +152,9 @@ function NavLink({
         />
       ) : null}
       <Icon aria-hidden="true" className="size-[1.15rem] shrink-0" strokeWidth={1.75} />
-      <span className="nz-rail-label min-w-0 flex-1 truncate"><AutoText value={tr(label)} /></span>
+      <span className="nz-rail-label min-w-0 flex-1 truncate">
+        <AutoText value={tr(label)} />
+      </span>
       {badge ? (
         <span
           className={cn(

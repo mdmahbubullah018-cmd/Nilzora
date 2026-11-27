@@ -56,13 +56,7 @@ const RECOVERY: Record<string, { label: string; tone: StatusTone }> = {
   dismissed: { label: 'Dismissed', tone: 'neutral' },
 };
 
-export function CheckoutRecoveryChip({
-  state,
-  recovered,
-}: {
-  state: string;
-  recovered: boolean;
-}) {
+export function CheckoutRecoveryChip({ state, recovered }: { state: string; recovered: boolean }) {
   if (recovered) {
     return (
       <Chip tone="success" dot>
@@ -96,7 +90,6 @@ export function checkoutsHref(filters: CheckoutFilters, page = 1): Route {
     page: page > 1 ? page : undefined,
   });
 }
-
 
 /** The queue: the summary figures, stage tabs, filters, one row per attempt, and page links. */
 export function CheckoutListView({
@@ -154,11 +147,7 @@ export function CheckoutListView({
             }}
             resetHref={filtered ? CHECKOUTS_PATH : undefined}
           >
-            <SearchFilter
-              label="Search"
-              defaultValue={q}
-              placeholder="Name, phone, order number"
-            />
+            <SearchFilter label="Search" defaultValue={q} placeholder="Name, phone, order number" />
             <label className="grid gap-1 text-xs font-semibold text-muted-foreground">
               <AutoText>Abandoned from</AutoText>
               <input
@@ -192,101 +181,122 @@ export function CheckoutListView({
           </FilterBar>
         </div>
 
-
-      {checkouts.length === 0 ? (
-        <EmptyPanel
-          icon={ShoppingBag}
-          title="No checkout attempts match this view."
-          description={
-            filtered
-              ? 'Try another stage or search.'
-              : 'Attempts appear here once customers start a checkout.'
-          }
-          className="py-14"
-        />
-      ) : (
-        <div className="nz-sticky-head lg:[&>div]:max-h-[min(72vh,52rem)] lg:[&>div]:overflow-y-auto">
-          <DataTable caption="Checkout attempts" dense>
-            <TableHeader>
-              <TableRow className="hover:bg-transparent">
-                <TableHead><AutoText>Customer</AutoText></TableHead>
-                <TableHead><AutoText>Stage</AutoText></TableHead>
-                <TableHead><AutoText>Recovery</AutoText></TableHead>
-                <TableHead className="text-right"><AutoText>Items</AutoText></TableHead>
-                <TableHead className="text-right"><AutoText>Cart value</AutoText></TableHead>
-                <TableHead className="text-right"><AutoText>Contacts</AutoText></TableHead>
-                <TableHead><AutoText>Abandoned</AutoText></TableHead>
-                <TableHead><AutoText>Last activity</AutoText></TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {checkouts.map((checkout) => (
-                <TableRow key={checkout.id}>
-                  <TableCell>
-                    <Link
-                      href={`/admin/checkouts/${checkout.id}` as Route}
-                      className="font-medium text-foreground underline-offset-4 hover:text-link hover:underline"
-                    >
-                      {checkout.customerName ?? 'Customer'}
-                    </Link>
-                    {checkout.customerPhone ? (
-                      <span className="block font-mono text-xs text-muted-foreground">
-                        {checkout.customerPhone}
-                      </span>
-                    ) : null}
-                  </TableCell>
-                  <TableCell>
-                    <div className="flex items-center gap-2">
-                      <CheckoutStageChip status={checkout.status} />
-                      {checkout.orderNumber ? (
-                        <span className="font-mono text-xs text-muted-foreground">
-                          {checkout.orderNumber}
+        {checkouts.length === 0 ? (
+          <EmptyPanel
+            icon={ShoppingBag}
+            title="No checkout attempts match this view."
+            description={
+              filtered
+                ? 'Try another stage or search.'
+                : 'Attempts appear here once customers start a checkout.'
+            }
+            className="py-14"
+          />
+        ) : (
+          <div className="nz-sticky-head lg:[&>div]:max-h-[min(72vh,52rem)] lg:[&>div]:overflow-y-auto">
+            <DataTable caption="Checkout attempts" dense>
+              <TableHeader>
+                <TableRow className="hover:bg-transparent">
+                  <TableHead>
+                    <AutoText>Customer</AutoText>
+                  </TableHead>
+                  <TableHead>
+                    <AutoText>Stage</AutoText>
+                  </TableHead>
+                  <TableHead>
+                    <AutoText>Recovery</AutoText>
+                  </TableHead>
+                  <TableHead className="text-right">
+                    <AutoText>Items</AutoText>
+                  </TableHead>
+                  <TableHead className="text-right">
+                    <AutoText>Cart value</AutoText>
+                  </TableHead>
+                  <TableHead className="text-right">
+                    <AutoText>Contacts</AutoText>
+                  </TableHead>
+                  <TableHead>
+                    <AutoText>Abandoned</AutoText>
+                  </TableHead>
+                  <TableHead>
+                    <AutoText>Last activity</AutoText>
+                  </TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {checkouts.map((checkout) => (
+                  <TableRow key={checkout.id}>
+                    <TableCell>
+                      <Link
+                        href={`/admin/checkouts/${checkout.id}` as Route}
+                        className="font-medium text-foreground underline-offset-4 hover:text-link hover:underline"
+                      >
+                        {checkout.customerName ?? 'Customer'}
+                      </Link>
+                      {checkout.customerPhone ? (
+                        <span className="block font-mono text-xs text-muted-foreground">
+                          {checkout.customerPhone}
                         </span>
                       ) : null}
-                    </div>
-                  </TableCell>
-                  <TableCell>
-                    <CheckoutRecoveryChip
-                      state={checkout.recoveryState}
-                      recovered={checkout.status === 'converted' && checkout.abandonedAt !== null}
-                    />
-                  </TableCell>
-                  <TableCell className="text-right tabular-nums"><AutoText value={checkout.itemCount} /></TableCell>
-                  <TableCell className="text-right tabular-nums">
-                    {formatMoney(checkout.cartValueMinor)}
-                  </TableCell>
-                  <TableCell className="text-right tabular-nums">
-                    {checkout.attemptCount === 0 ? '—' : <AutoText value={checkout.attemptCount} />}
-                  </TableCell>
-                  <TableCell className="text-muted-foreground">
-                    {checkout.abandonedAt ? (
-                      <DateTimeText value={checkout.abandonedAt} style="datetime" />
-                    ) : (
-                      '—'
-                    )}
-                  </TableCell>
-                  <TableCell className="text-muted-foreground">
-                    <DateTimeText value={checkout.lastActivityAt} style="datetime" />
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </DataTable>
-        </div>
-      )}
+                    </TableCell>
+                    <TableCell>
+                      <div className="flex items-center gap-2">
+                        <CheckoutStageChip status={checkout.status} />
+                        {checkout.orderNumber ? (
+                          <span className="font-mono text-xs text-muted-foreground">
+                            {checkout.orderNumber}
+                          </span>
+                        ) : null}
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <CheckoutRecoveryChip
+                        state={checkout.recoveryState}
+                        recovered={checkout.status === 'converted' && checkout.abandonedAt !== null}
+                      />
+                    </TableCell>
+                    <TableCell className="text-right tabular-nums">
+                      <AutoText value={checkout.itemCount} />
+                    </TableCell>
+                    <TableCell className="text-right tabular-nums">
+                      {formatMoney(checkout.cartValueMinor)}
+                    </TableCell>
+                    <TableCell className="text-right tabular-nums">
+                      {checkout.attemptCount === 0 ? (
+                        '—'
+                      ) : (
+                        <AutoText value={checkout.attemptCount} />
+                      )}
+                    </TableCell>
+                    <TableCell className="text-muted-foreground">
+                      {checkout.abandonedAt ? (
+                        <DateTimeText value={checkout.abandonedAt} style="datetime" />
+                      ) : (
+                        '—'
+                      )}
+                    </TableCell>
+                    <TableCell className="text-muted-foreground">
+                      <DateTimeText value={checkout.lastActivityAt} style="datetime" />
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </DataTable>
+          </div>
+        )}
 
-      {total > 0 ? (
-        <div className="border-t border-hairline px-4 py-3 sm:px-5">
-          <Pagination
-            page={page}
-            totalPages={totalPages}
-            total={total}
-            pageSize={pageSize}
-            noun="checkout attempts"
-            hrefFor={(next) => checkoutsHref(filters, next)}
-          />
-        </div>
-      ) : null}
+        {total > 0 ? (
+          <div className="border-t border-hairline px-4 py-3 sm:px-5">
+            <Pagination
+              page={page}
+              totalPages={totalPages}
+              total={total}
+              pageSize={pageSize}
+              noun="checkout attempts"
+              hrefFor={(next) => checkoutsHref(filters, next)}
+            />
+          </div>
+        ) : null}
       </SectionCard>
     </div>
   );
@@ -305,10 +315,26 @@ function CheckoutMetricsPanel({ metrics }: { metrics: CheckoutRecoveryMetrics | 
     );
   }
   const cards = [
-    { label: 'Waiting for a decision', value: String(metrics.openCount), hint: 'Abandoned and not yet ordered' },
-    { label: 'Abandoned in this period', value: String(metrics.abandonedCount), hint: 'Checkouts that went quiet' },
-    { label: 'Abandoned in the last 24 hours', value: String(metrics.recentCount), hint: 'Worth contacting first' },
-    { label: 'Cart value waiting', value: formatMoney(metrics.potentialValueMinor), hint: 'Catalogue prices, not a sale' },
+    {
+      label: 'Waiting for a decision',
+      value: String(metrics.openCount),
+      hint: 'Abandoned and not yet ordered',
+    },
+    {
+      label: 'Abandoned in this period',
+      value: String(metrics.abandonedCount),
+      hint: 'Checkouts that went quiet',
+    },
+    {
+      label: 'Abandoned in the last 24 hours',
+      value: String(metrics.recentCount),
+      hint: 'Worth contacting first',
+    },
+    {
+      label: 'Cart value waiting',
+      value: formatMoney(metrics.potentialValueMinor),
+      hint: 'Catalogue prices, not a sale',
+    },
     { label: 'Contact attempts', value: String(metrics.attemptCount), hint: 'Recorded by staff' },
     { label: 'Recovered', value: String(metrics.recoveredCount), hint: 'Later became an order' },
     {
@@ -319,7 +345,10 @@ function CheckoutMetricsPanel({ metrics }: { metrics: CheckoutRecoveryMetrics | 
     },
   ];
   return (
-    <section className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4" aria-label="Abandoned checkout summary">
+    <section
+      className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4"
+      aria-label="Abandoned checkout summary"
+    >
       {cards.map((card) => (
         <div key={card.label} className="rounded-xl border border-hairline bg-surface p-4">
           <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
@@ -382,11 +411,21 @@ export function CheckoutDetailView({
             <DataTable caption="Items in this checkout attempt" dense>
               <TableHeader>
                 <TableRow className="hover:bg-transparent">
-                  <TableHead><AutoText>Product</AutoText></TableHead>
-                  <TableHead><AutoText>Option</AutoText></TableHead>
-                  <TableHead><AutoText>SKU</AutoText></TableHead>
-                  <TableHead className="text-right"><AutoText>Qty</AutoText></TableHead>
-                  <TableHead className="text-right"><AutoText>Current price</AutoText></TableHead>
+                  <TableHead>
+                    <AutoText>Product</AutoText>
+                  </TableHead>
+                  <TableHead>
+                    <AutoText>Option</AutoText>
+                  </TableHead>
+                  <TableHead>
+                    <AutoText>SKU</AutoText>
+                  </TableHead>
+                  <TableHead className="text-right">
+                    <AutoText>Qty</AutoText>
+                  </TableHead>
+                  <TableHead className="text-right">
+                    <AutoText>Current price</AutoText>
+                  </TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -396,8 +435,12 @@ export function CheckoutDetailView({
                       {item.productName}
                     </TableCell>
                     <TableCell>{item.variantLabel ?? '—'}</TableCell>
-                    <TableCell className="font-mono text-xs"><AutoText value={item.sku} /></TableCell>
-                    <TableCell className="text-right tabular-nums"><AutoText value={item.quantity} /></TableCell>
+                    <TableCell className="font-mono text-xs">
+                      <AutoText value={item.sku} />
+                    </TableCell>
+                    <TableCell className="text-right tabular-nums">
+                      <AutoText value={item.quantity} />
+                    </TableCell>
                     <TableCell className="text-right tabular-nums">
                       {formatMoney(item.unitPriceMinor)}
                     </TableCell>
@@ -443,7 +486,9 @@ export function CheckoutDetailView({
             {
               label: 'Coupon tried',
               value: checkout.couponCode ? (
-                <span className="font-mono text-xs"><AutoText value={checkout.couponCode} /></span>
+                <span className="font-mono text-xs">
+                  <AutoText value={checkout.couponCode} />
+                </span>
               ) : null,
             },
             {

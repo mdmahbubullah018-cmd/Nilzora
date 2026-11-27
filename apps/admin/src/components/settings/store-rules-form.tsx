@@ -61,7 +61,9 @@ function RuleField({
             onBlur={() => onBlur(field)}
             className={`max-w-40 ${TOUCH}`}
           />
-          <span className="text-sm text-muted-foreground"><AutoText value={unit} /></span>
+          <span className="text-sm text-muted-foreground">
+            <AutoText value={unit} />
+          </span>
         </div>
       )}
     </Field>
@@ -117,12 +119,14 @@ export function StoreRulesForm({ initial, csrf }: { initial: StoreRuleTexts; csr
       <CsrfField csrf={csrf} />
 
       <fieldset className="grid gap-4">
-        <legend className="mb-1 text-sm font-semibold text-foreground"><AutoText>Returns and checkouts</AutoText></legend>
+        <legend className="mb-1 text-sm font-semibold text-foreground">
+          <AutoText>Returns and checkouts</AutoText>
+        </legend>
         <div className="grid items-start gap-5 sm:grid-cols-2">
           <RuleField
             {...shared}
             field="returnWindowDays"
-            label={tx("Return window")}
+            label={tx('Return window')}
             unit="days"
             required
             hint={`How long after delivery a customer may ask to return items. ${String(limits.returnWindowDays.min)} to ${String(limits.returnWindowDays.max)}.`}
@@ -132,7 +136,7 @@ export function StoreRulesForm({ initial, csrf }: { initial: StoreRuleTexts; csr
           <RuleField
             {...shared}
             field="cartInactivityMinutes"
-            label={tx("Cart inactivity")}
+            label={tx('Cart inactivity')}
             unit="minutes"
             required
             hint={`After this long without activity a cart no longer counts as an open checkout. ${String(limits.cartInactivityMinutes.min)} to ${limits.cartInactivityMinutes.max.toLocaleString('en-US')}.`}
@@ -143,12 +147,14 @@ export function StoreRulesForm({ initial, csrf }: { initial: StoreRuleTexts; csr
       </fieldset>
 
       <fieldset className="grid gap-4">
-        <legend className="mb-1 text-sm font-semibold text-foreground"><AutoText>Customer insight</AutoText></legend>
+        <legend className="mb-1 text-sm font-semibold text-foreground">
+          <AutoText>Customer insight</AutoText>
+        </legend>
         <div className="grid items-start gap-5 sm:grid-cols-2 lg:grid-cols-3">
           <RuleField
             {...shared}
             field="repeatOrderThreshold"
-            label={tx("Repeat customer from")}
+            label={tx('Repeat customer from')}
             unit="orders"
             hint={`Orders that make a customer a repeat customer. ${String(limits.repeatOrderThreshold.min)} to ${String(limits.repeatOrderThreshold.max)}. Empty keeps the current one.`}
             value={texts.repeatOrderThreshold}
@@ -157,17 +163,19 @@ export function StoreRulesForm({ initial, csrf }: { initial: StoreRuleTexts; csr
           <RuleField
             {...shared}
             field="highSpend"
-            label={tx("High spender from")}
+            label={tx('High spender from')}
             unit="৳ taka"
             decimal
-            hint={tx("Total spend from which a customer counts as a high spender. Empty keeps the current one.")}
+            hint={tx(
+              'Total spend from which a customer counts as a high spender. Empty keeps the current one.',
+            )}
             value={texts.highSpend}
             error={errorOf('highSpend')}
           />
           <RuleField
             {...shared}
             field="inactiveDays"
-            label={tx("Inactive after")}
+            label={tx('Inactive after')}
             unit="days"
             hint={`Days without an order after which a customer counts as inactive. ${String(limits.inactiveDays.min)} to ${String(limits.inactiveDays.max)}. Empty keeps the current one.`}
             value={texts.inactiveDays}
@@ -180,10 +188,14 @@ export function StoreRulesForm({ initial, csrf }: { initial: StoreRuleTexts; csr
         <ActionFeedback state={state} />
         <div className="flex flex-wrap items-center gap-3">
           <SubmitButton pendingLabel="Saving…" className="max-sm:min-h-11">
-            <Save aria-hidden="true" strokeWidth={1.75} /><AutoText>Save store rules</AutoText></SubmitButton>
+            <Save aria-hidden="true" strokeWidth={1.75} />
+            <AutoText>Save store rules</AutoText>
+          </SubmitButton>
           {dirty ? (
             <p className="flex items-center gap-2 text-sm text-muted-foreground">
-              <span aria-hidden="true" className="size-2 rounded-full bg-warning" /><AutoText>Unsaved changes</AutoText></p>
+              <span aria-hidden="true" className="size-2 rounded-full bg-warning" />
+              <AutoText>Unsaved changes</AutoText>
+            </p>
           ) : null}
         </div>
       </div>

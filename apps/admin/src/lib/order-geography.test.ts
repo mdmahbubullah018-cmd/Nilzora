@@ -59,12 +59,20 @@ describe('parseGeographyRange', () => {
       to: TODAY,
       days: 90,
     });
-    expect(parseGeographyRange({ days: '90' }, NOW)).toMatchObject({ from: '2026-08-14', days: 90 });
+    expect(parseGeographyRange({ days: '90' }, NOW)).toMatchObject({
+      from: '2026-08-14',
+      days: 90,
+    });
   });
 
   it('reads yesterday as a one-day range', () => {
     const range = parseGeographyRange({ range: 'yesterday' }, NOW);
-    expect(range).toMatchObject({ preset: 'custom', from: '2026-11-10', to: '2026-11-10', days: 1 });
+    expect(range).toMatchObject({
+      preset: 'custom',
+      from: '2026-11-10',
+      to: '2026-11-10',
+      days: 1,
+    });
     expect(range.label).toBe('Yesterday');
   });
 
@@ -135,7 +143,11 @@ describe('the URL round trip', () => {
     const custom = selection({
       range: parseGeographyRange({ range: 'custom', from: '2026-10-01', to: '2026-10-05' }, NOW),
     });
-    expect(geographyParams(custom)).toMatchObject({ range: 'custom', from: '2026-10-01', to: '2026-10-05' });
+    expect(geographyParams(custom)).toMatchObject({
+      range: 'custom',
+      from: '2026-10-01',
+      to: '2026-10-05',
+    });
     expect(geographyParams(selection())).not.toHaveProperty('from');
   });
 
@@ -169,10 +181,38 @@ describe('the choropleth ramp', () => {
 
 describe('ranking and figures', () => {
   const rows: OrderGeographyDistrict[] = [
-    { district: 'Dhaka', division: 'Dhaka', orderCount: 10, deliveredCount: 9, revenueMinor: 1000, share: 0.5 },
-    { district: 'Feni', division: 'Chattogram', orderCount: 6, deliveredCount: 3, revenueMinor: 3000, share: 0.3 },
-    { district: 'Sylhet', division: 'Sylhet', orderCount: 0, deliveredCount: 0, revenueMinor: 0, share: null },
-    { district: 'Khulna', division: 'Khulna', orderCount: 4, deliveredCount: 4, revenueMinor: 900, share: 0.2 },
+    {
+      district: 'Dhaka',
+      division: 'Dhaka',
+      orderCount: 10,
+      deliveredCount: 9,
+      revenueMinor: 1000,
+      share: 0.5,
+    },
+    {
+      district: 'Feni',
+      division: 'Chattogram',
+      orderCount: 6,
+      deliveredCount: 3,
+      revenueMinor: 3000,
+      share: 0.3,
+    },
+    {
+      district: 'Sylhet',
+      division: 'Sylhet',
+      orderCount: 0,
+      deliveredCount: 0,
+      revenueMinor: 0,
+      share: null,
+    },
+    {
+      district: 'Khulna',
+      division: 'Khulna',
+      orderCount: 4,
+      deliveredCount: 4,
+      revenueMinor: 900,
+      share: 0.2,
+    },
   ];
 
   it('sorts by the chosen metric and drops the empty districts', () => {
@@ -194,7 +234,9 @@ describe('ranking and figures', () => {
   });
 
   it('narrows the ranking to one division', () => {
-    expect(rankDistricts(rows, 'orders', 'Chattogram').map((row) => row.district)).toEqual(['Feni']);
+    expect(rankDistricts(rows, 'orders', 'Chattogram').map((row) => row.district)).toEqual([
+      'Feni',
+    ]);
   });
 
   it('shades by delivered orders when asked', () => {
@@ -218,11 +260,11 @@ describe('emptyReason', () => {
 
   it('separates "nothing placed" from "everything cancelled"', () => {
     expect(emptyReason({ summary })).toContain('No orders were placed');
-    expect(
-      emptyReason({ summary: { ...summary, totalOrders: 3, eligibleOrders: 0 } }),
-    ).toContain('Every order in this range was cancelled');
-    expect(
-      emptyReason({ summary: { ...summary, totalOrders: 3, eligibleOrders: 2 } }),
-    ).toContain('could be placed on the map');
+    expect(emptyReason({ summary: { ...summary, totalOrders: 3, eligibleOrders: 0 } })).toContain(
+      'Every order in this range was cancelled',
+    );
+    expect(emptyReason({ summary: { ...summary, totalOrders: 3, eligibleOrders: 2 } })).toContain(
+      'could be placed on the map',
+    );
   });
 });

@@ -153,17 +153,13 @@ export function catalogRouter(catalog: CatalogStore): Router {
    * visible campaigns that reach at least one published product are returned, and the
    * prices they set are already in every product payload; this feed is for banners.
    */
-  router.get(
-    '/catalog/campaigns',
-    validate(campaignSchemas),
-    async (_req, res) => {
-      const { query } = requestInput<typeof campaignSchemas>(res);
-      const body = campaignListResponseSchema.parse({
-        campaigns: await catalog.listCampaigns(query.category),
-      });
-      res.set('Cache-Control', PUBLIC_CATALOG_CACHE).json(body);
-    },
-  );
+  router.get('/catalog/campaigns', validate(campaignSchemas), async (_req, res) => {
+    const { query } = requestInput<typeof campaignSchemas>(res);
+    const body = campaignListResponseSchema.parse({
+      campaigns: await catalog.listCampaigns(query.category),
+    });
+    res.set('Cache-Control', PUBLIC_CATALOG_CACHE).json(body);
+  });
 
   return router;
 }

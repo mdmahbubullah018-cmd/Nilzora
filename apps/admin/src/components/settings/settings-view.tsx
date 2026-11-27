@@ -44,7 +44,9 @@ export function DeliveryChargesView({
                   {DELIVERY_ZONE_LABEL[charge.zone]}
                 </p>
                 {charge.amountMinor === null ? (
-                  <Chip tone="warning" dot><AutoText>Not set</AutoText></Chip>
+                  <Chip tone="warning" dot>
+                    <AutoText>Not set</AutoText>
+                  </Chip>
                 ) : (
                   <Chip tone="success" dot>
                     {formatMoney(charge.amountMinor)}

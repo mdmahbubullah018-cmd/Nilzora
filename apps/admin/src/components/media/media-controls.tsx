@@ -89,7 +89,9 @@ export function MediaUploader({
         }}
         className={cn(
           'grid cursor-pointer justify-items-center gap-2 rounded-2xl border-2 border-dashed px-4 py-8 text-center transition-colors',
-          over ? 'border-info-ink bg-info-soft' : 'border-hairline bg-neutral-soft/40 hover:bg-info-soft/50',
+          over
+            ? 'border-info-ink bg-info-soft'
+            : 'border-hairline bg-neutral-soft/40 hover:bg-info-soft/50',
           busy && 'cursor-not-allowed opacity-60',
         )}
       >
@@ -100,8 +102,8 @@ export function MediaUploader({
           {interactive ? 'Drop pictures here or choose files' : 'Choose a picture'}
         </span>
         <span id="media-upload-hint" className="max-w-md text-xs text-muted-foreground">
-          JPEG, PNG or WebP, up to 5 MB and at least 400 pixels on the shorter side. Stored as
-          WebP with every piece of metadata removed.
+          JPEG, PNG or WebP, up to 5 MB and at least 400 pixels on the shorter side. Stored as WebP
+          with every piece of metadata removed.
         </span>
       </label>
       <input
@@ -112,7 +114,7 @@ export function MediaUploader({
         accept={ACCEPT}
         multiple={interactive}
         disabled={busy}
-        aria-label={tx("Add pictures")}
+        aria-label={tx('Add pictures')}
         aria-describedby="media-upload-hint"
         onChange={(event) => {
           if (interactive) pick(Array.from(event.currentTarget.files ?? []));
@@ -127,11 +129,13 @@ export function MediaUploader({
       {state.status !== 'idle' ? <ActionFeedback state={state} /> : null}
 
       {queue.items.length > 0 ? (
-        <ul aria-label={tx("Pictures to upload")} className="grid gap-2">
+        <ul aria-label={tx('Pictures to upload')} className="grid gap-2">
           {queue.items.map((item) => (
             <li key={item.key} className="nz-panel-strong grid gap-2 rounded-xl border p-3">
               <div className="flex items-center justify-between gap-3 text-sm">
-                <span className="min-w-0 truncate font-medium text-foreground"><AutoText value={item.file.name} /></span>
+                <span className="min-w-0 truncate font-medium text-foreground">
+                  <AutoText value={item.file.name} />
+                </span>
                 <span className="shrink-0 text-xs text-muted-foreground tabular-nums">
                   {item.status === 'transferring'
                     ? `${String(item.percent)}% · ${formatBytes(item.loaded)} / ${formatBytes(item.total)}`
@@ -258,14 +262,16 @@ export function MediaAssetControls({ asset, csrf }: { asset: MediaAsset; csrf: C
       <form action={altAction} className="grid gap-1.5">
         <CsrfField csrf={csrf} />
         <input type="hidden" name="mediaId" value={asset.id} />
-        <label htmlFor={altId} className="text-xs font-medium text-muted-foreground"><AutoText>Description</AutoText></label>
+        <label htmlFor={altId} className="text-xs font-medium text-muted-foreground">
+          <AutoText>Description</AutoText>
+        </label>
         <div className="flex gap-2">
           <Input
             id={altId}
             name="alt"
             maxLength={250}
             defaultValue={altState.values?.alt ?? asset.alt ?? ''}
-            placeholder={tx("What the picture shows")}
+            placeholder={tx('What the picture shows')}
             aria-invalid={altError ? true : undefined}
             aria-describedby={altError ? `${altId}-error` : undefined}
             className="h-9 min-w-0 flex-1 rounded-xl max-sm:h-11"
@@ -278,7 +284,7 @@ export function MediaAssetControls({ asset, csrf }: { asset: MediaAsset; csrf: C
             className="h-9 shrink-0 rounded-xl max-sm:h-11"
           >
             {altPending ? null : <Check aria-hidden="true" strokeWidth={1.75} />}
-            Save{' '}<span className="sr-only">description</span>
+            Save <span className="sr-only">description</span>
           </Button>
         </div>
         {altError ? (
@@ -290,8 +296,8 @@ export function MediaAssetControls({ asset, csrf }: { asset: MediaAsset; csrf: C
         ) : null}
       </form>
       <div className="flex flex-wrap items-center gap-2 border-t border-hairline pt-3">
-        <CopyButton value={asset.key} label={tx("Copy key")} />
-        <CopyButton value={asset.url} label={tx("Copy URL")} />
+        <CopyButton value={asset.key} label={tx('Copy key')} />
+        <CopyButton value={asset.url} label={tx('Copy URL')} />
         <ConfirmForm
           action={deleteAction}
           csrf={csrf}
@@ -304,9 +310,11 @@ export function MediaAssetControls({ asset, csrf }: { asset: MediaAsset; csrf: C
               Delete
             </>
           }
-          title={tx("Delete this picture?")}
-          description={tx("It is removed from the library and storage. Pictures still used by the store profile, SEO, onboarding or a banner cannot be deleted.")}
-          confirmLabel={tx("Delete picture")}
+          title={tx('Delete this picture?')}
+          description={tx(
+            'It is removed from the library and storage. Pictures still used by the store profile, SEO, onboarding or a banner cannot be deleted.',
+          )}
+          confirmLabel={tx('Delete picture')}
           hiddenFields={{ mediaId: asset.id }}
           error={deleteState.status === 'error' ? deleteState.message : undefined}
         />

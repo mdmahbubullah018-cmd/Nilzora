@@ -15,7 +15,11 @@ vi.mock('@/lib/picture-actions', () => ({ removeReviewPhotoAction: vi.fn() }));
 const csrf = { name: '__csrf', token: 'token-1' };
 
 const reviews: ProductReviewsResponse = {
-  summary: { averageRating: 0, reviewCount: 0, distribution: { '1': 0, '2': 0, '3': 0, '4': 0, '5': 0 } },
+  summary: {
+    averageRating: 0,
+    reviewCount: 0,
+    distribution: { '1': 0, '2': 0, '3': 0, '4': 0, '5': 0 },
+  },
   reviews: [],
   page: 1,
   pageSize: 10,

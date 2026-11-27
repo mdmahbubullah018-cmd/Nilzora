@@ -4,7 +4,13 @@ import { orderNumberSchema, type ApiErrorCode, type RefundMethod } from '@nilzor
 import { uuidSchema } from '@nilzora/validation';
 import { revalidatePath } from 'next/cache';
 import type { Route } from 'next';
-import { adminAct, formText, invalid, takaToMinor, type ActionState } from '@/components/admin-kit/act';
+import {
+  adminAct,
+  formText,
+  invalid,
+  takaToMinor,
+  type ActionState,
+} from '@/components/admin-kit/act';
 
 /*
  * Returns and refunds, as staff act on them. The database function is the authority on
@@ -84,7 +90,11 @@ export async function decideReturnAction(
   if (!returnId || !status) return PAGE_EXPIRED;
   const note = formText(formData, 'note').trim();
   if (note.length > 300) {
-    return invalid('Check the highlighted fields', { note: 'Keep the note under 300 characters.' }, { note });
+    return invalid(
+      'Check the highlighted fields',
+      { note: 'Keep the note under 300 characters.' },
+      { note },
+    );
   }
   if (status === 'rejected' && note.length < 3) {
     return invalid(
@@ -121,7 +131,11 @@ export async function restockReturnAction(
   if (!returnId) return PAGE_EXPIRED;
   const note = formText(formData, 'note').trim();
   if (note.length > 300) {
-    return invalid('Check the highlighted fields', { note: 'Keep the note under 300 characters.' }, { note });
+    return invalid(
+      'Check the highlighted fields',
+      { note: 'Keep the note under 300 characters.' },
+      { note },
+    );
   }
 
   const result = await adminAct(
@@ -165,7 +179,8 @@ export async function requestRefundAction(
   if (!orderNumberSchema.safeParse(orderNumber).success) {
     errors.orderNumber = 'Enter the order number, e.g. NZ100001.';
   }
-  if (amountMinor === undefined || amountMinor < 1) errors.amount = 'Enter the amount to refund in taka.';
+  if (amountMinor === undefined || amountMinor < 1)
+    errors.amount = 'Enter the amount to refund in taka.';
   if (reason.length < 3) errors.reason = 'Say why the money goes back.';
   else if (reason.length > 200) errors.reason = 'Keep the reason under 200 characters.';
   if (Object.keys(errors).length > 0 || amountMinor === undefined) {
@@ -204,7 +219,11 @@ export async function decideRefundAction(
   if (!refundId || (decision !== 'approve' && decision !== 'reject')) return PAGE_EXPIRED;
   const note = formText(formData, 'note').trim();
   if (note.length > 300) {
-    return invalid('Check the highlighted fields', { note: 'Keep the note under 300 characters.' }, { note });
+    return invalid(
+      'Check the highlighted fields',
+      { note: 'Keep the note under 300 characters.' },
+      { note },
+    );
   }
   if (decision === 'reject' && note.length < 5) {
     return invalid(
@@ -249,7 +268,8 @@ export async function completeRefundAction(
     errors.reference = 'Enter the receipt or transfer reference (3 to 120 characters).';
   }
   if (note.length > 500) errors.note = 'Keep the note under 500 characters.';
-  if (Object.keys(errors).length > 0) return invalid('Check the highlighted fields', errors, values);
+  if (Object.keys(errors).length > 0)
+    return invalid('Check the highlighted fields', errors, values);
 
   const result = await adminAct(
     formData,
@@ -290,11 +310,15 @@ export async function cancelRefundAction(
     );
   }
 
-  const result = await adminAct(formData, (api, token) => api.adminCancelRefund(token, refundId, note), {
-    returnTo: refundPath(refundId),
-    label: 'refund cancel',
-    messages: AFTER_SALES_MESSAGES,
-  });
+  const result = await adminAct(
+    formData,
+    (api, token) => api.adminCancelRefund(token, refundId, note),
+    {
+      returnTo: refundPath(refundId),
+      label: 'refund cancel',
+      messages: AFTER_SALES_MESSAGES,
+    },
+  );
   if (!result.ok) return { ...result.state, values: { note } };
   refreshRefund(refundId);
   return { status: 'success', message: 'Refund cancelled.' };

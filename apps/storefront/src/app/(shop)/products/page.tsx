@@ -7,14 +7,22 @@ import { Breadcrumbs } from '@/components/catalog/breadcrumbs';
 import { CatalogPage } from '@/components/catalog/catalog-page';
 import { CategoryNav } from '@/components/catalog/categories';
 import { FilteredListing } from '@/components/catalog/filtered-listing';
-import { findShoppingZone, getBrands, getCategories, getProductFacets, listProducts } from '@/lib/catalog';
+import {
+  findShoppingZone,
+  getBrands,
+  getCategories,
+  getProductFacets,
+  listProducts,
+} from '@/lib/catalog';
 import { BROWSE_SORTS, parseBrowseQuery } from '@/lib/catalog-query';
 
 /**
  * The title and description follow the collection when the address names one, so a shared
  * link to "Men's" reads as Men's rather than as the whole catalogue.
  */
-export async function generateMetadata({ searchParams }: PageProps<'/products'>): Promise<Metadata> {
+export async function generateMetadata({
+  searchParams,
+}: PageProps<'/products'>): Promise<Metadata> {
   const { zone } = parseBrowseQuery(await searchParams);
   if (zone === undefined) {
     return {

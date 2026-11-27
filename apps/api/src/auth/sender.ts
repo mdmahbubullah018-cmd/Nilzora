@@ -82,9 +82,7 @@ export class EmailUnavailableError extends Error {
  */
 export function emailDiagnosticOf(error: unknown): EmailDiagnostic {
   const source = error as
-    | { code?: unknown; responseCode?: unknown; command?: unknown }
-    | null
-    | undefined;
+    { code?: unknown; responseCode?: unknown; command?: unknown } | null | undefined;
   const code = typeof source?.code === 'string' ? source.code : undefined;
   const responseCode =
     typeof source?.responseCode === 'number' && Number.isInteger(source.responseCode)
@@ -101,7 +99,8 @@ export function emailDiagnosticOf(error: unknown): EmailDiagnostic {
     'EHOSTUNREACH',
     'ECONNREFUSED',
   ]);
-  const connectionFailed = responseCode === undefined && code !== undefined && unreachable.has(code);
+  const connectionFailed =
+    responseCode === undefined && code !== undefined && unreachable.has(code);
   return {
     ...(code === undefined ? {} : { code }),
     ...(responseCode === undefined ? {} : { responseCode }),

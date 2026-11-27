@@ -44,11 +44,19 @@ export interface CartesianChartProps {
   className?: string;
 }
 
-function PointTooltip({ point, formatValue }: { point: ChartPoint; formatValue: (value: number) => string }) {
+function PointTooltip({
+  point,
+  formatValue,
+}: {
+  point: ChartPoint;
+  formatValue: (value: number) => string;
+}) {
   return (
     <>
       <span className="text-muted-foreground">{point.detail ?? point.label}</span>
-      <span className="nz-figure text-sm font-semibold text-foreground"><AutoText value={formatValue(point.value)} /></span>
+      <span className="nz-figure text-sm font-semibold text-foreground">
+        <AutoText value={formatValue(point.value)} />
+      </span>
     </>
   );
 }
@@ -85,7 +93,8 @@ export function AreaChart({
     integer: integerAxis,
   });
   const points = data.map(
-    (point, index) => [bandCenter(index, data.length), 100 - heightPercent(point.value, scale.max)] as const,
+    (point, index) =>
+      [bandCenter(index, data.length), 100 - heightPercent(point.value, scale.max)] as const,
   );
   const smooth = curve === 'smooth';
   const last = data.length - 1;
@@ -110,7 +119,10 @@ export function AreaChart({
                 <RevealClip id={clipId} />
               </defs>
               <g clipPath={`url(#${clipId})`}>
-                <path d={smooth ? smoothAreaPath(points) : areaPath(points)} fill={`url(#${gradientId})`} />
+                <path
+                  d={smooth ? smoothAreaPath(points) : areaPath(points)}
+                  fill={`url(#${gradientId})`}
+                />
                 <path
                   d={smooth ? smoothLinePath(points) : linePath(points)}
                   fill="none"

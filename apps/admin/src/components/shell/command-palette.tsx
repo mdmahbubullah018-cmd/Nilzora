@@ -279,7 +279,7 @@ export function CommandPalette({ workspace, permissions, scopes }: CommandPalett
   return (
     <dialog
       ref={dialog}
-      aria-label={tx("Command palette")}
+      aria-label={tx('Command palette')}
       onCancel={(event) => {
         event.preventDefault();
         setOpen(false);
@@ -300,8 +300,8 @@ export function CommandPalette({ workspace, permissions, scopes }: CommandPalett
             aria-controls={listId}
             aria-activedescendant={results.length > 0 ? optionId(current) : undefined}
             aria-autocomplete="list"
-            aria-label={tx("Search pages and actions")}
-            placeholder={tx("Search pages, actions, or type to search a list…")}
+            aria-label={tx('Search pages and actions')}
+            placeholder={tx('Search pages, actions, or type to search a list…')}
             value={query}
             onChange={(event) => {
               setQuery(event.target.value);
@@ -310,10 +310,17 @@ export function CommandPalette({ workspace, permissions, scopes }: CommandPalett
             onKeyDown={onKeyDown}
             className="h-14 w-full min-w-0 bg-transparent text-base text-foreground outline-none placeholder:text-muted-foreground"
           />
-          <kbd className="hidden rounded-md border border-border px-1.5 py-0.5 font-sans text-[11px] font-semibold text-muted-foreground sm:block"><AutoText>Esc</AutoText></kbd>
+          <kbd className="hidden rounded-md border border-border px-1.5 py-0.5 font-sans text-[11px] font-semibold text-muted-foreground sm:block">
+            <AutoText>Esc</AutoText>
+          </kbd>
         </div>
 
-        <div id={listId} role="listbox" aria-label={tx("Results")} className="nz-scroll overflow-y-auto p-2">
+        <div
+          id={listId}
+          role="listbox"
+          aria-label={tx('Results')}
+          className="nz-scroll overflow-y-auto p-2"
+        >
           {results.length === 0 ? (
             <p className="px-3 py-10 text-center text-sm text-muted-foreground">
               Nothing matches “{query.trim()}”.
@@ -359,7 +366,9 @@ export function CommandPalette({ workspace, permissions, scopes }: CommandPalett
                         >
                           <Icon className="size-4" strokeWidth={1.75} />
                         </span>
-                        <span className="min-w-0 flex-1 truncate font-medium"><AutoText value={command.label} /></span>
+                        <span className="min-w-0 flex-1 truncate font-medium">
+                          <AutoText value={command.label} />
+                        </span>
                         {command.hint ? (
                           <span className="hidden truncate text-xs text-muted-foreground sm:block">
                             {command.hint}
@@ -380,12 +389,14 @@ export function CommandPalette({ workspace, permissions, scopes }: CommandPalett
         <div className="flex items-center gap-4 border-t border-border px-4 py-2.5 text-xs text-muted-foreground">
           <span className="inline-flex items-center gap-1.5">
             <kbd className="rounded border border-border px-1 font-sans">↑</kbd>
-            <kbd className="rounded border border-border px-1 font-sans">↓</kbd><AutoText>to move</AutoText></span>
-          <span className="inline-flex items-center gap-1.5">
-            <CornerDownLeft aria-hidden="true" className="size-3.5" /><AutoText>to open</AutoText></span>
-          <span className="ml-auto hidden sm:inline">
-            {workspaces[workspace].name} workspace
+            <kbd className="rounded border border-border px-1 font-sans">↓</kbd>
+            <AutoText>to move</AutoText>
           </span>
+          <span className="inline-flex items-center gap-1.5">
+            <CornerDownLeft aria-hidden="true" className="size-3.5" />
+            <AutoText>to open</AutoText>
+          </span>
+          <span className="ml-auto hidden sm:inline">{workspaces[workspace].name} workspace</span>
         </div>
       </div>
     </dialog>

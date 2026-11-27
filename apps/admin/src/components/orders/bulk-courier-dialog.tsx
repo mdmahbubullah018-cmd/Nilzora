@@ -227,7 +227,9 @@ export function BulkCourierDialog({
       footer={
         step.kind === 'review' ? (
           <>
-            <Button variant="ghost" onClick={close}><AutoText>Cancel</AutoText></Button>
+            <Button variant="ghost" onClick={close}>
+              <AutoText>Cancel</AutoText>
+            </Button>
             {canBook ? (
               <Button disabled={!provider} onClick={review}>
                 {`Book ${plural(toBook.orderNumbers.length, 'eligible order')} with ${courierName}`}
@@ -236,7 +238,9 @@ export function BulkCourierDialog({
           </>
         ) : step.kind === 'confirm' ? (
           <>
-            <Button variant="ghost" disabled={sending} onClick={() => setStep({ kind: 'review' })}><AutoText>Back</AutoText></Button>
+            <Button variant="ghost" disabled={sending} onClick={() => setStep({ kind: 'review' })}>
+              <AutoText>Back</AutoText>
+            </Button>
             <Button loading={sending} onClick={() => void send()}>
               {sendError?.unconfirmed
                 ? 'Send the same bookings again'
@@ -251,10 +255,12 @@ export function BulkCourierDialog({
       }
     >
       {step.kind === 'loading' ? (
-        <p role="status" className="text-sm text-muted-foreground"><AutoText>Checking which selected orders can be booked…</AutoText></p>
+        <p role="status" className="text-sm text-muted-foreground">
+          <AutoText>Checking which selected orders can be booked…</AutoText>
+        </p>
       ) : step.kind === 'load_failed' ? (
         <div className="grid gap-3">
-          <Alert tone="danger" title={tx("The orders could not be checked")}>
+          <Alert tone="danger" title={tx('The orders could not be checked')}>
             {step.message}
           </Alert>
           <Button
@@ -264,20 +270,26 @@ export function BulkCourierDialog({
               setStep({ kind: 'loading' });
               setAttempt((n) => n + 1);
             }}
-          ><AutoText>Try again</AutoText></Button>
+          >
+            <AutoText>Try again</AutoText>
+          </Button>
         </div>
       ) : step.kind === 'review' && data && availability ? (
         <div className="grid gap-4">
           <p className="text-sm text-foreground">
             {availability.available ? (
               <>
-                <strong><CountText count={data.check.bookable} one="order" /></strong> of {selection.length} can be
-                booked now.
+                <strong>
+                  <CountText count={data.check.bookable} one="order" />
+                </strong>{' '}
+                of {selection.length} can be booked now.
               </>
             ) : (
               <>
-                <strong><CountText count={portalBookableOrders(data.check).length} one="order" /></strong> of{' '}
-                {selection.length} can be booked in the courier’s portal.
+                <strong>
+                  <CountText count={portalBookableOrders(data.check).length} one="order" />
+                </strong>{' '}
+                of {selection.length} can be booked in the courier’s portal.
               </>
             )}
           </p>
@@ -296,7 +308,7 @@ export function BulkCourierDialog({
                   </Alert>
                 ) : null}
                 <div className="grid gap-4 sm:grid-cols-2">
-                  <Field id={`${ids}-courier`} label={tx("Courier")} required>
+                  <Field id={`${ids}-courier`} label={tx('Courier')} required>
                     {(control) => (
                       <NativeSelect
                         {...control}
@@ -313,7 +325,7 @@ export function BulkCourierDialog({
                   </Field>
                   <Field
                     id={`${ids}-weight`}
-                    label={tx("Weight per parcel (kg)")}
+                    label={tx('Weight per parcel (kg)')}
                     hint={`Default ${formatWeight(data.check.defaultParcelWeightGrams)}. Leave empty for the courier default.`}
                     error={weightError ?? undefined}
                   >
@@ -332,7 +344,9 @@ export function BulkCourierDialog({
                 </div>
               </div>
             ) : (
-              <p className="text-sm text-muted-foreground"><AutoText>None of the selected orders can be booked now.</AutoText></p>
+              <p className="text-sm text-muted-foreground">
+                <AutoText>None of the selected orders can be booked now.</AutoText>
+              </p>
             )
           ) : (
             <PortalOnly
@@ -344,17 +358,22 @@ export function BulkCourierDialog({
       ) : step.kind === 'confirm' && request ? (
         <div className="grid gap-3">
           <p className="text-sm text-foreground">
-            Courier: <strong><AutoText value={courierName} /></strong>
+            Courier:{' '}
+            <strong>
+              <AutoText value={courierName} />
+            </strong>
             {' · '}
             Weight: {request.weight ? `${request.weight} kg each` : 'courier default'}
           </p>
           <ul
-            aria-label={tx("Orders to book")}
+            aria-label={tx('Orders to book')}
             className="flex max-h-48 flex-wrap gap-1.5 overflow-y-auto"
           >
             {request.items.map((item) => (
               <li key={item.orderNumber} className="font-mono text-xs">
-                <Chip tone="primary"><AutoText value={item.orderNumber} /></Chip>
+                <Chip tone="primary">
+                  <AutoText value={item.orderNumber} />
+                </Chip>
               </li>
             ))}
           </ul>
@@ -384,23 +403,37 @@ function EligibilityTable({
   return (
     <div className="max-h-72 overflow-auto rounded-xl border border-hairline">
       <table className="w-full text-sm">
-        <caption className="sr-only"><AutoText>Which selected orders can be booked</AutoText></caption>
+        <caption className="sr-only">
+          <AutoText>Which selected orders can be booked</AutoText>
+        </caption>
         <thead className="sticky top-0 bg-surface-muted text-left text-xs text-muted-foreground">
           <tr>
-            <th scope="col" className="px-3 py-2 font-medium"><AutoText>Order</AutoText></th>
-            <th scope="col" className="px-3 py-2 font-medium"><AutoText>Booking</AutoText></th>
-            <th scope="col" className="px-3 py-2 text-right font-medium"><AutoText>COD due</AutoText></th>
-            <th scope="col" className="px-3 py-2 font-medium"><AutoText>District</AutoText></th>
+            <th scope="col" className="px-3 py-2 font-medium">
+              <AutoText>Order</AutoText>
+            </th>
+            <th scope="col" className="px-3 py-2 font-medium">
+              <AutoText>Booking</AutoText>
+            </th>
+            <th scope="col" className="px-3 py-2 text-right font-medium">
+              <AutoText>COD due</AutoText>
+            </th>
+            <th scope="col" className="px-3 py-2 font-medium">
+              <AutoText>District</AutoText>
+            </th>
           </tr>
         </thead>
         <tbody className="divide-y divide-hairline">
           {data.check.results.map((row) => (
             <tr key={row.orderNumber}>
-              <td className="px-3 py-2 font-mono text-xs whitespace-nowrap"><AutoText value={row.orderNumber} /></td>
+              <td className="px-3 py-2 font-mono text-xs whitespace-nowrap">
+                <AutoText value={row.orderNumber} />
+              </td>
               <td className="px-3 py-2">
                 {row.bookable ? (
                   <span className="inline-flex items-center gap-1.5 text-success-ink">
-                    <CircleCheck aria-hidden="true" className="size-4" /><AutoText>Can be booked</AutoText></span>
+                    <CircleCheck aria-hidden="true" className="size-4" />
+                    <AutoText>Can be booked</AutoText>
+                  </span>
                 ) : (
                   <span className="inline-flex flex-wrap items-center gap-1.5 text-muted-foreground">
                     <CircleX aria-hidden="true" className="size-4 shrink-0" />
@@ -432,7 +465,7 @@ function EligibilityTable({
 function PortalOnly({ reason, orderNumbers }: { reason: string; orderNumbers: string[] }) {
   const tx = useTx();
   return (
-    <Alert tone="info" title={tx("Book these parcels in the courier’s portal")}>
+    <Alert tone="info" title={tx('Book these parcels in the courier’s portal')}>
       <span className="grid gap-2">
         <span>
           {reason} Book each parcel in the courier’s own merchant portal, then record its
@@ -477,19 +510,21 @@ export function BookingResults({
   return (
     <div className="grid gap-3">
       <p role="status" className="text-sm text-foreground">
-        <strong><CountText count={response.booked} one="parcel" /> booked</strong>
+        <strong>
+          <CountText count={response.booked} one="parcel" /> booked
+        </strong>
         {courier ? ` with ${courier}` : ''}
         {response.failed > 0 ? ` · ${String(response.failed)} not booked` : ''}
         {response.uncertain > 0 ? ` · ${String(response.uncertain)} need a check` : ''}.
       </p>
       {response.uncertain > 0 ? (
-        <Alert tone="warning" title={tx("Check the courier portal")}>
+        <Alert tone="warning" title={tx('Check the courier portal')}>
           The courier did not answer clearly for some orders. Look for them in the courier’s portal,
           then resolve each booking on the order page. Do not book them again first.
         </Alert>
       ) : null}
       <ul
-        aria-label={tx("Booking result for each order")}
+        aria-label={tx('Booking result for each order')}
         className="grid max-h-72 gap-1 overflow-y-auto"
       >
         {response.results.map((row) => {
@@ -516,13 +551,17 @@ export function BookingResults({
                   href={shipmentHref(row.shipmentId)}
                   aria-label={`Open shipment for ${row.orderNumber}`}
                   className="text-xs font-medium text-link underline-offset-4 hover:underline"
-                ><AutoText>Open shipment</AutoText></Link>
+                >
+                  <AutoText>Open shipment</AutoText>
+                </Link>
               ) : kind === 'uncertain' ? (
                 <Link
                   href={orderPageHref(row.orderNumber)}
                   aria-label={`Resolve on the order page for ${row.orderNumber}`}
                   className="text-xs font-medium text-link underline-offset-4 hover:underline"
-                ><AutoText>Resolve on the order page</AutoText></Link>
+                >
+                  <AutoText>Resolve on the order page</AutoText>
+                </Link>
               ) : null}
             </li>
           );

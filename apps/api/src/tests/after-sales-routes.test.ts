@@ -23,7 +23,13 @@ const ORDERS: Record<string, FakeOrder> = {
     status: 'delivered',
     totalMinor: 125_000,
     items: [
-      { orderItemId: 1, productName: 'Cotton shirt', sku: 'SHIRT-RED', quantity: 2, lineTotalMinor: 125_000 },
+      {
+        orderItemId: 1,
+        productName: 'Cotton shirt',
+        sku: 'SHIRT-RED',
+        quantity: 2,
+        lineTotalMinor: 125_000,
+      },
     ],
   },
   NZ100002: {
@@ -31,14 +37,24 @@ const ORDERS: Record<string, FakeOrder> = {
     customerName: 'Rahima Khatun',
     status: 'pending',
     totalMinor: 60_000,
-    items: [{ orderItemId: 2, productName: 'Ceramic mug', sku: 'MUG-1', quantity: 1, lineTotalMinor: 60_000 }],
+    items: [
+      {
+        orderItemId: 2,
+        productName: 'Ceramic mug',
+        sku: 'MUG-1',
+        quantity: 1,
+        lineTotalMinor: 60_000,
+      },
+    ],
   },
   NZ100003: {
     userId: 'other',
     customerName: 'Karim Ahmed',
     status: 'delivered',
     totalMinor: 40_000,
-    items: [{ orderItemId: 3, productName: 'Gel pen', sku: 'PEN-1', quantity: 5, lineTotalMinor: 40_000 }],
+    items: [
+      { orderItemId: 3, productName: 'Gel pen', sku: 'PEN-1', quantity: 5, lineTotalMinor: 40_000 },
+    ],
   },
 };
 
@@ -58,7 +74,11 @@ function afterSalesSetup() {
   const orders = Object.fromEntries(
     Object.entries(ORDERS).map(([number, order]) => {
       const userId =
-        order.userId === 'customer' ? customer.id : order.userId === 'other' ? other.id : order.userId;
+        order.userId === 'customer'
+          ? customer.id
+          : order.userId === 'other'
+            ? other.id
+            : order.userId;
       return [number, { ...order, userId }];
     }),
   );
@@ -102,7 +122,9 @@ describe('customer returns', () => {
     expect((await setup.call('get', '/returns')).status).toBe(401);
     expect((await setup.call('post', '/returns', undefined, returnBody)).status).toBe(401);
     expect((await setup.call('get', `/returns/${randomUUID()}`)).status).toBe(401);
-    expect((await setup.call('post', `/returns/${randomUUID()}/cancel`, undefined, {})).status).toBe(401);
+    expect(
+      (await setup.call('post', `/returns/${randomUUID()}/cancel`, undefined, {})).status,
+    ).toBe(401);
     expect((await setup.call('get', '/orders/NZ100001/refunds')).status).toBe(401);
   });
 

@@ -96,7 +96,9 @@ function PanelActions({
         {pending ? 'Saving…' : ''}
       </p>
       {onKeep ? (
-        <Button variant="ghost" size="sm" onClick={onKeep} disabled={pending}><AutoText>Keep it</AutoText></Button>
+        <Button variant="ghost" size="sm" onClick={onKeep} disabled={pending}>
+          <AutoText>Keep it</AutoText>
+        </Button>
       ) : null}
       <Button type="submit" size="sm" variant={tone} loading={pending}>
         {label}

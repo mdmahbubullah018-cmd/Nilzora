@@ -29,10 +29,12 @@ export function AcceptInviteForm({ tokenHash }: { tokenHash: string }) {
   if (state.status === 'success') {
     return (
       <div className="grid gap-4">
-        <Alert tone="success" title={tx("You are all set")}>
+        <Alert tone="success" title={tx('You are all set')}>
           {state.message}
         </Alert>
-        <Link href="/login" className={buttonClasses({ size: 'lg', className: 'w-full' })}><AutoText>Sign in</AutoText></Link>
+        <Link href="/login" className={buttonClasses({ size: 'lg', className: 'w-full' })}>
+          <AutoText>Sign in</AutoText>
+        </Link>
       </div>
     );
   }
@@ -41,11 +43,13 @@ export function AcceptInviteForm({ tokenHash }: { tokenHash: string }) {
     <form action={action} className="grid gap-5">
       <input type="hidden" name="tokenHash" value={tokenHash} />
       {state.status === 'error' && state.message ? (
-        <Alert tone="danger"><AutoText value={state.message} /></Alert>
+        <Alert tone="danger">
+          <AutoText value={state.message} />
+        </Alert>
       ) : null}
       <Field
         id="password"
-        label={tx("New password")}
+        label={tx('New password')}
         error={errors.password}
         hint={
           <span className="grid gap-0.5">
@@ -66,7 +70,12 @@ export function AcceptInviteForm({ tokenHash }: { tokenHash: string }) {
           />
         )}
       </Field>
-      <Field id="confirmPassword" label={tx("Confirm password")} error={errors.confirmPassword} required>
+      <Field
+        id="confirmPassword"
+        label={tx('Confirm password')}
+        error={errors.confirmPassword}
+        required
+      >
         {(control) => (
           <Input
             {...control}
@@ -77,7 +86,9 @@ export function AcceptInviteForm({ tokenHash }: { tokenHash: string }) {
           />
         )}
       </Field>
-      <Button type="submit" size="lg" loading={pending} className="w-full"><AutoText>Set password and join</AutoText></Button>
+      <Button type="submit" size="lg" loading={pending} className="w-full">
+        <AutoText>Set password and join</AutoText>
+      </Button>
     </form>
   );
 }

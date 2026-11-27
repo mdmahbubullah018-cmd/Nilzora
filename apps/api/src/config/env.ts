@@ -104,12 +104,7 @@ const envSchema = z.object({
    * customer by accident; it also needs DATABASE_URL and SMTP to do anything.
    */
   ORDER_EMAIL_WORKER: z.enum(['true', 'false']).default('false'),
-  ORDER_EMAIL_WORKER_INTERVAL_MS: z.coerce
-    .number()
-    .int()
-    .min(1_000)
-    .max(3_600_000)
-    .default(15_000),
+  ORDER_EMAIL_WORKER_INTERVAL_MS: z.coerce.number().int().min(1_000).max(3_600_000).default(15_000),
   /**
    * Visual search. The embedding model runs locally by default (CLIP through ONNX Runtime),
    * so no key is needed and a customer photograph never leaves the server. Setting
@@ -461,10 +456,7 @@ function checkSecrets(
  * index is built for one fixed width, so a provider that returned a different number of
  * values could neither be compared with nor inserted beside the vectors already stored.
  */
-function checkImageSearch(
-  values: z.infer<typeof envSchema> | undefined,
-  problems: string[],
-): void {
+function checkImageSearch(values: z.infer<typeof envSchema> | undefined, problems: string[]): void {
   if (values === undefined) return;
   if (values.IMAGE_EMBEDDING_DIMENSIONS !== 512) {
     problems.push(

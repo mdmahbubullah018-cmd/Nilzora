@@ -31,10 +31,7 @@ export const ProductColors = memo(function ProductColors({
   return (
     <View style={styles.row}>
       {shown.map((color) => (
-        <View
-          key={color.valueSlug}
-          style={[styles.dot, { backgroundColor: color.swatchHex }]}
-        />
+        <View key={color.valueSlug} style={[styles.dot, { backgroundColor: color.swatchHex }]} />
       ))}
       {rest > 0 ? <Text style={styles.more}>+{rest}</Text> : null}
     </View>

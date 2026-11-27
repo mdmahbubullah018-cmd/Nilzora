@@ -570,24 +570,25 @@ describe('Order screen: reviewing a delivered order', () => {
 
   it('offers a review only where the server allows one, and shows a saved review instead', async () => {
     const api = apiWith(DELIVERED);
-    api.myProductReview.mockImplementation((_token, productId) =>
-      Promise.resolve(
-        productId === KURTA_ID
-          ? { eligible: true, review: null }
-          : {
-              eligible: true,
-              review: {
-                id: 'a9c1d0e2-0000-4000-8000-000000000001',
-                rating: 5,
-                title: null,
-                body: 'Lovely mug, well packed.',
-                status: 'pending',
-                createdAt: '2026-01-08T10:00:00.000Z',
-                updatedAt: '2026-01-08T10:00:00.000Z',
-                images: [],
+    api.myProductReview.mockImplementation(
+      (_token, productId) =>
+        Promise.resolve(
+          productId === KURTA_ID
+            ? { eligible: true, review: null }
+            : {
+                eligible: true,
+                review: {
+                  id: 'a9c1d0e2-0000-4000-8000-000000000001',
+                  rating: 5,
+                  title: null,
+                  body: 'Lovely mug, well packed.',
+                  status: 'pending',
+                  createdAt: '2026-01-08T10:00:00.000Z',
+                  updatedAt: '2026-01-08T10:00:00.000Z',
+                  images: [],
+                },
               },
-            },
-      ) as never,
+        ) as never,
     );
     await renderOrder(api);
 
@@ -595,7 +596,11 @@ describe('Order screen: reviewing a delivered order', () => {
     const write = await screen.findAllByRole('button', { name: 'Write a review' });
     expect(write).toHaveLength(1);
     expect(await screen.findByText('Reviewed · being checked')).toBeOnTheScreen();
-    expect(api.myProductReview).toHaveBeenCalledWith(FAKE_ACCESS_TOKEN, KURTA_ID, expect.anything());
+    expect(api.myProductReview).toHaveBeenCalledWith(
+      FAKE_ACCESS_TOKEN,
+      KURTA_ID,
+      expect.anything(),
+    );
   });
 
   it('offers nothing on an order that is not delivered', async () => {

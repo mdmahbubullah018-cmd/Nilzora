@@ -99,7 +99,9 @@ afterAll(async () => {
   ]);
   await pool.query('delete from public.carts where user_id = any($1::uuid[])', [created.users]);
   await pool.query('delete from public.products where id = any($1::uuid[])', [created.products]);
-  await pool.query('delete from public.categories where id = any($1::uuid[])', [created.categories]);
+  await pool.query('delete from public.categories where id = any($1::uuid[])', [
+    created.categories,
+  ]);
   await pool.query('delete from public.profiles where id = any($1::uuid[])', [created.users]);
   await pool.end();
 });
@@ -139,14 +141,30 @@ describe('abandoned checkout metrics and queue', () => {
     const known = await carts.listCheckouts(
       NO_TOKEN,
       staff,
-      { status: 'all', q: `Recovery owner`, from: '', to: '', sort: 'recent', page: 1, pageSize: 25 },
+      {
+        status: 'all',
+        q: `Recovery owner`,
+        from: '',
+        to: '',
+        sort: 'recent',
+        page: 1,
+        pageSize: 25,
+      },
       { limit: 25, offset: 0 },
     );
     expect(known.checkouts.some((entry) => entry.id === checkoutId)).toBe(true);
     const unknown = await carts.listCheckouts(
       NO_TOKEN,
       staff,
-      { status: 'all', q: 'no-such-customer-xyz', from: '', to: '', sort: 'recent', page: 1, pageSize: 25 },
+      {
+        status: 'all',
+        q: 'no-such-customer-xyz',
+        from: '',
+        to: '',
+        sort: 'recent',
+        page: 1,
+        pageSize: 25,
+      },
       { limit: 25, offset: 0 },
     );
     expect(unknown.checkouts.some((entry) => entry.id === checkoutId)).toBe(false);
@@ -190,7 +208,8 @@ describe('contact attempts and recovery state', () => {
 
   it('moves between open, contacted and dismissed', async () => {
     expect(
-      (await carts.setCheckoutRecoveryState(NO_TOKEN, staff, checkoutId, 'dismissed')).recoveryState,
+      (await carts.setCheckoutRecoveryState(NO_TOKEN, staff, checkoutId, 'dismissed'))
+        .recoveryState,
     ).toBe('dismissed');
     expect(
       (await carts.setCheckoutRecoveryState(NO_TOKEN, staff, checkoutId, 'open')).recoveryState,
@@ -207,9 +226,13 @@ describe('recovery links', () => {
     expect(preview.itemCount).toBe(2);
     expect(preview.cartValueMinor).toBe(50_000);
     // No personal data crosses this boundary.
-    expect(Object.keys(preview).sort()).toEqual(
-      ['cartValueMinor', 'expiresAt', 'itemCount', 'reason', 'valid'],
-    );
+    expect(Object.keys(preview).sort()).toEqual([
+      'cartValueMinor',
+      'expiresAt',
+      'itemCount',
+      'reason',
+      'valid',
+    ]);
   });
 
   it('stops an older link working when a new one is minted', async () => {

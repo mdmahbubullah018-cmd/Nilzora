@@ -37,7 +37,12 @@ describe('slug and menu names', () => {
 });
 
 describe('checkSitePage', () => {
-  const page = { title: ' About us ', body: 'Line one\r\n\r\nLine two  ', seoTitle: '', seoDescription: ' ' };
+  const page = {
+    title: ' About us ',
+    body: 'Line one\r\n\r\nLine two  ',
+    seoTitle: '',
+    seoDescription: ' ',
+  };
 
   it('trims the title, keeps the text as written apart from line endings, and nulls empty metadata', () => {
     const checked = checkSitePage(page, true);
@@ -58,7 +63,9 @@ describe('checkSitePage', () => {
     const published = checkSitePage({ ...page, body: '   ' }, true);
     expect(published.ok).toBe(false);
     if (!published.ok) {
-      expect(published.errors.body).toBe('A published page needs text. Write it, or save it as a draft.');
+      expect(published.errors.body).toBe(
+        'A published page needs text. Write it, or save it as a draft.',
+      );
     }
   });
 
@@ -67,7 +74,12 @@ describe('checkSitePage', () => {
     expect(!empty.ok && empty.errors.title).toBe('Enter a title of up to 120 characters.');
 
     const long = checkSitePage(
-      { title: 'x'.repeat(121), body: 'y'.repeat(20_001), seoTitle: 's'.repeat(71), seoDescription: 'd'.repeat(201) },
+      {
+        title: 'x'.repeat(121),
+        body: 'y'.repeat(20_001),
+        seoTitle: 's'.repeat(71),
+        seoDescription: 'd'.repeat(201),
+      },
       false,
     );
     expect(long.ok).toBe(false);
@@ -91,9 +103,10 @@ describe('checkMenuItem', () => {
       ok: true,
       value: { menu: 'header', label: 'Sale', href: '/products', isActive: true },
     });
-    expect(checkMenuItem({ menu: 'footer_help', label: 'Blog', href: 'https://blog.example/x' }, false).ok).toBe(
-      true,
-    );
+    expect(
+      checkMenuItem({ menu: 'footer_help', label: 'Blog', href: 'https://blog.example/x' }, false)
+        .ok,
+    ).toBe(true);
   });
 
   it.each(['http://plain.example', '//evil.example', 'javascript:alert(1)', 'products', ''])(
@@ -102,7 +115,9 @@ describe('checkMenuItem', () => {
       const checked = checkMenuItem({ menu: 'header', label: 'Sale', href }, true);
       expect(checked.ok).toBe(false);
       if (!checked.ok) {
-        expect(checked.errors.href).toBe('Use a store path such as /products, or an https address.');
+        expect(checked.errors.href).toBe(
+          'Use a store path such as /products, or an https address.',
+        );
       }
     },
   );
@@ -152,8 +167,14 @@ describe('homepage rows', () => {
     const checked = checkHomepage(rows());
     expect(checked.ok).toBe(true);
     if (checked.ok) {
-      expect(checked.value.sections.map((section) => section.key)).toEqual([...HOMEPAGE_SECTION_KEYS]);
-      expect(checked.value.sections[0]).toMatchObject({ isEnabled: true, title: null, itemLimit: null });
+      expect(checked.value.sections.map((section) => section.key)).toEqual([
+        ...HOMEPAGE_SECTION_KEYS,
+      ]);
+      expect(checked.value.sections[0]).toMatchObject({
+        isEnabled: true,
+        title: null,
+        itemLimit: null,
+      });
     }
   });
 
@@ -171,7 +192,9 @@ describe('homepage rows', () => {
       const checked = checkHomepage(withRow('featured', { itemLimit: bad }));
       expect(checked.ok).toBe(false);
       if (!checked.ok) {
-        expect(checked.errors.itemLimit_featured).toBe('Use a whole number from 1 to 24, or leave it empty.');
+        expect(checked.errors.itemLimit_featured).toBe(
+          'Use a whole number from 1 to 24, or leave it empty.',
+        );
         expect(Object.keys(checked.errors)).toEqual(['itemLimit_featured']);
       }
     }
@@ -196,7 +219,9 @@ describe('homepage rows', () => {
     ]);
     expect(checked.ok).toBe(true);
     if (checked.ok) {
-      const byKey = Object.fromEntries(checked.value.sections.map((section) => [section.key, section]));
+      const byKey = Object.fromEntries(
+        checked.value.sections.map((section) => [section.key, section]),
+      );
       expect(byKey.featured?.config).toEqual({ categorySlug: 'eid', brandSlug: 'acme' });
       expect(byKey.brands?.config).toEqual({});
     }
@@ -205,11 +230,32 @@ describe('homepage rows', () => {
   it('turns saved sections into rows in the saved order and back into text', () => {
     const saved = [
       { key: 'brands', isEnabled: false, title: null, itemLimit: null, config: {}, sortOrder: 2 },
-      { key: 'featured', isEnabled: true, title: 'Picks', itemLimit: 8, config: { categorySlug: 'eid' }, sortOrder: 1 },
+      {
+        key: 'featured',
+        isEnabled: true,
+        title: 'Picks',
+        itemLimit: 8,
+        config: { categorySlug: 'eid' },
+        sortOrder: 1,
+      },
     ] as const;
     expect(homepageRows(saved)).toEqual([
-      { key: 'featured', isEnabled: true, title: 'Picks', itemLimit: '8', categorySlug: 'eid', brandSlug: '' },
-      { key: 'brands', isEnabled: false, title: '', itemLimit: '', categorySlug: '', brandSlug: '' },
+      {
+        key: 'featured',
+        isEnabled: true,
+        title: 'Picks',
+        itemLimit: '8',
+        categorySlug: 'eid',
+        brandSlug: '',
+      },
+      {
+        key: 'brands',
+        isEnabled: false,
+        title: '',
+        itemLimit: '',
+        categorySlug: '',
+        brandSlug: '',
+      },
     ]);
   });
 });
@@ -230,7 +276,12 @@ describe('rowsFromForm', () => {
 
   it('orders rows by the position typed beside each, keeping the default order for ties and nonsense', () => {
     const rows = rowsFromForm(
-      form({ position_services: '1', position_hero: '2', position_brands: 'abc', position_featured: '-4' }),
+      form({
+        position_services: '1',
+        position_hero: '2',
+        position_brands: 'abc',
+        position_featured: '-4',
+      }),
     );
     expect(rows[0]?.key).toBe('services');
     expect(rows[1]?.key).toBe('hero');

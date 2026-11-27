@@ -39,20 +39,28 @@ export function DetailList({ items, columns = 2, className }: DetailListProps) {
           key={item.key ?? (typeof item.label === 'string' ? item.label : String(index))}
           className={cn('grid min-w-0 content-start gap-1', item.wide && 'sm:col-span-full')}
         >
-          <dt className="text-xs font-medium text-muted-foreground"><AutoText value={item.label} /></dt>
+          <dt className="text-xs font-medium text-muted-foreground">
+            <AutoText value={item.label} />
+          </dt>
           <dd className="text-sm break-words text-foreground">
             {isEmpty(item.value) ? (
               <>
                 <span aria-hidden="true" className="text-muted-foreground">
                   —
                 </span>
-                <span className="sr-only"><AutoText>Not set</AutoText></span>
+                <span className="sr-only">
+                  <AutoText>Not set</AutoText>
+                </span>
               </>
             ) : (
               item.value
             )}
           </dd>
-          {item.hint ? <dd className="text-xs text-muted-foreground"><AutoText value={item.hint} /></dd> : null}
+          {item.hint ? (
+            <dd className="text-xs text-muted-foreground">
+              <AutoText value={item.hint} />
+            </dd>
+          ) : null}
         </div>
       ))}
     </dl>

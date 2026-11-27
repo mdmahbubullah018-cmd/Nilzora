@@ -3,7 +3,10 @@ import { type FormState, formStateStatus, INITIAL_FORM_STATE } from '@nilzora/we
 import { NextResponse } from 'next/server';
 import { uploadAvatarAction } from '@/lib/avatar-actions';
 import { saveCategoryAction } from '@/lib/catalog-actions';
-import { uploadCategoryBannerAction, uploadCategoryImageAction } from '@/lib/category-image-actions';
+import {
+  uploadCategoryBannerAction,
+  uploadCategoryImageAction,
+} from '@/lib/category-image-actions';
 import { uploadProductImageAction } from '@/lib/image-actions';
 import { uploadMediaAction } from '@/lib/media-actions';
 import { uploadProductVideoAction } from '@/lib/video-actions';

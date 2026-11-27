@@ -130,7 +130,9 @@ export function KindNav({
                 )}
               >
                 <Icon aria-hidden="true" className="size-[1.15rem] shrink-0" strokeWidth={1.75} />
-                <span className="truncate"><AutoText value={REPORT_DEFINITIONS[kind].title} /></span>
+                <span className="truncate">
+                  <AutoText value={REPORT_DEFINITIONS[kind].title} />
+                </span>
               </Link>
             </li>
           );
@@ -219,12 +221,16 @@ export function ReportFilters({
           <button
             type="submit"
             className="inline-flex h-10 items-center rounded-xl bg-primary-action px-4 text-sm font-semibold text-primary-action-foreground"
-          ><AutoText>Apply filters</AutoText></button>
+          >
+            <AutoText>Apply filters</AutoText>
+          </button>
           {hasFilters ? (
             <Link
               href={withQuery(REPORTS_PATH, hidden)}
               className="inline-flex h-10 items-center text-sm font-medium text-link underline-offset-4 hover:underline"
-            ><AutoText>Clear filters</AutoText></Link>
+            >
+              <AutoText>Clear filters</AutoText>
+            </Link>
           ) : null}
         </Form>
       ) : null}
@@ -377,7 +383,9 @@ export function DownloadSection({
     >
       <div className="grid gap-4">
         {query.tooLarge && direct ? (
-          <p className="text-sm text-warning-ink"><AutoText>That download was too large; queue a background export instead.</AutoText></p>
+          <p className="text-sm text-warning-ink">
+            <AutoText>That download was too large; queue a background export instead.</AutoText>
+          </p>
         ) : null}
         {direct ? (
           <div className="flex flex-wrap gap-2">
@@ -454,7 +462,11 @@ export function ExportJobsSection({ jobs, now }: { jobs: readonly ExportJob[]; n
       flush
     >
       {jobs.length === 0 ? (
-        <p className="px-5 pb-5 text-sm text-muted-foreground sm:px-6"><AutoText>No background exports yet. Reports too large to download at once are prepared here.</AutoText></p>
+        <p className="px-5 pb-5 text-sm text-muted-foreground sm:px-6">
+          <AutoText>
+            No background exports yet. Reports too large to download at once are prepared here.
+          </AutoText>
+        </p>
       ) : (
         <ul className="divide-y divide-border">
           {jobs.map((job) => {
@@ -496,7 +508,9 @@ export function ExportJobsSection({ jobs, now }: { jobs: readonly ExportJob[]; n
                     </div>
                   ) : null}
                   {job.status === 'failed' && job.error ? (
-                    <p className="text-xs text-danger-ink"><AutoText value={job.error} /></p>
+                    <p className="text-xs text-danger-ink">
+                      <AutoText value={job.error} />
+                    </p>
                   ) : null}
                 </div>
                 {job.status === 'done' ? (
@@ -505,7 +519,9 @@ export function ExportJobsSection({ jobs, now }: { jobs: readonly ExportJob[]; n
                     download
                     className="inline-flex h-9 items-center gap-2 rounded-xl border border-border-strong bg-surface px-3 text-sm font-semibold text-foreground hover:bg-surface-muted"
                   >
-                    <Download aria-hidden="true" className="size-4" /><AutoText>Download</AutoText></a>
+                    <Download aria-hidden="true" className="size-4" />
+                    <AutoText>Download</AutoText>
+                  </a>
                 ) : null}
               </li>
             );

@@ -60,7 +60,10 @@ const ACTION_LABEL: Record<ChatReportAction, string> = {
   escalated: 'Escalate to an administrator',
 };
 
-const REPORT_STATUS: Record<ChatReportStatus, { label: string; tone: 'warning' | 'primary' | 'success' | 'neutral' }> = {
+const REPORT_STATUS: Record<
+  ChatReportStatus,
+  { label: string; tone: 'warning' | 'primary' | 'success' | 'neutral' }
+> = {
   open: { label: 'Waiting', tone: 'warning' },
   reviewing: { label: 'In review', tone: 'primary' },
   actioned: { label: 'Actioned', tone: 'success' },
@@ -95,7 +98,9 @@ function PanelMessage({
       )}
     >
       {tone === 'muted' ? null : <CircleAlert aria-hidden className="size-5" />}
-      <div className="max-w-md"><AutoText value={children} /></div>
+      <div className="max-w-md">
+        <AutoText value={children} />
+      </div>
       {action}
     </div>
   );
@@ -108,7 +113,9 @@ function RetryButton({ onClick }: { onClick: () => void }) {
       onClick={onClick}
       className="inline-flex h-8 items-center gap-1.5 rounded-lg border border-border px-3 text-xs font-medium text-foreground hover:bg-surface-muted"
     >
-      <RefreshCw aria-hidden className="size-3.5" /><AutoText>Try again</AutoText></button>
+      <RefreshCw aria-hidden className="size-3.5" />
+      <AutoText>Try again</AutoText>
+    </button>
   );
 }
 
@@ -157,8 +164,17 @@ export function ReportsPanel({
   }, [canReview, filter, load]);
 
   const decide = useCallback(
-    async (report: ChatReportQueueItem, status: 'reviewing' | 'dismissed' | 'actioned', action?: ChatReportAction) => {
-      if (action === 'message_deleted' && !window.confirm('Delete this message for everyone? The customer will see that it was removed.')) {
+    async (
+      report: ChatReportQueueItem,
+      status: 'reviewing' | 'dismissed' | 'actioned',
+      action?: ChatReportAction,
+    ) => {
+      if (
+        action === 'message_deleted' &&
+        !window.confirm(
+          'Delete this message for everyone? The customer will see that it was removed.',
+        )
+      ) {
         return;
       }
       setBusy(report.id);
@@ -171,7 +187,10 @@ export function ReportsPanel({
       setBusy(null);
       setNotice(
         result.ok
-          ? { tone: 'success', text: status === 'reviewing' ? 'Marked as in review.' : 'Decision saved.' }
+          ? {
+              tone: 'success',
+              text: status === 'reviewing' ? 'Marked as in review.' : 'Decision saved.',
+            }
           : { tone: 'danger', text: result.message },
       );
       if (result.ok) await load(filter);
@@ -191,7 +210,11 @@ export function ReportsPanel({
   return (
     <div className="grid gap-4">
       <div className="flex flex-wrap items-center gap-2">
-        <div role="group" aria-label={tx("Report status")} className="flex flex-wrap gap-1 rounded-xl bg-surface-muted p-1">
+        <div
+          role="group"
+          aria-label={tx('Report status')}
+          className="flex flex-wrap gap-1 rounded-xl bg-surface-muted p-1"
+        >
           {FILTERS.map((option) => (
             <button
               key={option.key}
@@ -221,7 +244,10 @@ export function ReportsPanel({
         {notice === null ? null : (
           <p
             role="status"
-            className={cn('ml-auto text-xs font-medium', notice.tone === 'success' ? 'text-success-ink' : 'text-danger-ink')}
+            className={cn(
+              'ml-auto text-xs font-medium',
+              notice.tone === 'success' ? 'text-success-ink' : 'text-danger-ink',
+            )}
           >
             {notice.text}
           </p>
@@ -229,13 +255,15 @@ export function ReportsPanel({
       </div>
 
       {state === 'loading' ? (
-        <div className="grid gap-3" aria-label={tx("Loading reports")}>
+        <div className="grid gap-3" aria-label={tx('Loading reports')}>
           {[0, 1].map((row) => (
             <div key={row} className="nz-panel nz-shimmer h-36 rounded-2xl border" />
           ))}
         </div>
       ) : state === 'denied' ? (
-        <PanelMessage tone="warning"><AutoText>The review queue is not available to this account.</AutoText></PanelMessage>
+        <PanelMessage tone="warning">
+          <AutoText>The review queue is not available to this account.</AutoText>
+        </PanelMessage>
       ) : state === 'error' ? (
         <PanelMessage tone="danger" action={<RetryButton onClick={() => void load(filter)} />}>
           {error ?? 'The reports could not be loaded.'}
@@ -248,7 +276,11 @@ export function ReportsPanel({
           <p className="text-sm font-semibold text-foreground">
             {filter === 'open' ? 'Nothing is waiting for review' : 'No reports here'}
           </p>
-          <p className="max-w-sm text-xs text-muted-foreground"><AutoText>Messages that customers or the team report appear here for a decision.</AutoText></p>
+          <p className="max-w-sm text-xs text-muted-foreground">
+            <AutoText>
+              Messages that customers or the team report appear here for a decision.
+            </AutoText>
+          </p>
         </div>
       ) : (
         <ul className="grid gap-3">
@@ -280,7 +312,14 @@ export function ReportsPanel({
                     {report.messageSenderName ?? 'Removed account'} ·{' '}
                     {new Date(report.messageCreatedAt).toLocaleString('en-GB')}
                   </p>
-                  <p className={cn('mt-1 text-sm whitespace-pre-wrap', report.messageBody === null ? 'text-muted-foreground italic' : 'text-foreground')}>
+                  <p
+                    className={cn(
+                      'mt-1 text-sm whitespace-pre-wrap',
+                      report.messageBody === null
+                        ? 'text-muted-foreground italic'
+                        : 'text-foreground',
+                    )}
+                  >
                     {report.messageBody ?? 'This message has been deleted.'}
                   </p>
                 </blockquote>
@@ -288,7 +327,9 @@ export function ReportsPanel({
                   {report.details === null ? null : <p>“{report.details}”</p>}
                   <p>
                     Reported by {report.reporterName ?? 'a removed account'}
-                    {report.actionTaken === null ? '' : ` · Outcome: ${ACTION_LABEL[report.actionTaken]}`}
+                    {report.actionTaken === null
+                      ? ''
+                      : ` · Outcome: ${ACTION_LABEL[report.actionTaken]}`}
                   </p>
                 </div>
                 <div className="flex flex-wrap items-center gap-2 border-t border-border pt-3">
@@ -298,7 +339,9 @@ export function ReportsPanel({
                       onClick={() => onOpenConversation(report.conversationId)}
                       className="inline-flex h-8 items-center gap-1.5 rounded-lg border border-border px-2.5 text-xs font-medium text-foreground hover:bg-surface-muted"
                     >
-                      <MessagesSquare aria-hidden className="size-3.5" /><AutoText>Open conversation</AutoText></button>
+                      <MessagesSquare aria-hidden className="size-3.5" />
+                      <AutoText>Open conversation</AutoText>
+                    </button>
                   ) : null}
                   {decided ? null : (
                     <>
@@ -308,14 +351,18 @@ export function ReportsPanel({
                           disabled={busy === report.id}
                           onClick={() => void decide(report, 'reviewing')}
                           className="inline-flex h-8 items-center rounded-lg border border-border px-2.5 text-xs font-medium text-foreground hover:bg-surface-muted disabled:opacity-50"
-                        ><AutoText>Start review</AutoText></button>
+                        >
+                          <AutoText>Start review</AutoText>
+                        </button>
                       ) : null}
                       <button
                         type="button"
                         disabled={busy === report.id}
                         onClick={() => void decide(report, 'dismissed')}
                         className="inline-flex h-8 items-center rounded-lg border border-border px-2.5 text-xs font-medium text-foreground hover:bg-surface-muted disabled:opacity-50"
-                      ><AutoText>Dismiss</AutoText></button>
+                      >
+                        <AutoText>Dismiss</AutoText>
+                      </button>
                       <span aria-hidden className="mx-1 hidden h-5 w-px bg-border sm:block" />
                       {(Object.keys(ACTION_LABEL) as ChatReportAction[]).map((action) => (
                         <button
@@ -334,7 +381,10 @@ export function ReportsPanel({
                         </button>
                       ))}
                       {busy === report.id ? (
-                        <LoaderCircle aria-label={tx("Saving")} className="size-4 motion-safe:animate-spin text-muted-foreground" />
+                        <LoaderCircle
+                          aria-label={tx('Saving')}
+                          className="size-4 motion-safe:animate-spin text-muted-foreground"
+                        />
                       ) : null}
                     </>
                   )}
@@ -396,7 +446,10 @@ export function TeamPanel({ currentUserId }: { currentUserId: string }) {
 
   if (state === 'loading') {
     return (
-      <div className="grid gap-4 lg:grid-cols-[minmax(0,20rem)_minmax(0,1fr)]" aria-label={tx("Loading the team")}>
+      <div
+        className="grid gap-4 lg:grid-cols-[minmax(0,20rem)_minmax(0,1fr)]"
+        aria-label={tx('Loading the team')}
+      >
         <div className="nz-panel nz-shimmer h-72 rounded-2xl border" />
         <div className="nz-panel nz-shimmer h-72 rounded-2xl border" />
       </div>
@@ -412,7 +465,10 @@ export function TeamPanel({ currentUserId }: { currentUserId: string }) {
   }
   if (state === 'error') {
     return (
-      <PanelMessage tone="danger" action={<RetryButton onClick={() => setReload((value) => value + 1)} />}>
+      <PanelMessage
+        tone="danger"
+        action={<RetryButton onClick={() => setReload((value) => value + 1)} />}
+      >
         {error ?? 'The team could not be loaded.'}
       </PanelMessage>
     );
@@ -423,12 +479,17 @@ export function TeamPanel({ currentUserId }: { currentUserId: string }) {
   return (
     <div className="grid gap-4 lg:grid-cols-[minmax(0,20rem)_minmax(0,1fr)]">
       <section
-        aria-label={tx("Team conversations")}
-        className={cn('nz-panel-strong flex min-h-0 flex-col overflow-hidden rounded-2xl border', (activeId !== null || composing) && 'hidden lg:flex')}
+        aria-label={tx('Team conversations')}
+        className={cn(
+          'nz-panel-strong flex min-h-0 flex-col overflow-hidden rounded-2xl border',
+          (activeId !== null || composing) && 'hidden lg:flex',
+        )}
       >
         <div className="flex items-center justify-between gap-2 border-b border-border px-4 py-3">
           <div>
-            <h3 className="font-display text-sm font-semibold text-foreground"><AutoText>Team threads</AutoText></h3>
+            <h3 className="font-display text-sm font-semibold text-foreground">
+              <AutoText>Team threads</AutoText>
+            </h3>
             <p className="text-[11px] text-muted-foreground">
               Staff only{unread > 0 ? ` · ${String(unread)} unread` : ''}
             </p>
@@ -438,10 +499,16 @@ export function TeamPanel({ currentUserId }: { currentUserId: string }) {
             onClick={() => startWith([])}
             className="inline-flex h-8 items-center gap-1.5 rounded-lg bg-primary-action px-2.5 text-xs font-semibold text-primary-action-foreground hover:bg-primary-action-hover"
           >
-            <MessageSquarePlus aria-hidden className="size-3.5" /><AutoText>New</AutoText></button>
+            <MessageSquarePlus aria-hidden className="size-3.5" />
+            <AutoText>New</AutoText>
+          </button>
         </div>
         {channels.length === 0 ? (
-          <p className="px-4 py-8 text-center text-xs text-muted-foreground"><AutoText>You are not in a team thread yet. Start one with a teammate from the directory.</AutoText></p>
+          <p className="px-4 py-8 text-center text-xs text-muted-foreground">
+            <AutoText>
+              You are not in a team thread yet. Start one with a teammate from the directory.
+            </AutoText>
+          </p>
         ) : (
           <ul className="nz-scroll max-h-120 overflow-y-auto">
             {channels.map((channel) => (
@@ -459,7 +526,12 @@ export function TeamPanel({ currentUserId }: { currentUserId: string }) {
                   )}
                 >
                   <span className="flex items-baseline gap-2">
-                    <span className={cn('min-w-0 flex-1 truncate text-sm text-foreground', channel.unreadCount > 0 ? 'font-semibold' : 'font-medium')}>
+                    <span
+                      className={cn(
+                        'min-w-0 flex-1 truncate text-sm text-foreground',
+                        channel.unreadCount > 0 ? 'font-semibold' : 'font-medium',
+                      )}
+                    >
                       {channel.subject}
                     </span>
                     <span className="shrink-0 text-[11px] text-muted-foreground">
@@ -477,8 +549,10 @@ export function TeamPanel({ currentUserId }: { currentUserId: string }) {
                     ) : null}
                   </span>
                   <span className="text-[10px] text-muted-foreground">
-                    {channel.kind === 'internal_direct' ? 'Direct' : (channel.department ?? 'Group')} ·{' '}
-                    {channel.employeeCount} member{channel.employeeCount === 1 ? '' : 's'}
+                    {channel.kind === 'internal_direct'
+                      ? 'Direct'
+                      : (channel.department ?? 'Group')}{' '}
+                    · {channel.employeeCount} member{channel.employeeCount === 1 ? '' : 's'}
                   </span>
                 </button>
               </li>
@@ -490,7 +564,9 @@ export function TeamPanel({ currentUserId }: { currentUserId: string }) {
       <div className={cn('min-w-0', activeId === null && !composing && 'hidden lg:block')}>
         {composing ? (
           <NewTeamThread
-            members={members.filter((member) => member.canUseInternal && member.userId !== currentUserId)}
+            members={members.filter(
+              (member) => member.canUseInternal && member.userId !== currentUserId,
+            )}
             preset={preset}
             onCancel={() => setComposing(false)}
             onStarted={(conversationId) => {
@@ -508,7 +584,11 @@ export function TeamPanel({ currentUserId }: { currentUserId: string }) {
             onActivity={() => setReload((value) => value + 1)}
           />
         ) : (
-          <TeamDirectory members={members} currentUserId={currentUserId} onMessage={(id) => startWith([id])} />
+          <TeamDirectory
+            members={members}
+            currentUserId={currentUserId}
+            onMessage={(id) => startWith([id])}
+          />
         )}
       </div>
     </div>
@@ -534,11 +614,16 @@ function TeamDirectory({
   );
 
   return (
-    <section aria-label={tx("Team directory")} className="nz-panel-strong overflow-hidden rounded-2xl border">
+    <section
+      aria-label={tx('Team directory')}
+      className="nz-panel-strong overflow-hidden rounded-2xl border"
+    >
       <div className="flex flex-wrap items-center justify-between gap-2 border-b border-border px-4 py-3 sm:px-5">
         <div>
           <h3 className="flex items-center gap-2 font-display text-sm font-semibold text-foreground">
-            <UsersRound aria-hidden className="size-4 text-info-ink" /><AutoText>Directory</AutoText></h3>
+            <UsersRound aria-hidden className="size-4 text-info-ink" />
+            <AutoText>Directory</AutoText>
+          </h3>
           <p className="text-[11px] text-muted-foreground">
             {members.length} teammate{members.length === 1 ? '' : 's'} · {totals.support} can take
             customer conversations · {totals.active} conversation{totals.active === 1 ? '' : 's'} in
@@ -547,20 +632,40 @@ function TeamDirectory({
         </div>
       </div>
       {members.length === 0 ? (
-        <p className="px-5 py-10 text-center text-sm text-muted-foreground"><AutoText>No teammates can take conversations or use team chat yet.</AutoText></p>
+        <p className="px-5 py-10 text-center text-sm text-muted-foreground">
+          <AutoText>No teammates can take conversations or use team chat yet.</AutoText>
+        </p>
       ) : (
         <div className="overflow-x-auto">
           <table className="w-full min-w-160 text-sm">
-            <caption className="sr-only"><AutoText>Teammates, what they can work, and the conversations they hold</AutoText></caption>
+            <caption className="sr-only">
+              <AutoText>Teammates, what they can work, and the conversations they hold</AutoText>
+            </caption>
             <thead>
               <tr className="border-b border-border text-left text-[11px] font-semibold tracking-wide text-muted-foreground uppercase">
-                <th scope="col" className="px-4 py-2.5 sm:px-5"><AutoText>Teammate</AutoText></th>
-                <th scope="col" className="px-3 py-2.5"><AutoText>Works on</AutoText></th>
-                <th scope="col" className="px-3 py-2.5 text-right"><AutoText>Open</AutoText></th>
-                <th scope="col" className="px-3 py-2.5 text-right"><AutoText>In progress</AutoText></th>
-                <th scope="col" className="px-3 py-2.5 text-right" title={tx("Resolved or closed in the last 30 days")}><AutoText>Resolved 30d</AutoText></th>
                 <th scope="col" className="px-4 py-2.5 sm:px-5">
-                  <span className="sr-only"><AutoText>Actions</AutoText></span>
+                  <AutoText>Teammate</AutoText>
+                </th>
+                <th scope="col" className="px-3 py-2.5">
+                  <AutoText>Works on</AutoText>
+                </th>
+                <th scope="col" className="px-3 py-2.5 text-right">
+                  <AutoText>Open</AutoText>
+                </th>
+                <th scope="col" className="px-3 py-2.5 text-right">
+                  <AutoText>In progress</AutoText>
+                </th>
+                <th
+                  scope="col"
+                  className="px-3 py-2.5 text-right"
+                  title={tx('Resolved or closed in the last 30 days')}
+                >
+                  <AutoText>Resolved 30d</AutoText>
+                </th>
+                <th scope="col" className="px-4 py-2.5 sm:px-5">
+                  <span className="sr-only">
+                    <AutoText>Actions</AutoText>
+                  </span>
                 </th>
               </tr>
             </thead>
@@ -581,21 +686,39 @@ function TeamDirectory({
                         <span className="grid min-w-0">
                           <span className="flex items-center gap-2 truncate font-medium text-foreground">
                             {memberName(member)}
-                            {me ? <span className="text-[11px] font-normal text-muted-foreground">(you)</span> : null}
+                            {me ? (
+                              <span className="text-[11px] font-normal text-muted-foreground">
+                                (you)
+                              </span>
+                            ) : null}
                           </span>
-                          <span className="truncate text-[11px] text-muted-foreground"><AutoText value={member.email} /></span>
+                          <span className="truncate text-[11px] text-muted-foreground">
+                            <AutoText value={member.email} />
+                          </span>
                         </span>
                       </span>
                     </th>
                     <td className="px-3 py-3">
                       <span className="flex flex-wrap items-center gap-1">
                         {role === undefined ? null : <RoleBadge role={role} />}
-                        {member.canSupport ? <Chip tone="primary" className="h-5 px-2 text-[10px]"><AutoText>Support</AutoText></Chip> : null}
-                        {member.canModerate ? <Chip tone="moderator" className="h-5 px-2 text-[10px]"><AutoText>Moderation</AutoText></Chip> : null}
+                        {member.canSupport ? (
+                          <Chip tone="primary" className="h-5 px-2 text-[10px]">
+                            <AutoText>Support</AutoText>
+                          </Chip>
+                        ) : null}
+                        {member.canModerate ? (
+                          <Chip tone="moderator" className="h-5 px-2 text-[10px]">
+                            <AutoText>Moderation</AutoText>
+                          </Chip>
+                        ) : null}
                       </span>
                     </td>
-                    <td className="px-3 py-3 text-right tabular-nums text-foreground"><AutoText value={member.openCount} /></td>
-                    <td className="px-3 py-3 text-right tabular-nums text-foreground"><AutoText value={member.pendingCount} /></td>
+                    <td className="px-3 py-3 text-right tabular-nums text-foreground">
+                      <AutoText value={member.openCount} />
+                    </td>
+                    <td className="px-3 py-3 text-right tabular-nums text-foreground">
+                      <AutoText value={member.pendingCount} />
+                    </td>
                     <td className="px-3 py-3 text-right tabular-nums text-muted-foreground">
                       {member.resolvedRecentCount}
                     </td>
@@ -606,7 +729,9 @@ function TeamDirectory({
                           onClick={() => onMessage(member.userId)}
                           className="inline-flex h-8 items-center gap-1.5 rounded-lg border border-border px-2.5 text-xs font-medium text-foreground hover:bg-surface-muted"
                         >
-                          <MessagesSquare aria-hidden className="size-3.5" /><AutoText>Message</AutoText></button>
+                          <MessagesSquare aria-hidden className="size-3.5" />
+                          <AutoText>Message</AutoText>
+                        </button>
                       )}
                     </td>
                   </tr>
@@ -673,17 +798,23 @@ function NewTeamThread({
         <button
           type="button"
           onClick={onCancel}
-          aria-label={tx("Back")}
+          aria-label={tx('Back')}
           className="grid size-8 place-items-center rounded-lg text-muted-foreground hover:bg-surface-muted hover:text-foreground"
         >
           <ArrowLeft aria-hidden className="size-4" />
         </button>
-        <h3 className="font-display text-sm font-semibold text-foreground"><AutoText>New team thread</AutoText></h3>
+        <h3 className="font-display text-sm font-semibold text-foreground">
+          <AutoText>New team thread</AutoText>
+        </h3>
       </div>
       <fieldset className="grid gap-2">
-        <legend className="mb-1 text-xs font-medium text-muted-foreground"><AutoText>Who is in it</AutoText></legend>
+        <legend className="mb-1 text-xs font-medium text-muted-foreground">
+          <AutoText>Who is in it</AutoText>
+        </legend>
         {members.length === 0 ? (
-          <p className="text-xs text-muted-foreground"><AutoText>No other teammate can use team chat yet.</AutoText></p>
+          <p className="text-xs text-muted-foreground">
+            <AutoText>No other teammate can use team chat yet.</AutoText>
+          </p>
         ) : (
           <ul className="nz-scroll grid max-h-56 gap-1 overflow-y-auto rounded-xl border border-border p-1.5 sm:grid-cols-2">
             {members.map((member) => (
@@ -701,7 +832,9 @@ function NewTeamThread({
                     }
                     className="size-4 accent-primary"
                   />
-                  <span className="min-w-0 truncate text-foreground"><AutoText value={memberName(member)} /></span>
+                  <span className="min-w-0 truncate text-foreground">
+                    <AutoText value={memberName(member)} />
+                  </span>
                 </label>
               </li>
             ))}
@@ -715,7 +848,7 @@ function NewTeamThread({
             value={subject}
             onChange={(event) => setSubject(event.target.value)}
             maxLength={160}
-            placeholder={tx("Team conversation")}
+            placeholder={tx('Team conversation')}
             className="h-9 rounded-lg border border-input-border bg-surface px-3 text-sm text-foreground outline-none focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/30"
           />
         </label>
@@ -748,7 +881,9 @@ function NewTeamThread({
           type="button"
           onClick={onCancel}
           className="inline-flex h-9 items-center rounded-lg border border-border px-4 text-sm font-medium text-foreground hover:bg-surface-muted"
-        ><AutoText>Cancel</AutoText></button>
+        >
+          <AutoText>Cancel</AutoText>
+        </button>
       </div>
     </form>
   );
@@ -845,14 +980,14 @@ function TeamThread({
 
   return (
     <section
-      aria-label={tx("Team thread")}
+      aria-label={tx('Team thread')}
       className="nz-panel-strong flex h-[min(42rem,calc(100dvh-14rem))] min-h-112 flex-col overflow-hidden rounded-2xl border"
     >
       <header className="flex items-center gap-2 border-b border-border px-3 py-2.5 sm:px-4">
         <button
           type="button"
           onClick={onBack}
-          aria-label={tx("Back to the team")}
+          aria-label={tx('Back to the team')}
           className="grid size-8 shrink-0 place-items-center rounded-lg text-muted-foreground hover:bg-surface-muted hover:text-foreground"
         >
           <ArrowLeft aria-hidden className="size-4" />
@@ -862,7 +997,8 @@ function TeamThread({
             {detail?.conversation.subject ?? 'Team thread'}
           </h3>
           <p className="truncate text-[11px] text-muted-foreground">
-            {members.map((member) => member.name ?? member.email ?? 'Teammate').join(', ') || 'Loading…'}
+            {members.map((member) => member.name ?? member.email ?? 'Teammate').join(', ') ||
+              'Loading…'}
             {' · '}
             {connection === 'live' ? 'Live' : 'Reconnecting…'}
           </p>
@@ -871,14 +1007,18 @@ function TeamThread({
       <div ref={scrollRef} className="nz-scroll min-h-0 flex-1 overflow-y-auto px-3 py-4 sm:px-5">
         {state === 'loading' ? (
           <p className="flex items-center gap-2 text-sm text-muted-foreground">
-            <LoaderCircle aria-hidden className="size-4 motion-safe:animate-spin" /><AutoText>Loading messages…</AutoText></p>
+            <LoaderCircle aria-hidden className="size-4 motion-safe:animate-spin" />
+            <AutoText>Loading messages…</AutoText>
+          </p>
         ) : state === 'error' ? (
           <p className="flex items-center gap-2 text-sm text-danger-ink">
             <CircleAlert aria-hidden className="size-4" />
             {error ?? 'This thread could not be opened.'}
           </p>
         ) : messages.length === 0 ? (
-          <p className="py-10 text-center text-sm text-muted-foreground"><AutoText>No messages yet. Say hello.</AutoText></p>
+          <p className="py-10 text-center text-sm text-muted-foreground">
+            <AutoText>No messages yet. Say hello.</AutoText>
+          </p>
         ) : (
           <ol className="grid gap-2.5">
             {messages.map((message, index) => {
@@ -886,7 +1026,8 @@ function TeamThread({
               const previous = messages[index - 1];
               const newDay =
                 previous === undefined ||
-                new Date(previous.createdAt).toDateString() !== new Date(message.createdAt).toDateString();
+                new Date(previous.createdAt).toDateString() !==
+                  new Date(message.createdAt).toDateString();
               return (
                 <li key={message.id} className="grid gap-2.5">
                   {newDay ? (
@@ -895,11 +1036,14 @@ function TeamThread({
                     </p>
                   ) : null}
                   {message.kind === 'system' ? (
-                    <p className="text-center text-[11px] text-muted-foreground"><AutoText value={message.body} /></p>
+                    <p className="text-center text-[11px] text-muted-foreground">
+                      <AutoText value={message.body} />
+                    </p>
                   ) : (
                     <div className={cn('flex flex-col', mine ? 'items-end' : 'items-start')}>
                       <p className="mb-0.5 px-1 text-[11px] text-muted-foreground">
-                        {mine ? 'You' : (message.senderName ?? 'Teammate')} · {clockTime(message.createdAt)}
+                        {mine ? 'You' : (message.senderName ?? 'Teammate')} ·{' '}
+                        {clockTime(message.createdAt)}
                       </p>
                       <div
                         className={cn(
@@ -917,7 +1061,9 @@ function TeamThread({
                           />
                         )}
                         {message.body === null || message.body === '' ? null : (
-                          <p className="wrap-break-word whitespace-pre-wrap"><AutoText value={message.body} /></p>
+                          <p className="wrap-break-word whitespace-pre-wrap">
+                            <AutoText value={message.body} />
+                          </p>
                         )}
                       </div>
                     </div>
@@ -941,7 +1087,9 @@ function TeamThread({
           </p>
         )}
         <div className="flex items-end gap-2 rounded-xl border border-input-border bg-surface p-1.5 focus-within:border-ring focus-within:ring-2 focus-within:ring-ring/30">
-          <label htmlFor={`team-${conversationId}`} className="sr-only"><AutoText>Message the team</AutoText></label>
+          <label htmlFor={`team-${conversationId}`} className="sr-only">
+            <AutoText>Message the team</AutoText>
+          </label>
           <textarea
             id={`team-${conversationId}`}
             value={draft}
@@ -954,16 +1102,20 @@ function TeamThread({
             }}
             rows={1}
             maxLength={CHAT_MESSAGE_MAX_LENGTH}
-            placeholder={tx("Message the team…")}
+            placeholder={tx('Message the team…')}
             className="max-h-32 min-h-9 flex-1 resize-none bg-transparent px-2 py-2 text-sm text-foreground outline-none placeholder:text-muted-foreground"
           />
           <button
             type="submit"
             disabled={sending || draft.trim() === '' || state !== 'ready'}
-            aria-label={tx("Send to the team")}
+            aria-label={tx('Send to the team')}
             className="grid size-9 shrink-0 place-items-center rounded-lg bg-primary-action text-primary-action-foreground hover:bg-primary-action-hover disabled:opacity-40"
           >
-            {sending ? <LoaderCircle aria-hidden className="size-4 motion-safe:animate-spin" /> : <Send aria-hidden className="size-4" />}
+            {sending ? (
+              <LoaderCircle aria-hidden className="size-4 motion-safe:animate-spin" />
+            ) : (
+              <Send aria-hidden className="size-4" />
+            )}
           </button>
         </div>
       </form>

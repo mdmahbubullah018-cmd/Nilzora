@@ -37,8 +37,14 @@ export default async function AcceptInvitePage({ searchParams }: PageProps<'/acc
   return (
     <AuthFrame>
       <div className="grid gap-1.5 text-center">
-        <h1 className="font-display text-2xl font-semibold tracking-tight text-foreground"><AutoText>Join the Nilzora team</AutoText></h1>
-        <p className="text-sm text-muted-foreground"><AutoText>Choose a password for your workspace account, then sign in with your email address.</AutoText></p>
+        <h1 className="font-display text-2xl font-semibold tracking-tight text-foreground">
+          <AutoText>Join the Nilzora team</AutoText>
+        </h1>
+        <p className="text-sm text-muted-foreground">
+          <AutoText>
+            Choose a password for your workspace account, then sign in with your email address.
+          </AutoText>
+        </p>
       </div>
       <Card className="nz-panel-strong nz-panel-sheen rounded-2xl">
         <CardContent>
@@ -58,7 +64,9 @@ export default async function AcceptInvitePage({ searchParams }: PageProps<'/acc
       </Card>
       <p className="text-center text-xs text-muted-foreground">
         Already set a password?{' '}
-        <Link href="/login" className="font-medium text-link underline-offset-4 hover:underline"><AutoText>Sign in</AutoText></Link>
+        <Link href="/login" className="font-medium text-link underline-offset-4 hover:underline">
+          <AutoText>Sign in</AutoText>
+        </Link>
       </p>
     </AuthFrame>
   );

@@ -113,8 +113,6 @@ describe('greetingFor and formatFullDate', () => {
   });
 
   it('writes the full Bangladesh date for the overview header', () => {
-    expect(formatFullDate(new Date('2026-10-25T12:00:00.000Z'))).toBe(
-      'Sunday, 25 October 2026',
-    );
+    expect(formatFullDate(new Date('2026-10-25T12:00:00.000Z'))).toBe('Sunday, 25 October 2026');
   });
 });

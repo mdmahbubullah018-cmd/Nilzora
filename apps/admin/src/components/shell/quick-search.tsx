@@ -56,8 +56,7 @@ export function QuickSearch({
       const target = event.target;
       if (
         target instanceof HTMLElement &&
-        (target.isContentEditable ||
-          ['INPUT', 'TEXTAREA', 'SELECT'].includes(target.tagName))
+        (target.isContentEditable || ['INPUT', 'TEXTAREA', 'SELECT'].includes(target.tagName))
       ) {
         return;
       }
@@ -94,19 +93,23 @@ export function QuickSearch({
       )}
     >
       <Search aria-hidden="true" className="size-4 shrink-0 text-muted-foreground" />
-      <label htmlFor={id} className="sr-only"><AutoText>Search term</AutoText></label>
+      <label htmlFor={id} className="sr-only">
+        <AutoText>Search term</AutoText>
+      </label>
       <input
         ref={field}
         id={id}
         name="q"
         type="search"
         autoComplete="off"
-        placeholder={tx("Search products, orders, customers…")}
+        placeholder={tx('Search products, orders, customers…')}
         className="h-7 w-full min-w-0 flex-1 bg-transparent text-sm text-foreground outline-none placeholder:text-muted-foreground [&::-webkit-search-cancel-button]:hidden"
       />
       {scopes.length > 1 ? (
         <>
-          <label htmlFor={`${id}-scope`} className="sr-only"><AutoText>Search in</AutoText></label>
+          <label htmlFor={`${id}-scope`} className="sr-only">
+            <AutoText>Search in</AutoText>
+          </label>
           <select
             id={`${id}-scope`}
             name="scope"
@@ -126,8 +129,8 @@ export function QuickSearch({
         <button
           type="button"
           onClick={openCommandPalette}
-          aria-label={tx("Open the command palette")}
-          title={tx("Search pages and actions")}
+          aria-label={tx('Open the command palette')}
+          title={tx('Search pages and actions')}
           className="hidden shrink-0 rounded-md border border-border/80 px-1.5 py-0.5 text-[10px] font-semibold text-muted-foreground transition-colors hover:border-border-strong hover:text-foreground 2xl:block"
         >
           {modifier} K
@@ -136,7 +139,7 @@ export function QuickSearch({
       <button
         type="submit"
         className="grid size-7 shrink-0 place-items-center rounded-lg text-muted-foreground transition-colors hover:bg-surface-muted hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
-        aria-label={tx("Search")}
+        aria-label={tx('Search')}
       >
         <ArrowRight aria-hidden="true" className="size-4" />
       </button>

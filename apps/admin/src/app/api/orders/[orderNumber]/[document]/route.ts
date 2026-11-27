@@ -20,9 +20,9 @@ export async function GET(
   if (isCrossSite(request)) return refusal(403, 'Downloads must start from the Nilzora admin.');
   const { orderNumber, document } = await context.params;
   const kind = DOCUMENTS[document as keyof typeof DOCUMENTS] as
-    | (typeof DOCUMENTS)[keyof typeof DOCUMENTS]
-    | undefined;
-  if (!kind || !orderNumberSchema.safeParse(orderNumber).success) return refusal(404, 'There is no such document.');
+    (typeof DOCUMENTS)[keyof typeof DOCUMENTS] | undefined;
+  if (!kind || !orderNumberSchema.safeParse(orderNumber).success)
+    return refusal(404, 'There is no such document.');
 
   try {
     const result = await session.read((api, token) =>
@@ -43,7 +43,8 @@ export async function GET(
     if (error instanceof ApiError) {
       if (error.status === 404) return refusal(404, 'This order does not exist.');
       if (error.status === 403) return refusal(403, 'Your account may not open this order.');
-      if (error.status === 429) return refusal(429, 'Too many downloads. Wait a moment, then try again.');
+      if (error.status === 429)
+        return refusal(429, 'Too many downloads. Wait a moment, then try again.');
     }
     return refusal(503, 'The document could not be created right now. Try again in a moment.');
   }

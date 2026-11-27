@@ -40,12 +40,7 @@ export interface PreparedQueryImage {
 
 /** The reasons an image cannot be prepared or indexed; each has a fixed, user-safe message. */
 export type ImageRejection =
-  | 'unsupported_format'
-  | 'corrupt'
-  | 'too_small'
-  | 'too_large'
-  | 'placeholder'
-  | 'empty';
+  'unsupported_format' | 'corrupt' | 'too_small' | 'too_large' | 'placeholder' | 'empty';
 
 export const IMAGE_REJECTION_MESSAGE: Readonly<Record<ImageRejection, string>> = {
   unsupported_format: 'Use a JPEG, PNG or WebP photo',
@@ -142,8 +137,10 @@ export async function inspectStoredImage(bytes: Buffer): Promise<StoredImageVerd
   const width = meta.width ?? 0;
   const height = meta.height ?? 0;
   if (width === 0 || height === 0) return { eligible: false, reason: 'unknown_dimensions' };
-  if (width > MAX_INDEX_SIZE || height > MAX_INDEX_SIZE) return { eligible: false, reason: 'too_large' };
-  if (width < MIN_INDEX_SIZE || height < MIN_INDEX_SIZE) return { eligible: false, reason: 'too_small' };
+  if (width > MAX_INDEX_SIZE || height > MAX_INDEX_SIZE)
+    return { eligible: false, reason: 'too_large' };
+  if (width < MIN_INDEX_SIZE || height < MIN_INDEX_SIZE)
+    return { eligible: false, reason: 'too_small' };
 
   try {
     const stats = await sharp(bytes, sharpOptions).stats();

@@ -30,7 +30,9 @@ export function CommandTrigger({ variant = 'bar', className }: CommandTriggerPro
         )}
       >
         <Search aria-hidden="true" className="size-4 shrink-0" strokeWidth={1.75} />
-        <span className="nz-rail-label flex-1 truncate text-left"><AutoText>Search…</AutoText></span>
+        <span className="nz-rail-label flex-1 truncate text-left">
+          <AutoText>Search…</AutoText>
+        </span>
         <kbd className="nz-rail-wide rounded-md border border-white/12 px-1.5 font-sans text-[10px] font-semibold text-sidebar-muted">
           {shortcut}
         </kbd>
@@ -42,7 +44,7 @@ export function CommandTrigger({ variant = 'bar', className }: CommandTriggerPro
     <button
       type="button"
       onClick={openCommandPalette}
-      aria-label={tx("Open the command palette")}
+      aria-label={tx('Open the command palette')}
       aria-keyshortcuts="Control+K Meta+K"
       title={`Command palette (${shortcut})`}
       className={cn(

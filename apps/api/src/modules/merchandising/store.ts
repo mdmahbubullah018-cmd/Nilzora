@@ -396,7 +396,10 @@ export function createSupabaseMerchandisingStore(
         total = first[0]?.total_count ?? 0;
       }
       const primary = await primaryImages(data.map((row) => row.id));
-      const colors = await supabaseProductColors(clients, data.map((row) => row.id));
+      const colors = await supabaseProductColors(
+        clients,
+        data.map((row) => row.id),
+      );
       const items = data.map((row) => ({
         id: row.id,
         slug: row.slug,

@@ -157,12 +157,16 @@ export function SeoEditorForm({
       <input type="hidden" name="kind" value={entry.kind} />
       <input type="hidden" name="targetId" value={entry.id} />
       <fieldset disabled={!canEdit} className="grid min-w-0 gap-6">
-        <legend className="sr-only"><AutoText>Search metadata</AutoText></legend>
+        <legend className="sr-only">
+          <AutoText>Search metadata</AutoText>
+        </legend>
 
         <SectionCard
-          title={tx("What customers see in search results")}
+          title={tx('What customers see in search results')}
           icon={Search}
-          description={tx("Roughly how this page could look in Google. Search engines may rewrite the text, so aim for an honest description rather than a list of keywords.")}
+          description={tx(
+            'Roughly how this page could look in Google. Search engines may rewrite the text, so aim for an honest description rather than a list of keywords.',
+          )}
         >
           <SearchPreview
             kind={entry.kind}
@@ -175,7 +179,7 @@ export function SeoEditorForm({
         </SectionCard>
 
         <SectionCard
-          title={tx("Search title and description")}
+          title={tx('Search title and description')}
           icon={Type}
           description={
             canEdit
@@ -199,30 +203,47 @@ export function SeoEditorForm({
         </SectionCard>
 
         <SectionCard
-          title={tx("Sharing on social networks")}
+          title={tx('Sharing on social networks')}
           icon={Share2}
-          description={tx("What appears when someone pastes this page into Facebook, WhatsApp or X. A field you leave empty uses the search title or description above.")}
+          description={tx(
+            'What appears when someone pastes this page into Facebook, WhatsApp or X. A field you leave empty uses the search title or description above.',
+          )}
         >
           <div className="grid gap-5">
-            {text('ogTitle', 'Share title', 'The headline of the shared card. Keep it short — the picture takes the rest of the space.')}
-            {text('ogDescription', 'Share description', 'One line under the share title. Empty uses the search description.', true)}
+            {text(
+              'ogTitle',
+              'Share title',
+              'The headline of the shared card. Keep it short — the picture takes the rest of the space.',
+            )}
+            {text(
+              'ogDescription',
+              'Share description',
+              'One line under the share title. Empty uses the search description.',
+              true,
+            )}
             <MediaKeyField
               name="ogImageKey"
-              label={tx("Share image")}
-              hint={tx("The picture in the shared card. 1200 by 630 pixels, JPEG, PNG or WebP. Use the picker to upload a new picture or choose one from the library; empty uses the store’s default share image.")}
+              label={tx('Share image')}
+              hint={tx(
+                'The picture in the shared card. 1200 by 630 pixels, JPEG, PNG or WebP. Use the picker to upload a new picture or choose one from the library; empty uses the store’s default share image.',
+              )}
               defaultValue={entry.ogImageKey}
               csrf={csrf}
             />
             {error('ogImageKey') ? (
-              <p className="-mt-3 text-xs font-medium text-danger-ink"><AutoText value={error('ogImageKey')} /></p>
+              <p className="-mt-3 text-xs font-medium text-danger-ink">
+                <AutoText value={error('ogImageKey')} />
+              </p>
             ) : null}
           </div>
         </SectionCard>
 
         <SectionCard
-          title={tx("Address and search engine indexing")}
+          title={tx('Address and search engine indexing')}
           icon={Link2}
-          description={tx("Advanced. Change these only if the page’s address has moved, or if it must stay out of search results. Neither changes the page itself.")}
+          description={tx(
+            'Advanced. Change these only if the page’s address has moved, or if it must stay out of search results. Neither changes the page itself.',
+          )}
         >
           <div className="grid gap-4">
             {text(
@@ -242,10 +263,11 @@ export function SeoEditorForm({
                     recheck(values, event.currentTarget.checked);
                   }}
                   className="size-5 shrink-0 accent-primary-action"
-                /><AutoText>Hide this page from search engines</AutoText></label>
+                />
+                <AutoText>Hide this page from search engines</AutoText>
+              </label>
               <p id="seo-noindex-hint" className="pl-8 text-xs text-muted-foreground">
-                Anyone with the link can still open it; it simply stops appearing in search
-                results.
+                Anyone with the link can still open it; it simply stops appearing in search results.
               </p>
             </div>
           </div>
@@ -260,7 +282,9 @@ export function SeoEditorForm({
               {dirty ? (
                 <>
                   <span aria-hidden="true" className="size-2 rounded-full bg-warning" />
-                  <span className="font-medium text-foreground"><AutoText>Unsaved changes</AutoText></span>
+                  <span className="font-medium text-foreground">
+                    <AutoText>Unsaved changes</AutoText>
+                  </span>
                 </>
               ) : (
                 'Saving publishes these values to the storefront.'
@@ -269,9 +293,13 @@ export function SeoEditorForm({
             <div className="flex flex-wrap items-center gap-2">
               {canEdit ? (
                 <SubmitButton pendingLabel="Saving…" className="max-sm:min-h-11 max-sm:flex-1">
-                  <Save aria-hidden="true" strokeWidth={1.75} /><AutoText>Save metadata</AutoText></SubmitButton>
+                  <Save aria-hidden="true" strokeWidth={1.75} />
+                  <AutoText>Save metadata</AutoText>
+                </SubmitButton>
               ) : (
-                <Button type="submit" disabled><AutoText>Save metadata</AutoText></Button>
+                <Button type="submit" disabled>
+                  <AutoText>Save metadata</AutoText>
+                </Button>
               )}
             </div>
           </div>

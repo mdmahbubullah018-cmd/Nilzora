@@ -129,9 +129,9 @@ describe('R2 media configuration', () => {
   });
 
   it('folds an upper-case account id to lower case, which is the same account', () => {
-    expect(
-      load({ ...R2, R2_ACCOUNT_ID: R2.R2_ACCOUNT_ID.toUpperCase() }).media?.accountId,
-    ).toBe(R2.R2_ACCOUNT_ID);
+    expect(load({ ...R2, R2_ACCOUNT_ID: R2.R2_ACCOUNT_ID.toUpperCase() }).media?.accountId).toBe(
+      R2.R2_ACCOUNT_ID,
+    );
   });
 
   it('keeps media off with a warning outside production when the account id is unusable', () => {

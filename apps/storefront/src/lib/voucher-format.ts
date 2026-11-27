@@ -16,7 +16,9 @@ const DHAKA_DATE = new Intl.DateTimeFormat('en-GB', {
 /** "10% OFF", "৳150 OFF" or "FREE DELIVERY". */
 export function voucherDiscount(voucher: Pick<Voucher, 'kind' | 'value'>): string {
   if (voucher.kind === 'free_delivery') return 'FREE DELIVERY';
-  return voucher.kind === 'percent' ? `${String(voucher.value)}% OFF` : `${formatMoney(voucher.value)} OFF`;
+  return voucher.kind === 'percent'
+    ? `${String(voucher.value)}% OFF`
+    : `${formatMoney(voucher.value)} OFF`;
 }
 
 /** The cap and minimum spend, e.g. "Min. spend ৳1,500 · Up to ৳300 off". */
@@ -24,7 +26,9 @@ export function voucherConditions(
   voucher: Pick<Voucher, 'minOrderMinor' | 'maxDiscountMinor' | 'kind'>,
 ): string {
   const parts = [
-    voucher.minOrderMinor > 0 ? `Min. spend ${formatMoney(voucher.minOrderMinor)}` : 'No minimum spend',
+    voucher.minOrderMinor > 0
+      ? `Min. spend ${formatMoney(voucher.minOrderMinor)}`
+      : 'No minimum spend',
   ];
   if (voucher.kind === 'percent' && voucher.maxDiscountMinor !== null) {
     parts.push(`Up to ${formatMoney(voucher.maxDiscountMinor)} off`);
@@ -33,10 +37,14 @@ export function voucherConditions(
 }
 
 /** What the voucher applies to. */
-export function voucherEligibility(voucher: Pick<Voucher, 'scope' | 'categories' | 'products'>): string {
+export function voucherEligibility(
+  voucher: Pick<Voucher, 'scope' | 'categories' | 'products'>,
+): string {
   if (voucher.scope === 'categories') {
     const names = voucher.categories.map((category) => category.name);
-    return names.length > 0 ? `On ${names.slice(0, 3).join(', ')}${names.length > 3 ? ' and more' : ''}` : 'On selected categories';
+    return names.length > 0
+      ? `On ${names.slice(0, 3).join(', ')}${names.length > 3 ? ' and more' : ''}`
+      : 'On selected categories';
   }
   if (voucher.scope === 'products') {
     const names = voucher.products.map((product) => product.name);
@@ -57,5 +65,7 @@ export function voucherValidity(voucher: Pick<Voucher, 'startsAt' | 'endsAt' | '
 
 /** Whether a voucher is shown faded: over, used up, or not yet started. */
 export function voucherInactive(voucher: Pick<Voucher, 'state'>): boolean {
-  return voucher.state === 'expired' || voucher.state === 'used' || voucher.state === 'fully_collected';
+  return (
+    voucher.state === 'expired' || voucher.state === 'used' || voucher.state === 'fully_collected'
+  );
 }

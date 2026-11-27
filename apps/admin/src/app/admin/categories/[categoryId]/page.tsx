@@ -100,9 +100,13 @@ export default async function CategoryPage({
         icon={FolderTree}
         eyebrow={
           category.isActive ? (
-            <Chip tone="success" dot><AutoText>Shown in the storefront</AutoText></Chip>
+            <Chip tone="success" dot>
+              <AutoText>Shown in the storefront</AutoText>
+            </Chip>
           ) : (
-            <Chip tone="neutral" dot><AutoText>Hidden from the storefront</AutoText></Chip>
+            <Chip tone="neutral" dot>
+              <AutoText>Hidden from the storefront</AutoText>
+            </Chip>
           )
         }
         meta={
@@ -114,7 +118,9 @@ export default async function CategoryPage({
               <CountText count={category.productCount} one="product" />
             </Link>
           ) : (
-            <span><AutoText>No products yet</AutoText></span>
+            <span>
+              <AutoText>No products yet</AutoText>
+            </span>
           )
         }
         actions={<CategoryVisibilityForm csrf={csrf} category={category} />}
@@ -170,7 +176,9 @@ export default async function CategoryPage({
                 variant: 'outline',
                 className: 'w-full rounded-xl max-sm:min-h-11',
               })}
-            ><AutoText>Edit search metadata</AutoText></Link>
+            >
+              <AutoText>Edit search metadata</AutoText>
+            </Link>
           </SectionCard>
           {user.permissions.includes('products.publish') ? (
             <SectionCard

@@ -42,7 +42,9 @@ function BrandSummary({ brand, canManage }: { brand: AdminBrand; canManage: bool
       </div>
       {canManage ? (
         <span className="inline-flex h-9 shrink-0 items-center gap-1.5 rounded-xl px-3 text-xs font-semibold text-link ring-1 ring-hairline group-open:bg-info-soft max-sm:h-11">
-          <Pencil aria-hidden="true" className="size-3.5" strokeWidth={1.75} /><AutoText>Edit</AutoText></span>
+          <Pencil aria-hidden="true" className="size-3.5" strokeWidth={1.75} />
+          <AutoText>Edit</AutoText>
+        </span>
       ) : null}
     </div>
   );
@@ -77,7 +79,13 @@ export function BrandsView({
         icon={BadgeCheck}
         title="Brands"
         description="The makers and labels shoppers can browse at nilzora.com/brand-name. Assign products to a brand from each product’s page."
-        meta={totalBrands > 0 ? <span><CountText count={totalBrands} one="brand" /></span> : undefined}
+        meta={
+          totalBrands > 0 ? (
+            <span>
+              <CountText count={totalBrands} one="brand" />
+            </span>
+          ) : undefined
+        }
       />
 
       <div className="grid items-start gap-6 xl:grid-cols-[minmax(0,1fr)_24rem]">
@@ -125,7 +133,9 @@ export function BrandsView({
                 <Link
                   href={BRANDS_PATH}
                   className="text-sm font-medium text-link underline-offset-4 hover:underline"
-                ><AutoText>Clear filters</AutoText></Link>
+                >
+                  <AutoText>Clear filters</AutoText>
+                </Link>
               }
             />
           ) : brands.length === 0 ? (

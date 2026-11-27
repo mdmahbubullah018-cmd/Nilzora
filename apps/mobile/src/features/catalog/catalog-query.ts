@@ -244,7 +244,6 @@ export function facetChoiceLabel(
     .join(' · ');
 }
 
-
 /** "৳500 – ৳1,500", "From ৳500", "Up to ৳1,500" or null when no range is set. */
 export function priceRangeLabel(filters: Pick<ShopFilters, 'minTaka' | 'maxTaka'>): string | null {
   const { minTaka, maxTaka } = filters;
@@ -337,7 +336,9 @@ export function feedQuery(filters: ShopFilters): Omit<ProductListQuery, 'page'> 
     ...(filters.minTaka !== undefined ? { minPriceMinor: filters.minTaka * 100 } : {}),
     ...(filters.maxTaka !== undefined ? { maxPriceMinor: filters.maxTaka * 100 } : {}),
     ...(filters.inStock === true ? { inStock: true } : {}),
-    ...(filters.sizes !== undefined && filters.sizes.length > 0 ? { size: [...filters.sizes] } : {}),
+    ...(filters.sizes !== undefined && filters.sizes.length > 0
+      ? { size: [...filters.sizes] }
+      : {}),
     ...(filters.colors !== undefined && filters.colors.length > 0
       ? { color: [...filters.colors] }
       : {}),
@@ -366,7 +367,9 @@ export function facetsQuery(filters: ShopFilters): ProductFacetsQuery {
     ...(filters.minTaka !== undefined ? { minPriceMinor: filters.minTaka * 100 } : {}),
     ...(filters.maxTaka !== undefined ? { maxPriceMinor: filters.maxTaka * 100 } : {}),
     ...(filters.inStock === true ? { inStock: true } : {}),
-    ...(filters.sizes !== undefined && filters.sizes.length > 0 ? { size: [...filters.sizes] } : {}),
+    ...(filters.sizes !== undefined && filters.sizes.length > 0
+      ? { size: [...filters.sizes] }
+      : {}),
     ...(filters.colors !== undefined && filters.colors.length > 0
       ? { color: [...filters.colors] }
       : {}),
@@ -376,7 +379,7 @@ export function facetsQuery(filters: ShopFilters): ProductFacetsQuery {
 /**
  * The page after `last`, or undefined at the end. The API refuses offsets beyond
  * MAX_CATALOG_OFFSET, so the listing stops there instead of asking for a page it would refuse.
- */export function nextPageNumber(last: ProductListResponse): number | undefined {
+ */ export function nextPageNumber(last: ProductListResponse): number | undefined {
   if (last.page >= last.totalPages) return undefined;
   if (last.page * last.pageSize > MAX_CATALOG_OFFSET) return undefined;
   return last.page + 1;
@@ -423,7 +426,8 @@ export function shopHref(
   if (filters.minTaka !== undefined) params.min = String(filters.minTaka);
   if (filters.maxTaka !== undefined) params.max = String(filters.maxTaka);
   if (filters.inStock) params.stock = 'in';
-  if (filters.sizes !== undefined && filters.sizes.length > 0) params.size = filters.sizes.join(',');
+  if (filters.sizes !== undefined && filters.sizes.length > 0)
+    params.size = filters.sizes.join(',');
   if (filters.colors !== undefined && filters.colors.length > 0) {
     params.color = filters.colors.join(',');
   }

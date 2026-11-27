@@ -115,16 +115,36 @@ export function CodPositionsView({ filters, list }: CodPositionsViewProps) {
       <DataTable caption="COD positions per shipment" dense>
         <TableHeader>
           <TableRow className="hover:bg-transparent">
-            <TableHead><AutoText>Order</AutoText></TableHead>
-            <TableHead><AutoText>Courier</AutoText></TableHead>
-            <TableHead><AutoText>Shipment</AutoText></TableHead>
-            <TableHead><AutoText>COD status</AutoText></TableHead>
-            <TableHead className="text-right"><AutoText>Expected</AutoText></TableHead>
-            <TableHead className="text-right"><AutoText>Collected</AutoText></TableHead>
-            <TableHead className="text-right"><AutoText>Deductions</AutoText></TableHead>
-            <TableHead className="text-right"><AutoText>Expected settlement</AutoText></TableHead>
-            <TableHead className="text-right"><AutoText>Settled</AutoText></TableHead>
-            <TableHead className="text-right"><AutoText>Difference</AutoText></TableHead>
+            <TableHead>
+              <AutoText>Order</AutoText>
+            </TableHead>
+            <TableHead>
+              <AutoText>Courier</AutoText>
+            </TableHead>
+            <TableHead>
+              <AutoText>Shipment</AutoText>
+            </TableHead>
+            <TableHead>
+              <AutoText>COD status</AutoText>
+            </TableHead>
+            <TableHead className="text-right">
+              <AutoText>Expected</AutoText>
+            </TableHead>
+            <TableHead className="text-right">
+              <AutoText>Collected</AutoText>
+            </TableHead>
+            <TableHead className="text-right">
+              <AutoText>Deductions</AutoText>
+            </TableHead>
+            <TableHead className="text-right">
+              <AutoText>Expected settlement</AutoText>
+            </TableHead>
+            <TableHead className="text-right">
+              <AutoText>Settled</AutoText>
+            </TableHead>
+            <TableHead className="text-right">
+              <AutoText>Difference</AutoText>
+            </TableHead>
           </TableRow>
         </TableHeader>
         {list.positions.length > 0 ? (
@@ -147,7 +167,9 @@ export function CodPositionsView({ filters, list }: CodPositionsViewProps) {
                     </span>
                   ) : null}
                 </TableCell>
-                <TableCell><AutoText value={providerName(row.provider)} /></TableCell>
+                <TableCell>
+                  <AutoText value={providerName(row.provider)} />
+                </TableCell>
                 <TableCell>
                   <ShipmentStatusChip status={row.status} />
                 </TableCell>
@@ -223,12 +245,24 @@ export function SettlementList({ settlements }: { settlements: readonly CourierS
       <DataTable caption="Courier settlements" dense>
         <TableHeader>
           <TableRow className="hover:bg-transparent">
-            <TableHead><AutoText>Received</AutoText></TableHead>
-            <TableHead><AutoText>Courier</AutoText></TableHead>
-            <TableHead><AutoText>Reference</AutoText></TableHead>
-            <TableHead className="text-right"><AutoText>Shipments</AutoText></TableHead>
-            <TableHead className="text-right"><AutoText>Amount</AutoText></TableHead>
-            <TableHead><AutoText>Note</AutoText></TableHead>
+            <TableHead>
+              <AutoText>Received</AutoText>
+            </TableHead>
+            <TableHead>
+              <AutoText>Courier</AutoText>
+            </TableHead>
+            <TableHead>
+              <AutoText>Reference</AutoText>
+            </TableHead>
+            <TableHead className="text-right">
+              <AutoText>Shipments</AutoText>
+            </TableHead>
+            <TableHead className="text-right">
+              <AutoText>Amount</AutoText>
+            </TableHead>
+            <TableHead>
+              <AutoText>Note</AutoText>
+            </TableHead>
           </TableRow>
         </TableHeader>
         {settlements.length > 0 ? (
@@ -244,8 +278,12 @@ export function SettlementList({ settlements }: { settlements: readonly CourierS
                     {settlement.isMock ? <TestChip /> : null}
                   </span>
                 </TableCell>
-                <TableCell className="font-mono text-xs"><AutoText value={settlement.reference} /></TableCell>
-                <TableCell className="text-right tabular-nums"><AutoText value={settlement.lines} /></TableCell>
+                <TableCell className="font-mono text-xs">
+                  <AutoText value={settlement.reference} />
+                </TableCell>
+                <TableCell className="text-right tabular-nums">
+                  <AutoText value={settlement.lines} />
+                </TableCell>
                 <TableCell className="text-right">
                   <Amount value={settlement.amountMinor} strong />
                 </TableCell>

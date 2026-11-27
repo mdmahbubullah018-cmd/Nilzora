@@ -271,7 +271,9 @@ describe('the product media section', () => {
   it('locks the pictures while the product is on sale, still showing them', () => {
     const section = view({ product: { status: 'active', moderationStatus: 'approved' } });
 
-    expect(within(section).getByText('Images are locked while the product is on sale')).toBeTruthy();
+    expect(
+      within(section).getByText('Images are locked while the product is on sale'),
+    ).toBeTruthy();
     expect(within(section).getAllByRole('img')).toHaveLength(2);
     expect(within(section).queryByRole('button', { name: 'Save description' })).toBeNull();
     expect(within(section).queryByLabelText('Add images')).toBeNull();
@@ -292,7 +294,9 @@ describe('the product media section', () => {
 
     expect(within(section).getAllByRole('img')).toHaveLength(2);
     expect(
-      within(section).getByText('Your account can view products but not change their images or videos.'),
+      within(section).getByText(
+        'Your account can view products but not change their images or videos.',
+      ),
     ).toBeTruthy();
     expect(within(section).queryByLabelText('Add images')).toBeNull();
     expect(within(section).queryByRole('button', { name: 'Save description' })).toBeNull();
@@ -355,7 +359,9 @@ describe('the upload queue', () => {
     act(() => (FakeRequest.sent[1] as FakeRequest).answer({ status: 'success' }));
 
     await waitFor(() =>
-      expect(router.replace).toHaveBeenCalledWith(`/admin/products/${PRODUCT_ID}?notice=image-added`),
+      expect(router.replace).toHaveBeenCalledWith(
+        `/admin/products/${PRODUCT_ID}?notice=image-added`,
+      ),
     );
   });
 
@@ -418,7 +424,10 @@ describe('image helpers', () => {
 describe('ProductTile', () => {
   it('shows the primary picture when the product has one, as decoration', () => {
     const { container } = render(
-      <ProductTile categorySlug="fashion" image={{ thumbUrl: 'https://media.example.com/t.webp' }} />,
+      <ProductTile
+        categorySlug="fashion"
+        image={{ thumbUrl: 'https://media.example.com/t.webp' }}
+      />,
     );
 
     const picture = container.querySelector('img');

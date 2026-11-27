@@ -14,7 +14,10 @@ export const SUPPORT_STATUS_LABEL: Record<ChatConversationStatus, string> = {
   closed: 'Closed',
 };
 
-const TONE: Record<ChatConversationStatus, { surface: string; border: string; foreground: string }> = {
+const TONE: Record<
+  ChatConversationStatus,
+  { surface: string; border: string; foreground: string }
+> = {
   open: theme.notice.info,
   pending: theme.notice.warning,
   resolved: theme.notice.success,

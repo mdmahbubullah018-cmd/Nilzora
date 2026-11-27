@@ -19,6 +19,8 @@ export function PrintOrderButton({ className }: { className?: string }) {
       }}
       className={`h-9 rounded-xl max-sm:h-11 ${className ?? ''}`}
     >
-      <Printer aria-hidden="true" strokeWidth={1.75} /><AutoText>Print</AutoText></Button>
+      <Printer aria-hidden="true" strokeWidth={1.75} />
+      <AutoText>Print</AutoText>
+    </Button>
   );
 }

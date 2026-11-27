@@ -84,15 +84,25 @@ export function Pagination({
         className,
       )}
     >
-      {summary ? <p className="text-sm text-muted-foreground tabular-nums"><AutoText value={summary} /></p> : <span />}
+      {summary ? (
+        <p className="text-sm text-muted-foreground tabular-nums">
+          <AutoText value={summary} />
+        </p>
+      ) : (
+        <span />
+      )}
       {paged ? (
         <nav aria-label="Pagination" className="flex items-center justify-between gap-2">
           {page > 1 ? (
             <Link href={hrefFor(page - 1)} rel="prev" className={step}>
-              <ChevronLeft aria-hidden="true" /><AutoText>Previous</AutoText></Link>
+              <ChevronLeft aria-hidden="true" />
+              <AutoText>Previous</AutoText>
+            </Link>
           ) : (
             <span aria-hidden="true" className={cn(step, 'pointer-events-none opacity-40')}>
-              <ChevronLeft /><AutoText>Previous</AutoText></span>
+              <ChevronLeft />
+              <AutoText>Previous</AutoText>
+            </span>
           )}
 
           <ol className="hidden items-center gap-1 md:flex">

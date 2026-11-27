@@ -41,7 +41,9 @@ export default async function VisualSearchPage({
         <VisualSearch
           {...(product !== undefined && UUID.test(product) ? { initialProductId: product } : {})}
           {...(image !== undefined && UUID.test(image) ? { initialImageId: image } : {})}
-          {...(thumb !== undefined && /^https:\/\//i.test(thumb) ? { initialThumbnail: thumb } : {})}
+          {...(thumb !== undefined && /^https:\/\//i.test(thumb)
+            ? { initialThumbnail: thumb }
+            : {})}
           {...(name !== undefined ? { initialProductName: name } : {})}
         />
       </div>

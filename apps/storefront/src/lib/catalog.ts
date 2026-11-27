@@ -167,16 +167,17 @@ export function listProducts({
 export async function getProductFacets(
   listing: Omit<ProductListing, 'sort' | 'page'>,
 ): Promise<ProductFacets> {
-  const read = await attempt(async () =>
-    (
-      await cachedApi([CATALOG_TAG]).productFacets({
-        category: listing.category,
-        zone: listing.zone,
-        includeSubcategories:
-          listing.category !== undefined && listing.includeSubcategories ? true : undefined,
-        ...apiFilters(listing.filters ?? NO_FILTERS),
-      })
-    ).facets,
+  const read = await attempt(
+    async () =>
+      (
+        await cachedApi([CATALOG_TAG]).productFacets({
+          category: listing.category,
+          zone: listing.zone,
+          includeSubcategories:
+            listing.category !== undefined && listing.includeSubcategories ? true : undefined,
+          ...apiFilters(listing.filters ?? NO_FILTERS),
+        })
+      ).facets,
   ).catch(() => ({ kind: 'unavailable' }) as const);
   return read.kind === 'ok' ? read.value : EMPTY_FACETS;
 }

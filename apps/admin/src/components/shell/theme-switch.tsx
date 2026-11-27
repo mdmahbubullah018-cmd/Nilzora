@@ -4,12 +4,7 @@ import { cn } from '@nilzora/ui';
 import { Check, Monitor, Moon, Sun, type LucideIcon } from 'lucide-react';
 import { useRef, useSyncExternalStore } from 'react';
 import { useDetailsDismiss } from '@/components/admin-kit/use-details-dismiss';
-import {
-  parseThemePreference,
-  resolveTheme,
-  themeCookie,
-  type ThemePreference,
-} from '@/lib/theme';
+import { parseThemePreference, resolveTheme, themeCookie, type ThemePreference } from '@/lib/theme';
 import { AutoText } from '@/components/i18n/translate';
 import { useTx } from '@/lib/i18n/provider';
 
@@ -61,8 +56,8 @@ export function ThemeSwitch({ className }: { className?: string }) {
   return (
     <details ref={ref} className={cn('group relative', className)} onToggle={onToggle}>
       <summary
-        aria-label={tx("Theme")}
-        title={tx("Theme")}
+        aria-label={tx('Theme')}
+        title={tx('Theme')}
         className="grid size-10 cursor-pointer list-none place-items-center rounded-xl text-muted-foreground transition-colors select-none hover:bg-surface-muted hover:text-foreground [&::-webkit-details-marker]:hidden"
       >
         {/* Driven by the dark: variant, so the right icon shows before hydration too. */}
@@ -71,7 +66,7 @@ export function ThemeSwitch({ className }: { className?: string }) {
       </summary>
       <div
         role="group"
-        aria-label={tx("Theme")}
+        aria-label={tx('Theme')}
         className="nz-glass absolute top-full right-0 z-40 mt-2 grid w-44 gap-0.5 rounded-2xl border p-1.5"
       >
         {OPTIONS.map(({ value, label, icon: Icon }) => {
@@ -93,7 +88,9 @@ export function ThemeSwitch({ className }: { className?: string }) {
               )}
             >
               <Icon aria-hidden="true" className="size-4" strokeWidth={1.75} />
-              <span className="flex-1 text-left"><AutoText value={label} /></span>
+              <span className="flex-1 text-left">
+                <AutoText value={label} />
+              </span>
               {selected ? <Check aria-hidden="true" className="size-4 text-primary" /> : null}
             </button>
           );

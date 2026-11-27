@@ -62,7 +62,9 @@ export default async function CustomersPage({ searchParams }: PageProps<'/admin/
                   size: 'sm',
                   className: 'h-9 rounded-xl max-sm:h-11',
                 })}
-              ><AutoText>Spending and segments</AutoText></Link>
+              >
+                <AutoText>Spending and segments</AutoText>
+              </Link>
             </>
           }
         />

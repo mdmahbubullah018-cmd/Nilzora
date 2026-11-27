@@ -190,7 +190,10 @@ function RefreshIndicatorView({
     orbit.set(0);
     breathe.set(1);
     comet.set(
-      withTiming(success ? 0 : 1, { duration: RING_COMPLETE_MS, easing: Easing.inOut(Easing.quad) }),
+      withTiming(success ? 0 : 1, {
+        duration: RING_COMPLETE_MS,
+        easing: Easing.inOut(Easing.quad),
+      }),
     );
     ringAlpha.set(
       withDelay(
@@ -228,7 +231,8 @@ function RefreshIndicatorView({
   const layerStyle = useAnimatedStyle(() => {
     const p = pull.get();
     const centred = (p - RING_SIZE) / 2;
-    const resting = p < hold ? interpolate(p, [0, hold], [-RING_SIZE, (hold - RING_SIZE) / 2]) : centred;
+    const resting =
+      p < hold ? interpolate(p, [0, hold], [-RING_SIZE, (hold - RING_SIZE) / 2]) : centred;
     const y = Math.max(resting, topInset);
     const progress = Math.min(p / threshold, 1);
     const enter = interpolate(progress, [0, 0.6], [0.45, 1], Extrapolation.CLAMP);

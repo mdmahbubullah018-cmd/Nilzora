@@ -22,8 +22,7 @@ const csrf = { name: 'csrf_token', token: 'signed-test-token' };
 
 const field = (label: string | RegExp): HTMLInputElement =>
   screen.getByLabelText<HTMLInputElement>(label);
-const jobButton = (name: RegExp): HTMLButtonElement =>
-  screen.getByRole('button', { name });
+const jobButton = (name: RegExp): HTMLButtonElement => screen.getByRole('button', { name });
 
 beforeEach(() => {
   for (const fn of Object.values(actions)) fn.mockReset().mockResolvedValue({ status: 'idle' });

@@ -334,7 +334,9 @@ describe('the operator queue', () => {
   it('passes the filters and the sort through and answers with the list shape', async () => {
     const { app, identity, staff, chat } = setup();
     const response = await request(app)
-      .get('/api/v1/chat/admin/queue?scope=unassigned&priority=urgent&sort=oldest&search=refund&page=2&pageSize=5')
+      .get(
+        '/api/v1/chat/admin/queue?scope=unassigned&priority=urgent&sort=oldest&search=refund&page=2&pageSize=5',
+      )
       .set(bearer(identity, staff));
 
     expect(response.status).toBe(200);

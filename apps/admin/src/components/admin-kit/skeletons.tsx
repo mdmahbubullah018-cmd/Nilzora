@@ -248,9 +248,7 @@ export function DetailSkeleton({
           {Array.from({ length: bodyCards }, (_, index) => panel('h-40', `a${String(index)}`, 5))}
         </div>
         <div className="grid content-start gap-6">
-          {Array.from({ length: sideCards }, (_, index) =>
-            panel('h-24', `b${String(index)}`, 3),
-          )}
+          {Array.from({ length: sideCards }, (_, index) => panel('h-24', `b${String(index)}`, 3))}
         </div>
       </div>
     </div>
@@ -373,7 +371,12 @@ export function AnalyticsSkeleton({ label = 'Loading analytics' }: { label?: str
           <Skeleton className="h-3 w-4/5" />
         </Card>
       </div>
-      <TableSkeleton caption={label} columns={6} rows={6} widths={['w-32', 'w-20', 'w-16', 'w-20', 'w-16', 'w-14']} />
+      <TableSkeleton
+        caption={label}
+        columns={6}
+        rows={6}
+        widths={['w-32', 'w-20', 'w-16', 'w-20', 'w-16', 'w-14']}
+      />
     </div>
   );
 }
@@ -422,13 +425,7 @@ export function SettingsSkeleton({ label = 'Loading settings' }: { label?: strin
 }
 
 /** An editor page: two form columns, a media well and a save bar. */
-export function EditorSkeleton({
-  label,
-  sections = 4,
-}: {
-  label: string;
-  sections?: number;
-}) {
+export function EditorSkeleton({ label, sections = 4 }: { label: string; sections?: number }) {
   return (
     <div aria-busy="true" className="grid gap-6">
       <span className="sr-only" role="status">
@@ -444,7 +441,9 @@ export function EditorSkeleton({
                 {Array.from({ length: index === 0 ? 2 : 4 }, (_, field) => (
                   <div key={field} className="grid gap-2">
                     <Skeleton className="h-2.5 w-20" />
-                    <Skeleton className={index === 0 && field === 0 ? 'h-28 rounded-xl' : 'h-10 rounded-xl'} />
+                    <Skeleton
+                      className={index === 0 && field === 0 ? 'h-28 rounded-xl' : 'h-10 rounded-xl'}
+                    />
                   </div>
                 ))}
               </div>
@@ -510,7 +509,10 @@ export function InboxSkeleton({ label = 'Loading conversations' }: { label?: str
           </div>
           <Skeleton className="h-3 w-28" />
           {Array.from({ length: 6 }, (_, index) => (
-            <div key={index} className="flex gap-3 border-t border-hairline pt-3 first:border-t-0 first:pt-0">
+            <div
+              key={index}
+              className="flex gap-3 border-t border-hairline pt-3 first:border-t-0 first:pt-0"
+            >
               <Skeleton className="size-9 shrink-0 rounded-full" />
               <div className="grid flex-1 gap-1.5">
                 <Skeleton className="h-3.5 w-2/3" />
@@ -687,7 +689,13 @@ export function OperationsSkeleton({ label = 'Loading operations' }: { label?: s
           </Card>
         ))}
       </div>
-      <TableSkeleton caption={label} columns={6} rows={7} withFilters widths={['w-32', 'w-24', 'w-20', 'w-24', 'w-16', 'w-20']} />
+      <TableSkeleton
+        caption={label}
+        columns={6}
+        rows={7}
+        withFilters
+        widths={['w-32', 'w-24', 'w-20', 'w-24', 'w-16', 'w-20']}
+      />
     </div>
   );
 }
@@ -704,7 +712,10 @@ export function NeutralPageSkeleton({ label = 'Loading the page' }: { label?: st
         <Card className="nz-panel-strong grid gap-3 rounded-2xl p-5">
           <Skeleton className="h-3 w-24" />
           {Array.from({ length: 6 }, (_, index) => (
-            <div key={index} className="flex items-center gap-3 border-t border-hairline pt-3 first:border-t-0 first:pt-0">
+            <div
+              key={index}
+              className="flex items-center gap-3 border-t border-hairline pt-3 first:border-t-0 first:pt-0"
+            >
               <Skeleton className="size-8 shrink-0 rounded-lg" />
               <Skeleton className="h-3.5 flex-1" />
               <Skeleton className="h-3 w-16" />
@@ -739,13 +750,7 @@ export type PageSkeletonVariant =
   | 'neutral';
 
 /** The single entry point a loading.tsx uses. */
-export function PageSkeleton({
-  variant,
-  label,
-}: {
-  variant: PageSkeletonVariant;
-  label: string;
-}) {
+export function PageSkeleton({ variant, label }: { variant: PageSkeletonVariant; label: string }) {
   switch (variant) {
     case 'dashboard':
       return <DashboardSkeleton label={label} />;

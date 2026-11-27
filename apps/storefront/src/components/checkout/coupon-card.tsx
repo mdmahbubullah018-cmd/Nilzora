@@ -49,7 +49,9 @@ export function CouponCard({
     <Card>
       <CardHeader>
         <CardTitle as="h2">Voucher or coupon</CardTitle>
-        <p className="text-sm text-muted-foreground">Use one voucher or one coupon code on this order.</p>
+        <p className="text-sm text-muted-foreground">
+          Use one voucher or one coupon code on this order.
+        </p>
       </CardHeader>
       <CardContent className="grid gap-4">
         {active ? (
@@ -60,7 +62,9 @@ export function CouponCard({
               ) : (
                 <Tag aria-hidden="true" className="size-4 shrink-0" />
               )}
-              <span className={isVoucher ? '' : 'font-mono'}>{isVoucher ? 'Voucher applied' : applied}</span>
+              <span className={isVoucher ? '' : 'font-mono'}>
+                {isVoucher ? 'Voucher applied' : applied}
+              </span>
               {description ? <span className="font-normal">— {description}</span> : null}
             </p>
             <span className="flex items-center gap-3">
@@ -100,11 +104,17 @@ export function CouponCard({
                       <span className="flex min-w-0 items-center gap-2">
                         <Ticket aria-hidden="true" className="size-4 shrink-0 text-primary" />
                         <span className="min-w-0">
-                          <span className="block truncate font-medium text-foreground">{voucher.title}</span>
-                          <span className="block truncate text-xs text-muted-foreground">{voucher.summary}</span>
+                          <span className="block truncate font-medium text-foreground">
+                            {voucher.title}
+                          </span>
+                          <span className="block truncate text-xs text-muted-foreground">
+                            {voucher.summary}
+                          </span>
                         </span>
                       </span>
-                      <span className="shrink-0 text-sm font-semibold text-primary">{chosen ? 'Applied' : 'Use'}</span>
+                      <span className="shrink-0 text-sm font-semibold text-primary">
+                        {chosen ? 'Applied' : 'Use'}
+                      </span>
                     </a>
                   </li>
                 );

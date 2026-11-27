@@ -84,7 +84,11 @@ export interface SavedCartStore {
     query: AdminCheckoutListQuery,
     page: { limit: number; offset: number },
   ): Promise<{ checkouts: CheckoutSummary[]; total: number }>;
-  getCheckout(accessToken: string, userId: string, checkoutId: string): Promise<CheckoutDetail | null>;
+  getCheckout(
+    accessToken: string,
+    userId: string,
+    checkoutId: string,
+  ): Promise<CheckoutDetail | null>;
   /** The summary figures for one reporting window. */
   checkoutMetrics(
     accessToken: string,
@@ -186,7 +190,9 @@ async function readCart(rpc: Rpc, cartId: string): Promise<CartResponse> {
   return toCart(row);
 }
 
-function savedCartStoreOver(rpcFor: (accessToken: string | null, userId: string | null) => Rpc): SavedCartStore {
+function savedCartStoreOver(
+  rpcFor: (accessToken: string | null, userId: string | null) => Rpc,
+): SavedCartStore {
   return {
     async myCart(accessToken, userId) {
       const rpc = rpcFor(accessToken, userId);
@@ -262,7 +268,8 @@ function savedCartStoreOver(rpcFor: (accessToken: string | null, userId: string 
         }),
       );
       const session = await rpc<unknown>('checkout_session', { p_session_id: sessionId });
-      if (session === null) throw new StoreUnavailableError('checkout_session answered with no row');
+      if (session === null)
+        throw new StoreUnavailableError('checkout_session answered with no row');
       const parsed = z
         .object({
           id: z.uuid(),
@@ -271,7 +278,7 @@ function savedCartStoreOver(rpcFor: (accessToken: string | null, userId: string 
           lastActivityAt: z.iso.datetime(),
         })
         .parse({
-          ...session as Record<string, unknown>,
+          ...(session as Record<string, unknown>),
           // The database writes timestamps with an offset; the contract wants the `Z` form.
           startedAt: toIso((session as { startedAt: string | Date }).startedAt),
           lastActivityAt: toIso((session as { lastActivityAt: string | Date }).lastActivityAt),
@@ -311,8 +318,14 @@ function savedCartStoreOver(rpcFor: (accessToken: string | null, userId: string 
           cartValueMinor: Number(row.cart_value_minor ?? 0),
           startedAt: toIso(row.started_at),
           lastActivityAt: toIso(row.last_activity_at),
-          abandonedAt: row.abandoned_at === null || row.abandoned_at === undefined ? null : toIso(row.abandoned_at),
-          convertedAt: row.converted_at === null || row.converted_at === undefined ? null : toIso(row.converted_at),
+          abandonedAt:
+            row.abandoned_at === null || row.abandoned_at === undefined
+              ? null
+              : toIso(row.abandoned_at),
+          convertedAt:
+            row.converted_at === null || row.converted_at === undefined
+              ? null
+              : toIso(row.converted_at),
           orderNumber: row.order_number ?? null,
           attemptCount: Number(row.attempt_count ?? 0),
         }),
@@ -369,7 +382,9 @@ function savedCartStoreOver(rpcFor: (accessToken: string | null, userId: string 
     async previewRecovery(token) {
       // No session: the link is the capability. Grant execute to anon is the whole of the
       // authorization, and the function returns no personal data.
-      const data = await rpcFor(null, null)<unknown>('checkout_recovery_preview', { p_token: token });
+      const data = await rpcFor(null, null)<unknown>('checkout_recovery_preview', {
+        p_token: token,
+      });
       return checkoutRecoveryPreviewSchema.parse(isoTimestamps(data));
     },
 

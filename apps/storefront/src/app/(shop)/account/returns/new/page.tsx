@@ -23,13 +23,15 @@ export const metadata: Metadata = {
  * sent, so this page never promises an outcome; it only asks what is coming back and why,
  * and shows the API's own refusal when the order does not qualify.
  */
-export default async function NewReturnPage({ searchParams }: { searchParams: Promise<SearchParams> }) {
+export default async function NewReturnPage({
+  searchParams,
+}: {
+  searchParams: Promise<SearchParams>;
+}) {
   const orderNumber = orderNumberSchema.safeParse(singleParam(await searchParams, 'order') ?? '');
   if (!orderNumber.success) notFound();
 
-  const read = await readAccount((api, accessToken) =>
-    api.getOrder(accessToken, orderNumber.data),
-  );
+  const read = await readAccount((api, accessToken) => api.getOrder(accessToken, orderNumber.data));
   if (read.kind === 'signed_out') {
     redirect(`/login?next=${encodeURIComponent(`/account/returns/new?order=${orderNumber.data}`)}`);
   }

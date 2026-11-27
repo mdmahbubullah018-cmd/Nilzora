@@ -58,7 +58,10 @@ function checkXref(pdf: Buffer): void {
   const start = Number(/startxref\n(\d+)\n%%EOF\n$/.exec(text)?.[1]);
   expect(text.slice(start, start + 4)).toBe('xref');
   const size = Number(/^xref\n0 (\d+)\n/.exec(text.slice(start))?.[1]);
-  const lines = text.slice(start).split('\n').slice(2, 2 + size);
+  const lines = text
+    .slice(start)
+    .split('\n')
+    .slice(2, 2 + size);
   lines.slice(1).forEach((line, index) => {
     const offset = Number(line.slice(0, 10));
     expect(text.slice(offset).startsWith(`${String(index + 1)} 0 obj\n`)).toBe(true);
@@ -90,9 +93,7 @@ describe('Latin-only documents are unchanged', () => {
 
   it('keeps the exact bytes the writer produced before Bengali support', () => {
     // Hashes taken from the writer before the embedded-font path existed.
-    expect(sha256(report)).toBe(
-      '4babf9586b57dc44640d237cc3594cdf7788f69cc60cfe762ccc653cd9b1f177',
-    );
+    expect(sha256(report)).toBe('4babf9586b57dc44640d237cc3594cdf7788f69cc60cfe762ccc653cd9b1f177');
     expect(sha256(renderOrderDocument(sampleDocument('NZ100123'), 'invoice', at))).toBe(
       'a1e2ab7897839483dcfb45c15ba4977e4712597d2d73219e8d4c000b5d283dd3',
     );
@@ -183,7 +184,9 @@ describe('embedding', () => {
 
   it('draws the shaped glyph ids, not the plain cmap sequence', () => {
     const shaped = shapeBengali('ক্ষ কি রহিম', 'regular');
-    const ids = (shaped?.glyphs ?? []).map((glyph) => glyph.id.toString(16).toUpperCase().padStart(4, '0'));
+    const ids = (shaped?.glyphs ?? []).map((glyph) =>
+      glyph.id.toString(16).toUpperCase().padStart(4, '0'),
+    );
     const content = page.ops[0] ?? '';
     for (const id of ids) expect(content).toContain(`<${id}>`);
     const plainIds = fullFont('regular')
@@ -238,7 +241,10 @@ describe('mixed Latin and Bengali text', () => {
     expect(textWidth(mixed, 12)).toBeCloseTo(latin + (shaped * 12) / 1000, 6);
     // Four "?" in Helvetica would be 4 × 556 units.
     expect(textWidth('রহিম', 10)).not.toBeCloseTo((4 * 556 * 10) / 1000, 1);
-    expect(textWidth('ক্ষ', 10)).toBeCloseTo(((shapeBengali('ক্ষ', 'regular')?.width ?? 0) * 10) / 1000, 6);
+    expect(textWidth('ক্ষ', 10)).toBeCloseTo(
+      ((shapeBengali('ক্ষ', 'regular')?.width ?? 0) * 10) / 1000,
+      6,
+    );
   });
 
   it('uses the bold face for bold text', () => {

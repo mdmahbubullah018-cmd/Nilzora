@@ -60,7 +60,11 @@ export function DashboardCommandBar({
             {waiting ?? <AutoText>Nothing is waiting for you right now.</AutoText>}
           </p>
         </div>
-        {aside ? <div className="flex flex-wrap items-center gap-2"><AutoText value={aside} /></div> : null}
+        {aside ? (
+          <div className="flex flex-wrap items-center gap-2">
+            <AutoText value={aside} />
+          </div>
+        ) : null}
       </div>
     </GlassPanel>
   );

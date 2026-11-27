@@ -229,10 +229,19 @@ describe('saveStoreProfileAction', () => {
     // The form showed no WhatsApp/app fields (an older payload) and they were left empty.
     await saveStoreProfileAction(
       IDLE,
-      form({ ...PROFILE, absentFields: 'whatsappNumber,playStoreUrl,appStoreUrl,socialTiktok,socialX' }),
+      form({
+        ...PROFILE,
+        absentFields: 'whatsappNumber,playStoreUrl,appStoreUrl,socialTiktok,socialX',
+      }),
     );
     const kept = api.saveStoreProfile.mock.calls[0]?.[1] as Record<string, unknown>;
-    for (const field of ['whatsappNumber', 'playStoreUrl', 'appStoreUrl', 'socialTiktok', 'socialX']) {
+    for (const field of [
+      'whatsappNumber',
+      'playStoreUrl',
+      'appStoreUrl',
+      'socialTiktok',
+      'socialX',
+    ]) {
       expect(kept).not.toHaveProperty(field);
     }
 

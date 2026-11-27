@@ -12,7 +12,10 @@ import { StoreRulesCard } from '@/components/settings/store-rules-card';
 import { WorkspaceShell } from '@/components/shell/workspace-shell';
 import { workspaceGate } from '@/lib/access';
 
-export const metadata: Metadata = { title: 'Store settings', robots: { index: false, follow: false } };
+export const metadata: Metadata = {
+  title: 'Store settings',
+  robots: { index: false, follow: false },
+};
 
 function SectionSkeleton({ label }: { label: string }) {
   return (

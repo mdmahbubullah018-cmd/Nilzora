@@ -91,18 +91,27 @@ export default async function ShipmentPage({
               {shipment.isMock ? <TestChip /> : null}
             </>
           }
-          title={<span className="font-mono"><AutoText value={shipment.merchantRef} /></span>}
+          title={
+            <span className="font-mono">
+              <AutoText value={shipment.merchantRef} />
+            </span>
+          }
           meta={
             <>
               <span>{shipment.providerName || providerName(shipment.provider)}</span>
               <span aria-hidden="true">·</span>
               <span>
-                Order <span className="font-mono"><AutoText value={shipment.orderNumber} /></span>
+                Order{' '}
+                <span className="font-mono">
+                  <AutoText value={shipment.orderNumber} />
+                </span>
               </span>
               <span aria-hidden="true">·</span>
               <span>
                 Created{' '}
-                <time dateTime={shipment.createdAt}><AutoText value={formatDateTime(shipment.createdAt)} /></time>
+                <time dateTime={shipment.createdAt}>
+                  <AutoText value={formatDateTime(shipment.createdAt)} />
+                </time>
               </span>
             </>
           }

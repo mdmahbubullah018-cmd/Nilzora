@@ -170,7 +170,12 @@ export function createCartStore({
     hydrated: boolean,
     selected: ReadonlySet<string> = snapshot.selected,
   ): void {
-    snapshot = { items, count: countUnits(items), hydrated, selected: pruneSelected(items, selected) };
+    snapshot = {
+      items,
+      count: countUnits(items),
+      hydrated,
+      selected: pruneSelected(items, selected),
+    };
     for (const listener of listeners) listener();
   }
 
@@ -274,7 +279,12 @@ export function createCartStore({
     },
     removeMany: (refs) => {
       if (refs.length === 0) return;
-      commit((items) => refs.reduce<readonly CartItem[]>((acc, ref) => removeItem(acc, ref.productId, ref.variantId), items));
+      commit((items) =>
+        refs.reduce<readonly CartItem[]>(
+          (acc, ref) => removeItem(acc, ref.productId, ref.variantId),
+          items,
+        ),
+      );
     },
     setSelected: (key, selected) => {
       if (selected === snapshot.selected.has(key)) return;

@@ -32,7 +32,9 @@ function picture(position: number, name: string): ProductImage {
   };
 }
 
-function variant(overrides: Partial<ProductVariant> & Pick<ProductVariant, 'id' | 'sku'>): ProductVariant {
+function variant(
+  overrides: Partial<ProductVariant> & Pick<ProductVariant, 'id' | 'sku'>,
+): ProductVariant {
   return {
     priceMinor: 125_000,
     compareAtPriceMinor: null,
@@ -73,7 +75,9 @@ function product(variants: ProductVariant[]): ProductDetail {
   };
 }
 
-function renderPage(overrides: { variants?: ProductVariant[]; initial?: { url: string; label: string } } = {}) {
+function renderPage(
+  overrides: { variants?: ProductVariant[]; initial?: { url: string; label: string } } = {},
+) {
   const detail = product(overrides.variants ?? [red, blue]);
   return render(
     <VariantImageProvider initial={overrides.initial ?? null}>
@@ -98,9 +102,7 @@ describe('the chosen variant picture', () => {
 
     expect(mainPicture()).toBe(BLUE_PICTURE);
     // The picture is labelled with the options it belongs to, and can be dismissed.
-    expect(
-      screen.getByRole('button', { name: 'Show the pictures of Cotton shirt' }),
-    ).toBeDefined();
+    expect(screen.getByRole('button', { name: 'Show the pictures of Cotton shirt' })).toBeDefined();
   });
 
   it('hands the product pictures back when asked', () => {

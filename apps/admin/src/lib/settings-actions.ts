@@ -165,7 +165,10 @@ export async function saveCodAvailabilityAction(
   const wanted = formText(formData, 'codEnabled') === 'on';
   const current = await adminRead((api, token) => api.adminGetStoreSettings(token));
   if (current.kind !== 'ok') {
-    return { status: 'error', message: 'The current settings could not be read. Reload and try again.' };
+    return {
+      status: 'error',
+      message: 'The current settings could not be read. Reload and try again.',
+    };
   }
   const settings = current.value.settings;
 
@@ -184,7 +187,8 @@ export async function saveCodAvailabilityAction(
       returnTo: '/admin/settings',
       label: 'payment method change',
       messages: {
-        forbidden: 'Changing payment methods needs the \u201cManage store settings\u201d permission.',
+        forbidden:
+          'Changing payment methods needs the \u201cManage store settings\u201d permission.',
       },
     },
   );

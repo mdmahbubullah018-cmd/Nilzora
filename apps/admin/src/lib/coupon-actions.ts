@@ -229,7 +229,9 @@ const PICKER_PAGE_SIZE = 10;
  * refused like any form without this app's Origin and CSRF token. The API requires
  * customers.read; the coupon itself is checked again when it is saved.
  */
-export async function searchCouponCustomersAction(formData: FormData): Promise<CustomerSearchResult> {
+export async function searchCouponCustomersAction(
+  formData: FormData,
+): Promise<CustomerSearchResult> {
   const query = formText(formData, 'q').trim();
   if (query.length < 2) return { ok: true, customers: [] };
   const parsed = customerListQuerySchema.safeParse({
@@ -239,14 +241,18 @@ export async function searchCouponCustomersAction(formData: FormData): Promise<C
     pageSize: PICKER_PAGE_SIZE,
   });
   if (!parsed.success) return { ok: false, message: 'That search text is too long.' };
-  const result = await adminAct(formData, (api, token) => api.adminListCustomers(token, parsed.data), {
-    returnTo: '/admin/coupons',
-    label: 'coupon customer search',
-    messages: {
-      forbidden: 'Choosing customers needs the “View customers” permission.',
-      rate_limited: 'Too many searches in a short time. Wait a moment, then try again.',
+  const result = await adminAct(
+    formData,
+    (api, token) => api.adminListCustomers(token, parsed.data),
+    {
+      returnTo: '/admin/coupons',
+      label: 'coupon customer search',
+      messages: {
+        forbidden: 'Choosing customers needs the “View customers” permission.',
+        rate_limited: 'Too many searches in a short time. Wait a moment, then try again.',
+      },
     },
-  });
+  );
   if (!result.ok) {
     return { ok: false, message: result.state.message ?? 'Customers could not be searched.' };
   }

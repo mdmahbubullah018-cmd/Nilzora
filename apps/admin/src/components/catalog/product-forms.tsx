@@ -29,7 +29,11 @@ export type Action = (previous: FormState, formData: FormData) => Promise<FormSt
 
 export function FormError({ state }: { state: FormState }) {
   if (state.status !== 'error' || !state.message) return null;
-  return <Alert tone="danger"><AutoText value={state.message} /></Alert>;
+  return (
+    <Alert tone="danger">
+      <AutoText value={state.message} />
+    </Alert>
+  );
 }
 
 /** A value to show: what was just typed (after a refusal), else the saved one. */
@@ -102,7 +106,9 @@ export function StockAdjustForm({
       <input type="hidden" name="productId" value={productId} />
       <FormError state={state} />
       <fieldset aria-labelledby={legendId} className="grid gap-2">
-        <legend id={legendId} className="text-sm font-medium text-foreground"><AutoText>Change</AutoText></legend>
+        <legend id={legendId} className="text-sm font-medium text-foreground">
+          <AutoText>Change</AutoText>
+        </legend>
         <div className="grid grid-cols-2 gap-2">
           {(
             [
@@ -132,7 +138,7 @@ export function StockAdjustForm({
       </fieldset>
       <Field
         id="stock-quantity"
-        label={tx("Units")}
+        label={tx('Units')}
         error={errors.quantity}
         required
         hint={`${String(stockQuantity)} in stock now. Stock never goes below zero.`}
@@ -152,16 +158,20 @@ export function StockAdjustForm({
       </Field>
       <Field
         id="stock-note"
-        label={tx("Reason")}
+        label={tx('Reason')}
         error={errors.note}
         required
-        hint={tx("Recorded in the stock ledger, e.g. “Received from supplier” or “Damaged in storage”.")}
+        hint={tx(
+          'Recorded in the stock ledger, e.g. “Received from supplier” or “Damaged in storage”.',
+        )}
       >
         {(control) => (
           <Input {...control} name="note" maxLength={300} defaultValue={shown(state, 'note', '')} />
         )}
       </Field>
-      <Button type="submit" variant="outline" loading={pending}><AutoText>Record adjustment</AutoText></Button>
+      <Button type="submit" variant="outline" loading={pending}>
+        <AutoText>Record adjustment</AutoText>
+      </Button>
     </form>
   );
 }
@@ -229,7 +239,7 @@ export function SubmitForReviewForm({ csrf, productId }: { csrf: CsrfInput; prod
       action={submitForReviewAction}
       csrf={csrf}
       productId={productId}
-      label={tx("Submit for review")}
+      label={tx('Submit for review')}
     />
   );
 }
@@ -252,9 +262,11 @@ export function PublishForm({
         csrf={csrf}
         trigger="Publish without review"
         triggerVariant="primary"
-        title={tx("Publish and approve this content yourself?")}
-        description={tx("You are the store owner. Publishing approves the content as it stands and puts the product on sale without a moderator's review.")}
-        confirmLabel={tx("Publish")}
+        title={tx('Publish and approve this content yourself?')}
+        description={tx(
+          "You are the store owner. Publishing approves the content as it stands and puts the product on sale without a moderator's review.",
+        )}
+        confirmLabel={tx('Publish')}
         hiddenFields={{ productId, status: 'active' }}
       />
     );
@@ -264,7 +276,7 @@ export function PublishForm({
       action={setProductStatusAction}
       csrf={csrf}
       productId={productId}
-      label={tx("Publish")}
+      label={tx('Publish')}
       fields={{ status: 'active' }}
     />
   );
@@ -277,7 +289,7 @@ export function RestoreForm({ csrf, productId }: { csrf: CsrfInput; productId: s
       action={setProductStatusAction}
       csrf={csrf}
       productId={productId}
-      label={tx("Restore as draft")}
+      label={tx('Restore as draft')}
       variant="outline"
       fields={{ status: 'draft' }}
     />
@@ -309,9 +321,11 @@ export function WithdrawReviewForm({ csrf, productId }: { csrf: CsrfInput; produ
       csrf={csrf}
       align="start"
       trigger="Withdraw review"
-      title={tx("Withdraw this review?")}
-      description={tx("The moderator will no longer see it. Edit the content, then submit it again.")}
-      confirmLabel={tx("Yes, withdraw it")}
+      title={tx('Withdraw this review?')}
+      description={tx(
+        'The moderator will no longer see it. Edit the content, then submit it again.',
+      )}
+      confirmLabel={tx('Yes, withdraw it')}
       tone="primary"
       hiddenFields={{ productId }}
     />
@@ -326,9 +340,11 @@ export function UnpublishForm({ csrf, productId }: { csrf: CsrfInput; productId:
       csrf={csrf}
       align="start"
       trigger="Unpublish"
-      title={tx("Take this product off sale?")}
-      description={tx("It becomes a draft and disappears from the storefront. Its approval is kept, so it can be published again.")}
-      confirmLabel={tx("Unpublish")}
+      title={tx('Take this product off sale?')}
+      description={tx(
+        'It becomes a draft and disappears from the storefront. Its approval is kept, so it can be published again.',
+      )}
+      confirmLabel={tx('Unpublish')}
       hiddenFields={{ productId, status: 'draft' }}
     />
   );
@@ -343,9 +359,11 @@ export function ArchiveForm({ csrf, productId }: { csrf: CsrfInput; productId: s
       align="start"
       trigger="Archive"
       triggerVariant="ghost"
-      title={tx("Archive this product?")}
-      description={tx("It is hidden from the storefront and from new orders. Past orders keep their details. It can be restored as a draft later.")}
-      confirmLabel={tx("Archive product")}
+      title={tx('Archive this product?')}
+      description={tx(
+        'It is hidden from the storefront and from new orders. Past orders keep their details. It can be restored as a draft later.',
+      )}
+      confirmLabel={tx('Archive product')}
       hiddenFields={{ productId, status: 'archived' }}
     />
   );
@@ -359,7 +377,10 @@ export function ArchiveForm({ csrf, productId }: { csrf: CsrfInput; productId: s
 function Named({ label, name }: { label: string; name: string }) {
   return (
     <>
-      {label} <span className="sr-only"><AutoText value={name} /></span>
+      {label}{' '}
+      <span className="sr-only">
+        <AutoText value={name} />
+      </span>
     </>
   );
 }
@@ -378,7 +399,12 @@ export interface ProductRowActionsProps {
  * whether to render them). Publishing needs approved content; unpublishing and
  * archiving ask for confirmation. The Server Action checks everything again.
  */
-export function ProductRowActions({ csrf, product, returnTo, owner = false }: ProductRowActionsProps) {
+export function ProductRowActions({
+  csrf,
+  product,
+  returnTo,
+  owner = false,
+}: ProductRowActionsProps) {
   const tx = useTx();
   const { id, name, status, moderationStatus } = product;
   const fields = (next: string) => ({ productId: id, status: next, returnTo });
@@ -391,7 +417,7 @@ export function ProductRowActions({ csrf, product, returnTo, owner = false }: Pr
           action={setProductStatusAction}
           csrf={csrf}
           productId={id}
-          label={<Named label={tx("Publish")} name={name} />}
+          label={<Named label={tx('Publish')} name={name} />}
           variant="outline"
           size="sm"
           compact
@@ -402,11 +428,13 @@ export function ProductRowActions({ csrf, product, returnTo, owner = false }: Pr
         <ConfirmedAction
           action={setProductStatusAction}
           csrf={csrf}
-          trigger={<Named label={tx("Publish")} name={name} />}
+          trigger={<Named label={tx('Publish')} name={name} />}
           triggerVariant="outline"
           title={`Publish “${name}” without a review?`}
-          description={tx("You are the store owner. Publishing approves the content as it stands and puts the product on sale without a moderator's review.")}
-          confirmLabel={tx("Publish")}
+          description={tx(
+            "You are the store owner. Publishing approves the content as it stands and puts the product on sale without a moderator's review.",
+          )}
+          confirmLabel={tx('Publish')}
           hiddenFields={fields('active')}
         />
       ) : null}
@@ -414,11 +442,13 @@ export function ProductRowActions({ csrf, product, returnTo, owner = false }: Pr
         <ConfirmedAction
           action={setProductStatusAction}
           csrf={csrf}
-          trigger={<Named label={tx("Unpublish")} name={name} />}
+          trigger={<Named label={tx('Unpublish')} name={name} />}
           triggerVariant="ghost"
           title={`Take “${name}” off sale?`}
-          description={tx("It becomes a draft and disappears from the storefront. Its approval is kept.")}
-          confirmLabel={tx("Unpublish")}
+          description={tx(
+            'It becomes a draft and disappears from the storefront. Its approval is kept.',
+          )}
+          confirmLabel={tx('Unpublish')}
           hiddenFields={fields('draft')}
         />
       ) : null}
@@ -427,7 +457,7 @@ export function ProductRowActions({ csrf, product, returnTo, owner = false }: Pr
           action={setProductStatusAction}
           csrf={csrf}
           productId={id}
-          label={<Named label={tx("Restore")} name={name} />}
+          label={<Named label={tx('Restore')} name={name} />}
           variant="ghost"
           size="sm"
           compact
@@ -437,11 +467,13 @@ export function ProductRowActions({ csrf, product, returnTo, owner = false }: Pr
         <ConfirmedAction
           action={setProductStatusAction}
           csrf={csrf}
-          trigger={<Named label={tx("Archive")} name={name} />}
+          trigger={<Named label={tx('Archive')} name={name} />}
           triggerVariant="ghost"
           title={`Archive “${name}”?`}
-          description={tx("It is hidden from the storefront and from new orders. It can be restored as a draft later.")}
-          confirmLabel={tx("Archive product")}
+          description={tx(
+            'It is hidden from the storefront and from new orders. It can be restored as a draft later.',
+          )}
+          confirmLabel={tx('Archive product')}
           hiddenFields={fields('archived')}
         />
       )}

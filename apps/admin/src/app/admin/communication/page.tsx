@@ -77,7 +77,9 @@ export default async function CommunicationPage({
         )}
 
         <p className="flex items-center gap-2 text-xs text-muted-foreground">
-          <Lock aria-hidden className="size-3.5" /><AutoText>Internal notes and team conversations are never shown to a customer.</AutoText></p>
+          <Lock aria-hidden className="size-3.5" />
+          <AutoText>Internal notes and team conversations are never shown to a customer.</AutoText>
+        </p>
       </div>
     </WorkspaceShell>
   );

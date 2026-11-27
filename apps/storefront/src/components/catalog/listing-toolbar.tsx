@@ -7,7 +7,12 @@ import type { Route } from 'next';
 import Form from 'next/form';
 import Link from 'next/link';
 import { useState } from 'react';
-import { SORT_LABELS, listingHref, MAX_FILTER_TAKA, type ListingFilters } from '@/lib/catalog-query';
+import {
+  SORT_LABELS,
+  listingHref,
+  MAX_FILTER_TAKA,
+  type ListingFilters,
+} from '@/lib/catalog-query';
 import { formatMoney } from '@/lib/format';
 import { ChipMenu } from './chip-menu';
 

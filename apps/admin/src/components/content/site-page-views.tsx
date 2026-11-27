@@ -41,11 +41,20 @@ export function sitePageHref(slug: AdminSitePage['slug']): Route {
 }
 
 function StateChip({ page }: { page: AdminSitePage }) {
-  if (page.updatedAt === null) return <Chip tone="neutral"><AutoText>Not written yet</AutoText></Chip>;
+  if (page.updatedAt === null)
+    return (
+      <Chip tone="neutral">
+        <AutoText>Not written yet</AutoText>
+      </Chip>
+    );
   return page.isPublished ? (
-    <Chip tone="success" dot><AutoText>Published</AutoText></Chip>
+    <Chip tone="success" dot>
+      <AutoText>Published</AutoText>
+    </Chip>
   ) : (
-    <Chip tone="warning" dot><AutoText>Draft</AutoText></Chip>
+    <Chip tone="warning" dot>
+      <AutoText>Draft</AutoText>
+    </Chip>
   );
 }
 
@@ -54,16 +63,26 @@ export function SitePagesList({ pages }: { pages: readonly AdminSitePage[] }) {
   const tx = useTx();
   const bySlug = new Map(pages.map((page) => [page.slug, page]));
   return (
-    <GlassTable label={tx("Static pages")}>
+    <GlassTable label={tx('Static pages')}>
       <DataTable caption="Static pages" dense>
         <TableHeader>
           <TableRow className="hover:bg-transparent">
-            <TableHead><AutoText>Page</AutoText></TableHead>
-            <TableHead><AutoText>Storefront address</AutoText></TableHead>
-            <TableHead><AutoText>State</AutoText></TableHead>
-            <TableHead className="hidden md:table-cell"><AutoText>Updated</AutoText></TableHead>
             <TableHead>
-              <span className="sr-only"><AutoText>Actions</AutoText></span>
+              <AutoText>Page</AutoText>
+            </TableHead>
+            <TableHead>
+              <AutoText>Storefront address</AutoText>
+            </TableHead>
+            <TableHead>
+              <AutoText>State</AutoText>
+            </TableHead>
+            <TableHead className="hidden md:table-cell">
+              <AutoText>Updated</AutoText>
+            </TableHead>
+            <TableHead>
+              <span className="sr-only">
+                <AutoText>Actions</AutoText>
+              </span>
             </TableHead>
           </TableRow>
         </TableHeader>
@@ -84,7 +103,13 @@ export function SitePagesList({ pages }: { pages: readonly AdminSitePage[] }) {
                   {storefrontPagePath(slug)}
                 </TableCell>
                 <TableCell>
-                  {page ? <StateChip page={page} /> : <Chip tone="neutral"><AutoText>Not written yet</AutoText></Chip>}
+                  {page ? (
+                    <StateChip page={page} />
+                  ) : (
+                    <Chip tone="neutral">
+                      <AutoText>Not written yet</AutoText>
+                    </Chip>
+                  )}
                 </TableCell>
                 <TableCell className="hidden text-muted-foreground md:table-cell">
                   {page?.updatedAt ? formatDateTime(page.updatedAt) : '—'}
@@ -164,15 +189,17 @@ export function SitePageForm({ page, csrf }: { page: AdminSitePage; csrf: CsrfIn
       <input type="hidden" name="slug" value={page.slug} />
 
       <SectionCard
-        title={tx("Content")}
+        title={tx('Content')}
         icon={FileText}
-        description={tx("Plain text only. Blank lines separate paragraphs; start a line with “# ” or “## ” for a heading and “- ” for a list item.")}
+        description={tx(
+          'Plain text only. Blank lines separate paragraphs; start a line with “# ” or “## ” for a heading and “- ” for a list item.',
+        )}
         className="nz-panel-strong"
       >
         <div className="grid gap-5">
           <Field
             id="page-title"
-            label={tx("Title")}
+            label={tx('Title')}
             required
             error={error('title')}
             hint={<Counter value={values.title} max={SITE_PAGE_LIMITS.title} />}
@@ -190,7 +217,7 @@ export function SitePageForm({ page, csrf }: { page: AdminSitePage; csrf: CsrfIn
           </Field>
           <Field
             id="page-body"
-            label={tx("Text")}
+            label={tx('Text')}
             error={error('body')}
             hint={<Counter value={values.body} max={SITE_PAGE_LIMITS.body} />}
           >
@@ -210,14 +237,14 @@ export function SitePageForm({ page, csrf }: { page: AdminSitePage; csrf: CsrfIn
       </SectionCard>
 
       <SectionCard
-        title={tx("Search metadata")}
-        description={tx("Optional. Empty falls back to the page title.")}
+        title={tx('Search metadata')}
+        description={tx('Optional. Empty falls back to the page title.')}
         className="nz-panel-strong"
       >
         <div className="grid gap-5 sm:grid-cols-2">
           <Field
             id="page-seoTitle"
-            label={tx("Search title")}
+            label={tx('Search title')}
             error={error('seoTitle')}
             hint={<Counter value={values.seoTitle} max={SITE_PAGE_LIMITS.seoTitle} />}
           >
@@ -234,7 +261,7 @@ export function SitePageForm({ page, csrf }: { page: AdminSitePage; csrf: CsrfIn
           </Field>
           <Field
             id="page-seoDescription"
-            label={tx("Search description")}
+            label={tx('Search description')}
             error={error('seoDescription')}
             hint={<Counter value={values.seoDescription} max={SITE_PAGE_LIMITS.seoDescription} />}
           >
@@ -268,7 +295,9 @@ export function SitePageForm({ page, csrf }: { page: AdminSitePage; csrf: CsrfIn
                 className="mt-0.5 size-5 shrink-0 accent-primary-action"
               />
               <span className="grid gap-0.5">
-                <span className="font-medium"><AutoText>Published</AutoText></span>
+                <span className="font-medium">
+                  <AutoText>Published</AutoText>
+                </span>
                 <span className="text-xs text-muted-foreground">
                   Visitors see it at {storefrontPagePath(page.slug)}. A draft is hidden.
                 </span>
@@ -277,10 +306,14 @@ export function SitePageForm({ page, csrf }: { page: AdminSitePage; csrf: CsrfIn
             <div className="flex flex-wrap items-center gap-3">
               {dirty ? (
                 <p className="flex items-center gap-2 text-sm text-muted-foreground">
-                  <span aria-hidden="true" className="size-2 rounded-full bg-warning" /><AutoText>Unsaved changes</AutoText></p>
+                  <span aria-hidden="true" className="size-2 rounded-full bg-warning" />
+                  <AutoText>Unsaved changes</AutoText>
+                </p>
               ) : null}
               <SubmitButton pendingLabel="Saving…" className="max-sm:min-h-11">
-                <Save aria-hidden="true" strokeWidth={1.75} /><AutoText>Save page</AutoText></SubmitButton>
+                <Save aria-hidden="true" strokeWidth={1.75} />
+                <AutoText>Save page</AutoText>
+              </SubmitButton>
             </div>
           </div>
         </div>

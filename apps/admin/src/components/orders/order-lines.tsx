@@ -15,7 +15,9 @@ import { VariantOptions } from './variant-options';
 
 /** "Size: M / Colour: Navy · × 2", or just the quantity for a simple product. */
 export function lineDetail(line: Pick<OrderPreviewItem, 'variantLabel' | 'quantity'>): string {
-  return line.variantLabel ? `${line.variantLabel} · × ${String(line.quantity)}` : `× ${String(line.quantity)}`;
+  return line.variantLabel
+    ? `${line.variantLabel} · × ${String(line.quantity)}`
+    : `× ${String(line.quantity)}`;
 }
 
 export function OrderLinesPreview({
@@ -30,7 +32,11 @@ export function OrderLinesPreview({
 }) {
   const [first, ...rest] = preview;
   if (!first) {
-    return <span className="text-sm text-muted-foreground"><CountText count={itemCount} one="item" /></span>;
+    return (
+      <span className="text-sm text-muted-foreground">
+        <CountText count={itemCount} one="item" />
+      </span>
+    );
   }
   return (
     <div className={cn('flex min-w-0 items-center gap-3', className)}>
@@ -84,7 +90,9 @@ export function OrderDiscountNote({
         {coupon ? (
           <>
             {' '}
-            <span className="font-mono"><AutoText value={coupon.code} /></span>
+            <span className="font-mono">
+              <AutoText value={coupon.code} />
+            </span>
           </>
         ) : null}
       </span>

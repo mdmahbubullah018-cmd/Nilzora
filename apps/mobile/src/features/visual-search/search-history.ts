@@ -106,7 +106,10 @@ export function createImageHistoryStore({
   }
 
   function replace(next: ImageHistoryEntry[]): void {
-    if (next.length === entries.length && next.every((item, index) => item.uri === entries[index]?.uri)) {
+    if (
+      next.length === entries.length &&
+      next.every((item, index) => item.uri === entries[index]?.uri)
+    ) {
       return;
     }
     entries = next;

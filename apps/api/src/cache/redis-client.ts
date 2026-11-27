@@ -68,7 +68,9 @@ function encodeCommand(args: readonly string[]): string {
 }
 
 /** Reads one reply from the front of `buffer`; null when it is not complete yet. */
-function parseReply(buffer: Buffer<ArrayBufferLike>): { reply: Reply; rest: Buffer<ArrayBufferLike> } | null {
+function parseReply(
+  buffer: Buffer<ArrayBufferLike>,
+): { reply: Reply; rest: Buffer<ArrayBufferLike> } | null {
   if (buffer.length === 0) return null;
   const marker = String.fromCharCode(buffer[0] ?? 0);
   const lineEnd = buffer.indexOf('\r\n');

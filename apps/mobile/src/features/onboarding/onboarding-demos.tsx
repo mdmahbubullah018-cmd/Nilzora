@@ -27,7 +27,15 @@ interface SceneProps {
 }
 
 /** A soft ring that pulses over the control the step is about. */
-function Tap({ style, active, reduceMotion }: { style: object; active: boolean; reduceMotion: boolean }) {
+function Tap({
+  style,
+  active,
+  reduceMotion,
+}: {
+  style: object;
+  active: boolean;
+  reduceMotion: boolean;
+}) {
   const [pulse] = useState(() => new Animated.Value(0));
   useEffect(() => {
     if (!active || reduceMotion) {
@@ -106,7 +114,9 @@ function BrowseScene({ copy, active, reduceMotion }: SceneProps) {
       <View style={styles.chipRow}>
         {['Fashion', 'Home', 'Beauty'].map((chip, index) => (
           <View key={chip} style={[styles.chip, index === 0 ? styles.chipActive : null]}>
-            <Text style={[styles.chipText, index === 0 ? styles.chipTextActive : null]}>{chip}</Text>
+            <Text style={[styles.chipText, index === 0 ? styles.chipTextActive : null]}>
+              {chip}
+            </Text>
           </View>
         ))}
       </View>
@@ -129,7 +139,12 @@ function PhotosScene({ active, reduceMotion }: SceneProps) {
     const loop = Animated.loop(
       Animated.sequence([
         Animated.delay(300),
-        Animated.timing(slide, { toValue: 1, duration: 900, easing: curves.inOutSine, useNativeDriver: true }),
+        Animated.timing(slide, {
+          toValue: 1,
+          duration: 900,
+          easing: curves.inOutSine,
+          useNativeDriver: true,
+        }),
         Animated.delay(500),
         Animated.timing(slide, { toValue: 0, duration: 0, useNativeDriver: true }),
       ]),
@@ -184,7 +199,9 @@ function VariantsScene({ copy, active, reduceMotion }: SceneProps) {
       <View style={styles.sizeRow}>
         {['S', 'M', 'L', 'XL'].map((size) => (
           <View key={size} style={[styles.sizeChip, size === 'M' ? styles.sizeChipActive : null]}>
-            <Text style={[styles.sizeText, size === 'M' ? styles.sizeTextActive : null]}>{size}</Text>
+            <Text style={[styles.sizeText, size === 'M' ? styles.sizeTextActive : null]}>
+              {size}
+            </Text>
           </View>
         ))}
       </View>
@@ -204,8 +221,18 @@ function CartScene({ copy, active, reduceMotion }: SceneProps) {
     const loop = Animated.loop(
       Animated.sequence([
         Animated.delay(400),
-        Animated.timing(pop, { toValue: 1.18, duration: 240, easing: curves.outCubic, useNativeDriver: true }),
-        Animated.timing(pop, { toValue: 1, duration: 320, easing: curves.outCubic, useNativeDriver: true }),
+        Animated.timing(pop, {
+          toValue: 1.18,
+          duration: 240,
+          easing: curves.outCubic,
+          useNativeDriver: true,
+        }),
+        Animated.timing(pop, {
+          toValue: 1,
+          duration: 320,
+          easing: curves.outCubic,
+          useNativeDriver: true,
+        }),
       ]),
     );
     loop.start();
@@ -404,7 +431,11 @@ const styles = StyleSheet.create({
     borderRadius: 11,
     backgroundColor: theme.brand.onSolid,
   },
-  cartBadgeText: { ...theme.text.micro, color: theme.brand.primary, fontWeight: theme.fontWeights.bold },
+  cartBadgeText: {
+    ...theme.text.micro,
+    color: theme.brand.primary,
+    fontWeight: theme.fontWeights.bold,
+  },
   sheet: {
     flex: 1,
     borderRadius: theme.radii.input,
@@ -432,7 +463,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   radioDot: { width: 7, height: 7, borderRadius: 4, backgroundColor: theme.brand.primary },
-  tapWrap: { position: 'absolute', width: 26, height: 26, alignItems: 'center', justifyContent: 'center' },
+  tapWrap: {
+    position: 'absolute',
+    width: 26,
+    height: 26,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   tapDot: {
     width: 16,
     height: 16,

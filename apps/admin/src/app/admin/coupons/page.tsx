@@ -94,7 +94,9 @@ export default async function CouponsPage({ searchParams }: PageProps<'/admin/co
                   href="/admin/coupons/new"
                   className={buttonClasses({ size: 'sm', className: 'h-9 rounded-xl max-sm:h-11' })}
                 >
-                  <Plus aria-hidden="true" strokeWidth={1.75} /><AutoText>New coupon</AutoText></Link>
+                  <Plus aria-hidden="true" strokeWidth={1.75} />
+                  <AutoText>New coupon</AutoText>
+                </Link>
               ) : null}
             </>
           }

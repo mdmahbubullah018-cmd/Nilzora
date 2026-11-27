@@ -20,7 +20,15 @@ export function drawLength(length: number): CSSProperties {
 }
 
 /** A vertical wash of the series colour, strongest under the line, fading to the axis. */
-export function AreaGradient({ id, from = 0.26, to = 0.02 }: { id: string; from?: number; to?: number }) {
+export function AreaGradient({
+  id,
+  from = 0.26,
+  to = 0.02,
+}: {
+  id: string;
+  from?: number;
+  to?: number;
+}) {
   return (
     <linearGradient id={id} x1={0} y1={0} x2={0} y2={1}>
       <stop offset="0%" stopColor="currentColor" stopOpacity={from} />
@@ -52,10 +60,16 @@ export type LegendMark = 'square' | 'line' | 'dashed' | 'point';
 export function LegendKey({ tone, mark = 'square' }: { tone: ChartTone; mark?: LegendMark }) {
   const colours = CHART_TONES[tone];
   if (mark === 'square') {
-    return <span aria-hidden="true" className={cn('size-2.5 shrink-0 rounded-[3px]', colours.swatch)} />;
+    return (
+      <span aria-hidden="true" className={cn('size-2.5 shrink-0 rounded-[3px]', colours.swatch)} />
+    );
   }
   return (
-    <svg aria-hidden="true" viewBox="0 0 16 8" className={cn('h-2 w-4 shrink-0 overflow-visible', colours.text)}>
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 16 8"
+      className={cn('h-2 w-4 shrink-0 overflow-visible', colours.text)}
+    >
       <line
         x1={1}
         x2={15}
@@ -83,17 +97,31 @@ export interface LegendItem {
 }
 
 /** The series named in text, each beside its key, so identity never rests on colour. */
-export function ChartLegend({ items, className }: { items: readonly LegendItem[]; className?: string }) {
+export function ChartLegend({
+  items,
+  className,
+}: {
+  items: readonly LegendItem[];
+  className?: string;
+}) {
   return (
     <ul className={cn('flex flex-wrap items-center gap-x-4 gap-y-1.5 text-xs', className)}>
       {items.map((item) => (
         <li key={item.key} className="flex min-w-0 items-center gap-1.5">
           <LegendKey tone={item.tone} mark={item.mark} />
-          <span className="text-body"><AutoText value={item.label} /></span>
+          <span className="text-body">
+            <AutoText value={item.label} />
+          </span>
           {item.value ? (
-            <span className="nz-figure font-semibold text-foreground"><AutoText value={item.value} /></span>
+            <span className="nz-figure font-semibold text-foreground">
+              <AutoText value={item.value} />
+            </span>
           ) : null}
-          {item.note ? <span className="text-muted-foreground"><AutoText value={item.note} /></span> : null}
+          {item.note ? (
+            <span className="text-muted-foreground">
+              <AutoText value={item.note} />
+            </span>
+          ) : null}
         </li>
       ))}
     </ul>
@@ -115,8 +143,12 @@ export function TooltipRow({
   return (
     <span className="flex items-center gap-2">
       {tone ? <LegendKey tone={tone} mark={mark} /> : null}
-      <span className="nz-figure font-semibold text-foreground"><AutoText value={value} /></span>
-      <span className="text-muted-foreground"><AutoText value={label} /></span>
+      <span className="nz-figure font-semibold text-foreground">
+        <AutoText value={value} />
+      </span>
+      <span className="text-muted-foreground">
+        <AutoText value={label} />
+      </span>
     </span>
   );
 }
@@ -139,12 +171,18 @@ export function FiguresTable({ caption, columns, rows, className }: FiguresTable
   return (
     <details className={cn('group', className)}>
       <summary className="w-fit cursor-pointer rounded-sm text-xs font-medium text-link underline-offset-4 hover:underline">
-        <span className="group-open:hidden"><AutoText>Show the figures</AutoText></span>
-        <span className="hidden group-open:inline"><AutoText>Hide the figures</AutoText></span>
+        <span className="group-open:hidden">
+          <AutoText>Show the figures</AutoText>
+        </span>
+        <span className="hidden group-open:inline">
+          <AutoText>Hide the figures</AutoText>
+        </span>
       </summary>
       <div className="nz-scroll mt-2 max-h-64 overflow-auto rounded-md border border-border">
         <table className="w-full text-xs">
-          <caption className="sr-only"><AutoText value={caption} /></caption>
+          <caption className="sr-only">
+            <AutoText value={caption} />
+          </caption>
           <thead className="sticky top-0 bg-surface-muted">
             <tr>
               <th scope="col" className="px-3 py-2 text-left font-semibold text-foreground">

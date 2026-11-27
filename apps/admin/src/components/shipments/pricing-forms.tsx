@@ -38,8 +38,8 @@ export function CourierSettingsForm({
       <div className="grid gap-3 sm:grid-cols-2">
         <Field
           id="default-weight"
-          label={tx("Default parcel weight (kg)")}
-          hint={tx("Prefilled on every booking; staff can change it per parcel.")}
+          label={tx('Default parcel weight (kg)')}
+          hint={tx('Prefilled on every booking; staff can change it per parcel.')}
           error={state.fieldErrors?.weight}
           required
         >
@@ -58,8 +58,8 @@ export function CourierSettingsForm({
         </Field>
         <Field
           id="quote-validity"
-          label={tx("Quote validity (minutes)")}
-          hint={tx("How long a compared price can be booked.")}
+          label={tx('Quote validity (minutes)')}
+          hint={tx('How long a compared price can be booked.')}
           error={state.fieldErrors?.quoteValidityMinutes}
           required
         >
@@ -78,8 +78,8 @@ export function CourierSettingsForm({
         </Field>
         <Field
           id="preferred-courier"
-          label={tx("Preferred courier")}
-          hint={tx("Breaks ties in the recommendation.")}
+          label={tx('Preferred courier')}
+          hint={tx('Breaks ties in the recommendation.')}
           error={state.fieldErrors?.preferredProvider}
         >
           {(control) => (
@@ -88,7 +88,9 @@ export function CourierSettingsForm({
               name="preferredProvider"
               defaultValue={state.values?.preferredProvider ?? settings.preferredProvider ?? ''}
             >
-              <option value=""><AutoText>No preference</AutoText></option>
+              <option value="">
+                <AutoText>No preference</AutoText>
+              </option>
               {COURIER_PROVIDER_IDS.map((id) => (
                 <option key={id} value={id}>
                   {providerName(id)}
@@ -99,8 +101,8 @@ export function CourierSettingsForm({
         </Field>
         <Field
           id="history-sample"
-          label={tx("Minimum delivery history")}
-          hint={tx("Shipments needed before a courier’s delivery rate counts.")}
+          label={tx('Minimum delivery history')}
+          hint={tx('Shipments needed before a courier’s delivery rate counts.')}
           error={state.fieldErrors?.minHistorySample}
           required
         >
@@ -116,7 +118,9 @@ export function CourierSettingsForm({
           )}
         </Field>
       </div>
-      <SubmitButton className="w-fit" pendingLabel="Saving…"><AutoText>Save courier settings</AutoText></SubmitButton>
+      <SubmitButton className="w-fit" pendingLabel="Saving…">
+        <AutoText>Save courier settings</AutoText>
+      </SubmitButton>
       <ActionFeedback state={state} inline />
     </form>
   );
@@ -133,7 +137,12 @@ export function RateCardForm({ rate, csrf }: { rate?: CourierRateCard; csrf: Csr
       <CsrfField csrf={csrf} />
       {rate ? <input type="hidden" name="rateCardId" value={rate.id} /> : null}
       <div className="grid gap-3 sm:grid-cols-2">
-        <Field id={id('provider')} label={tx("Courier")} error={state.fieldErrors?.provider} required>
+        <Field
+          id={id('provider')}
+          label={tx('Courier')}
+          error={state.fieldErrors?.provider}
+          required
+        >
           {(control) => (
             <NativeSelect
               {...control}
@@ -148,21 +157,25 @@ export function RateCardForm({ rate, csrf }: { rate?: CourierRateCard; csrf: Csr
             </NativeSelect>
           )}
         </Field>
-        <Field id={id('zone')} label={tx("Zone")} error={state.fieldErrors?.zone} required>
+        <Field id={id('zone')} label={tx('Zone')} error={state.fieldErrors?.zone} required>
           {(control) => (
             <NativeSelect
               {...control}
               name="zone"
               defaultValue={state.values?.zone ?? rate?.zone ?? 'inside_dhaka'}
             >
-              <option value="inside_dhaka"><AutoText>Inside Dhaka</AutoText></option>
-              <option value="outside_dhaka"><AutoText>Outside Dhaka</AutoText></option>
+              <option value="inside_dhaka">
+                <AutoText>Inside Dhaka</AutoText>
+              </option>
+              <option value="outside_dhaka">
+                <AutoText>Outside Dhaka</AutoText>
+              </option>
             </NativeSelect>
           )}
         </Field>
         <Field
           id={id('weight')}
-          label={tx("Up to weight (kg)")}
+          label={tx('Up to weight (kg)')}
           error={state.fieldErrors?.weight}
           required
         >
@@ -179,7 +192,12 @@ export function RateCardForm({ rate, csrf }: { rate?: CourierRateCard; csrf: Csr
             />
           )}
         </Field>
-        <Field id={id('charge')} label={tx("Charge (৳)")} error={state.fieldErrors?.charge} required>
+        <Field
+          id={id('charge')}
+          label={tx('Charge (৳)')}
+          error={state.fieldErrors?.charge}
+          required
+        >
           {(control) => (
             <Input
               {...control}
@@ -198,7 +216,9 @@ export function RateCardForm({ rate, csrf }: { rate?: CourierRateCard; csrf: Csr
           name="isActive"
           defaultChecked={rate?.isActive ?? true}
           className="size-4 accent-primary-action"
-        /><AutoText>Active (used for Internal Estimates)</AutoText></label>
+        />
+        <AutoText>Active (used for Internal Estimates)</AutoText>
+      </label>
       <SubmitButton size="sm" className="w-fit" pendingLabel="Saving…">
         {rate ? 'Save rate' : 'Add rate'}
       </SubmitButton>
@@ -214,7 +234,7 @@ export function RateCardRowActions({ rate, csrf }: { rate: CourierRateCard; csrf
   return (
     <div className="grid gap-2">
       <div className="flex flex-wrap items-start gap-2">
-        <ActionDisclosure title={tx("Edit")}>
+        <ActionDisclosure title={tx('Edit')}>
           <RateCardForm rate={rate} csrf={csrf} />
         </ActionDisclosure>
         <ConfirmForm
@@ -223,12 +243,16 @@ export function RateCardRowActions({ rate, csrf }: { rate: CourierRateCard; csrf
           trigger={
             <>
               <Trash2 aria-hidden="true" />
-              <span className="sr-only"><AutoText>Remove this rate</AutoText></span>
+              <span className="sr-only">
+                <AutoText>Remove this rate</AutoText>
+              </span>
             </>
           }
-          title={tx("Remove this rate?")}
-          description={tx("Internal Estimates stop using it. Shipments already booked keep their charges.")}
-          confirmLabel={tx("Remove rate")}
+          title={tx('Remove this rate?')}
+          description={tx(
+            'Internal Estimates stop using it. Shipments already booked keep their charges.',
+          )}
+          confirmLabel={tx('Remove rate')}
           hiddenFields={{ rateCardId: rate.id }}
           error={state.status === 'error' ? state.message : undefined}
         />
@@ -242,7 +266,10 @@ export function RateCardRowActions({ rate, csrf }: { rate: CourierRateCard; csrf
 export function AddRateCard({ csrf }: { csrf: CsrfInput }) {
   const tx = useTx();
   return (
-    <ActionDisclosure title={tx("Add a negotiated rate")} description={tx("One courier, zone and weight band")}>
+    <ActionDisclosure
+      title={tx('Add a negotiated rate')}
+      description={tx('One courier, zone and weight band')}
+    >
       <RateCardForm csrf={csrf} />
     </ActionDisclosure>
   );

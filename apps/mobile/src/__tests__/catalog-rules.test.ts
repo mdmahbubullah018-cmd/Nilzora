@@ -88,7 +88,8 @@ describe('shop filters from route parameters', () => {
     expect(facetChoiceLabel(undefined, sizes)).toBeNull();
   });
 
-  it('offers best match only while searching, and falls back to the right default', () => {    expect(sortsFor('')).toEqual(['featured', 'newest', 'price_asc', 'price_desc']);
+  it('offers best match only while searching, and falls back to the right default', () => {
+    expect(sortsFor('')).toEqual(['featured', 'newest', 'price_asc', 'price_desc']);
     expect(sortsFor('rice')).toEqual(['relevance', 'newest', 'price_asc', 'price_desc']);
     expect(parseShopFilters({ sort: 'relevance' }).sort).toBe('featured');
     expect(parseShopFilters({ q: 'rice', sort: 'featured' }).sort).toBe('relevance');
@@ -182,7 +183,13 @@ describe('shop filters from route parameters', () => {
   it('sends the toolbar refinements as the API’s own price, brand and stock options', () => {
     expect(
       feedQuery(
-        parseShopFilters({ brand: 'aarong', min: '500', max: '1500', stock: 'in', sort: 'price_asc' }),
+        parseShopFilters({
+          brand: 'aarong',
+          min: '500',
+          max: '1500',
+          stock: 'in',
+          sort: 'price_asc',
+        }),
       ),
     ).toEqual({
       brand: 'aarong',

@@ -47,7 +47,12 @@ const RANGES = [
 ] as const;
 type RangeKey = (typeof RANGES)[number]['key'];
 
-const STATUS_TONE = { open: 'primary', pending: 'warning', resolved: 'success', closed: 'neutral' } as const;
+const STATUS_TONE = {
+  open: 'primary',
+  pending: 'warning',
+  resolved: 'success',
+  closed: 'neutral',
+} as const;
 const KIND_LABEL: Record<string, string> = {
   customer_support: 'General questions',
   order_support: 'Order questions',
@@ -115,7 +120,11 @@ export function AnalyticsPanel() {
 
   const toolbar = (
     <div className="flex flex-wrap items-center gap-2">
-      <div role="group" aria-label={tx("Report period")} className="flex rounded-xl bg-surface-muted p-1">
+      <div
+        role="group"
+        aria-label={tx('Report period')}
+        className="flex rounded-xl bg-surface-muted p-1"
+      >
         {RANGES.map((option) => (
           <button
             key={option.key}
@@ -144,7 +153,12 @@ export function AnalyticsPanel() {
         }}
         className="inline-flex h-8 items-center gap-1.5 rounded-lg border border-border px-3 text-xs font-medium text-foreground hover:bg-surface-muted"
       >
-        <RefreshCw aria-hidden className={cn('size-3.5', state === 'loading' && 'motion-safe:animate-spin')} /><AutoText>Refresh</AutoText></button>
+        <RefreshCw
+          aria-hidden
+          className={cn('size-3.5', state === 'loading' && 'motion-safe:animate-spin')}
+        />
+        <AutoText>Refresh</AutoText>
+      </button>
     </div>
   );
 
@@ -161,7 +175,10 @@ export function AnalyticsPanel() {
     return (
       <div className="grid gap-4">
         {toolbar}
-        <div role="alert" className="nz-panel grid justify-items-center gap-3 rounded-2xl border p-8 text-center text-sm">
+        <div
+          role="alert"
+          className="nz-panel grid justify-items-center gap-3 rounded-2xl border p-8 text-center text-sm"
+        >
           <CircleAlert aria-hidden className="size-5 text-danger-ink" />
           <p className="text-foreground">{error ?? 'The report could not be loaded.'}</p>
         </div>
@@ -171,7 +188,7 @@ export function AnalyticsPanel() {
 
   if (report === null) {
     return (
-      <div className="grid gap-4" aria-label={tx("Loading the report")}>
+      <div className="grid gap-4" aria-label={tx('Loading the report')}>
         {toolbar}
         <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
           {[0, 1, 2, 3].map((tile) => (
@@ -216,9 +233,24 @@ export function AnalyticsPanel() {
     display: formatCount(value),
   }));
   const messageItems = [
-    { key: 'customers', label: 'From customers', value: report.messages.fromCustomers, display: formatCount(report.messages.fromCustomers) },
-    { key: 'staff', label: 'From the team', value: report.messages.fromStaff, display: formatCount(report.messages.fromStaff) },
-    { key: 'automated', label: 'Automatic replies', value: report.messages.automated, display: formatCount(report.messages.automated) },
+    {
+      key: 'customers',
+      label: 'From customers',
+      value: report.messages.fromCustomers,
+      display: formatCount(report.messages.fromCustomers),
+    },
+    {
+      key: 'staff',
+      label: 'From the team',
+      value: report.messages.fromStaff,
+      display: formatCount(report.messages.fromStaff),
+    },
+    {
+      key: 'automated',
+      label: 'Automatic replies',
+      value: report.messages.automated,
+      display: formatCount(report.messages.automated),
+    },
   ];
   const quiet = report.conversations.created === 0 && report.messages.total === 0;
 
@@ -226,30 +258,33 @@ export function AnalyticsPanel() {
     <div className="grid gap-4">
       {toolbar}
 
-      <section aria-label={tx("Queue at a glance")} className="nz-stagger grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+      <section
+        aria-label={tx('Queue at a glance')}
+        className="nz-stagger grid gap-4 sm:grid-cols-2 xl:grid-cols-4"
+      >
         <KpiCard
-          label={tx("Conversations opened")}
+          label={tx('Conversations opened')}
           value={formatCount(report.conversations.created)}
           icon={Inbox}
           tone="primary"
           footnote={`${formatCount(report.messages.total)} messages in this period`}
         />
         <KpiCard
-          label={tx("Waiting for a first reply")}
+          label={tx('Waiting for a first reply')}
           value={formatCount(report.conversations.waitingNow)}
           icon={Hourglass}
           tone={report.conversations.waitingNow > 0 ? 'warning' : 'success'}
           footnote="Right now, across the queue"
         />
         <KpiCard
-          label={tx("Unassigned")}
+          label={tx('Unassigned')}
           value={formatCount(report.conversations.unassignedNow)}
           icon={UserRoundX}
           tone={report.conversations.unassignedNow > 0 ? 'warning' : 'neutral'}
           footnote="Open threads nobody owns yet"
         />
         <KpiCard
-          label={tx("Resolved")}
+          label={tx('Resolved')}
           value={formatCount(report.resolution.resolved)}
           icon={CheckCircle2}
           tone="success"
@@ -257,19 +292,36 @@ export function AnalyticsPanel() {
         />
       </section>
 
-      <section aria-label={tx("Response times")} className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+      <section
+        aria-label={tx('Response times')}
+        className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4"
+      >
         <MetricTile
-          label={tx("Average first reply")}
+          label={tx('Average first reply')}
           value={duration(report.firstResponse.averageSeconds)}
           icon={Timer}
           tone="primary"
           hint={`${formatCount(report.firstResponse.answered)} conversations answered`}
         />
-        <MetricTile label={tx("Median first reply")} value={duration(report.firstResponse.p50Seconds)} icon={Clock} tone="violet" hint={tx("Half are answered faster")} />
-        <MetricTile label={tx("Slowest tenth")} value={duration(report.firstResponse.p90Seconds)} icon={Hourglass} tone="warning" hint={tx("Nine in ten are faster")} />
         <MetricTile
-          label={tx("Satisfaction")}
-          value={satisfaction.responses === 0 ? 'No ratings' : `${satisfaction.average.toFixed(1)} / 5`}
+          label={tx('Median first reply')}
+          value={duration(report.firstResponse.p50Seconds)}
+          icon={Clock}
+          tone="violet"
+          hint={tx('Half are answered faster')}
+        />
+        <MetricTile
+          label={tx('Slowest tenth')}
+          value={duration(report.firstResponse.p90Seconds)}
+          icon={Hourglass}
+          tone="warning"
+          hint={tx('Nine in ten are faster')}
+        />
+        <MetricTile
+          label={tx('Satisfaction')}
+          value={
+            satisfaction.responses === 0 ? 'No ratings' : `${satisfaction.average.toFixed(1)} / 5`
+          }
           icon={Smile}
           tone="success"
           hint={`${formatCount(satisfaction.responses)} rating${satisfaction.responses === 1 ? '' : 's'}`}
@@ -278,16 +330,22 @@ export function AnalyticsPanel() {
 
       <div className="grid gap-4 xl:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
         <SectionCard
-          title={tx("Volume")}
+          title={tx('Volume')}
           icon={Activity}
-          description={tx("Messages written and conversations opened, per day.")}
+          description={tx('Messages written and conversations opened, per day.')}
         >
           {quiet ? (
-            <p className="py-10 text-center text-sm text-muted-foreground"><AutoText>No conversations in this period.</AutoText></p>
+            <p className="py-10 text-center text-sm text-muted-foreground">
+              <AutoText>No conversations in this period.</AutoText>
+            </p>
           ) : (
             <ComboChart
-              data={days.map((day) => ({ label: dayShort(day.date), area: day.messages, line: day.created }))}
-              title={tx("Messages and new conversations per day")}
+              data={days.map((day) => ({
+                label: dayShort(day.date),
+                area: day.messages,
+                line: day.created,
+              }))}
+              title={tx('Messages and new conversations per day')}
               summary={`${formatCount(report.messages.total)} messages and ${formatCount(report.conversations.created)} new conversations.`}
               areaSeries={{ label: 'Messages', tone: 'primary' }}
               lineSeries={{ label: 'New conversations', tone: 'violet' }}
@@ -298,64 +356,102 @@ export function AnalyticsPanel() {
             />
           )}
         </SectionCard>
-        <SectionCard title={tx("Status")} icon={MessagesSquare} description={tx("Conversations opened in this period, by where they are now.")}>
+        <SectionCard
+          title={tx('Status')}
+          icon={MessagesSquare}
+          description={tx('Conversations opened in this period, by where they are now.')}
+        >
           {statusTotal === 0 ? (
-            <p className="py-10 text-center text-sm text-muted-foreground"><AutoText>Nothing to show yet.</AutoText></p>
+            <p className="py-10 text-center text-sm text-muted-foreground">
+              <AutoText>Nothing to show yet.</AutoText>
+            </p>
           ) : (
-            <DonutChart segments={statusSegments} title={tx("Conversations by status")} centerValue={formatCount(statusTotal)} centerLabel="conversations" />
+            <DonutChart
+              segments={statusSegments}
+              title={tx('Conversations by status')}
+              centerValue={formatCount(statusTotal)}
+              centerLabel="conversations"
+            />
           )}
         </SectionCard>
       </div>
 
       <div className="grid gap-4 lg:grid-cols-3">
-        <SectionCard title={tx("What customers ask about")} icon={Inbox}>
+        <SectionCard title={tx('What customers ask about')} icon={Inbox}>
           {kindItems.length === 0 ? (
-            <p className="text-sm text-muted-foreground"><AutoText>No conversations in this period.</AutoText></p>
+            <p className="text-sm text-muted-foreground">
+              <AutoText>No conversations in this period.</AutoText>
+            </p>
           ) : (
-            <BarList items={kindItems} label={tx("Conversations by topic")} tone="primary" />
+            <BarList items={kindItems} label={tx('Conversations by topic')} tone="primary" />
           )}
         </SectionCard>
-        <SectionCard title={tx("Who wrote")} icon={MessagesSquare}>
+        <SectionCard title={tx('Who wrote')} icon={MessagesSquare}>
           {report.messages.total === 0 ? (
-            <p className="text-sm text-muted-foreground"><AutoText>No messages in this period.</AutoText></p>
+            <p className="text-sm text-muted-foreground">
+              <AutoText>No messages in this period.</AutoText>
+            </p>
           ) : (
-            <BarList items={messageItems} label={tx("Messages by author")} tone="violet" />
+            <BarList items={messageItems} label={tx('Messages by author')} tone="violet" />
           )}
         </SectionCard>
-        <SectionCard title={tx("Ratings")} icon={Smile}>
+        <SectionCard title={tx('Ratings')} icon={Smile}>
           {satisfaction.responses === 0 ? (
-            <p className="text-sm text-muted-foreground"><AutoText>No customer has rated a conversation in this period.</AutoText></p>
+            <p className="text-sm text-muted-foreground">
+              <AutoText>No customer has rated a conversation in this period.</AutoText>
+            </p>
           ) : (
-            <BarList items={starItems} label={tx("Ratings by stars")} tone="success" />
+            <BarList items={starItems} label={tx('Ratings by stars')} tone="success" />
           )}
         </SectionCard>
       </div>
 
       <div className="grid gap-4 xl:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
-        <SectionCard title={tx("Who is answering")} icon={Users} flush>
+        <SectionCard title={tx('Who is answering')} icon={Users} flush>
           {report.agents.length === 0 ? (
-            <p className="px-5 pb-5 text-sm text-muted-foreground sm:px-6"><AutoText>No conversations were assigned in this period.</AutoText></p>
+            <p className="px-5 pb-5 text-sm text-muted-foreground sm:px-6">
+              <AutoText>No conversations were assigned in this period.</AutoText>
+            </p>
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full min-w-lg text-sm">
-                <caption className="sr-only"><AutoText>Conversations and response times by teammate</AutoText></caption>
+                <caption className="sr-only">
+                  <AutoText>Conversations and response times by teammate</AutoText>
+                </caption>
                 <thead>
                   <tr className="border-y border-border text-left text-[11px] font-semibold tracking-wide text-muted-foreground uppercase">
-                    <th scope="col" className="px-5 py-2.5 sm:px-6"><AutoText>Teammate</AutoText></th>
-                    <th scope="col" className="px-3 py-2.5 text-right"><AutoText>Conversations</AutoText></th>
-                    <th scope="col" className="px-3 py-2.5 text-right"><AutoText>Resolved</AutoText></th>
-                    <th scope="col" className="px-5 py-2.5 text-right sm:px-6"><AutoText>First reply</AutoText></th>
+                    <th scope="col" className="px-5 py-2.5 sm:px-6">
+                      <AutoText>Teammate</AutoText>
+                    </th>
+                    <th scope="col" className="px-3 py-2.5 text-right">
+                      <AutoText>Conversations</AutoText>
+                    </th>
+                    <th scope="col" className="px-3 py-2.5 text-right">
+                      <AutoText>Resolved</AutoText>
+                    </th>
+                    <th scope="col" className="px-5 py-2.5 text-right sm:px-6">
+                      <AutoText>First reply</AutoText>
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
                   {report.agents.map((agent) => (
                     <tr key={agent.userId} className="border-b border-border last:border-b-0">
-                      <th scope="row" className="px-5 py-2.5 text-left font-medium text-foreground sm:px-6">
+                      <th
+                        scope="row"
+                        className="px-5 py-2.5 text-left font-medium text-foreground sm:px-6"
+                      >
                         {agent.name ?? 'Account removed'}
                       </th>
-                      <td className="px-3 py-2.5 text-right tabular-nums"><AutoText value={formatCount(agent.conversations)} /></td>
-                      <td className="px-3 py-2.5 text-right tabular-nums"><AutoText value={formatCount(agent.resolved)} /></td>
-                      <td className="px-5 py-2.5 text-right tabular-nums sm:px-6"><AutoText value={duration(agent.averageFirstResponseSeconds)} /></td>
+                      <td className="px-3 py-2.5 text-right tabular-nums">
+                        <AutoText value={formatCount(agent.conversations)} />
+                      </td>
+                      <td className="px-3 py-2.5 text-right tabular-nums">
+                        <AutoText value={formatCount(agent.resolved)} />
+                      </td>
+                      <td className="px-5 py-2.5 text-right tabular-nums sm:px-6">
+                        <AutoText value={duration(agent.averageFirstResponseSeconds)} />
+                      </td>
                     </tr>
                   ))}
                 </tbody>
@@ -365,14 +461,14 @@ export function AnalyticsPanel() {
         </SectionCard>
         <div className="grid content-start gap-3">
           <MetricTile
-            label={tx("Automation")}
+            label={tx('Automation')}
             value={`${formatCount(report.automation.applied)} applied`}
             icon={Bot}
             tone={report.automation.failed > 0 ? 'danger' : 'primary'}
             hint={`${formatCount(report.automation.activeRules)} active rule${report.automation.activeRules === 1 ? '' : 's'} · ${formatCount(report.automation.failed)} failed · ${formatCount(report.automation.pendingJobs)} scheduled`}
           />
           <MetricTile
-            label={tx("Reported messages")}
+            label={tx('Reported messages')}
             value={`${formatCount(report.moderation.openReports)} waiting`}
             icon={Flag}
             tone={report.moderation.openReports > 0 ? 'warning' : 'success'}

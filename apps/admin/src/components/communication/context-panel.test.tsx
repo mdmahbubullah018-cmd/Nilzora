@@ -49,7 +49,8 @@ function detail(overrides: Partial<ChatConversationDetail> = {}): ChatConversati
 }
 
 function panel(value: ChatConversationDetail) {
-  return render(    <ContextPanel
+  return render(
+    <ContextPanel
       detail={value}
       permissions={new Set(['orders.read', 'products.read'])}
       feedback={[]}

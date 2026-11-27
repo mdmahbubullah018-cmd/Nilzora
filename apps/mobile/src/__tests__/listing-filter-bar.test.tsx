@@ -1,9 +1,6 @@
 import { render, screen, userEvent, within } from '@testing-library/react-native';
 import type { ProductFacets } from '@nilzora/contracts';
-import {
-  BROWSE_SORTS,
-  type ShopFilters,
-} from '../features/catalog/catalog-query';
+import { BROWSE_SORTS, type ShopFilters } from '../features/catalog/catalog-query';
 import { ListingFilterBar } from '../features/catalog/listing-filter-bar';
 
 /*
@@ -23,7 +20,14 @@ const FACETS: ProductFacets = {
 };
 
 function filters(overrides: Partial<ShopFilters> = {}): ShopFilters {
-  return { q: '', category: undefined, zone: undefined, sort: 'featured', inStock: false, ...overrides };
+  return {
+    q: '',
+    category: undefined,
+    zone: undefined,
+    sort: 'featured',
+    inStock: false,
+    ...overrides,
+  };
 }
 
 async function setup(overrides: Partial<React.ComponentProps<typeof ListingFilterBar>> = {}) {
@@ -123,7 +127,10 @@ describe('ListingFilterBar', () => {
   });
 
   it('offers the sizes the store really has and applies the chosen ones', async () => {
-    const { onFiltersChange, user } = await setup({ facets: FACETS, filters: filters({ q: 'shirt' }) });
+    const { onFiltersChange, user } = await setup({
+      facets: FACETS,
+      filters: filters({ q: 'shirt' }),
+    });
 
     await user.press(screen.getByRole('button', { name: 'Size' }));
     const sheet = within(screen.getByTestId('size-sheet'));
@@ -153,7 +160,9 @@ describe('ListingFilterBar', () => {
     });
 
     await user.press(screen.getByRole('button', { name: 'Size: M' }));
-    await user.press(within(screen.getByTestId('size-sheet')).getByRole('button', { name: 'Clear' }));
+    await user.press(
+      within(screen.getByTestId('size-sheet')).getByRole('button', { name: 'Clear' }),
+    );
 
     expect(onFiltersChange).toHaveBeenCalledWith(
       expect.objectContaining({ sizes: undefined, brand: 'aarong' }),

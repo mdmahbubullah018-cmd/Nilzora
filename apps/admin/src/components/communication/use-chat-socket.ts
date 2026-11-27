@@ -103,8 +103,10 @@ export function useChatSocket(activeId: string | null, handlers: ChatSocketHandl
       socket.on('disconnect', () => setConnection('offline'));
       socket.on('connect_error', () => setConnection('offline'));
       socket.io.on('reconnect_attempt', () => setConnection('connecting'));
-      socket.on(CHAT_SERVER_EVENTS.newMessage, (event: { conversationId: string; message: ChatMessage }) =>
-        handlersRef.current.onMessage?.(event),
+      socket.on(
+        CHAT_SERVER_EVENTS.newMessage,
+        (event: { conversationId: string; message: ChatMessage }) =>
+          handlersRef.current.onMessage?.(event),
       );
       socket.on(CHAT_SERVER_EVENTS.updated, (event: { conversationId: string; change: string }) =>
         handlersRef.current.onUpdated?.(event),

@@ -156,7 +156,11 @@ export const sizeChartInputSchema = z
       return;
     }
     if (chart.imageKey !== undefined) {
-      ctx.addIssue({ code: 'custom', path: ['imageKey'], message: 'Only a picture chart has a picture' });
+      ctx.addIssue({
+        code: 'custom',
+        path: ['imageKey'],
+        message: 'Only a picture chart has a picture',
+      });
     }
     if (chart.columns.length < 1) {
       ctx.addIssue({ code: 'custom', path: ['columns'], message: 'Add at least one column' });

@@ -23,10 +23,16 @@ export default function NotFound() {
           404
         </p>
         <div className="grid gap-1.5">
-          <h1 className="font-display text-xl font-semibold tracking-tight text-foreground"><AutoText>Page not found</AutoText></h1>
-          <p className="text-sm leading-relaxed text-muted-foreground"><AutoText>This page does not exist, or the link you followed is out of date.</AutoText></p>
+          <h1 className="font-display text-xl font-semibold tracking-tight text-foreground">
+            <AutoText>Page not found</AutoText>
+          </h1>
+          <p className="text-sm leading-relaxed text-muted-foreground">
+            <AutoText>This page does not exist, or the link you followed is out of date.</AutoText>
+          </p>
         </div>
-        <Link href="/" className={buttonClasses({ className: 'rounded-xl' })}><AutoText>Go to your workspace</AutoText></Link>
+        <Link href="/" className={buttonClasses({ className: 'rounded-xl' })}>
+          <AutoText>Go to your workspace</AutoText>
+        </Link>
       </div>
     </AuthFrame>
   );

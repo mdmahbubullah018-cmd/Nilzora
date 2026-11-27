@@ -52,7 +52,8 @@ const BY_CODE: Partial<Record<string, DescribedError>> = {
   },
   payment_unavailable: {
     title: 'Checkout is temporarily unavailable',
-    message: 'No payment method is available right now. Nothing was charged; please try again later.',
+    message:
+      'No payment method is available right now. Nothing was charged; please try again later.',
     retryable: false,
   },
   auth_unavailable: {

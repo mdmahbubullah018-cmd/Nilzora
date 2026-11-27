@@ -39,7 +39,16 @@ import {
 } from 'lucide-react';
 import { useCallback, useEffect, useLayoutEffect, useRef, useState, type ReactNode } from 'react';
 import { Chip } from '@/components/admin-kit/chip';
-import { chatAvatar, chatGhostButton, chatIconButton, chatPrimaryButton, chatSegment, chatSegmented, chatSelect, chatTimeline } from './chat-style';
+import {
+  chatAvatar,
+  chatGhostButton,
+  chatIconButton,
+  chatPrimaryButton,
+  chatSegment,
+  chatSegmented,
+  chatSelect,
+  chatTimeline,
+} from './chat-style';
 import { chatMediaUrl } from '@/lib/chat-media';
 import { ComposerMediaMenu, type PendingAttachment } from './composer-media';
 import {
@@ -128,15 +137,12 @@ export function ThreadHeader({
         <button
           type="button"
           onClick={onBack}
-          aria-label={tx("Back to the conversation list")}
+          aria-label={tx('Back to the conversation list')}
           className={cn(chatIconButton, 'lg:hidden')}
         >
           <ArrowLeft aria-hidden className="size-4" />
         </button>
-        <span
-          aria-hidden
-          className={chatAvatar(conversation?.kind === 'moderation', 'size-9')}
-        >
+        <span aria-hidden className={chatAvatar(conversation?.kind === 'moderation', 'size-9')}>
           {initialsOf(customerName)}
         </span>
         <div className="min-w-0 flex-1">
@@ -161,7 +167,7 @@ export function ThreadHeader({
           onClick={onToggleDetails}
           aria-pressed={detailsOpen}
           aria-label={detailsOpen ? 'Hide customer details' : 'Show customer details'}
-          title={tx("Customer and order details")}
+          title={tx('Customer and order details')}
           className={cn(
             chatIconButton,
             'transition xl:hidden',
@@ -213,9 +219,14 @@ export function ThreadHeader({
                 onChange={(event) =>
                   onAssign(event.target.value === '' ? null : event.target.value)
                 }
-                className={cn(chatSelect, 'flex-1 max-w-48 border-transparent bg-surface sm:flex-none')}
+                className={cn(
+                  chatSelect,
+                  'flex-1 max-w-48 border-transparent bg-surface sm:flex-none',
+                )}
               >
-                <option value=""><AutoText>Unassigned</AutoText></option>
+                <option value="">
+                  <AutoText>Unassigned</AutoText>
+                </option>
                 <option value={currentUserId}>{currentUserName} (you)</option>
                 {assignable
                   .filter((member) => member.userId !== currentUserId)
@@ -225,7 +236,11 @@ export function ThreadHeader({
                       {member.openCount + member.pendingCount} active
                     </option>
                   ))}
-                {assigneeKnown ? null : <option value={assigneeId ?? ''}><AutoText>Current owner</AutoText></option>}
+                {assigneeKnown ? null : (
+                  <option value={assigneeId ?? ''}>
+                    <AutoText>Current owner</AutoText>
+                  </option>
+                )}
               </select>
             </label>
           ) : null}
@@ -236,7 +251,9 @@ export function ThreadHeader({
               onClick={() => onStatus('resolved')}
               className={cn(chatPrimaryButton, 'ml-auto bg-success text-white hover:brightness-95')}
             >
-              <Check aria-hidden className="size-3.5" /><AutoText>Resolve</AutoText></button>
+              <Check aria-hidden className="size-3.5" />
+              <AutoText>Resolve</AutoText>
+            </button>
           ) : (
             <button
               type="button"
@@ -244,7 +261,9 @@ export function ThreadHeader({
               onClick={() => onStatus('open')}
               className={cn(chatGhostButton, 'ml-auto')}
             >
-              <RefreshCw aria-hidden className="size-3.5" /><AutoText>Reopen</AutoText></button>
+              <RefreshCw aria-hidden className="size-3.5" />
+              <AutoText>Reopen</AutoText>
+            </button>
           )}
         </div>
       )}
@@ -263,7 +282,9 @@ function LiveState({
   if (connection === 'live') {
     return typingName === null ? (
       <span className="inline-flex shrink-0 items-center gap-1">
-        <span aria-hidden className="size-1.5 rounded-full bg-success" /><AutoText>Live</AutoText></span>
+        <span aria-hidden className="size-1.5 rounded-full bg-success" />
+        <AutoText>Live</AutoText>
+      </span>
     ) : (
       <span className="shrink-0 font-medium text-info-ink" aria-live="polite">
         {typingName} is typing…
@@ -273,7 +294,7 @@ function LiveState({
   return (
     <span
       className="inline-flex shrink-0 items-center gap-1"
-      title={tx("Messages still send; new ones appear when you reopen or refresh")}
+      title={tx('Messages still send; new ones appear when you reopen or refresh')}
     >
       <WifiOff aria-hidden className="size-3" />
       {connection === 'connecting' ? 'Connecting…' : 'Reconnecting…'}
@@ -393,12 +414,7 @@ export function ThreadTimeline({
   return (
     <div className="relative flex min-h-0 flex-1 flex-col">
       {pins.length === 0 ? null : <PinnedStrip pins={pins} />}
-      <div
-        ref={scrollRef}
-        onScroll={onScroll}
-        className={chatTimeline}
-        aria-live="off"
-      >
+      <div ref={scrollRef} onScroll={onScroll} className={chatTimeline} aria-live="off">
         {state === 'error' ? (
           <div className="grid h-full place-items-center">
             <div className="grid justify-items-center gap-3 text-center">
@@ -411,14 +427,18 @@ export function ThreadTimeline({
                 onClick={onRetryLoad}
                 className="inline-flex h-8 items-center gap-1.5 rounded-lg border border-border px-3 text-xs font-medium text-foreground hover:bg-surface-muted"
               >
-                <RefreshCw aria-hidden className="size-3.5" /><AutoText>Try again</AutoText></button>
+                <RefreshCw aria-hidden className="size-3.5" />
+                <AutoText>Try again</AutoText>
+              </button>
             </div>
           </div>
         ) : state === 'loading' ? (
           <ChatMessagesSkeleton />
         ) : items.length === 0 ? (
           <div className="grid h-full place-items-center text-center">
-            <p className="text-sm text-muted-foreground"><AutoText>No messages yet.</AutoText></p>
+            <p className="text-sm text-muted-foreground">
+              <AutoText>No messages yet.</AutoText>
+            </p>
           </div>
         ) : (
           <>
@@ -437,7 +457,9 @@ export function ThreadTimeline({
                 </button>
               </div>
             ) : (
-              <p className="mb-4 text-center text-[11px] text-muted-foreground"><AutoText>This is the start of the conversation.</AutoText></p>
+              <p className="mb-4 text-center text-[11px] text-muted-foreground">
+                <AutoText>This is the start of the conversation.</AutoText>
+              </p>
             )}
             <ol className="grid grid-cols-[minmax(0,1fr)]">
               {items.map((item) => (
@@ -509,7 +531,9 @@ function PinnedStrip({ pins }: { pins: readonly ChatPinnedMessage[] }) {
             {pins.length}
           </span>
         </span>
-        <span className="min-w-0 flex-1 truncate"><AutoText value={pinnedPinLabel(first)} /></span>
+        <span className="min-w-0 flex-1 truncate">
+          <AutoText value={pinnedPinLabel(first)} />
+        </span>
         {pins.length > 1 ? (
           <span className="shrink-0 rounded-full bg-warning/15 px-1.5 py-px text-[10px] font-semibold">
             +{pins.length - 1}
@@ -573,7 +597,7 @@ function TimelineRow({
             <StickyNote aria-hidden className="size-3.5" />
             Internal note · {item.note.authorName ?? 'Staff'}
             <span className="font-normal opacity-80">· {clockTime(item.note.createdAt)}</span>
-            <Lock aria-label={tx("Not visible to the customer")} className="ml-auto size-3" />
+            <Lock aria-label={tx('Not visible to the customer')} className="ml-auto size-3" />
           </p>
           <p className="mt-1 text-sm wrap-break-word whitespace-pre-wrap text-foreground">
             {item.note.body}
@@ -597,11 +621,15 @@ function TimelineRow({
           {reply.attachmentName === null ? null : (
             <span className="mb-1 flex items-center gap-2 rounded-lg bg-primary-action-foreground/15 px-2 py-1.5 text-xs">
               <FileText aria-hidden className="size-3.5 shrink-0" />
-              <span className="truncate"><AutoText value={reply.attachmentName} /></span>
+              <span className="truncate">
+                <AutoText value={reply.attachmentName} />
+              </span>
             </span>
           )}
           {reply.body === '' ? null : (
-            <p className="wrap-break-word whitespace-pre-wrap"><AutoText value={reply.body} /></p>
+            <p className="wrap-break-word whitespace-pre-wrap">
+              <AutoText value={reply.body} />
+            </p>
           )}
         </div>
         {failed ? (
@@ -611,11 +639,15 @@ function TimelineRow({
               type="button"
               onClick={() => onRetryReply(reply)}
               className="rounded-full border border-border bg-surface px-2 py-0.5 font-semibold text-foreground transition-colors hover:bg-surface-muted"
-            ><AutoText>Retry</AutoText></button>
+            >
+              <AutoText>Retry</AutoText>
+            </button>
           </span>
         ) : (
           <span className="flex items-center gap-1 text-[11px] text-muted-foreground">
-            <LoaderCircle aria-hidden className="size-3 motion-safe:animate-spin" /><AutoText>Sending…</AutoText></span>
+            <LoaderCircle aria-hidden className="size-3 motion-safe:animate-spin" />
+            <AutoText>Sending…</AutoText>
+          </span>
         )}
       </li>
     );
@@ -631,7 +663,9 @@ function TimelineRow({
         >
           {message.kind === 'order_event' ? <Package aria-hidden className="size-3" /> : null}
           {message.body}
-          <span aria-hidden className="opacity-60">·</span>
+          <span aria-hidden className="opacity-60">
+            ·
+          </span>
           <time dateTime={message.createdAt}>{clockTime(message.createdAt)}</time>
         </span>
       </li>
@@ -674,8 +708,14 @@ function TimelineRow({
         {item.grouped ? null : (
           <p className="mb-1 flex items-center gap-1.5 px-1 text-[11px] text-muted-foreground">
             {automated ? <Bot aria-hidden className="size-3" /> : null}
-            <span className="font-semibold text-body"><AutoText value={author} /></span>
-            {automated ? <span><AutoText>· Automatic reply</AutoText></span> : null}
+            <span className="font-semibold text-body">
+              <AutoText value={author} />
+            </span>
+            {automated ? (
+              <span>
+                <AutoText>· Automatic reply</AutoText>
+              </span>
+            ) : null}
           </p>
         )}
         <div
@@ -700,14 +740,20 @@ function TimelineRow({
             />
           )}
           {message.body === null || message.body === '' ? null : (
-            <p className="wrap-break-word whitespace-pre-wrap"><AutoText value={message.body} /></p>
+            <p className="wrap-break-word whitespace-pre-wrap">
+              <AutoText value={message.body} />
+            </p>
           )}
         </div>
         <div className="mt-0.5 flex items-center gap-1 px-1 text-[10px] text-muted-foreground">
           <time dateTime={message.createdAt} title={fullTime(message.createdAt)}>
             {clockTime(message.createdAt)}
           </time>
-          {message.editedAt === null ? null : <span><AutoText>· edited</AutoText></span>}
+          {message.editedAt === null ? null : (
+            <span>
+              <AutoText>· edited</AutoText>
+            </span>
+          )}
           {seen ? (
             <span className="inline-flex items-center gap-0.5 text-info-ink">
               · <CheckCheck aria-hidden className="size-3" /> Seen
@@ -725,7 +771,7 @@ function TimelineRow({
             {/* The same eight reactions the customer's own clients offer, from one shared list. */}
             <span className="relative">
               <IconAction
-                label={tx("React to this message")}
+                label={tx('React to this message')}
                 onClick={() => setReactionsOpen((value) => !value)}
                 active={reactionsOpen}
               >
@@ -734,7 +780,7 @@ function TimelineRow({
               {reactionsOpen ? (
                 <span
                   role="menu"
-                  aria-label={tx("Choose a reaction")}
+                  aria-label={tx('Choose a reaction')}
                   className="nz-panel absolute right-0 bottom-full z-20 mb-1.5 flex w-56 flex-wrap gap-0.5 rounded-xl border border-border p-1.5 shadow-lg"
                 >
                   {CHAT_REACTIONS.map((reaction) => {
@@ -856,14 +902,22 @@ function QuotedMessage({
 }) {
   const content = (
     <>
-      <span className="block font-semibold"><AutoText value={replyLabel(reply)} /></span>
-      <span className="block truncate"><AutoText value={replySummary(reply)} /></span>
+      <span className="block font-semibold">
+        <AutoText value={replyLabel(reply)} />
+      </span>
+      <span className="block truncate">
+        <AutoText value={replySummary(reply)} />
+      </span>
     </>
   );
   const className =
     'mb-1.5 w-full rounded-lg border-l-2 border-ring/60 bg-surface px-2 py-1 text-left text-[11px] text-muted-foreground';
   if (onJump === undefined || reply.deleted) {
-    return <div className={className}><AutoText value={content} /></div>;
+    return (
+      <div className={className}>
+        <AutoText value={content} />
+      </div>
+    );
   }
   return (
     <button
@@ -955,14 +1009,20 @@ export function ReplyComposer({
     return (
       <div className="flex flex-wrap items-center gap-3 border-t border-border bg-surface-muted/60 px-4 py-3">
         <Lock aria-hidden className="size-4 text-muted-foreground" />
-        <p className="min-w-0 flex-1 text-xs text-muted-foreground"><AutoText>This conversation is closed. Reopen it to reply, or leave an internal note.</AutoText></p>
+        <p className="min-w-0 flex-1 text-xs text-muted-foreground">
+          <AutoText>
+            This conversation is closed. Reopen it to reply, or leave an internal note.
+          </AutoText>
+        </p>
         {canNote ? (
           <button
             type="button"
             onClick={() => onMode('note')}
             className="inline-flex h-8 items-center gap-1.5 rounded-lg border border-border px-2.5 text-xs font-medium text-foreground hover:bg-surface"
           >
-            <StickyNote aria-hidden className="size-3.5" /><AutoText>Add a note</AutoText></button>
+            <StickyNote aria-hidden className="size-3.5" />
+            <AutoText>Add a note</AutoText>
+          </button>
         ) : null}
         {canReply ? (
           <button
@@ -970,7 +1030,9 @@ export function ReplyComposer({
             onClick={onReopen}
             className="inline-flex h-8 items-center gap-1.5 rounded-lg bg-primary-action px-3 text-xs font-semibold text-primary-action-foreground hover:bg-primary-action-hover"
           >
-            <RefreshCw aria-hidden className="size-3.5" /><AutoText>Reopen</AutoText></button>
+            <RefreshCw aria-hidden className="size-3.5" />
+            <AutoText>Reopen</AutoText>
+          </button>
         ) : null}
       </div>
     );
@@ -978,7 +1040,11 @@ export function ReplyComposer({
 
   if (mode === 'reply' && !canReply) {
     return (
-      <p className="border-t border-border bg-surface-muted/60 px-4 py-3 text-xs text-muted-foreground"><AutoText>You can read this conversation, but replying needs it assigned to you or left unassigned.</AutoText></p>
+      <p className="border-t border-border bg-surface-muted/60 px-4 py-3 text-xs text-muted-foreground">
+        <AutoText>
+          You can read this conversation, but replying needs it assigned to you or left unassigned.
+        </AutoText>
+      </p>
     );
   }
 
@@ -1000,14 +1066,16 @@ export function ReplyComposer({
       }}
     >
       <div className="mb-2 flex flex-wrap items-center gap-2">
-        <div role="group" aria-label={tx("Write")} className={chatSegmented}>
+        <div role="group" aria-label={tx('Write')} className={chatSegmented}>
           <button
             type="button"
             aria-pressed={!note}
             onClick={() => onMode('reply')}
             className={chatSegment(!note)}
           >
-            <MessagesSquare aria-hidden className="size-3.5" /><AutoText>Reply</AutoText></button>
+            <MessagesSquare aria-hidden className="size-3.5" />
+            <AutoText>Reply</AutoText>
+          </button>
           {canNote ? (
             <button
               type="button"
@@ -1015,12 +1083,16 @@ export function ReplyComposer({
               onClick={() => onMode('note')}
               className={chatSegment(note, 'moderator')}
             >
-              <StickyNote aria-hidden className="size-3.5" /><AutoText>Internal note</AutoText></button>
+              <StickyNote aria-hidden className="size-3.5" />
+              <AutoText>Internal note</AutoText>
+            </button>
           ) : null}
         </div>
         {note || quickTexts.length === 0 ? null : (
           <>
-            <label htmlFor={`quick-${conversationId}`} className="sr-only"><AutoText>Insert a saved reply or template</AutoText></label>
+            <label htmlFor={`quick-${conversationId}`} className="sr-only">
+              <AutoText>Insert a saved reply or template</AutoText>
+            </label>
             <select
               id={`quick-${conversationId}`}
               value=""
@@ -1031,9 +1103,11 @@ export function ReplyComposer({
               }}
               className={cn(selectClass, 'max-w-52')}
             >
-              <option value=""><AutoText>Insert text…</AutoText></option>
+              <option value="">
+                <AutoText>Insert text…</AutoText>
+              </option>
               {quickTexts.some((entry) => entry.group === 'saved') ? (
-                <optgroup label={tx("Saved replies")}>
+                <optgroup label={tx('Saved replies')}>
                   {quickTexts
                     .filter((entry) => entry.group === 'saved')
                     .map((entry) => (
@@ -1044,7 +1118,7 @@ export function ReplyComposer({
                 </optgroup>
               ) : null}
               {quickTexts.some((entry) => entry.group === 'template') ? (
-                <optgroup label={tx("Approved templates")}>
+                <optgroup label={tx('Approved templates')}>
                   {quickTexts
                     .filter((entry) => entry.group === 'template')
                     .map((entry) => (
@@ -1059,7 +1133,9 @@ export function ReplyComposer({
         )}
         {note ? (
           <span className="inline-flex items-center gap-1 text-[11px] font-medium text-teal-ink">
-            <Lock aria-hidden className="size-3" /><AutoText>Only your team sees notes</AutoText></span>
+            <Lock aria-hidden className="size-3" />
+            <AutoText>Only your team sees notes</AutoText>
+          </span>
         ) : null}
       </div>
 
@@ -1076,12 +1152,14 @@ export function ReplyComposer({
             <p className="text-[11px] font-semibold text-foreground">
               Answering {replyLabel(reply)}
             </p>
-            <p className="truncate text-[11px] text-muted-foreground"><AutoText value={replySummary(reply)} /></p>
+            <p className="truncate text-[11px] text-muted-foreground">
+              <AutoText value={replySummary(reply)} />
+            </p>
           </div>
           <button
             type="button"
             onClick={onCancelReply}
-            aria-label={tx("Stop answering this message")}
+            aria-label={tx('Stop answering this message')}
             className="rounded p-0.5 text-muted-foreground transition hover:bg-surface hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
           >
             <X aria-hidden className="size-3.5" />
@@ -1151,7 +1229,9 @@ export function ReplyComposer({
         </button>
       </div>
       <p className="mt-1.5 flex justify-between gap-2 px-1 text-[10px] text-muted-foreground">
-        <span className="hidden sm:inline"><AutoText>Enter to send · Shift + Enter for a new line</AutoText></span>
+        <span className="hidden sm:inline">
+          <AutoText>Enter to send · Shift + Enter for a new line</AutoText>
+        </span>
         {remaining < 400 ? <span className="tabular-nums">{remaining} left</span> : null}
       </p>
     </form>

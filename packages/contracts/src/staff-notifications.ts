@@ -71,8 +71,6 @@ export const staffNotificationQuerySchema = z.object({
 export const unreadNotificationCountSchema = z.object({ unread: z.number().int().min(0) });
 
 export type StaffNotification = z.infer<typeof staffNotificationSchema>;
-export type StaffNotificationListResponse = z.infer<
-  typeof staffNotificationListResponseSchema
->;
+export type StaffNotificationListResponse = z.infer<typeof staffNotificationListResponseSchema>;
 export type StaffNotificationQuery = z.input<typeof staffNotificationQuerySchema>;
 export type UnreadNotificationCount = z.infer<typeof unreadNotificationCountSchema>;

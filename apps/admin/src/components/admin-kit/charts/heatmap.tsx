@@ -76,7 +76,8 @@ export function Heatmap({
     const key = `${String(cell.weekday)}-${String(cell.hour)}`;
     grid.set(key, (grid.get(key) ?? 0) + cell.value);
   }
-  const valueAt = (row: number, hour: number) => grid.get(`${String(row + 1)}-${String(hour)}`) ?? 0;
+  const valueAt = (row: number, hour: number) =>
+    grid.get(`${String(row + 1)}-${String(hour)}`) ?? 0;
   const filled = ROWS.flatMap((row) =>
     HOURS.flatMap((hour) => {
       const value = valueAt(row, hour);
@@ -94,7 +95,10 @@ export function Heatmap({
     <figure className={cn('grid gap-3', className)}>
       <SrCaption title={title} summary={summary} />
 
-      <div aria-hidden="true" className="relative grid grid-cols-[auto_minmax(0,1fr)] gap-x-2 gap-y-1.5">
+      <div
+        aria-hidden="true"
+        className="relative grid grid-cols-[auto_minmax(0,1fr)] gap-x-2 gap-y-1.5"
+      >
         <div className="grid grid-rows-7 text-[11px] leading-none text-chart-axis">
           {ROWS.map((row) => (
             <span key={row} className="flex items-center justify-end">
@@ -163,15 +167,22 @@ export function Heatmap({
 
       <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2 text-xs">
         <span aria-hidden="true" className={cn('flex items-center gap-1', CHART_TONES[tone].text)}>
-          <span className="mr-1 text-muted-foreground"><AutoText>Less</AutoText></span>
+          <span className="mr-1 text-muted-foreground">
+            <AutoText>Less</AutoText>
+          </span>
           {LEVEL_OPACITY.map((opacity, level) => (
             <span
               key={level}
-              className={cn('size-2.5 rounded-[3px]', level === 0 ? 'bg-chart-track' : 'bg-current')}
+              className={cn(
+                'size-2.5 rounded-[3px]',
+                level === 0 ? 'bg-chart-track' : 'bg-current',
+              )}
               style={level === 0 ? undefined : { opacity }}
             />
           ))}
-          <span className="ml-1 text-muted-foreground"><AutoText>More</AutoText></span>
+          <span className="ml-1 text-muted-foreground">
+            <AutoText>More</AutoText>
+          </span>
         </span>
         {peak ? (
           <span className="text-muted-foreground">

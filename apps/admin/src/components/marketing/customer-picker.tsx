@@ -114,9 +114,9 @@ export function CustomerPicker({
             />
             <Input
               type="search"
-              aria-label={tx("Search customers by name, email or phone")}
+              aria-label={tx('Search customers by name, email or phone')}
               aria-controls={listId}
-              placeholder={tx("Search by name, email or phone")}
+              placeholder={tx('Search by name, email or phone')}
               autoComplete="off"
               value={query}
               onChange={(event) => {
@@ -131,9 +131,13 @@ export function CustomerPicker({
           </div>
           <div id={listId} aria-live="polite">
             {!searching ? null : status === 'searching' ? (
-              <p className="text-sm text-muted-foreground"><AutoText>Searching…</AutoText></p>
+              <p className="text-sm text-muted-foreground">
+                <AutoText>Searching…</AutoText>
+              </p>
             ) : status === 'failed' ? (
-              <p className="text-sm text-danger-ink"><AutoText value={message} /></p>
+              <p className="text-sm text-danger-ink">
+                <AutoText value={message} />
+              </p>
             ) : candidates.length === 0 ? (
               <p className="text-sm text-muted-foreground">
                 {matches.length > 0
@@ -153,12 +157,21 @@ export function CustomerPicker({
                       disabled={chosen.length >= MAX_RECIPIENTS}
                       className="flex min-h-11 w-full items-center gap-3 rounded-lg px-2.5 py-1.5 text-left text-sm hover:bg-surface focus-visible:outline-2 focus-visible:outline-primary disabled:opacity-50"
                     >
-                      <UserRound aria-hidden="true" className="size-4 shrink-0 text-muted-foreground" />
+                      <UserRound
+                        aria-hidden="true"
+                        className="size-4 shrink-0 text-muted-foreground"
+                      />
                       <span className="grid min-w-0">
-                        <span className="truncate font-medium text-foreground"><AutoText value={label(customer)} /></span>
-                        <span className="truncate text-xs text-muted-foreground"><AutoText value={contact(customer)} /></span>
+                        <span className="truncate font-medium text-foreground">
+                          <AutoText value={label(customer)} />
+                        </span>
+                        <span className="truncate text-xs text-muted-foreground">
+                          <AutoText value={contact(customer)} />
+                        </span>
                       </span>
-                      <span className="ml-auto text-xs font-semibold text-link"><AutoText>Add</AutoText></span>
+                      <span className="ml-auto text-xs font-semibold text-link">
+                        <AutoText>Add</AutoText>
+                      </span>
                     </button>
                   </li>
                 ))}
@@ -168,8 +181,8 @@ export function CustomerPicker({
         </div>
       ) : (
         <p className="rounded-xl border border-hairline bg-warning-soft px-3 py-2 text-sm text-warning-ink">
-          Searching for customers needs the “View customers” permission. You can still remove
-          the customers listed below.
+          Searching for customers needs the “View customers” permission. You can still remove the
+          customers listed below.
         </p>
       )}
 
@@ -187,9 +200,13 @@ export function CustomerPicker({
                 className="flex items-center gap-3 rounded-xl border border-hairline bg-surface px-3 py-1.5"
               >
                 <span className="grid min-w-0">
-                  <span className="truncate text-sm font-medium text-foreground"><AutoText value={label(customer)} /></span>
+                  <span className="truncate text-sm font-medium text-foreground">
+                    <AutoText value={label(customer)} />
+                  </span>
                   {contact(customer) ? (
-                    <span className="truncate text-xs text-muted-foreground"><AutoText value={contact(customer)} /></span>
+                    <span className="truncate text-xs text-muted-foreground">
+                      <AutoText value={contact(customer)} />
+                    </span>
                   ) : null}
                 </span>
                 <button
@@ -206,7 +223,11 @@ export function CustomerPicker({
             ))}
           </ul>
         ) : null}
-        {error ? <p className="text-sm text-danger-ink"><AutoText value={error} /></p> : null}
+        {error ? (
+          <p className="text-sm text-danger-ink">
+            <AutoText value={error} />
+          </p>
+        ) : null}
       </div>
     </div>
   );

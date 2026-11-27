@@ -59,7 +59,9 @@ export default async function CampaignPage({ params }: PageProps<'/admin/discoun
             title="Campaign not found"
             description="It does not exist, or another account archived it away."
             action={
-              <Link href={CAMPAIGNS_PATH} className={buttonClasses({ variant: 'outline' })}><AutoText>All campaigns</AutoText></Link>
+              <Link href={CAMPAIGNS_PATH} className={buttonClasses({ variant: 'outline' })}>
+                <AutoText>All campaigns</AutoText>
+              </Link>
             }
           />
         </Card>
@@ -84,13 +86,17 @@ export default async function CampaignPage({ params }: PageProps<'/admin/discoun
                 href={CAMPAIGNS_PATH}
                 className={buttonClasses({ variant: 'ghost', size: 'sm' })}
               >
-                <ArrowLeft aria-hidden="true" /><AutoText>All campaigns</AutoText></Link>
+                <ArrowLeft aria-hidden="true" />
+                <AutoText>All campaigns</AutoText>
+              </Link>
               {result.kind === 'ok' && user.permissions.includes('discounts.edit') ? (
                 <Link
                   href={editCampaignHref(result.value.campaign.id)}
                   className={buttonClasses({ variant: 'outline', size: 'sm' })}
                 >
-                  <Pencil aria-hidden="true" /><AutoText>Edit</AutoText></Link>
+                  <Pencil aria-hidden="true" />
+                  <AutoText>Edit</AutoText>
+                </Link>
               ) : null}
             </div>
           }

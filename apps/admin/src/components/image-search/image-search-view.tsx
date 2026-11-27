@@ -68,7 +68,9 @@ function Stat({
           : 'text-foreground';
   return (
     <div className="nz-panel grid gap-1 rounded-2xl border p-4">
-      <span className="text-xs font-medium tracking-wide text-muted-foreground uppercase">{label}</span>
+      <span className="text-xs font-medium tracking-wide text-muted-foreground uppercase">
+        {label}
+      </span>
       <span className={cn('text-2xl font-semibold tabular-nums', toneClass)}>{value}</span>
       {hint === undefined ? null : <span className="text-xs text-muted-foreground">{hint}</span>}
     </div>
@@ -98,7 +100,10 @@ function Pager({
       </span>
       <span className="flex gap-2">
         {offset > 0 ? (
-          <Link href={hrefFor(Math.max(0, offset - limit))} className="font-semibold text-link hover:underline">
+          <Link
+            href={hrefFor(Math.max(0, offset - limit))}
+            className="font-semibold text-link hover:underline"
+          >
             Previous
           </Link>
         ) : null}
@@ -121,7 +126,12 @@ export interface ImageSearchViewProps {
   activityOffset: number;
 }
 
-export async function ImageSearchView({ csrf, q, missingOffset, activityOffset }: ImageSearchViewProps) {
+export async function ImageSearchView({
+  csrf,
+  q,
+  missingOffset,
+  activityOffset,
+}: ImageSearchViewProps) {
   const [statsRead, missingRead, activityRead] = await Promise.all([
     adminRead((api, token) => api.adminImageSearch(token)),
     adminRead((api, token) =>
@@ -144,7 +154,11 @@ export async function ImageSearchView({ csrf, q, missingOffset, activityOffset }
   if (statsRead.kind !== 'ok') {
     return (
       <section className="nz-panel rounded-2xl border">
-        <ReadState failure={statsRead.kind} retryHref={IMAGE_SEARCH_PATH} permission="image_search.manage" />
+        <ReadState
+          failure={statsRead.kind}
+          retryHref={IMAGE_SEARCH_PATH}
+          permission="image_search.manage"
+        />
       </section>
     );
   }
@@ -163,8 +177,18 @@ export async function ImageSearchView({ csrf, q, missingOffset, activityOffset }
           hint={`${stats.uniqueVectors} unique vectors`}
           tone="success"
         />
-        <Stat label="Pending" value={stats.pending} hint={`${stats.processing} being embedded`} tone="warning" />
-        <Stat label="Failed" value={stats.failed} hint="Retried, still failing" tone={stats.failed > 0 ? 'danger' : 'neutral'} />
+        <Stat
+          label="Pending"
+          value={stats.pending}
+          hint={`${stats.processing} being embedded`}
+          tone="warning"
+        />
+        <Stat
+          label="Failed"
+          value={stats.failed}
+          hint="Retried, still failing"
+          tone={stats.failed > 0 ? 'danger' : 'neutral'}
+        />
         <Stat
           label="Excluded"
           value={stats.excluded}
@@ -189,14 +213,16 @@ export async function ImageSearchView({ csrf, q, missingOffset, activityOffset }
             {stats.lastIndexedAt === null ? (
               <span className="font-semibold">never</span>
             ) : (
-              <span className="font-semibold"><DateTimeText value={stats.lastIndexedAt} style="datetime" /></span>
+              <span className="font-semibold">
+                <DateTimeText value={stats.lastIndexedAt} style="datetime" />
+              </span>
             )}
           </span>
         </div>
         {Object.entries(stats.vectorsByModel).length > 1 ? (
           <p className="text-xs text-warning">
-            Vectors exist for more than one model. Only the configured model is searched; reindex
-            to replace the others.
+            Vectors exist for more than one model. Only the configured model is searched; reindex to
+            replace the others.
           </p>
         ) : null}
         {!stats.provider.matchesStoredModel ? (
@@ -257,7 +283,8 @@ export async function ImageSearchView({ csrf, q, missingOffset, activityOffset }
           <ul className="mt-4 grid gap-2">
             {stats.jobs.slice(0, 5).map((job) => {
               const done = job.indexed + job.failed + job.excluded;
-              const percent = job.total === 0 ? 0 : Math.min(100, Math.round((done / job.total) * 100));
+              const percent =
+                job.total === 0 ? 0 : Math.min(100, Math.round((done / job.total) * 100));
               return (
                 <li key={job.id} className="grid gap-1 rounded-xl border border-border p-3">
                   <div className="flex flex-wrap items-center justify-between gap-2 text-sm">
@@ -282,7 +309,10 @@ export async function ImageSearchView({ csrf, q, missingOffset, activityOffset }
                     </span>
                   </div>
                   <div className="h-1.5 overflow-hidden rounded-full bg-border" role="presentation">
-                    <div className="h-full rounded-full bg-primary-action" style={{ width: `${percent}%` }} />
+                    <div
+                      className="h-full rounded-full bg-primary-action"
+                      style={{ width: `${percent}%` }}
+                    />
                   </div>
                   <p className="text-xs text-muted-foreground tabular-nums">
                     {done} / {job.total} · {job.indexed} indexed · {job.failed} failed ·{' '}
@@ -310,7 +340,11 @@ export async function ImageSearchView({ csrf, q, missingOffset, activityOffset }
         {missing === null ? (
           <div className="p-4">
             <ReadState
-              failure={missingRead.kind === 'ok' || missingRead.kind === 'signed_out' ? 'unavailable' : missingRead.kind}
+              failure={
+                missingRead.kind === 'ok' || missingRead.kind === 'signed_out'
+                  ? 'unavailable'
+                  : missingRead.kind
+              }
               retryHref={IMAGE_SEARCH_PATH}
               permission="image_search.manage"
             />
@@ -379,7 +413,11 @@ export async function ImageSearchView({ csrf, q, missingOffset, activityOffset }
         {activity === null ? (
           <div className="p-4">
             <ReadState
-              failure={activityRead.kind === 'ok' || activityRead.kind === 'signed_out' ? 'unavailable' : activityRead.kind}
+              failure={
+                activityRead.kind === 'ok' || activityRead.kind === 'signed_out'
+                  ? 'unavailable'
+                  : activityRead.kind
+              }
               retryHref={IMAGE_SEARCH_PATH}
               permission="image_search.manage"
             />
@@ -407,7 +445,9 @@ export async function ImageSearchView({ csrf, q, missingOffset, activityOffset }
                       <td className="px-4 py-2 whitespace-nowrap">
                         <DateTimeText value={row.createdAt} style="datetime" />
                       </td>
-                      <td className="px-4 py-2 font-mono text-xs">{row.imageHash?.slice(0, 12) ?? '—'}</td>
+                      <td className="px-4 py-2 font-mono text-xs">
+                        {row.imageHash?.slice(0, 12) ?? '—'}
+                      </td>
                       <td className="px-4 py-2 tabular-nums">{row.resultCount}</td>
                       <td className="px-4 py-2 font-mono text-xs">
                         {row.topProductIds[0]?.slice(0, 8) ?? '—'}

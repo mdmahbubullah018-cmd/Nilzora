@@ -155,7 +155,8 @@ const STORE_MESSAGES: FieldErrors = {
 const NEWER: readonly string[] = NEWER_STORE_FIELDS;
 for (const [field, limit] of Object.entries(STORE_LIMITS)) {
   // The contract's own messages for the app and newer social links say exactly what to type.
-  if (!NEWER.includes(field)) STORE_MESSAGES[field] ??= `Keep this under ${String(limit)} characters.`;
+  if (!NEWER.includes(field))
+    STORE_MESSAGES[field] ??= `Keep this under ${String(limit)} characters.`;
 }
 
 /**

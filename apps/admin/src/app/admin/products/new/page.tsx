@@ -75,9 +75,18 @@ export default async function NewProductPage() {
             description="Every product belongs to a category, and there are none yet."
             action={
               user.permissions.includes('products.publish') ? (
-                <Link href="/admin/categories/new" className={buttonClasses({ className: 'max-sm:min-h-11' })}><AutoText>New category</AutoText></Link>
+                <Link
+                  href="/admin/categories/new"
+                  className={buttonClasses({ className: 'max-sm:min-h-11' })}
+                >
+                  <AutoText>New category</AutoText>
+                </Link>
               ) : (
-                <p className="text-sm text-muted-foreground"><AutoText>Ask an admin to create one: categories need the “Publish products” permission.</AutoText></p>
+                <p className="text-sm text-muted-foreground">
+                  <AutoText>
+                    Ask an admin to create one: categories need the “Publish products” permission.
+                  </AutoText>
+                </p>
               )
             }
             className="py-16"

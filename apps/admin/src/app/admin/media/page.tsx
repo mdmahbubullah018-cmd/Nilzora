@@ -7,11 +7,7 @@ import { pageParam, single } from '@/components/admin-kit/href';
 import { PageToolbar } from '@/components/admin-kit/page-toolbar';
 import { adminRead } from '@/components/admin-kit/read';
 import { ForbiddenState, ReadState } from '@/components/admin-kit/states';
-import {
-  MEDIA_PAGE_SIZE,
-  MEDIA_PATH,
-  MediaLibraryView,
-} from '@/components/media/media-library';
+import { MEDIA_PAGE_SIZE, MEDIA_PATH, MediaLibraryView } from '@/components/media/media-library';
 import { WorkspaceShell } from '@/components/shell/workspace-shell';
 import { workspaceGate } from '@/lib/access';
 import { permissionLabel } from '@/lib/identity';
@@ -38,7 +34,9 @@ export default async function MediaLibraryPage({ searchParams }: PageProps<'/adm
   const { user, csrf } = gate;
   const shell = (children: ReactNode) => (
     <WorkspaceShell workspace="admin" user={user} csrf={csrf}>
-      <div className="grid gap-6"><AutoText value={children} /></div>
+      <div className="grid gap-6">
+        <AutoText value={children} />
+      </div>
     </WorkspaceShell>
   );
 

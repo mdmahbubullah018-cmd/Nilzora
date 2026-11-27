@@ -62,7 +62,10 @@ function readMultipartImage(req: Request, limit: number): Promise<Buffer> {
     };
     let busboy: Busboy.Busboy;
     try {
-      busboy = Busboy({ headers: req.headers, limits: { files: 1, fileSize: limit, fields: 6, parts: 8 } });
+      busboy = Busboy({
+        headers: req.headers,
+        limits: { files: 1, fileSize: limit, fields: 6, parts: 8 },
+      });
     } catch {
       fail(new ImageUploadError('unsupported_format'));
       return;
@@ -168,9 +171,15 @@ export function imageSearchRoutes(deps: ImageSearchRouteDependencies): Router {
     }
     if (error instanceof ImageInputError) {
       const status = error.reason === 'too_large' ? 413 : 400;
-      sendError(res, status, error.reason === 'too_large' ? 'payload_too_large' : 'image_invalid', error.message, {
-        reason: error.reason,
-      });
+      sendError(
+        res,
+        status,
+        error.reason === 'too_large' ? 'payload_too_large' : 'image_invalid',
+        error.message,
+        {
+          reason: error.reason,
+        },
+      );
       return;
     }
     if (error instanceof ImageSearchDisabledError) {
@@ -196,7 +205,6 @@ export function imageSearchRoutes(deps: ImageSearchRouteDependencies): Router {
     );
     sendError(res, 503, 'service_unavailable', 'Image search could not answer. Try again.');
   }
-
 
   router.post('/search/image', deps.limiter, noStore, async (req, res) => {
     try {

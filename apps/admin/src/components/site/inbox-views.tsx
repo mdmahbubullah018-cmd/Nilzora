@@ -51,7 +51,9 @@ function MarkAllRead({ csrf, surface }: { csrf: CsrfInput; surface: InboxSurface
         pendingLabel="Marking…"
         className="rounded-xl max-sm:min-h-11"
       >
-        <CheckCheck aria-hidden="true" strokeWidth={1.75} /><AutoText>Mark all read</AutoText></SubmitButton>
+        <CheckCheck aria-hidden="true" strokeWidth={1.75} />
+        <AutoText>Mark all read</AutoText>
+      </SubmitButton>
     </form>
   );
 }
@@ -69,7 +71,9 @@ function MarkRead({ id, csrf, surface }: { id: string; csrf: CsrfInput; surface:
         pendingLabel="Marking…"
         className="rounded-xl max-sm:min-h-11"
       >
-        <Check aria-hidden="true" strokeWidth={1.75} /><AutoText>Mark read</AutoText></SubmitButton>
+        <Check aria-hidden="true" strokeWidth={1.75} />
+        <AutoText>Mark read</AutoText>
+      </SubmitButton>
       {state.status === 'error' ? <ActionFeedback state={state} inline /> : null}
     </form>
   );
@@ -111,28 +115,36 @@ function Row({
           {unread ? (
             <span
               role="img"
-              aria-label={tx("Unread")}
+              aria-label={tx('Unread')}
               className="mr-2 inline-block size-2 rounded-full bg-chart-1 align-middle"
             />
           ) : null}
           {notification.title}
         </p>
         {notification.body === null ? null : (
-          <p className="text-sm text-muted-foreground"><AutoText value={notification.body} /></p>
+          <p className="text-sm text-muted-foreground">
+            <AutoText value={notification.body} />
+          </p>
         )}
-        <p className="text-xs text-muted-foreground"><AutoText value={formatDateTime(notification.createdAt)} /></p>
+        <p className="text-xs text-muted-foreground">
+          <AutoText value={formatDateTime(notification.createdAt)} />
+        </p>
       </div>
       <div className="flex items-center gap-3">
         {notification.actionPath === null ? null : (
           <Link
             href={notification.actionPath as Route}
             className="inline-flex min-h-9 items-center text-sm font-medium text-link underline underline-offset-4 max-sm:min-h-11"
-          ><AutoText>Open</AutoText></Link>
+          >
+            <AutoText>Open</AutoText>
+          </Link>
         )}
         {unread ? (
           <MarkRead id={notification.id} csrf={csrf} surface={surface} />
         ) : (
-          <Chip tone="neutral"><AutoText>Read</AutoText></Chip>
+          <Chip tone="neutral">
+            <AutoText>Read</AutoText>
+          </Chip>
         )}
       </div>
     </li>
@@ -163,13 +175,15 @@ export function InboxView({
       {inbox.notifications.length === 0 ? (
         <EmptyPanel
           icon={Inbox}
-          title={tx("Nothing needs attention right now.")}
-          description={tx("New orders, low stock, returns, refunds, review submissions and chat messages appear here.")}
+          title={tx('Nothing needs attention right now.')}
+          description={tx(
+            'New orders, low stock, returns, refunds, review submissions and chat messages appear here.',
+          )}
           className="py-14"
         />
       ) : (
         <ul
-          aria-label={tx("Notifications")}
+          aria-label={tx('Notifications')}
           className="divide-y divide-hairline border-t border-hairline"
         >
           {inbox.notifications.map((notification) => (

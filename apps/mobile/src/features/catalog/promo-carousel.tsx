@@ -296,12 +296,7 @@ export function PromoCarousel({
             pages, not to a row of its own below it. The caption above reserves this strip. */}
         <View style={styles.dotsOverlay} pointerEvents="none">
           <View style={styles.dotsPill}>
-            <PagerDots
-              count={count}
-              page={page}
-              testIDPrefix="banner-dot"
-              tone="onArtwork"
-            />
+            <PagerDots count={count} page={page} testIDPrefix="banner-dot" tone="onArtwork" />
           </View>
         </View>
       </View>

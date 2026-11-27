@@ -208,13 +208,27 @@ export function CouponListView({
         <DataTable caption="Coupons" dense>
           <TableHeader>
             <TableRow className="hover:bg-transparent">
-              <TableHead><AutoText>Code</AutoText></TableHead>
-              <TableHead><AutoText>Discount</AutoText></TableHead>
-              <TableHead className="hidden md:table-cell"><AutoText>Minimum</AutoText></TableHead>
-              <TableHead><AutoText>State</AutoText></TableHead>
-              <TableHead className="hidden text-right lg:table-cell"><AutoText>Used</AutoText></TableHead>
-              <TableHead className="hidden text-right xl:table-cell"><AutoText>Given</AutoText></TableHead>
-              <TableHead className="hidden xl:table-cell"><AutoText>Ends</AutoText></TableHead>
+              <TableHead>
+                <AutoText>Code</AutoText>
+              </TableHead>
+              <TableHead>
+                <AutoText>Discount</AutoText>
+              </TableHead>
+              <TableHead className="hidden md:table-cell">
+                <AutoText>Minimum</AutoText>
+              </TableHead>
+              <TableHead>
+                <AutoText>State</AutoText>
+              </TableHead>
+              <TableHead className="hidden text-right lg:table-cell">
+                <AutoText>Used</AutoText>
+              </TableHead>
+              <TableHead className="hidden text-right xl:table-cell">
+                <AutoText>Given</AutoText>
+              </TableHead>
+              <TableHead className="hidden xl:table-cell">
+                <AutoText>Ends</AutoText>
+              </TableHead>
             </TableRow>
           </TableHeader>
           {coupons.length > 0 ? (
@@ -234,7 +248,9 @@ export function CouponListView({
                       </span>
                     ) : null}
                   </TableCell>
-                  <TableCell className="text-body"><AutoText value={couponValueLabel(coupon)} /></TableCell>
+                  <TableCell className="text-body">
+                    <AutoText value={couponValueLabel(coupon)} />
+                  </TableCell>
                   <TableCell className="hidden text-body tabular-nums md:table-cell">
                     {coupon.minOrderMinor === 0 ? '—' : formatMoney(coupon.minOrderMinor)}
                   </TableCell>
@@ -339,10 +355,18 @@ export function CouponDetailView({
           <DataTable caption="Coupon redemptions" dense>
             <TableHeader>
               <TableRow className="hover:bg-transparent">
-                <TableHead><AutoText>Order</AutoText></TableHead>
-                <TableHead><AutoText>Customer</AutoText></TableHead>
-                <TableHead className="text-right"><AutoText>Discount</AutoText></TableHead>
-                <TableHead className="hidden md:table-cell"><AutoText>When</AutoText></TableHead>
+                <TableHead>
+                  <AutoText>Order</AutoText>
+                </TableHead>
+                <TableHead>
+                  <AutoText>Customer</AutoText>
+                </TableHead>
+                <TableHead className="text-right">
+                  <AutoText>Discount</AutoText>
+                </TableHead>
+                <TableHead className="hidden md:table-cell">
+                  <AutoText>When</AutoText>
+                </TableHead>
               </TableRow>
             </TableHeader>
             {redemptions.length > 0 ? (
@@ -402,37 +426,57 @@ export function CouponDetailView({
           <SectionCard title="Rules" icon={TicketPercent}>
             <dl className="grid gap-2.5 text-sm">
               <div className="flex items-baseline justify-between gap-3">
-                <dt className="text-muted-foreground"><AutoText>Code</AutoText></dt>
-                <dd className="font-mono font-semibold text-foreground"><AutoText value={coupon.code} /></dd>
+                <dt className="text-muted-foreground">
+                  <AutoText>Code</AutoText>
+                </dt>
+                <dd className="font-mono font-semibold text-foreground">
+                  <AutoText value={coupon.code} />
+                </dd>
               </div>
               <div className="flex items-baseline justify-between gap-3">
-                <dt className="text-muted-foreground"><AutoText>Discount</AutoText></dt>
-                <dd className="font-semibold text-foreground"><AutoText value={couponValueLabel(coupon)} /></dd>
+                <dt className="text-muted-foreground">
+                  <AutoText>Discount</AutoText>
+                </dt>
+                <dd className="font-semibold text-foreground">
+                  <AutoText value={couponValueLabel(coupon)} />
+                </dd>
               </div>
               <div className="flex items-baseline justify-between gap-3">
-                <dt className="text-muted-foreground"><AutoText>Minimum order</AutoText></dt>
+                <dt className="text-muted-foreground">
+                  <AutoText>Minimum order</AutoText>
+                </dt>
                 <dd className="text-foreground tabular-nums">
                   {coupon.minOrderMinor === 0 ? 'None' : formatMoney(coupon.minOrderMinor)}
                 </dd>
               </div>
               <div className="flex items-baseline justify-between gap-3">
-                <dt className="text-muted-foreground"><AutoText>Per customer</AutoText></dt>
-                <dd className="text-foreground tabular-nums"><AutoText value={coupon.perCustomerLimit} /></dd>
+                <dt className="text-muted-foreground">
+                  <AutoText>Per customer</AutoText>
+                </dt>
+                <dd className="text-foreground tabular-nums">
+                  <AutoText value={coupon.perCustomerLimit} />
+                </dd>
               </div>
               <div className="flex items-baseline justify-between gap-3">
-                <dt className="text-muted-foreground"><AutoText>Starts</AutoText></dt>
+                <dt className="text-muted-foreground">
+                  <AutoText>Starts</AutoText>
+                </dt>
                 <dd className="text-foreground">
                   {coupon.startsAt === null ? 'Immediately' : formatDateTime(coupon.startsAt)}
                 </dd>
               </div>
               <div className="flex items-baseline justify-between gap-3">
-                <dt className="text-muted-foreground"><AutoText>Ends</AutoText></dt>
+                <dt className="text-muted-foreground">
+                  <AutoText>Ends</AutoText>
+                </dt>
                 <dd className="text-foreground">
                   {coupon.endsAt === null ? 'Never' : formatDateTime(coupon.endsAt)}
                 </dd>
               </div>
               <div className="flex items-baseline justify-between gap-3">
-                <dt className="text-muted-foreground"><AutoText>State</AutoText></dt>
+                <dt className="text-muted-foreground">
+                  <AutoText>State</AutoText>
+                </dt>
                 <dd>
                   <CouponStateBadge state={coupon.state} />
                 </dd>
@@ -458,7 +502,9 @@ export function CouponDetailView({
             <Link
               href="/admin/coupons"
               className={`${buttonClasses({ variant: 'ghost', size: 'sm' })} mt-3 max-sm:min-h-11`}
-            ><AutoText>Back to all coupons</AutoText></Link>
+            >
+              <AutoText>Back to all coupons</AutoText>
+            </Link>
           </SectionCard>
         </div>
       </div>

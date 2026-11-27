@@ -11,9 +11,7 @@ const ACCOUNT_ID = '0123456789abcdef0123456789abcdef';
 
 describe('resolveR2Endpoint', () => {
   it('derives the documented S3 endpoint from a bare account id', () => {
-    expect(resolveR2Endpoint(ACCOUNT_ID)).toBe(
-      `https://${ACCOUNT_ID}${R2_STORAGE_HOST_SUFFIX}`,
-    );
+    expect(resolveR2Endpoint(ACCOUNT_ID)).toBe(`https://${ACCOUNT_ID}${R2_STORAGE_HOST_SUFFIX}`);
   });
 
   it('trims surrounding whitespace, which a copied value often carries', () => {

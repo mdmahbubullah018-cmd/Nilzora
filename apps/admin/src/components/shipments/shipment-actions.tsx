@@ -56,7 +56,9 @@ export function ActionDisclosure({
         <span className="grid gap-0.5">
           {title}
           {description ? (
-            <span className="text-xs font-normal text-muted-foreground"><AutoText value={description} /></span>
+            <span className="text-xs font-normal text-muted-foreground">
+              <AutoText value={description} />
+            </span>
           ) : null}
         </span>
         <ChevronDown
@@ -64,7 +66,9 @@ export function ActionDisclosure({
           className="size-4 shrink-0 text-muted-foreground transition-transform group-open:rotate-180"
         />
       </summary>
-      <div className="border-t border-hairline p-4"><AutoText value={children} /></div>
+      <div className="border-t border-hairline p-4">
+        <AutoText value={children} />
+      </div>
     </details>
   );
 }
@@ -90,7 +94,9 @@ export function RefreshTrackingForm({ shipmentId, csrf }: ShipmentFormProps) {
         className="w-fit"
         pendingLabel="Asking the courier…"
       >
-        <RefreshCw aria-hidden="true" /><AutoText>Refresh tracking</AutoText></SubmitButton>
+        <RefreshCw aria-hidden="true" />
+        <AutoText>Refresh tracking</AutoText>
+      </SubmitButton>
       <ActionFeedback state={state} inline />
     </form>
   );
@@ -104,10 +110,12 @@ export function RecordStatusForm({ shipmentId, csrf }: ShipmentFormProps) {
   return (
     <form action={action} className="grid gap-3">
       <Hidden shipmentId={shipmentId} csrf={csrf} />
-      <Field id={id('status')} label={tx("Status")} error={state.fieldErrors?.status} required>
+      <Field id={id('status')} label={tx('Status')} error={state.fieldErrors?.status} required>
         {(control) => (
           <NativeSelect {...control} name="status" defaultValue={state.values?.status ?? ''}>
-            <option value="" disabled><AutoText>Choose a status</AutoText></option>
+            <option value="" disabled>
+              <AutoText>Choose a status</AutoText>
+            </option>
             {MANUAL_SHIPMENT_STATUSES.map((status) => (
               <option key={status} value={status}>
                 {SHIPMENT_STATUS_LABELS[status]}
@@ -118,8 +126,8 @@ export function RecordStatusForm({ shipmentId, csrf }: ShipmentFormProps) {
       </Field>
       <Field
         id={id('occurred')}
-        label={tx("When it happened")}
-        hint={tx("Optional, Bangladesh time. Leave empty for now.")}
+        label={tx('When it happened')}
+        hint={tx('Optional, Bangladesh time. Leave empty for now.')}
         error={state.fieldErrors?.occurredAt}
       >
         {(control) => (
@@ -133,8 +141,8 @@ export function RecordStatusForm({ shipmentId, csrf }: ShipmentFormProps) {
       </Field>
       <Field
         id={id('note')}
-        label={tx("Where this comes from")}
-        hint={tx("5 to 300 characters, e.g. “Seen in the Pathao portal at 3 pm”.")}
+        label={tx('Where this comes from')}
+        hint={tx('5 to 300 characters, e.g. “Seen in the Pathao portal at 3 pm”.')}
         error={state.fieldErrors?.note}
         required
       >
@@ -149,7 +157,9 @@ export function RecordStatusForm({ shipmentId, csrf }: ShipmentFormProps) {
           />
         )}
       </Field>
-      <SubmitButton size="sm" className="w-fit" pendingLabel="Recording…"><AutoText>Record status</AutoText></SubmitButton>
+      <SubmitButton size="sm" className="w-fit" pendingLabel="Recording…">
+        <AutoText>Record status</AutoText>
+      </SubmitButton>
       <ActionFeedback state={state} inline />
     </form>
   );
@@ -182,20 +192,20 @@ export function CancelShipmentForm({
             Cancel shipment
           </>
         }
-        title={tx("Cancel this shipment?")}
+        title={tx('Cancel this shipment?')}
         description={
           needsPortal
             ? `${courier} cannot be cancelled from Nilzora. Cancel the parcel in the ${courier} portal first, then record it here. The order itself is not changed.`
             : `Nilzora asks ${courier} to cancel the parcel. The order itself is not changed.`
         }
-        confirmLabel={tx("Cancel the shipment")}
+        confirmLabel={tx('Cancel the shipment')}
         hiddenFields={{ shipmentId, needsPortal: needsPortal ? '1' : '0' }}
         error={state.status === 'error' ? state.message : undefined}
       >
         <Field
           id={`cancel-reason-${shipmentId}`}
-          label={tx("Reason")}
-          hint={tx("3 to 300 characters. Recorded on the shipment.")}
+          label={tx('Reason')}
+          hint={tx('3 to 300 characters. Recorded on the shipment.')}
           error={state.fieldErrors?.reason}
           required
         >
@@ -248,7 +258,9 @@ export function ResolveBookingForm({ shipmentId, csrf }: ShipmentFormProps) {
             checked={outcome === 'booked'}
             onChange={() => setOutcome('booked')}
             className="size-4 accent-primary-action"
-          /><AutoText>The parcel exists (it was booked)</AutoText></label>
+          />
+          <AutoText>The parcel exists (it was booked)</AutoText>
+        </label>
         <label className="flex items-center gap-2 text-sm">
           <input
             type="radio"
@@ -257,13 +269,15 @@ export function ResolveBookingForm({ shipmentId, csrf }: ShipmentFormProps) {
             checked={outcome === 'not_created'}
             onChange={() => setOutcome('not_created')}
             className="size-4 accent-primary-action"
-          /><AutoText>No parcel was created</AutoText></label>
+          />
+          <AutoText>No parcel was created</AutoText>
+        </label>
       </fieldset>
       {outcome === 'booked' ? (
         <div className="grid gap-3 sm:grid-cols-2">
           <Field
             id={id('consignment')}
-            label={tx("Consignment id")}
+            label={tx('Consignment id')}
             error={state.fieldErrors?.consignmentId}
             required
           >
@@ -277,7 +291,7 @@ export function ResolveBookingForm({ shipmentId, csrf }: ShipmentFormProps) {
               />
             )}
           </Field>
-          <Field id={id('tracking')} label={tx("Tracking code")} hint={tx("Optional")}>
+          <Field id={id('tracking')} label={tx('Tracking code')} hint={tx('Optional')}>
             {(control) => (
               <Input
                 {...control}
@@ -292,8 +306,8 @@ export function ResolveBookingForm({ shipmentId, csrf }: ShipmentFormProps) {
       ) : null}
       <Field
         id={id('resolve-note')}
-        label={tx("What you checked")}
-        hint={tx("5 to 300 characters.")}
+        label={tx('What you checked')}
+        hint={tx('5 to 300 characters.')}
         error={state.fieldErrors?.note}
         required
       >
@@ -308,7 +322,9 @@ export function ResolveBookingForm({ shipmentId, csrf }: ShipmentFormProps) {
           />
         )}
       </Field>
-      <SubmitButton size="sm" className="w-fit" pendingLabel="Saving…"><AutoText>Resolve booking</AutoText></SubmitButton>
+      <SubmitButton size="sm" className="w-fit" pendingLabel="Saving…">
+        <AutoText>Resolve booking</AutoText>
+      </SubmitButton>
       <ActionFeedback state={state} inline />
     </form>
   );
@@ -323,7 +339,12 @@ export function CodCollectedForm({ shipmentId, csrf }: ShipmentFormProps) {
     <form action={action} className="grid gap-3">
       <Hidden shipmentId={shipmentId} csrf={csrf} />
       <div className="grid gap-3 sm:grid-cols-2">
-        <Field id={id('cod-amount')} label={tx("Amount (৳)")} error={state.fieldErrors?.amount} required>
+        <Field
+          id={id('cod-amount')}
+          label={tx('Amount (৳)')}
+          error={state.fieldErrors?.amount}
+          required
+        >
           {(control) => (
             <Input
               {...control}
@@ -338,7 +359,7 @@ export function CodCollectedForm({ shipmentId, csrf }: ShipmentFormProps) {
         </Field>
         <Field
           id={id('evidence')}
-          label={tx("Courier report or invoice ref.")}
+          label={tx('Courier report or invoice ref.')}
           error={state.fieldErrors?.evidenceRef}
           required
         >
@@ -353,7 +374,7 @@ export function CodCollectedForm({ shipmentId, csrf }: ShipmentFormProps) {
           )}
         </Field>
       </div>
-      <Field id={id('cod-note')} label={tx("Note")} hint={tx("Optional")}>
+      <Field id={id('cod-note')} label={tx('Note')} hint={tx('Optional')}>
         {(control) => (
           <Input {...control} name="note" maxLength={300} defaultValue={state.values?.note} />
         )}
@@ -362,7 +383,9 @@ export function CodCollectedForm({ shipmentId, csrf }: ShipmentFormProps) {
         This records the courier’s side only. The order’s cash is still recorded with “Record cash
         collected” on the order.
       </p>
-      <SubmitButton size="sm" className="w-fit" pendingLabel="Recording…"><AutoText>Record courier collection</AutoText></SubmitButton>
+      <SubmitButton size="sm" className="w-fit" pendingLabel="Recording…">
+        <AutoText>Record courier collection</AutoText>
+      </SubmitButton>
       <ActionFeedback state={state} inline />
     </form>
   );
@@ -377,19 +400,28 @@ export function CodAdjustmentForm({ shipmentId, csrf }: ShipmentFormProps) {
     <form action={action} className="grid gap-3">
       <Hidden shipmentId={shipmentId} csrf={csrf} />
       <div className="grid gap-3 sm:grid-cols-2">
-        <Field id={id('direction')} label={tx("Direction")} required>
+        <Field id={id('direction')} label={tx('Direction')} required>
           {(control) => (
             <NativeSelect
               {...control}
               name="direction"
               defaultValue={state.values?.direction ?? 'credit'}
             >
-              <option value="credit"><AutoText>Add (courier owes more)</AutoText></option>
-              <option value="debit"><AutoText>Subtract (courier owes less)</AutoText></option>
+              <option value="credit">
+                <AutoText>Add (courier owes more)</AutoText>
+              </option>
+              <option value="debit">
+                <AutoText>Subtract (courier owes less)</AutoText>
+              </option>
             </NativeSelect>
           )}
         </Field>
-        <Field id={id('adj-amount')} label={tx("Amount (৳)")} error={state.fieldErrors?.amount} required>
+        <Field
+          id={id('adj-amount')}
+          label={tx('Amount (৳)')}
+          error={state.fieldErrors?.amount}
+          required
+        >
           {(control) => (
             <Input
               {...control}
@@ -405,8 +437,8 @@ export function CodAdjustmentForm({ shipmentId, csrf }: ShipmentFormProps) {
       </div>
       <Field
         id={id('adj-note')}
-        label={tx("Reason")}
-        hint={tx("5 to 300 characters.")}
+        label={tx('Reason')}
+        hint={tx('5 to 300 characters.')}
         error={state.fieldErrors?.note}
         required
       >
@@ -421,7 +453,9 @@ export function CodAdjustmentForm({ shipmentId, csrf }: ShipmentFormProps) {
           />
         )}
       </Field>
-      <SubmitButton size="sm" variant="outline" className="w-fit" pendingLabel="Recording…"><AutoText>Record adjustment</AutoText></SubmitButton>
+      <SubmitButton size="sm" variant="outline" className="w-fit" pendingLabel="Recording…">
+        <AutoText>Record adjustment</AutoText>
+      </SubmitButton>
       <ActionFeedback state={state} inline />
     </form>
   );
@@ -506,7 +540,7 @@ export function CodStateForm({
             >
               <Field
                 id={`cod-note-${choice.value}-${shipmentId}`}
-                label={tx("Note")}
+                label={tx('Note')}
                 hint={
                   noteNeeded
                     ? choice.value === 'disputed'

@@ -59,16 +59,18 @@ export function ProductCreateForm({
       <div className="grid gap-6 lg:grid-cols-3 lg:items-start">
         <div className="nz-stagger grid min-w-0 gap-6 lg:col-span-2">
           <SectionCard
-            title={tx("Basic info")}
+            title={tx('Basic info')}
             icon={FileText}
-            description={tx("What shoppers read. A moderator reviews it before the product can go on sale.")}
+            description={tx(
+              'What shoppers read. A moderator reviews it before the product can go on sale.',
+            )}
           >
             <BasicInfoFields categories={categories} />
           </SectionCard>
           <SectionCard
-            title={tx("Media")}
+            title={tx('Media')}
             icon={Images}
-            description={tx("Pictures are added to a saved product.")}
+            description={tx('Pictures are added to a saved product.')}
           >
             <ViewOnly>
               Create the draft first; its page then takes up to 8 pictures, with cropping and a
@@ -76,16 +78,20 @@ export function ProductCreateForm({
             </ViewOnly>
           </SectionCard>
           <SectionCard
-            title={tx("Pricing")}
+            title={tx('Pricing')}
             icon={Tag}
-            description={tx("In Bangladeshi taka (BDT). It can be changed later, also while the product is on sale.")}
+            description={tx(
+              'In Bangladeshi taka (BDT). It can be changed later, also while the product is on sale.',
+            )}
           >
             <PricingFields />
           </SectionCard>
           <SectionCard
-            title={tx("Inventory")}
+            title={tx('Inventory')}
             icon={Boxes}
-            description={tx("The SKU cannot be changed later. Stock changes afterwards are recorded with a reason.")}
+            description={tx(
+              'The SKU cannot be changed later. Stock changes afterwards are recorded with a reason.',
+            )}
           >
             <div className="grid gap-5">
               <StockKeepingFields />
@@ -95,41 +101,63 @@ export function ProductCreateForm({
             </div>
           </SectionCard>
           <SectionCard
-            title={tx("Size chart")}
+            title={tx('Size chart')}
             icon={Ruler}
-            description={tx("Measurements shoppers compare before choosing a size. Reviewed with the content.")}
+            description={tx(
+              'Measurements shoppers compare before choosing a size. Reviewed with the content.',
+            )}
           >
             <SizeChartField />
           </SectionCard>
         </div>
         <div className="nz-stagger grid min-w-0 gap-6">
           <ProductPreview coverUrl={null} />
-          <SectionCard title={tx("Visibility & status")} icon={Rocket}>
+          <SectionCard title={tx('Visibility & status')} icon={Rocket}>
             <ViewOnly>
               New products are drafts, hidden from shoppers. Submit the content for review from the
               product page; it can be published once a moderator approves it.
             </ViewOnly>
           </SectionCard>
           <SectionCard
-            title={tx("Merchandising")}
+            title={tx('Merchandising')}
             icon={Sparkles}
-            description={tx("Home page featuring, and tags staff use to group products.")}
+            description={tx('Home page featuring, and tags staff use to group products.')}
           >
             <MerchandisingFields showTags />
           </SectionCard>
           <SectionCard
-            title={tx("Variants")}
+            title={tx('Variants')}
             icon={Shapes}
-            description={tx("Sizes, colours and other options, each with its own SKU, price and stock.")}
+            description={tx(
+              'Sizes, colours and other options, each with its own SKU, price and stock.',
+            )}
           >
             <div className="grid gap-3">
-              <ViewOnly><AutoText>Variants belong to a saved product: create the draft, then open its variants page.</AutoText></ViewOnly>
+              <ViewOnly>
+                <AutoText>
+                  Variants belong to a saved product: create the draft, then open its variants page.
+                </AutoText>
+              </ViewOnly>
               <ol className="grid list-decimal gap-1.5 pl-5 text-sm text-body marker:text-muted-foreground">
-                <li><AutoText>Create the draft with its price and stock.</AutoText></li>
-                <li><AutoText>Add pictures (the first is the cover) and a video if you have one.</AutoText></li>
-                <li><AutoText>Add variants, such as sizes or colours, each with its own SKU and stock.</AutoText></li>
-                <li><AutoText>Write the search title and description.</AutoText></li>
-                <li><AutoText>Submit the content for review; publish once it is approved.</AutoText></li>
+                <li>
+                  <AutoText>Create the draft with its price and stock.</AutoText>
+                </li>
+                <li>
+                  <AutoText>
+                    Add pictures (the first is the cover) and a video if you have one.
+                  </AutoText>
+                </li>
+                <li>
+                  <AutoText>
+                    Add variants, such as sizes or colours, each with its own SKU and stock.
+                  </AutoText>
+                </li>
+                <li>
+                  <AutoText>Write the search title and description.</AutoText>
+                </li>
+                <li>
+                  <AutoText>Submit the content for review; publish once it is approved.</AutoText>
+                </li>
               </ol>
             </div>
           </SectionCard>

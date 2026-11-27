@@ -62,16 +62,17 @@ describe('CustomerDetailView', () => {
       <CustomerDetailView
         customer={customer({
           id: '33333333-3333-4333-8333-333333333333',
-          avatar: { url: 'https://media.test/a/full.webp', thumbUrl: 'https://media.test/a/t.webp' },
+          avatar: {
+            url: 'https://media.test/a/full.webp',
+            thumbUrl: 'https://media.test/a/t.webp',
+          },
         })}
         permissions={ROLE_PERMISSIONS.admin}
         csrf={csrf}
       />,
     );
     // The persistent id, not a display code.
-    expect(
-      screen.getByText('Customer ID 33333333-3333-4333-8333-333333333333'),
-    ).toBeTruthy();
+    expect(screen.getByText('Customer ID 33333333-3333-4333-8333-333333333333')).toBeTruthy();
     // The upload is preferred over anything Google supplied.
     expect(container.querySelector('img')?.getAttribute('src')).toBe('https://media.test/a/t.webp');
     unmount();

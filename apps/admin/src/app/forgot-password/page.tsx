@@ -17,8 +17,14 @@ export default async function ForgotPasswordPage() {
   return (
     <AuthFrame>
       <div className="grid gap-1.5 text-center">
-        <h1 className="font-display text-2xl font-semibold tracking-tight text-foreground"><AutoText>Reset your password</AutoText></h1>
-        <p className="text-sm text-muted-foreground"><AutoText>We will email a six-digit code to the address on your Nilzora staff account.</AutoText></p>
+        <h1 className="font-display text-2xl font-semibold tracking-tight text-foreground">
+          <AutoText>Reset your password</AutoText>
+        </h1>
+        <p className="text-sm text-muted-foreground">
+          <AutoText>
+            We will email a six-digit code to the address on your Nilzora staff account.
+          </AutoText>
+        </p>
       </div>
 
       <Card className="nz-panel-strong nz-panel-sheen rounded-2xl">
@@ -28,7 +34,9 @@ export default async function ForgotPasswordPage() {
       </Card>
 
       <p className="text-center text-xs text-muted-foreground">
-        <Link href="/login" className="underline-offset-4 hover:underline"><AutoText>Back to sign in</AutoText></Link>
+        <Link href="/login" className="underline-offset-4 hover:underline">
+          <AutoText>Back to sign in</AutoText>
+        </Link>
       </p>
     </AuthFrame>
   );

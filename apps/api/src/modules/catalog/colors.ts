@@ -107,4 +107,3 @@ export async function rpcProductColors(
     return new Map();
   }
 }
-

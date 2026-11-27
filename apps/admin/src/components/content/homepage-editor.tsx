@@ -57,7 +57,9 @@ function FilterSelect({
             onChange={(event) => onChange(event.currentTarget.value)}
             className={TOUCH}
           >
-            <option value=""><AutoText>Any</AutoText></option>
+            <option value="">
+              <AutoText>Any</AutoText>
+            </option>
             {/* A saved slug that is no longer in the list stays selectable, so saving does not drop it. */}
             {value !== '' && !options.some((option) => option.slug === value) ? (
               <option value={value}>{value} (not found)</option>
@@ -141,7 +143,7 @@ export function HomepageEditor({
       className="grid gap-6"
     >
       <CsrfField csrf={csrf} />
-      <ol aria-label={tx("Homepage sections")} className="grid gap-4">
+      <ol aria-label={tx('Homepage sections')} className="grid gap-4">
         {rows.map((row, index) => (
           <li
             key={row.key}
@@ -180,7 +182,7 @@ export function HomepageEditor({
                   </>
                 ) : (
                   <div className="w-24">
-                    <Field id={`position-${row.key}`} label={tx("Position")}>
+                    <Field id={`position-${row.key}`} label={tx('Position')}>
                       {(control) => (
                         <Input
                           {...control}
@@ -206,7 +208,9 @@ export function HomepageEditor({
                     {row.isEnabled ? 'Shown' : 'Hidden'}
                   </Chip>
                 </h2>
-                <p className="text-sm text-muted-foreground"><AutoText value={HOMEPAGE_LABELS[row.key].description} /></p>
+                <p className="text-sm text-muted-foreground">
+                  <AutoText value={HOMEPAGE_LABELS[row.key].description} />
+                </p>
               </div>
               <label className="flex min-h-11 items-center gap-2.5 text-sm font-medium text-foreground">
                 <input
@@ -216,16 +220,19 @@ export function HomepageEditor({
                   onChange={(event) => update(row.key, { isEnabled: event.currentTarget.checked })}
                   className="size-5 accent-primary-action"
                 />
-                Show{' '}<span className="sr-only"><AutoText value={HOMEPAGE_LABELS[row.key].title} /></span>
+                Show{' '}
+                <span className="sr-only">
+                  <AutoText value={HOMEPAGE_LABELS[row.key].title} />
+                </span>
               </label>
             </div>
 
             <div className="grid items-start gap-4 sm:grid-cols-2">
               <Field
                 id={`title-${row.key}`}
-                label={tx("Heading")}
+                label={tx('Heading')}
                 error={error('title', row.key)}
-                hint={tx("Replaces the section’s own heading. Empty keeps the built-in one.")}
+                hint={tx('Replaces the section’s own heading. Empty keeps the built-in one.')}
               >
                 {(control) => (
                   <Input
@@ -240,7 +247,7 @@ export function HomepageEditor({
               </Field>
               <Field
                 id={`limit-${row.key}`}
-                label={tx("Items shown")}
+                label={tx('Items shown')}
                 error={error('itemLimit', row.key)}
                 hint={`1 to ${String(HOMEPAGE_ITEM_LIMIT_MAX)}. Empty keeps the built-in number.`}
               >
@@ -263,7 +270,7 @@ export function HomepageEditor({
                   <FilterSelect
                     id={`category-${row.key}`}
                     name={`categorySlug_${row.key}`}
-                    label={tx("Only this category")}
+                    label={tx('Only this category')}
                     value={row.categorySlug}
                     options={categories}
                     onChange={(value) => update(row.key, { categorySlug: value })}
@@ -271,7 +278,7 @@ export function HomepageEditor({
                   <FilterSelect
                     id={`brand-${row.key}`}
                     name={`brandSlug_${row.key}`}
-                    label={tx("Only this brand")}
+                    label={tx('Only this brand')}
                     value={row.brandSlug}
                     options={brands}
                     onChange={(value) => update(row.key, { brandSlug: value })}
@@ -292,7 +299,9 @@ export function HomepageEditor({
               {dirty ? (
                 <>
                   <span aria-hidden="true" className="size-2 rounded-full bg-warning" />
-                  <span className="font-medium text-foreground"><AutoText>Unsaved changes</AutoText></span>
+                  <span className="font-medium text-foreground">
+                    <AutoText>Unsaved changes</AutoText>
+                  </span>
                 </>
               ) : (
                 'With every section hidden, the storefront shows its built-in homepage.'
@@ -309,10 +318,14 @@ export function HomepageEditor({
                   }}
                   className="max-sm:min-h-11"
                 >
-                  <Undo2 aria-hidden="true" strokeWidth={1.75} /><AutoText>Discard</AutoText></Button>
+                  <Undo2 aria-hidden="true" strokeWidth={1.75} />
+                  <AutoText>Discard</AutoText>
+                </Button>
               ) : null}
               <SubmitButton pendingLabel="Saving…" className="max-sm:min-h-11">
-                <Save aria-hidden="true" strokeWidth={1.75} /><AutoText>Save homepage</AutoText></SubmitButton>
+                <Save aria-hidden="true" strokeWidth={1.75} />
+                <AutoText>Save homepage</AutoText>
+              </SubmitButton>
             </div>
           </div>
         </div>

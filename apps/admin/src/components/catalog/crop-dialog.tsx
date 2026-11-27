@@ -291,12 +291,16 @@ export function CropDialog({
       onOpenChange={(next) => {
         if (!next) onClose();
       }}
-      title={tx("Crop the picture")}
-      description={tx("Choose a shape, turn the picture if it is sideways, then drag the frame (or use the arrow keys) to pick the part to keep.")}
+      title={tx('Crop the picture')}
+      description={tx(
+        'Choose a shape, turn the picture if it is sideways, then drag the frame (or use the arrow keys) to pick the part to keep.',
+      )}
       className="max-w-2xl"
       footer={
         <>
-          <Button variant="ghost" onClick={onClose} className="max-sm:min-h-11"><AutoText>Cancel</AutoText></Button>
+          <Button variant="ghost" onClick={onClose} className="max-sm:min-h-11">
+            <AutoText>Cancel</AutoText>
+          </Button>
           <Button
             onClick={() => void apply()}
             loading={working}
@@ -311,7 +315,7 @@ export function CropDialog({
     >
       <div className="grid gap-4">
         <div className="flex flex-wrap items-center justify-between gap-2">
-          <div role="radiogroup" aria-label={tx("Shape")} className="flex flex-wrap gap-2">
+          <div role="radiogroup" aria-label={tx('Shape')} className="flex flex-wrap gap-2">
             {shapes.map((option) => (
               <button
                 key={option.key}
@@ -337,7 +341,7 @@ export function CropDialog({
               size="sm"
               onClick={() => setTurns((value) => value - 1)}
               disabled={!base}
-              aria-label={tx("Turn the picture a quarter left")}
+              aria-label={tx('Turn the picture a quarter left')}
               className="rounded-xl max-sm:size-11"
             >
               <RotateCcw aria-hidden="true" strokeWidth={1.75} />
@@ -348,7 +352,7 @@ export function CropDialog({
               size="sm"
               onClick={() => setTurns((value) => value + 1)}
               disabled={!base}
-              aria-label={tx("Turn the picture a quarter right")}
+              aria-label={tx('Turn the picture a quarter right')}
               className="rounded-xl max-sm:size-11"
             >
               <RotateCw aria-hidden="true" strokeWidth={1.75} />
@@ -362,7 +366,11 @@ export function CropDialog({
         ) : null}
 
         {failed ? (
-          <p role="alert" className="text-sm font-medium text-danger-ink"><AutoText>This picture could not be opened for cropping. Upload it as it is instead.</AutoText></p>
+          <p role="alert" className="text-sm font-medium text-danger-ink">
+            <AutoText>
+              This picture could not be opened for cropping. Upload it as it is instead.
+            </AutoText>
+          </p>
         ) : loaded && rect ? (
           <div className="grid justify-items-center">
             <div ref={frame} className="relative w-full max-w-lg touch-none select-none">
@@ -395,7 +403,9 @@ export function CropDialog({
             </div>
           </div>
         ) : (
-          <p role="status" className="text-sm text-muted-foreground"><AutoText>Opening the picture…</AutoText></p>
+          <p role="status" className="text-sm text-muted-foreground">
+            <AutoText>Opening the picture…</AutoText>
+          </p>
         )}
 
         {keepsShape ? null : (

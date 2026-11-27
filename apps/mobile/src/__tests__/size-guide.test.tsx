@@ -154,7 +154,9 @@ describe('ProductScreen size guide', () => {
 
     const sheet = within(screen.getByTestId('size-guide-sheet'));
     expect(sheet.getByText('Chest (cm)')).toBeOnTheScreen();
-    expect(sheet.getByLabelText('L: Chest (cm) 102, Length (cm) not given, your choice')).toBeOnTheScreen();
+    expect(
+      sheet.getByLabelText('L: Chest (cm) 102, Length (cm) not given, your choice'),
+    ).toBeOnTheScreen();
     expect(sheet.getByLabelText('M: Chest (cm) 96, Length (cm) 72')).toBeOnTheScreen();
   });
 

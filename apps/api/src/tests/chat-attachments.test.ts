@@ -16,7 +16,11 @@ const OGG = Buffer.concat([Buffer.from('OggS', 'latin1'), Buffer.alloc(24)]);
 const WEBM = Buffer.concat([Buffer.from([0x1a, 0x45, 0xdf, 0xa3]), Buffer.alloc(20)]);
 const MP4 = Buffer.concat([Buffer.alloc(4), Buffer.from('ftypM4A ', 'latin1'), Buffer.alloc(8)]);
 const MP3 = Buffer.concat([Buffer.from('ID3', 'latin1'), Buffer.alloc(16)]);
-const WAV = Buffer.concat([Buffer.from('RIFF', 'latin1'), Buffer.alloc(4), Buffer.from('WAVE', 'latin1')]);
+const WAV = Buffer.concat([
+  Buffer.from('RIFF', 'latin1'),
+  Buffer.alloc(4),
+  Buffer.from('WAVE', 'latin1'),
+]);
 
 describe('contentMatchesType', () => {
   it('accepts a picture whose bytes really are that format', async () => {

@@ -61,14 +61,15 @@ export function customerInboxRoutes(deps: CustomerInboxRouteDependencies): Route
           { limit: query.pageSize, offset: (query.page - 1) * query.pageSize },
         );
         const unread = await notifications.unreadCount(identity.accessToken, identity.userId);
-        const response: CustomerNotificationListResponse = customerNotificationListResponseSchema.parse({
-          notifications: rows,
-          unread,
-          page: query.page,
-          pageSize: query.pageSize,
-          total,
-          totalPages: total === 0 ? 0 : Math.ceil(total / query.pageSize),
-        });
+        const response: CustomerNotificationListResponse =
+          customerNotificationListResponseSchema.parse({
+            notifications: rows,
+            unread,
+            page: query.page,
+            pageSize: query.pageSize,
+            total,
+            totalPages: total === 0 ? 0 : Math.ceil(total / query.pageSize),
+          });
         res.json(response);
       } catch (error) {
         sendCommerceFailure(res, error);
@@ -76,21 +77,16 @@ export function customerInboxRoutes(deps: CustomerInboxRouteDependencies): Route
     },
   );
 
-  router.get(
-    '/me/notifications/unread-count',
-    noStore,
-    requireUser,
-    async (_req, res) => {
-      const identity = currentIdentity(res);
-      try {
-        const unread = await notifications.unreadCount(identity.accessToken, identity.userId);
-        const response: CustomerUnreadCount = customerUnreadCountSchema.parse({ unread });
-        res.json(response);
-      } catch (error) {
-        sendCommerceFailure(res, error);
-      }
-    },
-  );
+  router.get('/me/notifications/unread-count', noStore, requireUser, async (_req, res) => {
+    const identity = currentIdentity(res);
+    try {
+      const unread = await notifications.unreadCount(identity.accessToken, identity.userId);
+      const response: CustomerUnreadCount = customerUnreadCountSchema.parse({ unread });
+      res.json(response);
+    } catch (error) {
+      sendCommerceFailure(res, error);
+    }
+  });
 
   router.post(
     '/me/notifications/:notificationId/read',
@@ -137,7 +133,11 @@ export function customerInboxRoutes(deps: CustomerInboxRouteDependencies): Route
       const identity = currentIdentity(res);
       const { body } = requestInput<typeof clearSchemas>(res);
       try {
-        const deleted = await notifications.clear(identity.accessToken, identity.userId, body.before);
+        const deleted = await notifications.clear(
+          identity.accessToken,
+          identity.userId,
+          body.before,
+        );
         res.json(customerNotificationsDeletedSchema.parse({ deleted }));
       } catch (error) {
         sendCommerceFailure(res, error);
@@ -164,9 +164,10 @@ export function customerInboxRoutes(deps: CustomerInboxRouteDependencies): Route
     router.get('/me/notification-preferences', noStore, requireUser, async (_req, res) => {
       const identity = currentIdentity(res);
       try {
-        const response: NotificationPreferencesResponse = notificationPreferencesResponseSchema.parse({
-          preferences: await preferences.read(identity.accessToken, identity.userId),
-        });
+        const response: NotificationPreferencesResponse =
+          notificationPreferencesResponseSchema.parse({
+            preferences: await preferences.read(identity.accessToken, identity.userId),
+          });
         res.json(response);
       } catch (error) {
         sendCommerceFailure(res, error);
@@ -182,9 +183,10 @@ export function customerInboxRoutes(deps: CustomerInboxRouteDependencies): Route
         const identity = currentIdentity(res);
         const { body } = requestInput<typeof preferenceSchemas>(res);
         try {
-          const response: NotificationPreferencesResponse = notificationPreferencesResponseSchema.parse({
-            preferences: await preferences.save(identity.accessToken, identity.userId, body),
-          });
+          const response: NotificationPreferencesResponse =
+            notificationPreferencesResponseSchema.parse({
+              preferences: await preferences.save(identity.accessToken, identity.userId, body),
+            });
           res.json(response);
         } catch (error) {
           sendCommerceFailure(res, error);

@@ -93,14 +93,17 @@ ws.addEventListener('message', (event) => {
     return;
   }
   if (message.method === 'Runtime.consoleAPICalled' && message.params.type === 'error') {
-    consoleErrors.push(message.params.args.map((a) => String(a.value ?? a.description ?? '')).join(' '));
+    consoleErrors.push(
+      message.params.args.map((a) => String(a.value ?? a.description ?? '')).join(' '),
+    );
   }
   if (message.method === 'Runtime.exceptionThrown') {
     consoleErrors.push(message.params.exceptionDetails.text ?? 'exception');
   }
   if (message.method === 'Network.responseReceived') {
     const { status, url } = message.params.response;
-    if (status >= 400 && !String(url).includes('favicon')) failedRequests.push(`${String(status)} ${String(url)}`);
+    if (status >= 400 && !String(url).includes('favicon'))
+      failedRequests.push(`${String(status)} ${String(url)}`);
   }
 });
 
@@ -112,8 +115,13 @@ function send(method, params = {}) {
 }
 
 async function evaluate(expression) {
-  const reply = await send('Runtime.evaluate', { expression, awaitPromise: true, returnByValue: true });
-  if (reply.result?.exceptionDetails) throw new Error(reply.result.exceptionDetails.text ?? 'evaluate failed');
+  const reply = await send('Runtime.evaluate', {
+    expression,
+    awaitPromise: true,
+    returnByValue: true,
+  });
+  if (reply.result?.exceptionDetails)
+    throw new Error(reply.result.exceptionDetails.text ?? 'evaluate failed');
   return reply.result?.result?.value;
 }
 
@@ -131,7 +139,8 @@ async function shot(name) {
   writeFileSync(join(shots, `${name}-${suffix}.png`), Buffer.from(reply.result.data, 'base64'));
 }
 
-const textOf = (selector) => `document.querySelector(${JSON.stringify(selector)})?.textContent?.trim() ?? ''`;
+const textOf = (selector) =>
+  `document.querySelector(${JSON.stringify(selector)})?.textContent?.trim() ?? ''`;
 
 /** Opens the language menu and picks a language; returns false when the menu is missing. */
 const pickLanguage = (label) => `(() => {
@@ -194,14 +203,21 @@ try {
   })()`);
   if (!(await evaluate(pickLanguage('বাংলা')))) throw new Error('language menu not found');
   await waitFor(`document.documentElement.lang === 'bn-BD'`, 'the document language', 20000);
-  await waitFor(`document.querySelector('nav a[href="/admin/products"]')?.textContent?.includes('পণ্য')`, 'the Bangla sidebar', 25000);
+  await waitFor(
+    `document.querySelector('nav a[href="/admin/products"]')?.textContent?.includes('পণ্য')`,
+    'the Bangla sidebar',
+    25000,
+  );
   record('English → Bangla', true, await evaluate(textOf('nav a[href="/admin/products"]')));
   record(
     'no page reload on switch',
     (await evaluate('Boolean(document.getElementById("nz-stays-mounted"))')) &&
       (await evaluate('performance.getEntriesByType("navigation").length')) === 1,
   );
-  record('language stored in a cookie', (await evaluate('document.cookie.includes("nza_language=bn")')) === true);
+  record(
+    'language stored in a cookie',
+    (await evaluate('document.cookie.includes("nza_language=bn")')) === true,
+  );
   await shot('02-admin-bangla');
 
   // ── Translation coverage on several pages ────────────────────────────────
@@ -241,19 +257,30 @@ try {
   }
 
   // ── Bangla → English, then persistence ───────────────────────────────────
-  if (!(await evaluate(pickLanguage('English')))) throw new Error('language menu not found (English)');
+  if (!(await evaluate(pickLanguage('English'))))
+    throw new Error('language menu not found (English)');
   await waitFor(`document.documentElement.lang === 'en'`, 'English', 20000);
-  record('Bangla → English', (await evaluate(textOf('nav a[href="/admin/products"]'))).includes('Products'));
+  record(
+    'Bangla → English',
+    (await evaluate(textOf('nav a[href="/admin/products"]'))).includes('Products'),
+  );
   await send('Page.navigate', { url: `${BASE}/admin/products` });
-  await waitFor(`document.querySelector('nav a[href="/admin/products"]')`, 'the products page', 90000);
-  record('English persists across a reload', (await evaluate(textOf('nav a[href="/admin/products"]'))).includes('Products'));
+  await waitFor(
+    `document.querySelector('nav a[href="/admin/products"]')`,
+    'the products page',
+    90000,
+  );
+  record(
+    'English persists across a reload',
+    (await evaluate(textOf('nav a[href="/admin/products"]'))).includes('Products'),
+  );
 
   // ── The colour x size matrix, on a product with no variants yet ──────────
   // Ledis Bag (NZ-LEDIS-A) has no variants, so the generator offers every active attribute:
   // Colour (2 values) and Size (4). Nothing is written — the form is never submitted.
   const ledis = process.env.NZ_TEST_PRODUCT_ID
-  ? `/admin/products/${process.env.NZ_TEST_PRODUCT_ID}`
-  : '/admin/products/c43aa6bb-bfa5-4e61-acd1-42246765b100';
+    ? `/admin/products/${process.env.NZ_TEST_PRODUCT_ID}`
+    : '/admin/products/c43aa6bb-bfa5-4e61-acd1-42246765b100';
   record('finds a product to exercise the matrix on', ledis !== null, ledis);
 
   if (ledis !== null) {
@@ -295,7 +322,11 @@ try {
         ? `${(ticked.sets ?? []).join(' + ')} → ${String(matrix.combinations)} combinations, ${String(matrix.checked)} ticked`
         : ticked.reason,
     );
-    record('combinations are unique', matrix.combinations > 0 && matrix.unique === matrix.combinations, `${String(matrix.unique)} distinct of ${String(matrix.combinations)}`);
+    record(
+      'combinations are unique',
+      matrix.combinations > 0 && matrix.unique === matrix.combinations,
+      `${String(matrix.unique)} distinct of ${String(matrix.combinations)}`,
+    );
     await shot('04-matrix-all');
 
     if (matrix.combinations > 1) {
@@ -304,7 +335,11 @@ try {
         boxes[0].click();
         return [...document.querySelectorAll('input[name="generateCombination"]')].filter((b) => b.checked).length;
       })()`);
-      record('one combination can be unticked', afterUntick === matrix.checked - 1, `${String(matrix.checked)} → ${String(afterUntick)}`);
+      record(
+        'one combination can be unticked',
+        afterUntick === matrix.checked - 1,
+        `${String(matrix.checked)} → ${String(afterUntick)}`,
+      );
 
       // Select all / Select none: the button label follows the state ("Select none" only while
       // everything is ticked), so click whichever is offered and read the result each time.
@@ -334,7 +369,9 @@ try {
 
       record(
         'Select all / Select none work and can be repeated',
-        firstCount === matrix.combinations && secondCount === 0 && thirdCount === matrix.combinations,
+        firstCount === matrix.combinations &&
+          secondCount === 0 &&
+          thirdCount === matrix.combinations,
         `${firstLabel} → ${String(firstCount)}; ${secondLabel} → ${String(secondCount)}; ${thirdLabel} → ${String(thirdCount)}`,
       );
       await shot('05-matrix-selected');
@@ -358,9 +395,21 @@ try {
       widestImage: images.length === 0 ? 0 : Math.max(...images),
     };
   })()`);
-  record('no horizontal scrolling', layout.scrollWidth <= layout.innerWidth + 1, `${String(layout.scrollWidth)}px of ${String(layout.innerWidth)}px`);
-  record('nothing overflows the viewport', layout.widest <= layout.innerWidth + 1, `widest element ends at ${String(layout.widest)}px`);
-  record('no oversized images', layout.widestImage <= 320, `widest picture ${String(layout.widestImage)}px`);
+  record(
+    'no horizontal scrolling',
+    layout.scrollWidth <= layout.innerWidth + 1,
+    `${String(layout.scrollWidth)}px of ${String(layout.innerWidth)}px`,
+  );
+  record(
+    'nothing overflows the viewport',
+    layout.widest <= layout.innerWidth + 1,
+    `widest element ends at ${String(layout.widest)}px`,
+  );
+  record(
+    'no oversized images',
+    layout.widestImage <= 320,
+    `widest picture ${String(layout.widestImage)}px`,
+  );
 
   // ── Colour pictures stay medium-sized ───────────────────────────────────
   await send('Page.navigate', { url: `${BASE}/admin/products?q=Kids+Premium` });
@@ -377,14 +426,24 @@ try {
     await send('Page.navigate', { url: `${BASE}${kids}/variants` });
     await waitFor(`document.querySelector('main')`, 'the Kids Premium variants', 90000);
     await new Promise((r) => setTimeout(r, 1500));
-    const sizes = await evaluate(`[...document.querySelectorAll('main img')].map((img) => Math.round(img.getBoundingClientRect().width))`);
+    const sizes = await evaluate(
+      `[...document.querySelectorAll('main img')].map((img) => Math.round(img.getBoundingClientRect().width))`,
+    );
     const widest = Math.max(0, ...sizes);
-    record('colour pictures are thumbnails', sizes.length > 0 ? widest <= 120 : true, `widest ${String(widest)}px of ${String(sizes.length)}`);
+    record(
+      'colour pictures are thumbnails',
+      sizes.length > 0 ? widest <= 120 : true,
+      `widest ${String(widest)}px of ${String(sizes.length)}`,
+    );
     await shot('06-kids-variants');
   }
 
   record('no console errors', consoleErrors.length === 0, consoleErrors.slice(0, 2).join(' | '));
-  record('no failed network requests', failedRequests.length === 0, failedRequests.slice(0, 2).join(' | '));
+  record(
+    'no failed network requests',
+    failedRequests.length === 0,
+    failedRequests.slice(0, 2).join(' | '),
+  );
 } catch (error) {
   record('run completed', false, error.message);
 } finally {
@@ -396,6 +455,8 @@ try {
   chrome.kill();
   const failed = results.filter((r) => !r.ok);
   writeFileSync(join(shots, `results-${suffix}.json`), JSON.stringify(results, null, 2));
-  console.log(`\n${String(results.length - failed.length)}/${String(results.length)} checks passed at ${suffix}`);
+  console.log(
+    `\n${String(results.length - failed.length)}/${String(results.length)} checks passed at ${suffix}`,
+  );
   process.exit(failed.length === 0 ? 0 : 1);
 }

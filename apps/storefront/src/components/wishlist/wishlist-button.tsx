@@ -50,7 +50,11 @@ export function WishlistButton({
         className,
       )}
       aria-pressed={saved}
-      aria-label={saved ? `Remove ${product.name} from your wishlist` : `Save ${product.name} to your wishlist`}
+      aria-label={
+        saved
+          ? `Remove ${product.name} from your wishlist`
+          : `Save ${product.name} to your wishlist`
+      }
       disabled={busy}
       onClick={() => {
         if (!saved) setPopped(true);

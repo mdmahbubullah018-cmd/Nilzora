@@ -36,7 +36,13 @@ export function NavAnchor({
 }) {
   if (isExternalHref(href)) {
     return (
-      <a href={href} target="_blank" rel="noopener noreferrer" className={className} onClick={onClick}>
+      <a
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+        className={className}
+        onClick={onClick}
+      >
         {children}
         <span className="sr-only"> (opens in a new tab)</span>
       </a>

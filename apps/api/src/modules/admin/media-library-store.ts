@@ -125,7 +125,9 @@ export function createSupabaseMediaLibraryStore(clients: SupabaseClients): Media
     async updateAlt(accessToken, _userId, id, alt) {
       const data = await call(
         'admin_update_media_alt',
-        clients.asUser(accessToken).rpc('admin_update_media_alt', { p_id: id, p_alt: sqlNull(alt) }),
+        clients
+          .asUser(accessToken)
+          .rpc('admin_update_media_alt', { p_id: id, p_alt: sqlNull(alt) }),
       );
       return conform(storedMediaAssetSchema, data, 'admin_update_media_alt');
     },

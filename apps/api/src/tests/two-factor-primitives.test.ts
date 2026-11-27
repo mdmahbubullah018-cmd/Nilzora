@@ -95,7 +95,7 @@ describe('secret box (AES-256-GCM)', () => {
     expect(unpadded).not.toBe(key.toString('base64'));
     expect(parseSecretBoxKey(unpadded)?.equals(key)).toBe(true);
     expect(() => parseSecretBoxKey(randomBytes(16).toString('base64').replace(/=+$/, ''))).toThrow(
-      SecretBoxError
+      SecretBoxError,
     );
   });
 });

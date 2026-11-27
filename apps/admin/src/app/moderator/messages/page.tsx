@@ -23,7 +23,9 @@ const PATH = '/moderator/messages';
  * Communication Center, limited to what a moderator does; the API decides every list again
  * (a moderator never receives a customer support thread).
  */
-export default async function ModeratorMessagesPage({ searchParams }: PageProps<'/moderator/messages'>) {
+export default async function ModeratorMessagesPage({
+  searchParams,
+}: PageProps<'/moderator/messages'>) {
   // The page's own check: never rely on the layout alone.
   const gate = await workspaceGate('moderator', PATH);
   if (gate.access !== 'allowed') {
@@ -58,7 +60,9 @@ export default async function ModeratorMessagesPage({ searchParams }: PageProps<
           sections={['reports', 'inbox', 'team']}
         />
         <p className="flex items-center gap-2 text-xs text-muted-foreground">
-          <Lock aria-hidden className="size-3.5" /><AutoText>Team threads and internal notes are never shown to a customer.</AutoText></p>
+          <Lock aria-hidden className="size-3.5" />
+          <AutoText>Team threads and internal notes are never shown to a customer.</AutoText>
+        </p>
       </div>
     </WorkspaceShell>
   );

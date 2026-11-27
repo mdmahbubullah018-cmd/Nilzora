@@ -31,14 +31,7 @@ import {
 } from 'lucide-react';
 import type { Route } from 'next';
 import { useRouter } from 'next/navigation';
-import {
-  startTransition,
-  useActionState,
-  useId,
-  useRef,
-  useState,
-  type DragEvent,
-} from 'react';
+import { startTransition, useActionState, useId, useRef, useState, type DragEvent } from 'react';
 import { ActionFeedback, IDLE_STATE } from '@/components/admin-kit/action-feedback';
 import { Chip } from '@/components/admin-kit/chip';
 import { ConfirmForm } from '@/components/admin-kit/confirm-form';
@@ -55,7 +48,12 @@ import { guidanceLine, uploadGuidance } from '@/lib/upload-guidance';
 import { uploadEndpoint } from '@/lib/upload-routes';
 import { EmptyPanel } from './catalog-ui';
 import { CropDialog } from './crop-dialog';
-import { useUploadQueue, type QueueItem, type QueueRejection, type UploadQueue } from './upload-queue';
+import {
+  useUploadQueue,
+  type QueueItem,
+  type QueueRejection,
+  type UploadQueue,
+} from './upload-queue';
 import { AutoText } from '@/components/i18n/translate';
 import { useTx } from '@/lib/i18n/provider';
 
@@ -179,7 +177,7 @@ function ImageCard({
           <span
             aria-hidden="true"
             className="nz-glass absolute top-2 right-2 grid size-8 cursor-grab place-items-center rounded-lg border text-muted-foreground"
-            title={tx("Drag to reorder")}
+            title={tx('Drag to reorder')}
           >
             <GripVertical className="size-4" strokeWidth={1.75} />
           </span>
@@ -192,14 +190,16 @@ function ImageCard({
             <CsrfField csrf={csrf} />
             <input type="hidden" name="productId" value={productId} />
             <input type="hidden" name="imageId" value={image.id} />
-            <label htmlFor={altId} className="text-xs font-medium text-muted-foreground"><AutoText>Description</AutoText></label>
+            <label htmlFor={altId} className="text-xs font-medium text-muted-foreground">
+              <AutoText>Description</AutoText>
+            </label>
             <div className="flex gap-2">
               <Input
                 id={altId}
                 name="alt"
                 maxLength={160}
                 defaultValue={altState.values?.alt ?? image.alt ?? ''}
-                placeholder={tx("What the picture shows")}
+                placeholder={tx('What the picture shows')}
                 aria-invalid={altError ? true : undefined}
                 aria-describedby={altError ? `${altId}-error` : undefined}
                 className="h-9 min-w-0 flex-1 rounded-xl max-sm:h-11"
@@ -212,7 +212,7 @@ function ImageCard({
                 className="h-9 shrink-0 rounded-xl max-sm:h-11"
               >
                 {altPending ? null : <Check aria-hidden="true" strokeWidth={1.75} />}
-                Save{' '}<span className="sr-only">description</span>
+                Save <span className="sr-only">description</span>
               </Button>
             </div>
             {altError ? (
@@ -279,8 +279,10 @@ function ImageCard({
                 </>
               }
               title={`Remove image ${String(number)}?`}
-              description={tx("The picture is deleted from this product. Changed images need a new review before the product can be published.")}
-              confirmLabel={tx("Yes, remove it")}
+              description={tx(
+                'The picture is deleted from this product. Changed images need a new review before the product can be published.',
+              )}
+              confirmLabel={tx('Yes, remove it')}
               hiddenFields={{ productId, imageId: image.id }}
               error={deleteState.status === 'error' ? deleteState.message : undefined}
             />
@@ -340,11 +342,15 @@ export function ProductImageList({
   return (
     <div className="grid gap-3">
       {canDrag ? (
-        <p className="text-xs text-muted-foreground"><AutoText>Drag pictures to reorder them, or use the arrow buttons. The cover is shown in listings.</AutoText></p>
+        <p className="text-xs text-muted-foreground">
+          <AutoText>
+            Drag pictures to reorder them, or use the arrow buttons. The cover is shown in listings.
+          </AutoText>
+        </p>
       ) : null}
       <ul
         className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3"
-        aria-label={tx("Product images")}
+        aria-label={tx('Product images')}
         aria-busy={reordering || undefined}
         onDragOver={(event: DragEvent) => {
           if (dragged) event.preventDefault();
@@ -375,7 +381,9 @@ export function ProductImageList({
       </ul>
       {reordering ? (
         <p role="status" className="flex items-center gap-2 text-sm text-muted-foreground">
-          <LoaderCircle aria-hidden="true" className="size-4 motion-safe:animate-spin" /><AutoText>Saving the new order…</AutoText></p>
+          <LoaderCircle aria-hidden="true" className="size-4 motion-safe:animate-spin" />
+          <AutoText>Saving the new order…</AutoText>
+        </p>
       ) : reorderState.status === 'error' ? (
         <ActionFeedback state={reorderState} inline />
       ) : null}
@@ -406,11 +414,18 @@ function QueueRow({
       <SelectedImagePreview file={item.file} className="size-16 rounded-xl" />
       <div className="grid min-w-0 gap-2">
         <div className="flex flex-wrap items-center justify-between gap-2">
-          <p className="min-w-0 truncate text-sm font-medium text-foreground" title={item.file.name}>
+          <p
+            className="min-w-0 truncate text-sm font-medium text-foreground"
+            title={item.file.name}
+          >
             {item.file.name}
           </p>
           <span className="flex items-center gap-2 text-xs text-muted-foreground tabular-nums">
-            {item.cropped ? <Chip tone="violet"><AutoText>Cropped</AutoText></Chip> : null}
+            {item.cropped ? (
+              <Chip tone="violet">
+                <AutoText>Cropped</AutoText>
+              </Chip>
+            ) : null}
             {formatBytes(item.file.size)}
           </span>
         </div>
@@ -424,7 +439,7 @@ function QueueRow({
               id={altId}
               value={item.alt}
               maxLength={160}
-              placeholder={tx("Description (optional)")}
+              placeholder={tx('Description (optional)')}
               disabled={disabled}
               onChange={(event) => queue.update(item.key, { alt: event.currentTarget.value })}
               className="h-9 rounded-xl max-sm:h-11"
@@ -493,14 +508,19 @@ function QueueRow({
                   size="sm"
                   onClick={queue.cancel}
                   className="rounded-xl max-sm:min-h-11"
-                ><AutoText>Cancel upload</AutoText></Button>
+                >
+                  <AutoText>Cancel upload</AutoText>
+                </Button>
               </div>
             ) : null}
           </div>
         ) : null}
 
         {item.status === 'done' ? (
-          <p role="status" className="flex items-center gap-1.5 text-xs font-medium text-success-ink">
+          <p
+            role="status"
+            className="flex items-center gap-1.5 text-xs font-medium text-success-ink"
+          >
             <Check aria-hidden="true" className="size-3.5" strokeWidth={1.75} />
             {item.message ?? 'Uploaded.'}
           </p>
@@ -508,8 +528,15 @@ function QueueRow({
 
         {item.status === 'error' ? (
           <div className="grid gap-2">
-            <p role="alert" className="flex items-start gap-1.5 text-xs font-medium text-danger-ink">
-              <CircleAlert aria-hidden="true" className="mt-px size-3.5 shrink-0" strokeWidth={1.75} />
+            <p
+              role="alert"
+              className="flex items-start gap-1.5 text-xs font-medium text-danger-ink"
+            >
+              <CircleAlert
+                aria-hidden="true"
+                className="mt-px size-3.5 shrink-0"
+                strokeWidth={1.75}
+              />
               {item.message}
             </p>
             <div className="flex flex-wrap gap-2">
@@ -550,9 +577,14 @@ export function Rejections({ rejections }: { rejections: readonly QueueRejection
   return (
     <ul role="alert" className="grid gap-1 text-sm">
       {rejections.map((rejection, index) => (
-        <li key={`${rejection.name}-${String(index)}`} className="flex flex-wrap gap-x-1.5 text-danger-ink">
+        <li
+          key={`${rejection.name}-${String(index)}`}
+          className="flex flex-wrap gap-x-1.5 text-danger-ink"
+        >
           <span className="font-medium">{rejection.name}:</span>
-          <span><AutoText value={rejection.message} /></span>
+          <span>
+            <AutoText value={rejection.message} />
+          </span>
         </li>
       ))}
     </ul>
@@ -641,7 +673,9 @@ export function ProductImageUploader({
         onDrop={onDrop}
         className={cn(
           'grid cursor-pointer justify-items-center gap-2 rounded-2xl border-2 border-dashed px-4 py-8 text-center transition-colors',
-          over ? 'border-info-ink bg-info-soft' : 'border-hairline bg-neutral-soft/40 hover:bg-info-soft/50',
+          over
+            ? 'border-info-ink bg-info-soft'
+            : 'border-hairline bg-neutral-soft/40 hover:bg-info-soft/50',
           (full || busy) && 'cursor-not-allowed opacity-60',
         )}
       >
@@ -652,10 +686,12 @@ export function ProductImageUploader({
           {interactive ? 'Drop pictures here or choose files' : 'Choose a picture'}
         </span>
         <span id={hintId} className="max-w-md text-xs text-muted-foreground">
-          {PRODUCT_IMAGE_GUIDANCE}.{' '}
-          {imageCount} of {MAX_PRODUCT_IMAGES} added; the first one is the cover shown in listings.
+          {PRODUCT_IMAGE_GUIDANCE}. {imageCount} of {MAX_PRODUCT_IMAGES} added; the first one is the
+          cover shown in listings.
         </span>
-        <span className="sr-only"><AutoText>Add images</AutoText></span>
+        <span className="sr-only">
+          <AutoText>Add images</AutoText>
+        </span>
       </label>
       <input
         ref={inputRef}
@@ -665,7 +701,7 @@ export function ProductImageUploader({
         accept={ACCEPT}
         multiple={interactive}
         disabled={full || busy}
-        aria-label={tx("Add images")}
+        aria-label={tx('Add images')}
         aria-describedby={hintId}
         onChange={(event) => {
           if (interactive) pick(Array.from(event.currentTarget.files ?? []));
@@ -678,7 +714,9 @@ export function ProductImageUploader({
       />
       {interactive ? null : (
         <div className="grid gap-1.5">
-          <label htmlFor={`${inputId}-alt`} className="text-sm font-medium text-foreground"><AutoText>Description</AutoText></label>
+          <label htmlFor={`${inputId}-alt`} className="text-sm font-medium text-foreground">
+            <AutoText>Description</AutoText>
+          </label>
           <Input
             id={`${inputId}-alt`}
             name="alt"
@@ -693,7 +731,7 @@ export function ProductImageUploader({
       {state.status === 'error' ? <ActionFeedback state={state} /> : null}
 
       {queue.items.length > 0 ? (
-        <ul aria-label={tx("Pictures to upload")} className="grid gap-3">
+        <ul aria-label={tx('Pictures to upload')} className="grid gap-3">
           {queue.items.map((item) => (
             <QueueRow
               key={item.key}
@@ -721,7 +759,11 @@ export function ProductImageUploader({
               : 'Upload image'}
         </Button>
         {full ? (
-          <p className="text-sm text-muted-foreground"><AutoText>This product has the most pictures it can keep. Remove one to add another.</AutoText></p>
+          <p className="text-sm text-muted-foreground">
+            <AutoText>
+              This product has the most pictures it can keep. Remove one to add another.
+            </AutoText>
+          </p>
         ) : null}
       </div>
 
@@ -760,8 +802,10 @@ export function ProductMedia({
       ) : (
         <EmptyPanel
           icon={Images}
-          title={tx("No images yet")}
-          description={tx("Shoppers see a placeholder until a picture is added. Products with several clear pictures sell better.")}
+          title={tx('No images yet')}
+          description={tx(
+            'Shoppers see a placeholder until a picture is added. Products with several clear pictures sell better.',
+          )}
           className="rounded-2xl border border-dashed border-hairline py-8"
         />
       )}

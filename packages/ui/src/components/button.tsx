@@ -19,7 +19,8 @@ const variants = {
   secondary: 'bg-surface-muted text-foreground hover:bg-border',
   outline: 'border border-border-strong bg-surface text-foreground hover:bg-surface-muted',
   ghost: 'text-foreground hover:bg-surface-muted',
-  danger: 'nz-btn-danger bg-danger-action text-danger-action-foreground shadow-xs hover:bg-danger-action-hover',
+  danger:
+    'nz-btn-danger bg-danger-action text-danger-action-foreground shadow-xs hover:bg-danger-action-hover',
   link: 'h-auto px-0 text-link underline-offset-4 hover:underline',
 } as const;
 

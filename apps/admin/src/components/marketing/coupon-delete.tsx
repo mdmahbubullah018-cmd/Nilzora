@@ -30,12 +30,17 @@ export function DeleteCouponForm({
       trigger={
         <>
           <Trash2 aria-hidden="true" strokeWidth={1.75} />
-          Delete <span className="sr-only"><AutoText value={code} /></span>
+          Delete{' '}
+          <span className="sr-only">
+            <AutoText value={code} />
+          </span>
         </>
       }
       title={`Delete ${code}?`}
-      description={tx("Customers who collected it lose it. A coupon that was used in an order cannot be deleted: deactivate it instead. This cannot be undone.")}
-      confirmLabel={tx("Delete")}
+      description={tx(
+        'Customers who collected it lose it. A coupon that was used in an order cannot be deleted: deactivate it instead. This cannot be undone.',
+      )}
+      confirmLabel={tx('Delete')}
       hiddenFields={{ couponId }}
       error={state.status === 'error' ? state.message : undefined}
     />

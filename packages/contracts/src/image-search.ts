@@ -133,9 +133,7 @@ export const saveImageSearchSettingsRequestSchema = z.strictObject({
   similarityThreshold: z.number().min(0.3).max(0.99),
   maxResults: z.number().int().min(1).max(120),
 });
-export type SaveImageSearchSettingsRequest = z.infer<
-  typeof saveImageSearchSettingsRequestSchema
->;
+export type SaveImageSearchSettingsRequest = z.infer<typeof saveImageSearchSettingsRequestSchema>;
 
 export const IMAGE_SEARCH_JOB_KINDS = ['backfill', 'reindex_all', 'retry_failed'] as const;
 export type ImageSearchJobKind = (typeof IMAGE_SEARCH_JOB_KINDS)[number];

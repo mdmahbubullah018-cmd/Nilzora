@@ -55,7 +55,11 @@ export default async function StoreProfilePage() {
           <StoreProfileForm profile={result.value.profile} csrf={csrf} />
         ) : (
           <section className="nz-panel rounded-2xl border">
-            <ReadState failure={result.kind} retryHref={PROFILE_PATH} permission="settings.manage" />
+            <ReadState
+              failure={result.kind}
+              retryHref={PROFILE_PATH}
+              permission="settings.manage"
+            />
           </section>
         )}
       </div>

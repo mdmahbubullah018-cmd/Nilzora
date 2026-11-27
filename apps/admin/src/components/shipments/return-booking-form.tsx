@@ -60,7 +60,7 @@ export function ReturnBookingForm({
       <div className="grid gap-3 sm:grid-cols-2">
         <Field
           id={id('provider')}
-          label={tx("Courier")}
+          label={tx('Courier')}
           error={mine ? state.fieldErrors?.provider : undefined}
           required
         >
@@ -80,7 +80,7 @@ export function ReturnBookingForm({
         </Field>
         <Field
           id={id('weight')}
-          label={tx("Parcel weight (kg)")}
+          label={tx('Parcel weight (kg)')}
           error={mine ? state.fieldErrors?.weight : undefined}
           required
         >
@@ -100,8 +100,8 @@ export function ReturnBookingForm({
       {exchange ? (
         <Field
           id={id('cash')}
-          label={tx("Cash to collect (৳)")}
-          hint={tx("A price difference the courier collects; 0 for a like-for-like swap.")}
+          label={tx('Cash to collect (৳)')}
+          hint={tx('A price difference the courier collects; 0 for a like-for-like swap.')}
           error={mine ? state.fieldErrors?.cash : undefined}
         >
           {(control) => (
@@ -117,7 +117,7 @@ export function ReturnBookingForm({
           )}
         </Field>
       ) : null}
-      <Field id={id('note')} label={tx("Note")} hint={tx("Optional")}>
+      <Field id={id('note')} label={tx('Note')} hint={tx('Optional')}>
         {(control) => (
           <Input
             {...control}
@@ -139,7 +139,9 @@ export function ReturnBookingForm({
             setBookingKey(newBookingKey());
             setHidden(state);
           }}
-        ><AutoText>Start a new booking attempt</AutoText></Button>
+        >
+          <AutoText>Start a new booking attempt</AutoText>
+        </Button>
       ) : outcome ? null : (
         <SubmitButton variant="outline" className="w-fit" pendingLabel="Booking…">
           <Send aria-hidden="true" />

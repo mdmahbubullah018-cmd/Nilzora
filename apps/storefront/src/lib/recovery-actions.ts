@@ -22,7 +22,10 @@ export interface RecoveryAnswer {
   restoredLines?: number;
 }
 
-const tokenSchema = z.string().trim().regex(/^[0-9a-f]{64}$/i);
+const tokenSchema = z
+  .string()
+  .trim()
+  .regex(/^[0-9a-f]{64}$/i);
 
 const SESSION_ENDED = 'Your session has ended. Sign in again to restore your cart.';
 const UNAVAILABLE = 'Nilzora could not reach your cart. Please try again.';

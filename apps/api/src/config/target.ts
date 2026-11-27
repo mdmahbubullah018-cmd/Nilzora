@@ -16,7 +16,14 @@ export interface DatabaseTarget {
   projectRef: string | null;
 }
 
-const LOCAL_HOSTS = new Set(['127.0.0.1', 'localhost', '::1', '0.0.0.0', '[::1]', 'host.docker.internal']);
+const LOCAL_HOSTS = new Set([
+  '127.0.0.1',
+  'localhost',
+  '::1',
+  '0.0.0.0',
+  '[::1]',
+  'host.docker.internal',
+]);
 const SUPABASE_HOST = /(^|\.)supabase\.(co|com|in)$/i;
 /** `db.<ref>.supabase.co` is the direct (non-pooled) host for a project. */
 const SUPABASE_DIRECT = /^db\.([a-z0-9]{20})\.supabase\.(co|com|in)$/i;

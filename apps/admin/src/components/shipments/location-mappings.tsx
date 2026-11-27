@@ -142,15 +142,29 @@ export function LocationMappingsView({
         <DataTable caption="Courier location mappings" dense>
           <TableHeader>
             <TableRow className="hover:bg-transparent">
-              <TableHead><AutoText>Courier</AutoText></TableHead>
-              <TableHead><AutoText>District</AutoText></TableHead>
-              <TableHead><AutoText>Area</AutoText></TableHead>
-              <TableHead><AutoText>Courier location</AutoText></TableHead>
-              <TableHead><AutoText>Label</AutoText></TableHead>
-              <TableHead><AutoText>Updated</AutoText></TableHead>
+              <TableHead>
+                <AutoText>Courier</AutoText>
+              </TableHead>
+              <TableHead>
+                <AutoText>District</AutoText>
+              </TableHead>
+              <TableHead>
+                <AutoText>Area</AutoText>
+              </TableHead>
+              <TableHead>
+                <AutoText>Courier location</AutoText>
+              </TableHead>
+              <TableHead>
+                <AutoText>Label</AutoText>
+              </TableHead>
+              <TableHead>
+                <AutoText>Updated</AutoText>
+              </TableHead>
               {canEdit ? (
                 <TableHead>
-                  <span className="sr-only"><AutoText>Actions</AutoText></span>
+                  <span className="sr-only">
+                    <AutoText>Actions</AutoText>
+                  </span>
                 </TableHead>
               ) : null}
             </TableRow>
@@ -159,10 +173,18 @@ export function LocationMappingsView({
             <TableBody>
               {rows.map((mapping) => (
                 <TableRow key={mapping.id}>
-                  <TableCell><AutoText value={providerName(mapping.provider)} /></TableCell>
-                  <TableCell><AutoText value={mapping.district} /></TableCell>
                   <TableCell>
-                    {mapping.area || <span className="text-muted-foreground"><AutoText>Whole district</AutoText></span>}
+                    <AutoText value={providerName(mapping.provider)} />
+                  </TableCell>
+                  <TableCell>
+                    <AutoText value={mapping.district} />
+                  </TableCell>
+                  <TableCell>
+                    {mapping.area || (
+                      <span className="text-muted-foreground">
+                        <AutoText>Whole district</AutoText>
+                      </span>
+                    )}
                   </TableCell>
                   <TableCell className="whitespace-normal">
                     <span className="font-mono text-xs">

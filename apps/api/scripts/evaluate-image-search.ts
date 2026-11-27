@@ -103,7 +103,9 @@ const s3 = new S3Client({
 
 async function readStored(key: string): Promise<Buffer | null> {
   try {
-    const object = await s3.send(new GetObjectCommand({ Bucket: R2_BUCKET, Key: `${key}/full.webp` }));
+    const object = await s3.send(
+      new GetObjectCommand({ Bucket: R2_BUCKET, Key: `${key}/full.webp` }),
+    );
     const chunks: Buffer[] = [];
     for await (const chunk of object.Body as AsyncIterable<Uint8Array>) {
       chunks.push(Buffer.from(chunk));
@@ -168,7 +170,9 @@ try {
     list.push(picture);
     byProduct.set(picture.productId, list);
   }
-  const queues = [...byProduct.entries()].sort(([a], [b]) => a.localeCompare(b)).map(([, list]) => list);
+  const queues = [...byProduct.entries()]
+    .sort(([a], [b]) => a.localeCompare(b))
+    .map(([, list]) => list);
   const sample: typeof pictures = [];
   for (let index = 0; sample.length < Math.min(sampleSize, pictures.length); index += 1) {
     let added = false;
@@ -198,7 +202,10 @@ try {
     imageIdsByHash.set(picture.contentHash, set);
   }
 
-  const results: { query: (typeof pictures)[number]; ranked: { productId: string; similarity: number }[] }[] = [];
+  const results: {
+    query: (typeof pictures)[number];
+    ranked: { productId: string; similarity: number }[];
+  }[] = [];
   let skipped = 0;
 
   for (const [index, query] of sample.entries()) {
@@ -237,7 +244,8 @@ try {
   print(`Sample: ${results.length} query pictures (${skipped} unreadable), round-robin by product`);
   print();
 
-  const header = 'threshold | P@1    | R@5    | R@10   | MRR    | false matches/query | results/query';
+  const header =
+    'threshold | P@1    | R@5    | R@10   | MRR    | false matches/query | results/query';
   print(header);
   print('-'.repeat(header.length));
 

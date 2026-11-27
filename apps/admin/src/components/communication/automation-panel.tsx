@@ -104,9 +104,22 @@ const BLANK: RuleDraft = {
   isActive: true,
 };
 
-function Panel({ title, icon: Icon, actions, children }: { title: string; icon: typeof Bot; actions?: ReactNode; children: ReactNode }) {
+function Panel({
+  title,
+  icon: Icon,
+  actions,
+  children,
+}: {
+  title: string;
+  icon: typeof Bot;
+  actions?: ReactNode;
+  children: ReactNode;
+}) {
   return (
-    <section aria-label={title} className="nz-panel-strong flex min-w-0 flex-col rounded-2xl border">
+    <section
+      aria-label={title}
+      className="nz-panel-strong flex min-w-0 flex-col rounded-2xl border"
+    >
       <div className="flex flex-wrap items-center justify-between gap-2 border-b border-border px-4 py-3 sm:px-5">
         <h3 className="flex items-center gap-2 font-display text-sm font-semibold text-foreground">
           <Icon aria-hidden className="size-4 text-info-ink" />
@@ -114,7 +127,9 @@ function Panel({ title, icon: Icon, actions, children }: { title: string; icon: 
         </h3>
         {actions}
       </div>
-      <div className="grid gap-3 p-4 sm:p-5"><AutoText value={children} /></div>
+      <div className="grid gap-3 p-4 sm:p-5">
+        <AutoText value={children} />
+      </div>
     </section>
   );
 }
@@ -130,7 +145,9 @@ export function AutomationPanel({ conversationId }: { conversationId: string | n
   const [error, setError] = useState<string | null>(null);
   const [draft, setDraft] = useState<RuleDraft | null>(null);
   const [notice, setNotice] = useState<{ tone: 'success' | 'danger'; text: string } | null>(null);
-  const [preview, setPreview] = useState<{ ruleId: string; text: string; ok: boolean } | null>(null);
+  const [preview, setPreview] = useState<{ ruleId: string; text: string; ok: boolean } | null>(
+    null,
+  );
   const [busy, setBusy] = useState(false);
   const [reload, setReload] = useState(0);
 
@@ -198,10 +215,17 @@ export function AutomationPanel({ conversationId }: { conversationId: string | n
   };
 
   const toggle = async (rule: ChatAutomationRule) => {
-    const result = await apiPost<null>({ op: 'automation-toggle', ruleId: rule.id, isActive: !rule.isActive });
+    const result = await apiPost<null>({
+      op: 'automation-toggle',
+      ruleId: rule.id,
+      isActive: !rule.isActive,
+    });
     setNotice(
       result.ok
-        ? { tone: 'success', text: rule.isActive ? `“${rule.name}” is off.` : `“${rule.name}” is on.` }
+        ? {
+            tone: 'success',
+            text: rule.isActive ? `“${rule.name}” is off.` : `“${rule.name}” is on.`,
+          }
         : { tone: 'danger', text: result.message },
     );
     if (result.ok) setReload((value) => value + 1);
@@ -210,7 +234,11 @@ export function AutomationPanel({ conversationId }: { conversationId: string | n
   const remove = async (rule: ChatAutomationRule) => {
     if (!window.confirm(`Delete “${rule.name}”? Its run history is deleted with it.`)) return;
     const result = await apiPost<null>({ op: 'automation-delete', id: rule.id });
-    setNotice(result.ok ? { tone: 'success', text: 'Rule deleted.' } : { tone: 'danger', text: result.message });
+    setNotice(
+      result.ok
+        ? { tone: 'success', text: 'Rule deleted.' }
+        : { tone: 'danger', text: result.message },
+    );
     if (result.ok) setReload((value) => value + 1);
   };
 
@@ -236,7 +264,10 @@ export function AutomationPanel({ conversationId }: { conversationId: string | n
 
   if (state === 'loading') {
     return (
-      <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_minmax(0,28rem)]" aria-label={tx("Loading automation")}>
+      <div
+        className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_minmax(0,28rem)]"
+        aria-label={tx('Loading automation')}
+      >
         <div className="nz-panel nz-shimmer h-80 rounded-2xl border" />
         <div className="nz-panel nz-shimmer h-80 rounded-2xl border" />
       </div>
@@ -244,16 +275,28 @@ export function AutomationPanel({ conversationId }: { conversationId: string | n
   }
   if (state === 'denied' || state === 'error') {
     return (
-      <div role="alert" className="nz-panel grid justify-items-center gap-3 rounded-2xl border p-8 text-center text-sm">
-        <CircleAlert aria-hidden className={cn('size-5', state === 'denied' ? 'text-warning-ink' : 'text-danger-ink')} />
+      <div
+        role="alert"
+        className="nz-panel grid justify-items-center gap-3 rounded-2xl border p-8 text-center text-sm"
+      >
+        <CircleAlert
+          aria-hidden
+          className={cn('size-5', state === 'denied' ? 'text-warning-ink' : 'text-danger-ink')}
+        />
         <p className="max-w-md text-foreground">
           {state === 'denied'
             ? 'Automation is not available to this account. Ask an administrator for the “Manage chat automation” permission.'
             : (error ?? 'Automation could not be loaded.')}
         </p>
         {state === 'error' ? (
-          <button type="button" onClick={() => setReload((value) => value + 1)} className={quietButton}>
-            <RefreshCw aria-hidden className="size-3.5" /><AutoText>Try again</AutoText></button>
+          <button
+            type="button"
+            onClick={() => setReload((value) => value + 1)}
+            className={quietButton}
+          >
+            <RefreshCw aria-hidden className="size-3.5" />
+            <AutoText>Try again</AutoText>
+          </button>
         ) : null}
       </div>
     );
@@ -263,7 +306,7 @@ export function AutomationPanel({ conversationId }: { conversationId: string | n
     <div className="grid items-start gap-4 xl:grid-cols-[minmax(0,1fr)_minmax(0,28rem)]">
       <div className="grid gap-4">
         <Panel
-          title={tx("Rules")}
+          title={tx('Rules')}
           icon={Bot}
           actions={
             <button
@@ -274,16 +317,28 @@ export function AutomationPanel({ conversationId }: { conversationId: string | n
               }}
               className={quietButton}
             >
-              <Plus aria-hidden className="size-3.5" /><AutoText>New rule</AutoText></button>
+              <Plus aria-hidden className="size-3.5" />
+              <AutoText>New rule</AutoText>
+            </button>
           }
         >
           {notice === null ? null : (
-            <p role="status" className={cn('text-xs font-medium', notice.tone === 'success' ? 'text-success-ink' : 'text-danger-ink')}>
+            <p
+              role="status"
+              className={cn(
+                'text-xs font-medium',
+                notice.tone === 'success' ? 'text-success-ink' : 'text-danger-ink',
+              )}
+            >
               {notice.text}
             </p>
           )}
           {conversationId === null ? (
-            <p className="text-[11px] text-muted-foreground"><AutoText>Open a conversation in the Inbox to try a rule against it without sending anything.</AutoText></p>
+            <p className="text-[11px] text-muted-foreground">
+              <AutoText>
+                Open a conversation in the Inbox to try a rule against it without sending anything.
+              </AutoText>
+            </p>
           ) : null}
           {rules.length === 0 ? (
             <p className="rounded-xl border border-dashed border-border px-4 py-8 text-center text-sm text-muted-foreground">
@@ -293,27 +348,56 @@ export function AutomationPanel({ conversationId }: { conversationId: string | n
           ) : (
             <ul className="grid gap-2">
               {rules.map((rule) => (
-                <li key={rule.id} className={cn('grid gap-2 rounded-xl border p-3.5', rule.isActive ? 'border-border' : 'border-dashed border-border opacity-80')}>
+                <li
+                  key={rule.id}
+                  className={cn(
+                    'grid gap-2 rounded-xl border p-3.5',
+                    rule.isActive ? 'border-border' : 'border-dashed border-border opacity-80',
+                  )}
+                >
                   <div className="flex flex-wrap items-center gap-1.5">
-                    <span className="mr-1 text-sm font-semibold text-foreground"><AutoText value={rule.name} /></span>
-                    <Chip tone={rule.isActive ? 'success' : 'neutral'} dot className="h-5 px-2 text-[10px]">
+                    <span className="mr-1 text-sm font-semibold text-foreground">
+                      <AutoText value={rule.name} />
+                    </span>
+                    <Chip
+                      tone={rule.isActive ? 'success' : 'neutral'}
+                      dot
+                      className="h-5 px-2 text-[10px]"
+                    >
                       {rule.isActive ? 'On' : 'Off'}
                     </Chip>
                     <span className="ml-auto text-[11px] text-muted-foreground">
-                      Ran {rule.runCount}×{rule.lastRunAt === null ? '' : ` · last ${relativeTime(rule.lastRunAt)} ago`}
+                      Ran {rule.runCount}×
+                      {rule.lastRunAt === null ? '' : ` · last ${relativeTime(rule.lastRunAt)} ago`}
                     </span>
                   </div>
                   <p className="text-xs text-body">
-                    <span className="font-medium"><AutoText>When</AutoText></span> {TRIGGER_LABEL[rule.trigger].toLowerCase()}
+                    <span className="font-medium">
+                      <AutoText>When</AutoText>
+                    </span>{' '}
+                    {TRIGGER_LABEL[rule.trigger].toLowerCase()}
                     <span className="font-medium"> then</span>{' '}
-                    {rule.actions.map((action) => ACTION_LABEL[action.type].toLowerCase()).join(', then ')}
+                    {rule.actions
+                      .map((action) => ACTION_LABEL[action.type].toLowerCase())
+                      .join(', then ')}
                     {rule.cooldownSeconds > 0
                       ? ` · at most once every ${String(Math.round(rule.cooldownSeconds / 60))} min per thread`
                       : ''}
                   </p>
-                  {rule.description === null ? null : <p className="text-[11px] text-muted-foreground"><AutoText value={rule.description} /></p>}
+                  {rule.description === null ? null : (
+                    <p className="text-[11px] text-muted-foreground">
+                      <AutoText value={rule.description} />
+                    </p>
+                  )}
                   {preview?.ruleId === rule.id ? (
-                    <p className={cn('rounded-lg px-3 py-2 text-xs', preview.ok ? 'bg-success-soft text-success-ink' : 'bg-warning-soft text-warning-ink')}>
+                    <p
+                      className={cn(
+                        'rounded-lg px-3 py-2 text-xs',
+                        preview.ok
+                          ? 'bg-success-soft text-success-ink'
+                          : 'bg-warning-soft text-warning-ink',
+                      )}
+                    >
                       {preview.text}
                     </p>
                   ) : null}
@@ -326,21 +410,31 @@ export function AutomationPanel({ conversationId }: { conversationId: string | n
                       }}
                       className={quietButton}
                     >
-                      <Pencil aria-hidden className="size-3.5" /><AutoText>Edit</AutoText></button>
+                      <Pencil aria-hidden className="size-3.5" />
+                      <AutoText>Edit</AutoText>
+                    </button>
                     <button type="button" onClick={() => void toggle(rule)} className={quietButton}>
                       <Power aria-hidden className="size-3.5" />
                       {rule.isActive ? 'Turn off' : 'Turn on'}
                     </button>
                     {conversationId === null ? null : (
-                      <button type="button" onClick={() => void dryRun(rule)} className={quietButton}>
-                        <FlaskConical aria-hidden className="size-3.5" /><AutoText>Try on open conversation</AutoText></button>
+                      <button
+                        type="button"
+                        onClick={() => void dryRun(rule)}
+                        className={quietButton}
+                      >
+                        <FlaskConical aria-hidden className="size-3.5" />
+                        <AutoText>Try on open conversation</AutoText>
+                      </button>
                     )}
                     <button
                       type="button"
                       onClick={() => void remove(rule)}
                       className={cn(quietButton, 'text-danger-ink hover:bg-danger-soft')}
                     >
-                      <Trash2 aria-hidden className="size-3.5" /><AutoText>Delete</AutoText></button>
+                      <Trash2 aria-hidden className="size-3.5" />
+                      <AutoText>Delete</AutoText>
+                    </button>
                   </div>
                 </li>
               ))}
@@ -348,37 +442,67 @@ export function AutomationPanel({ conversationId }: { conversationId: string | n
           )}
         </Panel>
 
-        <Panel title={tx("Recent runs")} icon={History}>
+        <Panel title={tx('Recent runs')} icon={History}>
           {runs.length === 0 ? (
-            <p className="text-sm text-muted-foreground"><AutoText>Nothing has run yet.</AutoText></p>
+            <p className="text-sm text-muted-foreground">
+              <AutoText>Nothing has run yet.</AutoText>
+            </p>
           ) : (
             <div className="-mx-4 overflow-x-auto sm:-mx-5">
               <table className="w-full min-w-136 text-sm">
-                <caption className="sr-only"><AutoText>Automation runs, newest first</AutoText></caption>
+                <caption className="sr-only">
+                  <AutoText>Automation runs, newest first</AutoText>
+                </caption>
                 <thead>
                   <tr className="border-b border-border text-left text-[11px] font-semibold tracking-wide text-muted-foreground uppercase">
-                    <th scope="col" className="px-4 py-2 sm:px-5"><AutoText>Rule</AutoText></th>
-                    <th scope="col" className="px-3 py-2"><AutoText>Trigger</AutoText></th>
-                    <th scope="col" className="px-3 py-2"><AutoText>Result</AutoText></th>
-                    <th scope="col" className="px-4 py-2 sm:px-5"><AutoText>When</AutoText></th>
+                    <th scope="col" className="px-4 py-2 sm:px-5">
+                      <AutoText>Rule</AutoText>
+                    </th>
+                    <th scope="col" className="px-3 py-2">
+                      <AutoText>Trigger</AutoText>
+                    </th>
+                    <th scope="col" className="px-3 py-2">
+                      <AutoText>Result</AutoText>
+                    </th>
+                    <th scope="col" className="px-4 py-2 sm:px-5">
+                      <AutoText>When</AutoText>
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
                   {runs.map((run) => (
                     <tr key={run.id} className="border-b border-border last:border-b-0">
-                      <th scope="row" className="px-4 py-2 text-left font-medium text-foreground sm:px-5">
+                      <th
+                        scope="row"
+                        className="px-4 py-2 text-left font-medium text-foreground sm:px-5"
+                      >
                         {run.ruleName ?? 'Deleted rule'}
                       </th>
-                      <td className="px-3 py-2 text-xs text-muted-foreground">{TRIGGER_LABEL[run.trigger]}</td>
+                      <td className="px-3 py-2 text-xs text-muted-foreground">
+                        {TRIGGER_LABEL[run.trigger]}
+                      </td>
                       <td className="px-3 py-2">
                         <Chip
-                          tone={run.status === 'failed' ? 'danger' : run.status === 'applied' ? 'success' : 'neutral'}
+                          tone={
+                            run.status === 'failed'
+                              ? 'danger'
+                              : run.status === 'applied'
+                                ? 'success'
+                                : 'neutral'
+                          }
                           className="h-5 px-2 text-[10px]"
                         >
-                          {run.status === 'applied' ? 'Applied' : run.status === 'failed' ? 'Failed' : 'Skipped'}
+                          {run.status === 'applied'
+                            ? 'Applied'
+                            : run.status === 'failed'
+                              ? 'Failed'
+                              : 'Skipped'}
                         </Chip>
                         {run.error === null ? null : (
-                          <span className="mt-0.5 block max-w-64 truncate text-[11px] text-danger-ink" title={run.error}>
+                          <span
+                            className="mt-0.5 block max-w-64 truncate text-[11px] text-danger-ink"
+                            title={run.error}
+                          >
                             {run.error}
                           </span>
                         )}
@@ -396,7 +520,9 @@ export function AutomationPanel({ conversationId }: { conversationId: string | n
       </div>
 
       {draft === null ? (
-        <div className="nz-panel hidden rounded-2xl border p-6 text-center text-sm text-muted-foreground xl:block"><AutoText>Choose a rule to edit, or start a new one.</AutoText></div>
+        <div className="nz-panel hidden rounded-2xl border p-6 text-center text-sm text-muted-foreground xl:block">
+          <AutoText>Choose a rule to edit, or start a new one.</AutoText>
+        </div>
       ) : (
         <RuleEditor
           draft={draft}
@@ -437,13 +563,16 @@ function RuleEditor({
 }) {
   const tx = useTx();
   const setAction = (index: number, action: ChatAutomationAction) =>
-    onDraft({ ...draft, actions: draft.actions.map((entry, at) => (at === index ? action : entry)) });
+    onDraft({
+      ...draft,
+      actions: draft.actions.map((entry, at) => (at === index ? action : entry)),
+    });
   const toggleIn = (list: readonly string[], value: string, on: boolean) =>
     on ? [...list, value] : list.filter((entry) => entry !== value);
 
   return (
     <form
-      aria-label={tx("Rule editor")}
+      aria-label={tx('Rule editor')}
       className="nz-panel-strong grid gap-4 rounded-2xl border p-4 sm:p-5"
       onSubmit={(event) => {
         event.preventDefault();
@@ -455,13 +584,21 @@ function RuleEditor({
       </h3>
       <label className="grid gap-1 text-xs font-medium text-muted-foreground">
         Name
-        <input required value={draft.name} onChange={(event) => onDraft({ ...draft, name: event.target.value })} maxLength={120} className={cn(field, 'h-9')} />
+        <input
+          required
+          value={draft.name}
+          onChange={(event) => onDraft({ ...draft, name: event.target.value })}
+          maxLength={120}
+          className={cn(field, 'h-9')}
+        />
       </label>
       <label className="grid gap-1 text-xs font-medium text-muted-foreground">
         When
         <select
           value={draft.trigger}
-          onChange={(event) => onDraft({ ...draft, trigger: event.target.value as ChatAutomationTrigger })}
+          onChange={(event) =>
+            onDraft({ ...draft, trigger: event.target.value as ChatAutomationTrigger })
+          }
           className={cn(field, 'h-9')}
         >
           {CHAT_AUTOMATION_TRIGGERS.map((trigger) => (
@@ -473,30 +610,41 @@ function RuleEditor({
       </label>
 
       <fieldset className="grid gap-2.5 rounded-xl border border-border p-3">
-        <legend className="px-1 text-xs font-semibold text-foreground"><AutoText>Only if (all optional)</AutoText></legend>
+        <legend className="px-1 text-xs font-semibold text-foreground">
+          <AutoText>Only if (all optional)</AutoText>
+        </legend>
         <label className="grid gap-1 text-xs font-medium text-muted-foreground">
           The message mentions any of (comma separated)
           <input
             value={draft.keywords}
             onChange={(event) => onDraft({ ...draft, keywords: event.target.value })}
-            placeholder={tx("refund, return")}
+            placeholder={tx('refund, return')}
             className={cn(field, 'h-9')}
           />
         </label>
         <CheckGroup
-          label={tx("Status is")}
-          options={CHAT_CONVERSATION_STATUSES.map((value) => ({ value, label: STATUS_LABEL[value] }))}
+          label={tx('Status is')}
+          options={CHAT_CONVERSATION_STATUSES.map((value) => ({
+            value,
+            label: STATUS_LABEL[value],
+          }))}
           selected={draft.statuses}
-          onToggle={(value, on) => onDraft({ ...draft, statuses: toggleIn(draft.statuses, value, on) })}
+          onToggle={(value, on) =>
+            onDraft({ ...draft, statuses: toggleIn(draft.statuses, value, on) })
+          }
         />
         <CheckGroup
-          label={tx("Priority is")}
-          options={[...CHAT_PRIORITIES].reverse().map((value) => ({ value, label: PRIORITY_LABEL[value] }))}
+          label={tx('Priority is')}
+          options={[...CHAT_PRIORITIES]
+            .reverse()
+            .map((value) => ({ value, label: PRIORITY_LABEL[value] }))}
           selected={draft.priorities}
-          onToggle={(value, on) => onDraft({ ...draft, priorities: toggleIn(draft.priorities, value, on) })}
+          onToggle={(value, on) =>
+            onDraft({ ...draft, priorities: toggleIn(draft.priorities, value, on) })
+          }
         />
         <CheckGroup
-          label={tx("Conversation is about")}
+          label={tx('Conversation is about')}
           options={Object.entries(KIND_LABEL).map(([value, label]) => ({ value, label }))}
           selected={draft.kinds}
           onToggle={(value, on) => onDraft({ ...draft, kinds: toggleIn(draft.kinds, value, on) })}
@@ -505,7 +653,9 @@ function RuleEditor({
           At least this many messages
           <input
             value={draft.minMessages}
-            onChange={(event) => onDraft({ ...draft, minMessages: event.target.value.replace(/\D/g, '') })}
+            onChange={(event) =>
+              onDraft({ ...draft, minMessages: event.target.value.replace(/\D/g, '') })
+            }
             inputMode="numeric"
             className={cn(field, 'h-9 w-28')}
           />
@@ -513,22 +663,33 @@ function RuleEditor({
       </fieldset>
 
       <fieldset className="grid gap-2 rounded-xl border border-border p-3">
-        <legend className="px-1 text-xs font-semibold text-foreground"><AutoText>Then, in order</AutoText></legend>
+        <legend className="px-1 text-xs font-semibold text-foreground">
+          <AutoText>Then, in order</AutoText>
+        </legend>
         {draft.actions.length === 0 ? (
-          <p className="text-xs text-muted-foreground"><AutoText>Add at least one action below.</AutoText></p>
+          <p className="text-xs text-muted-foreground">
+            <AutoText>Add at least one action below.</AutoText>
+          </p>
         ) : (
           <ol className="grid gap-2">
             {draft.actions.map((action, index) => (
-              <li key={`${action.type}-${String(index)}`} className="grid gap-2 rounded-lg bg-surface-muted/70 p-2.5">
+              <li
+                key={`${action.type}-${String(index)}`}
+                className="grid gap-2 rounded-lg bg-surface-muted/70 p-2.5"
+              >
                 <div className="flex items-center gap-2">
                   <span className="grid size-5 shrink-0 place-items-center rounded-full bg-info-soft text-[10px] font-bold text-info-ink">
                     {index + 1}
                   </span>
-                  <span className="flex-1 text-xs font-semibold text-foreground">{ACTION_LABEL[action.type]}</span>
+                  <span className="flex-1 text-xs font-semibold text-foreground">
+                    {ACTION_LABEL[action.type]}
+                  </span>
                   <button
                     type="button"
                     aria-label={`Remove “${ACTION_LABEL[action.type]}”`}
-                    onClick={() => onDraft({ ...draft, actions: draft.actions.filter((_, at) => at !== index) })}
+                    onClick={() =>
+                      onDraft({ ...draft, actions: draft.actions.filter((_, at) => at !== index) })
+                    }
                     className="grid size-7 place-items-center rounded-md text-muted-foreground hover:bg-danger-soft hover:text-danger-ink"
                   >
                     <Trash2 aria-hidden className="size-3.5" />
@@ -542,7 +703,9 @@ function RuleEditor({
                   members={members}
                 />
                 {actionProblem(action) === null ? null : (
-                  <p className="text-[11px] text-warning-ink"><AutoText value={actionProblem(action)} /></p>
+                  <p className="text-[11px] text-warning-ink">
+                    <AutoText value={actionProblem(action)} />
+                  </p>
                 )}
               </li>
             ))}
@@ -560,11 +723,19 @@ function RuleEditor({
               }}
               className={cn(field, 'h-9')}
             >
-              <option value=""><AutoText>Choose…</AutoText></option>
+              <option value="">
+                <AutoText>Choose…</AutoText>
+              </option>
               {CHAT_AUTOMATION_ACTION_TYPES.filter((type) => type !== 'schedule').map((type) => (
-                <option key={type} value={type} disabled={type === 'reply_template' && templates.length === 0}>
+                <option
+                  key={type}
+                  value={type}
+                  disabled={type === 'reply_template' && templates.length === 0}
+                >
                   {ACTION_LABEL[type]}
-                  {type === 'reply_template' && templates.length === 0 ? ' (write a template first)' : ''}
+                  {type === 'reply_template' && templates.length === 0
+                    ? ' (write a template first)'
+                    : ''}
                 </option>
               ))}
             </select>
@@ -577,7 +748,9 @@ function RuleEditor({
           Run order (lower runs first)
           <input
             value={draft.position}
-            onChange={(event) => onDraft({ ...draft, position: event.target.value.replace(/\D/g, '') })}
+            onChange={(event) =>
+              onDraft({ ...draft, position: event.target.value.replace(/\D/g, '') })
+            }
             inputMode="numeric"
             className={cn(field, 'h-9')}
           />
@@ -586,7 +759,9 @@ function RuleEditor({
           At most once per thread every (minutes)
           <input
             value={draft.cooldownMinutes}
-            onChange={(event) => onDraft({ ...draft, cooldownMinutes: event.target.value.replace(/\D/g, '') })}
+            onChange={(event) =>
+              onDraft({ ...draft, cooldownMinutes: event.target.value.replace(/\D/g, '') })
+            }
             inputMode="numeric"
             className={cn(field, 'h-9')}
           />
@@ -603,9 +778,23 @@ function RuleEditor({
       </label>
       <div className="grid gap-1.5">
         <label className="flex items-center gap-2 text-xs font-medium text-foreground">
-          <input type="checkbox" checked={draft.stopProcessing} onChange={(event) => onDraft({ ...draft, stopProcessing: event.target.checked })} className="size-4 accent-primary" /><AutoText>Stop later rules from running after this one</AutoText></label>
+          <input
+            type="checkbox"
+            checked={draft.stopProcessing}
+            onChange={(event) => onDraft({ ...draft, stopProcessing: event.target.checked })}
+            className="size-4 accent-primary"
+          />
+          <AutoText>Stop later rules from running after this one</AutoText>
+        </label>
         <label className="flex items-center gap-2 text-xs font-medium text-foreground">
-          <input type="checkbox" checked={draft.isActive} onChange={(event) => onDraft({ ...draft, isActive: event.target.checked })} className="size-4 accent-primary" /><AutoText>Turn this rule on</AutoText></label>
+          <input
+            type="checkbox"
+            checked={draft.isActive}
+            onChange={(event) => onDraft({ ...draft, isActive: event.target.checked })}
+            className="size-4 accent-primary"
+          />
+          <AutoText>Turn this rule on</AutoText>
+        </label>
       </div>
       {notice === null || notice.tone !== 'danger' ? null : (
         <p role="alert" className="text-xs font-medium text-danger-ink">
@@ -621,7 +810,9 @@ function RuleEditor({
           {busy ? <LoaderCircle aria-hidden className="size-4 motion-safe:animate-spin" /> : null}
           Save rule
         </button>
-        <button type="button" onClick={onCancel} className={cn(quietButton, 'h-9 px-4 text-sm')}><AutoText>Cancel</AutoText></button>
+        <button type="button" onClick={onCancel} className={cn(quietButton, 'h-9 px-4 text-sm')}>
+          <AutoText>Cancel</AutoText>
+        </button>
       </div>
     </form>
   );
@@ -640,7 +831,9 @@ function CheckGroup({
 }) {
   return (
     <fieldset className="grid gap-1">
-      <legend className="text-xs font-medium text-muted-foreground"><AutoText value={label} /></legend>
+      <legend className="text-xs font-medium text-muted-foreground">
+        <AutoText value={label} />
+      </legend>
       <div className="flex flex-wrap gap-x-3 gap-y-1">
         {options.map((option) => (
           <label key={option.value} className="flex items-center gap-1.5 text-xs text-foreground">
@@ -677,12 +870,19 @@ function ActionFields({
     case 'reply_template':
       return (
         <select
-          aria-label={tx("Template")}
+          aria-label={tx('Template')}
           value={action.templateId ?? ''}
-          onChange={(event) => onChange({ type: 'reply_template', ...(event.target.value === '' ? {} : { templateId: event.target.value }) })}
+          onChange={(event) =>
+            onChange({
+              type: 'reply_template',
+              ...(event.target.value === '' ? {} : { templateId: event.target.value }),
+            })
+          }
           className={small}
         >
-          <option value=""><AutoText>Choose a template…</AutoText></option>
+          <option value="">
+            <AutoText>Choose a template…</AutoText>
+          </option>
           {templates.map((template) => (
             <option key={template.id} value={template.id}>
               {template.name} ({template.locale.toUpperCase()})
@@ -693,24 +893,31 @@ function ActionFields({
     case 'system_message':
       return (
         <textarea
-          aria-label={tx("Line to add")}
+          aria-label={tx('Line to add')}
           value={action.body ?? ''}
           onChange={(event) => onChange({ type: 'system_message', body: event.target.value })}
           rows={2}
           maxLength={1000}
-          placeholder={tx("Shown in the thread to everyone, e.g. “We have received your request.”")}
+          placeholder={tx('Shown in the thread to everyone, e.g. “We have received your request.”')}
           className={cn(field, 'py-1.5 text-xs')}
         />
       );
     case 'set_status':
       return (
         <select
-          aria-label={tx("New status")}
+          aria-label={tx('New status')}
           value={typeof action.value === 'string' ? action.value : ''}
-          onChange={(event) => onChange({ type: 'set_status', ...(event.target.value === '' ? {} : { value: event.target.value }) })}
+          onChange={(event) =>
+            onChange({
+              type: 'set_status',
+              ...(event.target.value === '' ? {} : { value: event.target.value }),
+            })
+          }
           className={small}
         >
-          <option value=""><AutoText>Choose a status…</AutoText></option>
+          <option value="">
+            <AutoText>Choose a status…</AutoText>
+          </option>
           {CHAT_CONVERSATION_STATUSES.map((value) => (
             <option key={value} value={value}>
               {STATUS_LABEL[value]}
@@ -721,12 +928,19 @@ function ActionFields({
     case 'set_priority':
       return (
         <select
-          aria-label={tx("New priority")}
+          aria-label={tx('New priority')}
           value={typeof action.value === 'string' ? action.value : ''}
-          onChange={(event) => onChange({ type: 'set_priority', ...(event.target.value === '' ? {} : { value: event.target.value }) })}
+          onChange={(event) =>
+            onChange({
+              type: 'set_priority',
+              ...(event.target.value === '' ? {} : { value: event.target.value }),
+            })
+          }
           className={small}
         >
-          <option value=""><AutoText>Choose a priority…</AutoText></option>
+          <option value="">
+            <AutoText>Choose a priority…</AutoText>
+          </option>
           {[...CHAT_PRIORITIES].reverse().map((value) => (
             <option key={value} value={value}>
               {PRIORITY_LABEL[value]}
@@ -737,7 +951,9 @@ function ActionFields({
     case 'set_tags': {
       const chosen = Array.isArray(action.value) ? action.value : [];
       return tags.length === 0 ? (
-        <p className="text-[11px] text-muted-foreground"><AutoText>No tags exist yet. Create them under Messages.</AutoText></p>
+        <p className="text-[11px] text-muted-foreground">
+          <AutoText>No tags exist yet. Create them under Messages.</AutoText>
+        </p>
       ) : (
         <div className="flex flex-wrap gap-x-3 gap-y-1">
           {tags.map((tag) => (
@@ -748,7 +964,9 @@ function ActionFields({
                 onChange={(event) =>
                   onChange({
                     type: 'set_tags',
-                    value: event.target.checked ? [...chosen, tag.slug] : chosen.filter((slug) => slug !== tag.slug),
+                    value: event.target.checked
+                      ? [...chosen, tag.slug]
+                      : chosen.filter((slug) => slug !== tag.slug),
                   })
                 }
                 className="size-3.5 accent-primary"
@@ -762,12 +980,19 @@ function ActionFields({
     case 'assign_to':
       return (
         <select
-          aria-label={tx("Teammate")}
+          aria-label={tx('Teammate')}
           value={action.userId ?? ''}
-          onChange={(event) => onChange({ type: 'assign_to', ...(event.target.value === '' ? {} : { userId: event.target.value }) })}
+          onChange={(event) =>
+            onChange({
+              type: 'assign_to',
+              ...(event.target.value === '' ? {} : { userId: event.target.value }),
+            })
+          }
           className={small}
         >
-          <option value=""><AutoText>Choose a teammate…</AutoText></option>
+          <option value="">
+            <AutoText>Choose a teammate…</AutoText>
+          </option>
           {members.map((member) => (
             <option key={member.userId} value={member.userId}>
               {member.name ?? member.email ?? 'Teammate'}
@@ -780,7 +1005,7 @@ function ActionFields({
       return (
         <div className="grid gap-1.5 sm:grid-cols-2">
           <select
-            aria-label={tx("Who is notified")}
+            aria-label={tx('Who is notified')}
             value={action.permission ?? 'admin_workspace.access'}
             onChange={(event) => onChange({ ...action, permission: event.target.value })}
             className={small}
@@ -792,11 +1017,22 @@ function ActionFields({
             ))}
           </select>
           <input
-            aria-label={tx("Notification title (optional)")}
+            aria-label={tx('Notification title (optional)')}
             value={action.title ?? ''}
-            onChange={(event) => onChange({ ...action, ...(event.target.value === '' ? { title: undefined } : { title: event.target.value }) })}
+            onChange={(event) =>
+              onChange({
+                ...action,
+                ...(event.target.value === ''
+                  ? { title: undefined }
+                  : { title: event.target.value }),
+              })
+            }
             maxLength={120}
-            placeholder={action.type === 'escalate' ? 'Conversation escalated' : 'New message in a conversation'}
+            placeholder={
+              action.type === 'escalate'
+                ? 'Conversation escalated'
+                : 'New message in a conversation'
+            }
             className={small}
           />
         </div>
@@ -804,11 +1040,15 @@ function ActionFields({
     case 'schedule':
       return (
         <p className="text-[11px] text-muted-foreground">
-          A follow-up scheduled {String(Math.round((action.delaySeconds ?? 0) / 60))} minutes later. It is kept
-          as it is when you save.
+          A follow-up scheduled {String(Math.round((action.delaySeconds ?? 0) / 60))} minutes later.
+          It is kept as it is when you save.
         </p>
       );
     case 'pause_automation':
-      return <p className="text-[11px] text-muted-foreground"><AutoText>No further automation runs on this thread.</AutoText></p>;
+      return (
+        <p className="text-[11px] text-muted-foreground">
+          <AutoText>No further automation runs on this thread.</AutoText>
+        </p>
+      );
   }
 }

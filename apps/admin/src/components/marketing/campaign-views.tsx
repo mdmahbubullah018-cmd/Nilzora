@@ -250,13 +250,27 @@ export function CampaignListView({
         <DataTable caption="Discount campaigns" dense>
           <TableHeader>
             <TableRow className="hover:bg-transparent">
-              <TableHead><AutoText>Campaign</AutoText></TableHead>
-              <TableHead className="hidden md:table-cell"><AutoText>Scope</AutoText></TableHead>
-              <TableHead><AutoText>Discount</AutoText></TableHead>
-              <TableHead className="hidden text-right lg:table-cell"><AutoText>Products</AutoText></TableHead>
-              <TableHead className="hidden text-right xl:table-cell"><AutoText>Priority</AutoText></TableHead>
-              <TableHead><AutoText>State</AutoText></TableHead>
-              <TableHead className="hidden xl:table-cell"><AutoText>Ends</AutoText></TableHead>
+              <TableHead>
+                <AutoText>Campaign</AutoText>
+              </TableHead>
+              <TableHead className="hidden md:table-cell">
+                <AutoText>Scope</AutoText>
+              </TableHead>
+              <TableHead>
+                <AutoText>Discount</AutoText>
+              </TableHead>
+              <TableHead className="hidden text-right lg:table-cell">
+                <AutoText>Products</AutoText>
+              </TableHead>
+              <TableHead className="hidden text-right xl:table-cell">
+                <AutoText>Priority</AutoText>
+              </TableHead>
+              <TableHead>
+                <AutoText>State</AutoText>
+              </TableHead>
+              <TableHead className="hidden xl:table-cell">
+                <AutoText>Ends</AutoText>
+              </TableHead>
             </TableRow>
           </TableHeader>
           {campaigns.length > 0 ? (
@@ -280,7 +294,9 @@ export function CampaignListView({
                   <TableCell className="hidden text-body md:table-cell">
                     {SCOPE_LABEL[campaign.scope]}
                   </TableCell>
-                  <TableCell className="text-body"><AutoText value={campaignValueLabel(campaign)} /></TableCell>
+                  <TableCell className="text-body">
+                    <AutoText value={campaignValueLabel(campaign)} />
+                  </TableCell>
                   <TableCell className="hidden text-right tabular-nums lg:table-cell">
                     {formatCount(campaign.productCount)}
                   </TableCell>
@@ -527,7 +543,9 @@ export function CampaignDetailView({
           </div>
           <div className="flex flex-wrap gap-2">
             {actions.length === 0 ? (
-              <p className="text-sm text-muted-foreground"><AutoText>Your account cannot change this campaign&rsquo;s state.</AutoText></p>
+              <p className="text-sm text-muted-foreground">
+                <AutoText>Your account cannot change this campaign&rsquo;s state.</AutoText>
+              </p>
             ) : (
               actions.map((action) => (
                 <ConfirmForm
@@ -552,14 +570,18 @@ export function CampaignDetailView({
                 <input type="hidden" name="csrfToken" value={csrf.token} />
                 <input type="hidden" name="campaignId" value={campaign.id} />
                 <button type="submit" className={buttonClasses({ variant: 'outline', size: 'sm' })}>
-                  <Copy aria-hidden="true" /><AutoText>Duplicate</AutoText></button>
+                  <Copy aria-hidden="true" />
+                  <AutoText>Duplicate</AutoText>
+                </button>
               </form>
             ) : null}
             {canEdit && campaign.status !== 'archived' ? (
               <Link
                 href={editCampaignHref(campaign.id)}
                 className={buttonClasses({ variant: 'outline', size: 'sm' })}
-              ><AutoText>Edit campaign</AutoText></Link>
+              >
+                <AutoText>Edit campaign</AutoText>
+              </Link>
             ) : null}
           </div>
         </div>
@@ -574,13 +596,27 @@ export function CampaignDetailView({
           <DataTable caption="Products this campaign prices" dense>
             <TableHeader>
               <TableRow className="hover:bg-transparent">
-                <TableHead><AutoText>Product</AutoText></TableHead>
-                <TableHead className="hidden md:table-cell"><AutoText>Category</AutoText></TableHead>
-                <TableHead className="text-right"><AutoText>List price</AutoText></TableHead>
-                <TableHead className="hidden text-right sm:table-cell"><AutoText>Own sale price</AutoText></TableHead>
-                <TableHead className="text-right"><AutoText>Campaign price</AutoText></TableHead>
-                <TableHead className="hidden text-right lg:table-cell"><AutoText>Saving</AutoText></TableHead>
-                <TableHead className="hidden xl:table-cell"><AutoText>Priced by</AutoText></TableHead>
+                <TableHead>
+                  <AutoText>Product</AutoText>
+                </TableHead>
+                <TableHead className="hidden md:table-cell">
+                  <AutoText>Category</AutoText>
+                </TableHead>
+                <TableHead className="text-right">
+                  <AutoText>List price</AutoText>
+                </TableHead>
+                <TableHead className="hidden text-right sm:table-cell">
+                  <AutoText>Own sale price</AutoText>
+                </TableHead>
+                <TableHead className="text-right">
+                  <AutoText>Campaign price</AutoText>
+                </TableHead>
+                <TableHead className="hidden text-right lg:table-cell">
+                  <AutoText>Saving</AutoText>
+                </TableHead>
+                <TableHead className="hidden xl:table-cell">
+                  <AutoText>Priced by</AutoText>
+                </TableHead>
               </TableRow>
             </TableHeader>
             {preview.products.length > 0 ? (
@@ -588,7 +624,9 @@ export function CampaignDetailView({
                 {preview.products.map((row) => (
                   <TableRow key={row.productId}>
                     <TableCell>
-                      <span className="text-sm font-medium text-foreground"><AutoText value={row.name} /></span>
+                      <span className="text-sm font-medium text-foreground">
+                        <AutoText value={row.name} />
+                      </span>
                       <span className="block font-mono text-xs text-muted-foreground">
                         {row.sku}
                       </span>
@@ -613,9 +651,13 @@ export function CampaignDetailView({
                     <TableCell className="hidden xl:table-cell">
                       {row.wins ? (
                         row.overridesProductDiscount ? (
-                          <Badge tone="primary"><AutoText>Overrides the sale price</AutoText></Badge>
+                          <Badge tone="primary">
+                            <AutoText>Overrides the sale price</AutoText>
+                          </Badge>
                         ) : (
-                          <Badge tone="success"><AutoText>Applies</AutoText></Badge>
+                          <Badge tone="success">
+                            <AutoText>Applies</AutoText>
+                          </Badge>
                         )
                       ) : (
                         <Badge tone="warning">{row.governedBy ?? 'Outranked'}</Badge>
@@ -648,7 +690,9 @@ export function CampaignDetailView({
         description="Other live campaigns that reach at least one of the same products."
       >
         {conflicts.length === 0 ? (
-          <p className="text-sm text-muted-foreground"><AutoText>No other live campaign reaches these products.</AutoText></p>
+          <p className="text-sm text-muted-foreground">
+            <AutoText>No other live campaign reaches these products.</AutoText>
+          </p>
         ) : (
           <ul role="list" className="grid gap-2">
             {conflicts.map((conflict) => (

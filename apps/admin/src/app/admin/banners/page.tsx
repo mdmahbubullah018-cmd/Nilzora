@@ -136,8 +136,12 @@ export default async function BannersPage() {
         <details className="group" open={banners.value.length === 0}>
           <summary className="inline-flex min-h-9 cursor-pointer list-none items-center gap-1.5 rounded-xl bg-primary-action px-4 text-sm font-semibold text-primary-action-foreground max-sm:min-h-11 [&::-webkit-details-marker]:hidden">
             <Plus aria-hidden="true" className="size-4" strokeWidth={1.75} />
-            <span className="group-open:hidden"><AutoText>Create banner</AutoText></span>
-            <span className="hidden group-open:inline"><AutoText>Close</AutoText></span>
+            <span className="group-open:hidden">
+              <AutoText>Create banner</AutoText>
+            </span>
+            <span className="hidden group-open:inline">
+              <AutoText>Close</AutoText>
+            </span>
           </summary>
           <div className="mt-5">
             <BannerForm categories={categoryList} csrf={csrf} />
@@ -185,7 +189,9 @@ export default async function BannersPage() {
                               {banner.isActive ? 'Active' : 'Inactive'}
                             </Chip>
                             {banner.mobileImage ? (
-                              <Chip tone="violet"><AutoText>Small-screen picture</AutoText></Chip>
+                              <Chip tone="violet">
+                                <AutoText>Small-screen picture</AutoText>
+                              </Chip>
                             ) : null}
                           </span>
                           <span className="text-xs text-muted-foreground">
@@ -193,7 +199,9 @@ export default async function BannersPage() {
                           </span>
                         </span>
                         <span className="inline-flex h-9 items-center gap-1.5 justify-self-start rounded-xl px-3 text-xs font-semibold text-link ring-1 ring-hairline group-open:bg-info-soft sm:justify-self-end max-sm:h-11">
-                          <Pencil aria-hidden="true" className="size-3.5" strokeWidth={1.75} /><AutoText>Edit</AutoText></span>
+                          <Pencil aria-hidden="true" className="size-3.5" strokeWidth={1.75} />
+                          <AutoText>Edit</AutoText>
+                        </span>
                       </summary>
                       <div className="grid gap-6 border-t border-hairline bg-neutral-soft/40 px-5 py-5">
                         <SavedBannerPreview banner={banner} />

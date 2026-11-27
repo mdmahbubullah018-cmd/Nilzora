@@ -335,7 +335,12 @@ export function ProductForm({
 
   // Nothing the account may change: the page shows the product read-only.
   const editable = creating || sections.length > 0;
-  if (!editable) return <ProductFormContext value={context}><AutoText value={children} /></ProductFormContext>;
+  if (!editable)
+    return (
+      <ProductFormContext value={context}>
+        <AutoText value={children} />
+      </ProductFormContext>
+    );
 
   const failed = state.status === 'error' && state.message ? state.message : null;
   // Every field with a message right now: this form's own checks, then the server's.
@@ -372,7 +377,7 @@ export function ProductForm({
         <div
           className={cn('z-30', interactive && 'nz-fade-in sticky bottom-3 sm:bottom-4')}
           role="region"
-          aria-label={tx("Save changes")}
+          aria-label={tx('Save changes')}
         >
           <div className="nz-glass grid gap-3 rounded-2xl border px-4 py-3 shadow-glass-lg sm:px-5">
             {failed ? (
@@ -413,7 +418,9 @@ export function ProductForm({
                 {dirty ? (
                   <>
                     <span aria-hidden="true" className="size-2 shrink-0 rounded-full bg-warning" />
-                    <span className="font-medium text-foreground"><AutoText>Unsaved changes</AutoText></span>
+                    <span className="font-medium text-foreground">
+                      <AutoText>Unsaved changes</AutoText>
+                    </span>
                     {problems > 0 ? (
                       <span className="text-danger-ink">
                         ·{' '}
@@ -436,7 +443,9 @@ export function ProductForm({
                     disabled={pending}
                     className="max-sm:min-h-11 max-sm:flex-1"
                   >
-                    <Undo2 aria-hidden="true" strokeWidth={1.75} /><AutoText>Discard</AutoText></Button>
+                    <Undo2 aria-hidden="true" strokeWidth={1.75} />
+                    <AutoText>Discard</AutoText>
+                  </Button>
                 ) : null}
                 <Button
                   type="submit"
@@ -537,7 +546,7 @@ function BasicInfoInputs({
   const prefix = creating ? 'create' : 'content';
   return (
     <div className="grid gap-5">
-      <Field id={`${prefix}-name`} label={tx("Name")} error={error('name')} required>
+      <Field id={`${prefix}-name`} label={tx('Name')} error={error('name')} required>
         {(control) => (
           <Input
             {...control}
@@ -561,7 +570,7 @@ function BasicInfoInputs({
         <SlugField
           id={`${prefix}-slug`}
           form={formId}
-          label={tx("Storefront address")}
+          label={tx('Storefront address')}
           kind="product"
           initial={initial('slug')}
           source={name}
@@ -581,7 +590,7 @@ function BasicInfoInputs({
       </div>
       <Field
         id={`${prefix}-summary`}
-        label={tx("Summary")}
+        label={tx('Summary')}
         error={error('summary')}
         hint={
           <>
@@ -602,7 +611,7 @@ function BasicInfoInputs({
       </Field>
       <Field
         id={`${prefix}-description`}
-        label={tx("Description")}
+        label={tx('Description')}
         error={error('description')}
         hint={
           <>
@@ -644,10 +653,10 @@ function PricingInputs() {
       <div className="grid items-start gap-5 sm:grid-cols-2">
         <Field
           id={`${prefix}-price`}
-          label={tx("Price (BDT)")}
+          label={tx('Price (BDT)')}
           error={error('price')}
           required
-          hint={tx("In taka, e.g. 1250 or 1250.50.")}
+          hint={tx('In taka, e.g. 1250 or 1250.50.')}
         >
           {(control) => (
             <MoneyInput
@@ -661,9 +670,9 @@ function PricingInputs() {
         </Field>
         <Field
           id={`${prefix}-compareAtPrice`}
-          label={tx("Former price (BDT)")}
+          label={tx('Former price (BDT)')}
           error={error('compareAtPrice')}
-          hint={tx("Optional. Shown struck through; must be higher than the price.")}
+          hint={tx('Optional. Shown struck through; must be higher than the price.')}
         >
           {(control) => (
             <MoneyInput
@@ -680,7 +689,9 @@ function PricingInputs() {
         <p className="flex items-center gap-2 text-sm text-muted-foreground">
           <span className="inline-flex h-6 items-center rounded-full bg-offer-soft px-2.5 text-xs font-semibold text-offer-ink ring-1 ring-offer-line ring-inset">
             {discount}% off
-          </span><AutoText>Shoppers see the former price struck through beside the price.</AutoText></p>
+          </span>
+          <AutoText>Shoppers see the former price struck through beside the price.</AutoText>
+        </p>
       ) : null}
     </div>
   );
@@ -695,10 +706,10 @@ export function OrderLimitField() {
     <Fragment key={resetKey}>
       <Field
         id={`${prefix}-maxOrderQuantity`}
-        label={tx("Most units per order")}
+        label={tx('Most units per order')}
         error={error('maxOrderQuantity')}
         required
-        hint={tx("1 to 100. Orders are also capped by the stock available.")}
+        hint={tx('1 to 100. Orders are also capped by the stock available.')}
       >
         {(control) => (
           <Input
@@ -727,10 +738,10 @@ export function StockKeepingFields() {
     <div className="grid items-start gap-5 sm:grid-cols-2">
       <Field
         id="create-sku"
-        label={tx("SKU")}
+        label={tx('SKU')}
         error={error('sku')}
         required
-        hint={tx("2 to 40 letters, digits or hyphens, e.g. NZ-PANJABI-M. It cannot change later.")}
+        hint={tx('2 to 40 letters, digits or hyphens, e.g. NZ-PANJABI-M. It cannot change later.')}
       >
         {(control) => (
           <Input
@@ -747,9 +758,9 @@ export function StockKeepingFields() {
       </Field>
       <Field
         id="create-initialStock"
-        label={tx("Opening stock")}
+        label={tx('Opening stock')}
         error={error('initialStock')}
-        hint={tx("Units on hand now, recorded in the stock ledger. Later changes need a reason.")}
+        hint={tx('Units on hand now, recorded in the stock ledger. Later changes need a reason.')}
       >
         {(control) => (
           <Input
@@ -790,9 +801,11 @@ function MerchandisingInputs({ showTags }: { showTags: boolean }) {
       {showTags ? (
         <Field
           id={`${prefix}-tags`}
-          label={tx("Tags")}
+          label={tx('Tags')}
           error={error('tags')}
-          hint={tx("For staff only: group products for campaigns and searches. Press Enter or type a comma after each tag.")}
+          hint={tx(
+            'For staff only: group products for campaigns and searches. Press Enter or type a comma after each tag.',
+          )}
         >
           {(control) => (
             <TagInput
@@ -831,8 +844,12 @@ function FeatureToggle({
         className="mt-0.5 size-5 shrink-0 cursor-pointer accent-primary-action focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
       />
       <div className="grid gap-0.5">
-        <label htmlFor={id} className="cursor-pointer text-sm font-medium text-foreground"><AutoText>Feature in the storefront</AutoText></label>
-        <p id={`${id}-hint`} className="text-xs text-muted-foreground"><AutoText>Featured products on sale are highlighted on the home page.</AutoText></p>
+        <label htmlFor={id} className="cursor-pointer text-sm font-medium text-foreground">
+          <AutoText>Feature in the storefront</AutoText>
+        </label>
+        <p id={`${id}-hint`} className="text-xs text-muted-foreground">
+          <AutoText>Featured products on sale are highlighted on the home page.</AutoText>
+        </p>
       </div>
     </div>
   );
@@ -847,9 +864,11 @@ export function SizeChartField() {
   return (
     <Field
       id={id}
-      label={tx("Size chart")}
+      label={tx('Size chart')}
       error={error('sizeChart')}
-      hint={tx("Optional. Without JavaScript: one row per line, entries separated by |, the first line naming the columns.")}
+      hint={tx(
+        'Optional. Without JavaScript: one row per line, entries separated by |, the first line naming the columns.',
+      )}
     >
       {(control) => (
         <SizeChartEditor

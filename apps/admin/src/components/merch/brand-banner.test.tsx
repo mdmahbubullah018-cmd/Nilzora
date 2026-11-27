@@ -65,10 +65,7 @@ describe('BrandBannerForm', () => {
 describe('BrandPreview', () => {
   it('draws the homepage card from the logo, never from the banner', () => {
     const { container } = render(
-      <BrandPreview
-        brand={brand({ banner: BANNER, logo: LOGO })}
-        storeUrl={null}
-      />,
+      <BrandPreview brand={brand({ banner: BANNER, logo: LOGO })} storeUrl={null} />,
     );
 
     const pictures = [...container.querySelectorAll('img')].map((img) => img.getAttribute('src'));
@@ -80,9 +77,7 @@ describe('BrandPreview', () => {
   });
 
   it('says plainly that the brand page has no banner, and still draws the logo', () => {
-    const { container } = render(
-      <BrandPreview brand={brand({ logo: LOGO })} storeUrl={null} />,
-    );
+    const { container } = render(<BrandPreview brand={brand({ logo: LOGO })} storeUrl={null} />);
 
     expect(screen.getByText(/with no banner/)).toBeTruthy();
     expect(container.querySelector(`img[src="${LOGO.thumbUrl}"]`)).toBeTruthy();

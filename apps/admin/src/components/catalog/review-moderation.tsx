@@ -41,9 +41,11 @@ export function ReviewModerationActions({
               </>
             }
             triggerVariant="primary"
-            title={tx("Publish this review?")}
-            description={tx("It becomes visible on the product page, and its rating counts towards the average.")}
-            confirmLabel={tx("Yes, publish it")}
+            title={tx('Publish this review?')}
+            description={tx(
+              'It becomes visible on the product page, and its rating counts towards the average.',
+            )}
+            confirmLabel={tx('Yes, publish it')}
             tone="primary"
             hiddenFields={{ reviewId, status: 'approved' }}
             error={approveState.status === 'error' ? approveState.message : undefined}
@@ -60,9 +62,9 @@ export function ReviewModerationActions({
                 Reject
               </>
             }
-            title={tx("Reject this review?")}
-            description={tx("It stays hidden. The customer sees your reason in their account.")}
-            confirmLabel={tx("Yes, reject it")}
+            title={tx('Reject this review?')}
+            description={tx('It stays hidden. The customer sees your reason in their account.')}
+            confirmLabel={tx('Yes, reject it')}
             tone="danger"
             hiddenFields={{ reviewId, status: 'rejected' }}
             error={rejectState.status === 'error' ? rejectState.message : undefined}

@@ -8,11 +8,14 @@ import { loadDashboard, signedOut } from './load-dashboard';
 const api = vi.hoisted(() => ({
   adminDashboard: vi.fn(),
   adminAnalyticsOverview:
-    vi.fn<(token: string, query: { from: string; to: string; compare?: string }) => Promise<unknown>>(),
+    vi.fn<
+      (token: string, query: { from: string; to: string; compare?: string }) => Promise<unknown>
+    >(),
   adminListOrders: vi.fn(),
   adminAuditLog: vi.fn(),
   adminListReviews: vi.fn(),
-  adminListProducts: vi.fn<(token: string, query?: { status?: string; stock?: string }) => Promise<unknown>>(),
+  adminListProducts:
+    vi.fn<(token: string, query?: { status?: string; stock?: string }) => Promise<unknown>>(),
   adminListCustomers: vi.fn<(token: string, query?: { pageSize?: number }) => Promise<unknown>>(),
   adminCheckoutMetrics: vi.fn(),
 }));
@@ -37,9 +40,7 @@ const last30 = parseReportRange({}, NOW);
 beforeEach(() => {
   read.outcome = 'ok';
   api.adminDashboard.mockReset().mockResolvedValue(emptySummary);
-  api.adminAnalyticsOverview
-    .mockReset()
-    .mockResolvedValue({ overview: analyticsOverview(30) });
+  api.adminAnalyticsOverview.mockReset().mockResolvedValue({ overview: analyticsOverview(30) });
   api.adminListOrders
     .mockReset()
     .mockResolvedValue({ orders: [], page: 1, pageSize: 6, total: 0, totalPages: 0 });

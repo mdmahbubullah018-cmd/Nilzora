@@ -61,7 +61,9 @@ export function BannerPreview({
       <div className={cn('relative overflow-hidden bg-brand-soft', BANNER_FRAME[values.placement])}>
         {values.imageUrl === null ? (
           <>
-            <span className="absolute inset-0 grid place-items-center text-xs text-muted-foreground"><AutoText>No picture yet</AutoText></span>
+            <span className="absolute inset-0 grid place-items-center text-xs text-muted-foreground">
+              <AutoText>No picture yet</AutoText>
+            </span>
             {words ? (
               <div className="absolute inset-0 grid content-center p-2.5">
                 <div className="grid min-w-0 gap-0.5">
@@ -71,7 +73,9 @@ export function BannerPreview({
                     </p>
                   )}
                   {values.subtitle === null ? null : (
-                    <p className="line-clamp-1 text-xs text-muted-foreground"><AutoText value={values.subtitle} /></p>
+                    <p className="line-clamp-1 text-xs text-muted-foreground">
+                      <AutoText value={values.subtitle} />
+                    </p>
                   )}
                   {values.ctaLabel === null ? null : (
                     <span className="mt-0.5 inline-flex items-center gap-1 justify-self-start text-xs font-semibold text-link">
@@ -85,11 +89,7 @@ export function BannerPreview({
         ) : (
           <>
             {/* eslint-disable-next-line @next/next/no-img-element -- already-optimised WebP from the media service */}
-            <img
-              src={values.imageUrl}
-              alt=""
-              className="absolute inset-0 size-full object-cover"
-            />
+            <img src={values.imageUrl} alt="" className="absolute inset-0 size-full object-cover" />
             {words ? (
               <div
                 className={cn(

@@ -300,8 +300,8 @@ export default async function CheckoutPage({
 
               {noPaymentMethod ? (
                 <Alert tone="warning" title="Checkout is temporarily unavailable">
-                  No payment method can be used right now. Please try again a little later —
-                  nothing has been charged and your cart is still here.
+                  No payment method can be used right now. Please try again a little later — nothing
+                  has been charged and your cart is still here.
                 </Alert>
               ) : total !== null ? (
                 <PlaceOrderForm

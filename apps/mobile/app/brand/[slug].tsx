@@ -13,7 +13,11 @@ import { announce } from '@/features/catalog/add-to-cart';
 import { BrandMark, brandHref } from '@/features/brands/brand-components';
 import { parseBrandSlug, useBrand } from '@/features/brands/brand-hooks';
 import { CatalogGrid } from '@/features/catalog/catalog-grid';
-import { BROWSE_SORTS, isProductNotFound, type ShopFilters } from '@/features/catalog/catalog-query';
+import {
+  BROWSE_SORTS,
+  isProductNotFound,
+  type ShopFilters,
+} from '@/features/catalog/catalog-query';
 import { brandShareTarget, shareBrand } from '@/features/share/product-share';
 import { theme } from '@/theme';
 

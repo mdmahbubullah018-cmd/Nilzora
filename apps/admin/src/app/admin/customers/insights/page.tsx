@@ -153,12 +153,24 @@ export default async function CustomerInsightsPage({ searchParams }: PageParams)
             <DataTable caption="Customer spending and segments" dense>
               <TableHeader>
                 <TableRow className="hover:bg-transparent">
-                  <TableHead><AutoText>Customer</AutoText></TableHead>
-                  <TableHead className="text-right"><AutoText>Orders</AutoText></TableHead>
-                  <TableHead className="text-right"><AutoText>Spent</AutoText></TableHead>
-                  <TableHead className="hidden text-right md:table-cell"><AutoText>Average</AutoText></TableHead>
-                  <TableHead className="hidden lg:table-cell"><AutoText>Last order</AutoText></TableHead>
-                  <TableHead><AutoText>Segment</AutoText></TableHead>
+                  <TableHead>
+                    <AutoText>Customer</AutoText>
+                  </TableHead>
+                  <TableHead className="text-right">
+                    <AutoText>Orders</AutoText>
+                  </TableHead>
+                  <TableHead className="text-right">
+                    <AutoText>Spent</AutoText>
+                  </TableHead>
+                  <TableHead className="hidden text-right md:table-cell">
+                    <AutoText>Average</AutoText>
+                  </TableHead>
+                  <TableHead className="hidden lg:table-cell">
+                    <AutoText>Last order</AutoText>
+                  </TableHead>
+                  <TableHead>
+                    <AutoText>Segment</AutoText>
+                  </TableHead>
                 </TableRow>
               </TableHeader>
               {result.value.customers.length > 0 ? (
@@ -188,7 +200,9 @@ export default async function CustomerInsightsPage({ searchParams }: PageParams)
                         {formatMoney(customer.averageOrderMinor)}
                       </TableCell>
                       <TableCell className="hidden text-muted-foreground lg:table-cell">
-                        {customer.lastOrderAt === null ? 'Never' : formatDateTime(customer.lastOrderAt)}
+                        {customer.lastOrderAt === null
+                          ? 'Never'
+                          : formatDateTime(customer.lastOrderAt)}
                       </TableCell>
                       <TableCell>
                         {customer.segments.length === 0 ? (

@@ -10,7 +10,10 @@ import { ZonesView } from '@/components/zones/zone-views';
 import { workspaceGate } from '@/lib/access';
 import { signInPath } from '@/lib/workspace-access';
 
-export const metadata: Metadata = { title: 'Shopping zones', robots: { index: false, follow: false } };
+export const metadata: Metadata = {
+  title: 'Shopping zones',
+  robots: { index: false, follow: false },
+};
 
 /** Shopping zones: the collections the storefront and the app browse by. */
 export default async function ZonesPage({ searchParams }: PageProps<'/admin/zones'>) {

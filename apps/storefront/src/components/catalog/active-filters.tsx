@@ -26,7 +26,10 @@ export interface ChipSource {
   /** The chosen brand's name, when it is known. */
   brandName?: string | undefined;
   /** The words for each chosen size and colour slug, when the facets supplied them. */
-  facetLabels?: { sizes?: Readonly<Record<string, string>>; colors?: Readonly<Record<string, string>> };
+  facetLabels?: {
+    sizes?: Readonly<Record<string, string>>;
+    colors?: Readonly<Record<string, string>>;
+  };
   /** The sort to use once a filter is gone, when the current one no longer applies. */
   sortAfter?: (filters: ListingFilters) => CatalogSort;
 }

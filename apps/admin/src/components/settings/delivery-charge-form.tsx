@@ -12,7 +12,12 @@ import { setDeliveryChargeAction } from '@/lib/settings-actions';
 function SaveButton({ label }: { label: string }) {
   const { pending } = useFormStatus();
   return (
-    <Button type="submit" variant="outline" loading={pending} className="rounded-xl max-sm:min-h-11">
+    <Button
+      type="submit"
+      variant="outline"
+      loading={pending}
+      className="rounded-xl max-sm:min-h-11"
+    >
       {pending ? null : <Save aria-hidden="true" strokeWidth={1.75} />}
       Save
       {/* Names which charge, for screen-reader users moving between the two buttons. */}

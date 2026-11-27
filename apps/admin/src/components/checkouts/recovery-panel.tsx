@@ -1,6 +1,10 @@
 'use client';
 
-import type { CheckoutDetail, CheckoutRecoveryChannel, CheckoutRecoveryState } from '@nilzora/contracts';
+import type {
+  CheckoutDetail,
+  CheckoutRecoveryChannel,
+  CheckoutRecoveryState,
+} from '@nilzora/contracts';
 import { NativeSelect, Textarea } from '@nilzora/ui';
 import { Copy, Link2, Unlink } from 'lucide-react';
 import { useActionState, useState } from 'react';
@@ -99,16 +103,13 @@ export function CheckoutRecoveryPanel({ checkout, csrf, storefrontUrl, canAct }:
   // The server decided whether the link is usable; the browser only checks that it exists and
   // that it has not been used or replaced, so no clock is read during render.
   const linkUsable =
-    checkout.link !== null &&
-    checkout.link.usedAt === null &&
-    checkout.link.revokedAt === null;
+    checkout.link !== null && checkout.link.usedAt === null && checkout.link.revokedAt === null;
 
   if (!canAct) {
     return (
       <p className="text-sm text-muted-foreground">
         <AutoText>
-          Contacting customers and creating recovery links needs the “Recover checkouts”
-          permission.
+          Contacting customers and creating recovery links needs the “Recover checkouts” permission.
         </AutoText>
       </p>
     );

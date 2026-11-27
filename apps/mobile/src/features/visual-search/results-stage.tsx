@@ -1,13 +1,6 @@
 import type { ImageSearchResponse, ImageSearchSort } from '@nilzora/contracts';
 import { ArrowLeft, Camera, ImageOff, Search, Sparkles, X } from 'lucide-react-native';
-import {
-  Image,
-  Pressable,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import { Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Button } from '@/components/button';
 import { Chip } from '@/components/chip';
@@ -117,7 +110,11 @@ export function ResultsStage({
         </View>
 
         <View style={styles.sortRow}>
-          <Chip label="Best match" selected={sort === 'best_match'} onPress={() => onSort('best_match')} />
+          <Chip
+            label="Best match"
+            selected={sort === 'best_match'}
+            onPress={() => onSort('best_match')}
+          />
           <Chip
             label={priceAscending ? 'Price: low to high' : 'Price: high to low'}
             selected={sort !== 'best_match'}
@@ -164,11 +161,7 @@ export function ResultsStage({
             </Text>
             <View style={styles.panelActions}>
               <Button label="Browse products" onPress={onBrowse} />
-              <Button
-                label="Search with a photo"
-                variant="secondary"
-                onPress={onRetake}
-              />
+              <Button label="Search with a photo" variant="secondary" onPress={onRetake} />
             </View>
           </View>
         ) : null}
@@ -252,7 +245,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   query: { flex: 1, flexDirection: 'row', alignItems: 'center', gap: theme.spacing[2] },
-  preview: { width: 44, height: 44, borderRadius: theme.radii.input, backgroundColor: theme.colors.iconSurface },
+  preview: {
+    width: 44,
+    height: 44,
+    borderRadius: theme.radii.input,
+    backgroundColor: theme.colors.iconSurface,
+  },
   previewEmpty: { alignItems: 'center', justifyContent: 'center' },
   queryText: { flex: 1 },
   title: { color: theme.colors.foreground, fontSize: 16, fontWeight: theme.fontWeights.semibold },
@@ -266,7 +264,13 @@ const styles = StyleSheet.create({
   },
   sortSpacer: { flex: 1 },
   count: { color: theme.colors.mutedForeground, fontSize: 12 },
-  body: { padding: theme.spacing[4], paddingBottom: theme.spacing[8], gap: theme.spacing[4] },  grid: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', rowGap: theme.spacing[4] },
+  body: { padding: theme.spacing[4], paddingBottom: theme.spacing[8], gap: theme.spacing[4] },
+  grid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+    rowGap: theme.spacing[4],
+  },
   panel: { alignItems: 'center', gap: theme.spacing[3], paddingVertical: theme.spacing[8] },
   panelIcon: {
     width: 56,
@@ -276,7 +280,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: theme.colors.iconSurface,
   },
-  panelTitle: { color: theme.colors.foreground, fontSize: 18, fontWeight: theme.fontWeights.semibold },
+  panelTitle: {
+    color: theme.colors.foreground,
+    fontSize: 18,
+    fontWeight: theme.fontWeights.semibold,
+  },
   panelBody: {
     color: theme.colors.mutedForeground,
     fontSize: 13,
@@ -284,7 +292,12 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     maxWidth: 300,
   },
-  panelActions: { flexDirection: 'row', gap: theme.spacing[2], flexWrap: 'wrap', justifyContent: 'center' },
+  panelActions: {
+    flexDirection: 'row',
+    gap: theme.spacing[2],
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+  },
   pager: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -293,7 +306,11 @@ const styles = StyleSheet.create({
     paddingTop: theme.spacing[2],
   },
   pagerText: { color: theme.colors.mutedForeground, fontSize: 12 },
-  bottomBar: { backgroundColor: theme.colors.surface, borderTopWidth: 1, borderTopColor: theme.colors.border },
+  bottomBar: {
+    backgroundColor: theme.colors.surface,
+    borderTopWidth: 1,
+    borderTopColor: theme.colors.border,
+  },
   newPhoto: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -304,7 +321,16 @@ const styles = StyleSheet.create({
     borderRadius: theme.radii.full,
     backgroundColor: theme.brand.primary,
   },
-  newPhotoText: { color: theme.brand.onSolid, fontSize: 15, fontWeight: theme.fontWeights.semibold },
+  newPhotoText: {
+    color: theme.brand.onSolid,
+    fontSize: 15,
+    fontWeight: theme.fontWeights.semibold,
+  },
   skeletonImage: { borderRadius: theme.radii.card, backgroundColor: theme.colors.surfaceMuted },
-  skeletonLine: { height: 10, marginTop: theme.spacing[2], borderRadius: 5, backgroundColor: theme.colors.surfaceMuted },
+  skeletonLine: {
+    height: 10,
+    marginTop: theme.spacing[2],
+    borderRadius: 5,
+    backgroundColor: theme.colors.surfaceMuted,
+  },
 });

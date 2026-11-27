@@ -22,7 +22,9 @@ export function useVoucherCenter() {
     queryKey: queryKeys.vouchers.center(userId),
     queryFn: ({ signal }) => {
       if (userId !== null) {
-        return run((client, token) => client.voucherCenter(token, { signal })).then((r) => r.vouchers);
+        return run((client, token) => client.voucherCenter(token, { signal })).then(
+          (r) => r.vouchers,
+        );
       }
       if (api === null) return Promise.reject(new ApiNotConfiguredError());
       return api.voucherCenter(null, { signal }).then((r) => r.vouchers);

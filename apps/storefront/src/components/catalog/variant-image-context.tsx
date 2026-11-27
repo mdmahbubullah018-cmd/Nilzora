@@ -1,12 +1,6 @@
 'use client';
 
-import {
-  createContext,
-  useContext,
-  useMemo,
-  useState,
-  type ReactNode,
-} from 'react';
+import { createContext, useContext, useMemo, useState, type ReactNode } from 'react';
 
 /*
  * The chosen variant's picture, shared by the gallery and the options

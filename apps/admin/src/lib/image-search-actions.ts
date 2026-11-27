@@ -33,7 +33,11 @@ export async function saveImageSearchSettingsAction(
   const threshold = Number(thresholdText);
   if (!Number.isFinite(threshold) || threshold < 0.3 || threshold > 0.99) {
     const message = 'Enter a threshold from 0.30 to 0.99 (a cosine similarity).';
-    return invalid(message, { similarityThreshold: message }, { similarityThreshold: thresholdText });
+    return invalid(
+      message,
+      { similarityThreshold: message },
+      { similarityThreshold: thresholdText },
+    );
   }
   const maxResults = Number(maxResultsText);
   if (!Number.isInteger(maxResults) || maxResults < 1 || maxResults > 120) {

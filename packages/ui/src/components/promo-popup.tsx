@@ -134,9 +134,7 @@ function PopupCopy({ content }: { content: PromoPopupContent }) {
 
 /** Whether a template popup has any words of its own (a button alone is not a paragraph). */
 function hasWords(content: PromoPopupContent): boolean {
-  return (
-    content.title !== null || content.subtitle !== null || content.description !== null
-  );
+  return content.title !== null || content.subtitle !== null || content.description !== null;
 }
 
 /** Whether the popup offers an action a customer can actually take. */
@@ -268,7 +266,9 @@ export function PromoPopupDialog({
       closeLabel={frame.closeLabel ?? 'Close'}
       side="sheet"
       // Complete artwork may carry its own transparency, so the sheet gets out of its way.
-      panelClassName={frame.content.displayMode === 'artwork' ? 'bg-transparent shadow-none' : undefined}
+      panelClassName={
+        frame.content.displayMode === 'artwork' ? 'bg-transparent shadow-none' : undefined
+      }
       // A little larger than the old centre modal, now that the sheet has room to be.
       className={cn('sm:max-w-3xl', className)}
     >

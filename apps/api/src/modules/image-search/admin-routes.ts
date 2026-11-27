@@ -86,9 +86,11 @@ export function imageSearchAdminRoutes(deps: ImageSearchAdminDependencies): Rout
   router.get('/admin/image-search', noStore, ...guard, async (_req, res) => {
     const identity = currentIdentity(res);
     try {
-      const stats = (await store.adminStats(identity.userId));
+      const stats = await store.adminStats(identity.userId);
       const jobs = await store.adminJobs(identity.userId);
-      const settings = (typeof stats.settings === 'object' && stats.settings !== null ? stats.settings : {}) as Record<string, unknown>;
+      const settings = (
+        typeof stats.settings === 'object' && stats.settings !== null ? stats.settings : {}
+      ) as Record<string, unknown>;
       res.json(
         imageSearchStatsSchema.parse({
           indexed: Number(stats.indexed ?? 0),
@@ -103,21 +105,23 @@ export function imageSearchAdminRoutes(deps: ImageSearchAdminDependencies): Rout
           products: Number(stats.products ?? 0),
           activeProducts: Number(stats.activeProducts ?? 0),
           vectorsByModel: (stats.vectorsByModel as Record<string, number>) ?? {},
-          settings: imageSearchSettingsSchema.pick({
-            enabled: true,
-            similarityThreshold: true,
-            maxResults: true,
-            model: true,
-            modelVersion: true,
-            dimensions: true,
-          }).parse({
-            enabled: settings.enabled === true,
-            similarityThreshold: Number(settings.similarityThreshold),
-            maxResults: Number(settings.maxResults),
-            model: String(settings.model),
-            modelVersion: String(settings.modelVersion),
-            dimensions: Number(settings.dimensions),
-          }),
+          settings: imageSearchSettingsSchema
+            .pick({
+              enabled: true,
+              similarityThreshold: true,
+              maxResults: true,
+              model: true,
+              modelVersion: true,
+              dimensions: true,
+            })
+            .parse({
+              enabled: settings.enabled === true,
+              similarityThreshold: Number(settings.similarityThreshold),
+              maxResults: Number(settings.maxResults),
+              model: String(settings.model),
+              modelVersion: String(settings.modelVersion),
+              dimensions: Number(settings.dimensions),
+            }),
           provider: providerInfo(String(settings.model)),
           jobs: jobs.map((job) => ({
             id: String(job.id),
@@ -145,65 +149,78 @@ export function imageSearchAdminRoutes(deps: ImageSearchAdminDependencies): Rout
   });
 
   const settingsSchemas = { body: saveImageSearchSettingsRequestSchema };
-  router.patch('/admin/image-search/settings', noStore, ...guard, validate(settingsSchemas), async (_req, res) => {
-    const identity = currentIdentity(res);
-    const { body } = requestInput<typeof settingsSchemas>(res);
-    try {
-      const settings = await store.adminSaveSettings(identity.userId, {
-        enabled: body.enabled,
-        similarityThreshold: body.similarityThreshold,
-        maxResults: body.maxResults,
-        // The model is the running provider's, not a client's opinion: storing anything else
-        // would label vectors with a model that did not produce them.
-        model: provider.model,
-        modelVersion: provider.modelVersion,
-        dimensions: provider.dimensions,
-      });
-      res.json(imageSearchSettingsSchema.parse(settings));
-    } catch (error) {
-      if (answerRefusal(res, error)) return;
-      logger.error(
-        { err: { name: error instanceof Error ? error.name : 'UnknownError' } },
-        'image search settings could not be saved',
-      );
-      sendError(res, 503, 'service_unavailable', 'Image search settings could not be saved');
-    }
-  });
+  router.patch(
+    '/admin/image-search/settings',
+    noStore,
+    ...guard,
+    validate(settingsSchemas),
+    async (_req, res) => {
+      const identity = currentIdentity(res);
+      const { body } = requestInput<typeof settingsSchemas>(res);
+      try {
+        const settings = await store.adminSaveSettings(identity.userId, {
+          enabled: body.enabled,
+          similarityThreshold: body.similarityThreshold,
+          maxResults: body.maxResults,
+          // The model is the running provider's, not a client's opinion: storing anything else
+          // would label vectors with a model that did not produce them.
+          model: provider.model,
+          modelVersion: provider.modelVersion,
+          dimensions: provider.dimensions,
+        });
+        res.json(imageSearchSettingsSchema.parse(settings));
+      } catch (error) {
+        if (answerRefusal(res, error)) return;
+        logger.error(
+          { err: { name: error instanceof Error ? error.name : 'UnknownError' } },
+          'image search settings could not be saved',
+        );
+        sendError(res, 503, 'service_unavailable', 'Image search settings could not be saved');
+      }
+    },
+  );
 
   const jobSchemas = { body: startImageSearchJobRequestSchema };
-  router.post('/admin/image-search/jobs', noStore, deps.limiter, ...guard, validate(jobSchemas), async (_req, res) => {
-    const identity = currentIdentity(res);
-    const { body } = requestInput<typeof jobSchemas>(res);
-    try {
-      const job = await store.adminStartJob(identity.userId, body.kind);
-      // The queue now holds work; ask the worker for it now rather than on the next tick.
-      indexer?.kick();
-      res.status(202).json({
-        id: String(job.id),
-        kind: String(job.kind),
-        status: String(job.status),
-        total: Number(job.total ?? 0),
-        indexed: Number(job.indexed ?? 0),
-        failed: Number(job.failed ?? 0),
-        excluded: Number(job.excluded ?? 0),
-        createdAt: job.createdAt ?? job.created_at ?? null,
-        startedAt: job.startedAt ?? job.started_at ?? null,
-        finishedAt: job.finishedAt ?? job.finished_at ?? null,
-      });
-    } catch (error) {
-      if (answerRefusal(res, error)) return;
-      logger.error(
-        { err: { name: error instanceof Error ? error.name : 'UnknownError' } },
-        'image search job could not be started',
-      );
-      sendError(res, 503, 'service_unavailable', 'The indexing job could not be started');
-    }
-  });
+  router.post(
+    '/admin/image-search/jobs',
+    noStore,
+    deps.limiter,
+    ...guard,
+    validate(jobSchemas),
+    async (_req, res) => {
+      const identity = currentIdentity(res);
+      const { body } = requestInput<typeof jobSchemas>(res);
+      try {
+        const job = await store.adminStartJob(identity.userId, body.kind);
+        // The queue now holds work; ask the worker for it now rather than on the next tick.
+        indexer?.kick();
+        res.status(202).json({
+          id: String(job.id),
+          kind: String(job.kind),
+          status: String(job.status),
+          total: Number(job.total ?? 0),
+          indexed: Number(job.indexed ?? 0),
+          failed: Number(job.failed ?? 0),
+          excluded: Number(job.excluded ?? 0),
+          createdAt: job.createdAt ?? job.created_at ?? null,
+          startedAt: job.startedAt ?? job.started_at ?? null,
+          finishedAt: job.finishedAt ?? job.finished_at ?? null,
+        });
+      } catch (error) {
+        if (answerRefusal(res, error)) return;
+        logger.error(
+          { err: { name: error instanceof Error ? error.name : 'UnknownError' } },
+          'image search job could not be started',
+        );
+        sendError(res, 503, 'service_unavailable', 'The indexing job could not be started');
+      }
+    },
+  );
 
   router.get('/admin/image-search/jobs', noStore, ...guard, async (_req, res) => {
     const identity = currentIdentity(res);
     try {
-      const jobs = (await store.adminJobs(identity.userId));
+      const jobs = await store.adminJobs(identity.userId);
       res.json({ items: jobs });
     } catch (error) {
       if (answerRefusal(res, error)) return;
@@ -212,46 +229,58 @@ export function imageSearchAdminRoutes(deps: ImageSearchAdminDependencies): Rout
   });
 
   const listSchemas = { query: imageSearchMissingImagesQuerySchema };
-  router.get('/admin/image-search/missing-images', noStore, ...guard, validate(listSchemas), async (_req, res) => {
-    const identity = currentIdentity(res);
-    const { query } = requestInput<typeof listSchemas>(res);
-    try {
-      const page = await store.adminMissingImages(identity.userId, query);
-      res.json(
-        imageSearchMissingImagesResponseSchema.parse({
-          items: page.items.map((row) => ({
-            productId: String(row.product_id),
-            name: String(row.name),
-            sku: String(row.sku),
-            productStatus: String(row.product_status),
-            images: Number(row.images ?? 0),
-            indexed: Number(row.indexed ?? 0),
-            excluded: Number(row.excluded ?? 0),
-            reason: cell(row.reason) || 'ineligible',
-          })),
-          total: page.total,
-          limit: page.limit,
-          offset: page.offset,
-        }),
-      );
-    } catch (error) {
-      if (answerRefusal(res, error)) return;
-      sendError(res, 503, 'service_unavailable', 'Missing images could not be read');
-    }
-  });
+  router.get(
+    '/admin/image-search/missing-images',
+    noStore,
+    ...guard,
+    validate(listSchemas),
+    async (_req, res) => {
+      const identity = currentIdentity(res);
+      const { query } = requestInput<typeof listSchemas>(res);
+      try {
+        const page = await store.adminMissingImages(identity.userId, query);
+        res.json(
+          imageSearchMissingImagesResponseSchema.parse({
+            items: page.items.map((row) => ({
+              productId: String(row.product_id),
+              name: String(row.name),
+              sku: String(row.sku),
+              productStatus: String(row.product_status),
+              images: Number(row.images ?? 0),
+              indexed: Number(row.indexed ?? 0),
+              excluded: Number(row.excluded ?? 0),
+              reason: cell(row.reason) || 'ineligible',
+            })),
+            total: page.total,
+            limit: page.limit,
+            offset: page.offset,
+          }),
+        );
+      } catch (error) {
+        if (answerRefusal(res, error)) return;
+        sendError(res, 503, 'service_unavailable', 'Missing images could not be read');
+      }
+    },
+  );
 
   const activitySchemas = { query: imageSearchActivityQuerySchema };
-  router.get('/admin/image-search/activity', noStore, ...guard, validate(activitySchemas), async (_req, res) => {
-    const identity = currentIdentity(res);
-    const { query } = requestInput<typeof activitySchemas>(res);
-    try {
-      const page = await store.adminActivity(identity.userId, query);
-      res.json(imageSearchActivityResponseSchema.parse(page));
-    } catch (error) {
-      if (answerRefusal(res, error)) return;
-      sendError(res, 503, 'service_unavailable', 'Search activity could not be read');
-    }
-  });
+  router.get(
+    '/admin/image-search/activity',
+    noStore,
+    ...guard,
+    validate(activitySchemas),
+    async (_req, res) => {
+      const identity = currentIdentity(res);
+      const { query } = requestInput<typeof activitySchemas>(res);
+      try {
+        const page = await store.adminActivity(identity.userId, query);
+        res.json(imageSearchActivityResponseSchema.parse(page));
+      } catch (error) {
+        if (answerRefusal(res, error)) return;
+        sendError(res, 503, 'service_unavailable', 'Search activity could not be read');
+      }
+    },
+  );
 
   return router;
 }

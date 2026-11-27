@@ -64,11 +64,21 @@ export function SectionCard({
             ) : null}
             {<AutoText value={title} />}
           </Title>
-          {actions ? <div className="flex shrink-0 items-center gap-2"><AutoText value={actions} /></div> : null}
+          {actions ? (
+            <div className="flex shrink-0 items-center gap-2">
+              <AutoText value={actions} />
+            </div>
+          ) : null}
         </div>
-        {description ? <p className="text-sm text-muted-foreground"><AutoText value={description} /></p> : null}
+        {description ? (
+          <p className="text-sm text-muted-foreground">
+            <AutoText value={description} />
+          </p>
+        ) : null}
       </div>
-      <div className={cn('flex-1', flush ? 'pt-4' : 'p-5 sm:p-6', bodyClassName)}><AutoText value={children} /></div>
+      <div className={cn('flex-1', flush ? 'pt-4' : 'p-5 sm:p-6', bodyClassName)}>
+        <AutoText value={children} />
+      </div>
       {footer ? (
         <div className="flex items-center gap-3 border-t border-border/70 px-5 py-3 text-sm sm:px-6">
           {footer}
