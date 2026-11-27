@@ -41,7 +41,18 @@ jobs:
         env:
           ONNXRUNTIME_NODE_INSTALL_CUDA: skip
       - run: pnpm run format:check
-      - run: pnpm run lint
+      # Expo Router writes the mobile app's typed-route union (.expo/types/router.d.ts) and
+      # expo-env.d.ts. Its type-aware lint rules read them: without the file `Href` widens and the
+      # four `as Href` assertions in the app look redundant. `expo customize tsconfig.json` is Expo's
+      # own way of running that generation without starting the dev server.
+      - run: pnpm --filter @nilzora/mobile exec expo customize tsconfig.json
+      # Typecheck before lint: each Next.js app's typecheck script starts with `next typegen`, which
+      # writes the route types (`PageProps<'/products/[slug]'>`, …) under .next/types. The type-aware
+      # ESLint rules need them, and a fresh checkout has none, so linting first reports every route
+      # parameter as an `error` type.
       - run: pnpm run typecheck
-      - run: pnpm run test
+      - run: pnpm run lint
+      # One package at a time: running the suites concurrently starves the runner and trips their
+      # 5-second per-test timeouts, which pass whenever the same files run on their own.
+      - run: pnpm -r --workspace-concurrency=1 run test
       - run: pnpm run build
