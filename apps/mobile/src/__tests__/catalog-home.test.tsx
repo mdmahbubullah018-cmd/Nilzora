@@ -1,5 +1,5 @@
 import { ApiError } from '@nilzora/api-client';
-import { screen } from '@testing-library/react-native';
+import { screen, waitFor } from '@testing-library/react-native';
 import HomeScreen from '../../app/(tabs)/index';
 import { brand } from '../features/brands/test-fixtures';
 import {
@@ -167,8 +167,12 @@ describe('HomeScreen', () => {
     await renderWithProviders(<HomeScreen />, { api });
 
     expect(await screen.findByRole('header', { name: 'New arrivals' })).toBeOnTheScreen();
-    expect(screen.queryByRole('header', { name: 'Featured' })).not.toBeOnTheScreen();
-    expect(screen.queryByRole('header', { name: 'Shop by category' })).not.toBeOnTheScreen();
+    // Each shelf renders its header while its own query is still in flight, so wait for the empty
+    // results to take them away instead of assuming they arrive with the first header.
+    await waitFor(() => {
+      expect(screen.queryByRole('header', { name: 'Featured' })).not.toBeOnTheScreen();
+      expect(screen.queryByRole('header', { name: 'Shop by category' })).not.toBeOnTheScreen();
+    });
   });
 
   it('shows the published hero and campaign banners instead of the fallback hero card', async () => {
