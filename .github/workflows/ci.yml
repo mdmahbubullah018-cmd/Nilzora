@@ -31,7 +31,15 @@ jobs:
           node-version-file: .nvmrc
           cache: pnpm
 
+      # onnxruntime-node's postinstall (pulled in by @huggingface/transformers) tries to download an
+      # optional CUDA 12 archive on linux-x64 when no CUDA library is present, and that archive 404s
+      # on GitHub runners. ONNXRUNTIME_NODE_INSTALL_CUDA=skip is the package's own switch
+      # (node_modules/onnxruntime-node/script/install.js): it skips only the CUDA binaries, so the
+      # CPU runtime the CLIP image search uses is still installed. A `--config.*` flag cannot do
+      # this: pnpm 11 does not forward --config.* to lifecycle scripts (verified locally).
       - run: pnpm install --frozen-lockfile
+        env:
+          ONNXRUNTIME_NODE_INSTALL_CUDA: skip
       - run: pnpm run format:check
       - run: pnpm run lint
       - run: pnpm run typecheck
